@@ -26,6 +26,7 @@ class Almacenes extends Secure_area
 		$almacen_data = array(
 			'nombre' => $this->input->post('nombre'),
 			'direccion' => $this->input->post('direccion'),
+			'utilidad' => $this->input->post('utilidad')
 		);
 		
 		if ($this->Almacen->save($almacen_data, $almacen_id))

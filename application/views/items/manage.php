@@ -56,9 +56,7 @@ function init_table_sorting()
 			{
 				0: { sorter: false},
 				8: { sorter: false},
-				9: { sorter: false},
-				10: { sorter: false},
-				11: { sorter: false}
+				9: { sorter: false}
 			}
 
 		});
@@ -133,11 +131,11 @@ function show_hide_search_filter(search_filter_section, switchImgTag) {
 <div id="title_bar">
 	<div id="title" class="float_left"><?php echo $this->lang->line('common_list_of').' '.$this->lang->line('module_'.$controller_name); ?></div>
 	<div id="new_button">
-		<?php echo anchor("$controller_name/view/-1/width:$form_width",
+		<?php echo anchor("$controller_name/view/-1?width=$form_width",
 		"<div class='big_button' style='float: left;'><span>".$this->lang->line($controller_name.'_new')."</span></div>",
 		array('class'=>'thickbox none','title'=>$this->lang->line($controller_name.'_new')));
 		?>
-		<?php echo anchor("$controller_name/excel_import/width:$form_width",
+		<?php echo anchor("$controller_name/excel_import?width=$form_width",
 		"<div class='big_button' style='float: left;'><span>Excel Import</span></div>",
 		array('class'=>'thickbox none','title'=>'Import Items from Excel'));
 		?>
@@ -171,7 +169,7 @@ function show_hide_search_filter(search_filter_section, switchImgTag) {
 <div id="table_action_header">
 	<ul>
 		<li class="float_left"><span><?php echo anchor("$controller_name/delete",$this->lang->line("common_delete"),array('id'=>'delete')); ?></span></li>
-		<li class="float_left"><span><?php echo anchor("$controller_name/bulk_edit/width:$form_width",$this->lang->line("items_bulk_edit"),array('id'=>'bulk_edit','title'=>$this->lang->line('items_edit_multiple_items'))); ?></span></li>
+		<li class="float_left"><span><?php echo anchor("$controller_name/bulk_edit?width=$form_width",$this->lang->line("items_bulk_edit"),array('id'=>'bulk_edit','title'=>$this->lang->line('items_edit_multiple_items'))); ?></span></li>
 		<li class="float_left"><span><?php echo anchor("$controller_name/generate_barcodes",$this->lang->line("items_generate_barcodes"),array('id'=>'generate_barcodes', 'target' =>'_blank','title'=>$this->lang->line('items_generate_barcodes'))); ?></span></li>
 		<li class="float_right">
 		<img src='<?php echo base_url()?>images/spinner_small.gif' alt='spinner' id='spinner' />

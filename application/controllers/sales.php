@@ -90,7 +90,9 @@ class Sales extends Secure_area
 	{
 		$data=array();
 		$mode = $this->sale_lib->get_mode();
-		$almacen = $this->sale_lib->get_almacen();
+		// $almacen = $this->sale_lib->get_almacen();
+		
+		$almacen=$this->Almacen->get_info($this->sale_lib->get_almacen()!=-1?$this->sale_lib->get_almacen():$this->Almacen->get_first()->almacen_id);
 		
 		$item_id_or_number_or_receipt = $this->input->post("item");
 		$quantity = $mode=="sale" ? 1:-1;
@@ -99,12 +101,12 @@ class Sales extends Secure_area
 		{
 			$this->sale_lib->return_entire_sale($item_id_or_number_or_receipt);
 		}
-		elseif(!$this->sale_lib->add_item($item_id_or_number_or_receipt,$quantity))
+		elseif(!$this->sale_lib->add_item($item_id_or_number_or_receipt,$quantity, null,null,null,null,null,$almacen))
 		{
 			$data['error']=$this->lang->line('sales_unable_to_add_item');
 		}
 		
-		if($this->sale_lib->out_of_stock($item_id_or_number_or_receipt))
+		if($this->sale_lib->out_of_stock($item_id_or_number_or_receipt,$almacen))
 		{
 			$data['warning'] = $this->lang->line('sales_quantity_less_than_zero');
 		}
@@ -135,8 +137,8 @@ class Sales extends Secure_area
 		{
 			$data['error']=$this->lang->line('sales_error_editing_item');
 		}
-		
-		if($this->sale_lib->out_of_stock($this->sale_lib->get_item_id($line)))
+		$almacen=$this->Almacen->get_info($this->sale_lib->get_almacen()!=-1?$this->sale_lib->get_almacen():$this->Almacen->get_first()->almacen_id);
+		if($this->sale_lib->out_of_stock($this->sale_lib->get_item_id($line),$almacen))
 		{
 			$data['warning'] = $this->lang->line('sales_quantity_less_than_zero');
 		}

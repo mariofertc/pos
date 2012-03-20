@@ -19,18 +19,21 @@ foreach($items as $item)
 		echo '</tr><tr>';
 	}
 	//Prueba
-	//echo "<td><IMG SRC='index.php?c=barcode&barcode=123456&width=320&height=200'></td>";
+	// echo "<td><IMG SRC='index.php?c=barcode&barcode=123456&width=320&height=200'></td>";
 	 // echo "<td><img src='index.php?c=barcode&barcode=$barcode&text=$text&width=256' /></td>";
 	
 	//Este valio.
-	// echo "<td><img src='http://mitoyo/sutienda/web/index.php/barcode?barcode=$barcode&text=$text&width=256' /></td>";
-	echo "<td><img src='http://mitoyo/SuTienda/SuTienda/index.php/barcode?barcode=$barcode&text=$text&width=220&height=80' /></td>";
+	 // echo "<td><img src='http://mitoyo/sutienda/web/index.php/barcode?barcode=$barcode&text=$text&width=256' /></td>";
+	//echo "<td><img src='http://mitoyo/SuTienda/SuTienda/index.php/barcode?barcode=$barcode&text=$text&width=220&height=80' /></td>";
+	// echo "<td><img src='http://mitoyo/sutienda/majo/index.php?barcode=$barcode&text=$text&width=220&height=80' /></td>";
+	//echo "<td><img src='".APPPATH."index.php?c=barcode&barcode=HELLO' /></td>";
+	 echo "<td><img src='http://mitoyo/sutienda/majo/index.php?barcode=$barcode&text=$text&width=220&height=80' /></td>";
 	//Hasta aqui.
 	
-	//echo "<td><img src='http://mitoyo/sutienda/web/index.php/barcode/barcode=$barcode/text=$text/width=256' /></td>";
-	//echo "<td><img src='index.php?c=barcode&barcode=$barcode&text=$text&width=256' /></td>";
+	// echo "<td><img src='http://mitoyo/sutienda/web/index.php/barcode/barcode=$barcode/text=$text/width=256' /></td>";
+	// echo "<td><img src='index.php?c=barcode&barcode=$barcode&text=$text&width=256' /></td>";
 	//echo "c=barcode&barcode=$barcode&text=$text&width=256'";
-	// echo "<IMG SRC='index.php/c:barcodes/barcode:HELLO/quality:75' />";
+	 // echo "<IMG SRC='index.php/c:barcodes/barcode:HELLO/quality:75' />";
 	$count++;
 }
 ?>

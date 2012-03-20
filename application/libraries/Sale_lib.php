@@ -152,7 +152,7 @@ class Sale_lib
 		$this->CI->session->set_userdata('almacen_mode',$almacen);
 	}
 
-	function add_item($item_id,$quantity=1,$discount=0,$price=null,$tax=null,$description=null,$serialnumber=null)
+	function add_item($item_id,$quantity=1,$discount=0,$price=null,$tax=null,$description=null,$serialnumber=null,$almacen = null)
 	{
 		//make sure item exists
 		if(!$this->CI->Item->exists($item_id))
@@ -199,6 +199,7 @@ class Sale_lib
 
 		$insertkey=$maxkey+1;
 
+		$item = $this->CI->Item->get_info($item_id);
 		//array/cart records are identified by $insertkey and item_id is just another field.
 		$item = array(($insertkey)=>
 		array(
@@ -212,7 +213,7 @@ class Sale_lib
 			'is_serialized'=>$this->CI->Item->get_info($item_id)->is_serialized,
 			'quantity'=>$quantity,
             'discount'=>$discount,
-			'price'=>$price!=null ? $price: $this->CI->Item->get_info($item_id)->unit_price
+			'price'=>$price!=null ? $price: round($item->unit_price+(($almacen->utilidad/100)*$item->unit_price),0)
 			//'stock'=>$this->CI->Item->get_info($item_id)->quantity
 			)
 		);
@@ -233,7 +234,7 @@ class Sale_lib
 
 	}
 	
-	function out_of_stock($item_id)
+	function out_of_stock($item_id,$almacen)
 	{
 		//make sure item exists
 		if(!$this->CI->Item->exists($item_id))
@@ -245,10 +246,12 @@ class Sale_lib
 				return false;
 		}
 		
-		$item = $this->CI->Item->get_info($item_id);
+		//$item = $this->CI->Item->get_info($item_id);
+		$almacenes = $this->CI->Item->get_almacenes($item_id,$almacen->almacen_id);
 		$quanity_added = $this->get_quantity_already_added($item_id);
 		
-		if ($item->quantity - $quanity_added < 0)
+		// if ($item->quantity - $quanity_added < 0)
+		if ($almacenes->cantidad - $quanity_added < 0)
 		{
 			return true;
 		}

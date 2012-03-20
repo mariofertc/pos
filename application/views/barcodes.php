@@ -89,6 +89,8 @@ if(isset($_GET["height"])) $height=$_GET["height"];
 if(isset($_GET["type"])) $type=$_GET["type"];
 if(isset($_GET["barcode"])) $barcode=$_GET["barcode"];
 
+//var_dump($barcode);
+
  // $barcode = '1';
 if (!isset ($text)) $text = '';
 if (!isset ($type)) $type = 1;

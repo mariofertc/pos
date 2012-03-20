@@ -58,6 +58,7 @@ class Item extends CI_Model
 	function get_all_limit_prov($start_row,$limit)
 	{
 		$this->db->from('items',$start_row,$limit);
+		// $this->db->join('suppliers','suppliers.person_id=items.supplier_id','left');
 		$this->db->join('suppliers','suppliers.person_id=items.supplier_id','left');
 		$this->db->where('items.deleted',0);
 		$this->db->order_by("name", "asc");
@@ -357,12 +358,13 @@ class Item extends CI_Model
 			return null;
 		}
 	}
-	function get_almacenes($item_id)
+	function get_almacenes($item_id,$almacen_id)
 	{
 		$this->db->from('items');
-		$this->db->join('stock_almacenes','stock_almacen_id.item_id=items.item_id', 'left');
+		$this->db->join('stock_almacenes','stock_almacenes.item_id=items.item_id', 'left');
 		$this->db->join('almacenes','almacenes.almacen_id=stock_almacenes.almacen_id', 'left');
-		$this->db->where('item_id',$item_id);
+		$this->db->where('stock_almacenes.item_id',$item_id);
+		$this->db->where('stock_almacenes.almacen_id',$almacen_id);
 		$this->db->where('items.deleted',0);
 		
 		$query = $this->db->get();

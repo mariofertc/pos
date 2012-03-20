@@ -6,7 +6,7 @@ echo form_open('almacenes/save/'.$almacen_info->almacen_id,array('id'=>'almacen_
 <fieldset id="supplier_basic_info">
 <legend><?php echo $this->lang->line("almacenes_basic_information"); ?></legend>
 
-<div class="field_row clearfix">	
+<div class="field_row required">	
 <?php echo form_label($this->lang->line('almacenes_nombre').':', 'nombre', array('class'=>'required')); ?>
 	<div class='form_field'>
 	<?php echo form_input(array(
@@ -24,6 +24,17 @@ echo form_open('almacenes/save/'.$almacen_info->almacen_id,array('id'=>'almacen_
 		'name'=>'direccion',
 		'id'=>'direccion',
 		'value'=>$almacen_info->direccion)
+	);?>
+	</div>
+</div>
+
+<div class="field_row clearfix">	
+<?php echo form_label($this->lang->line('almacenes_utilidad').':', 'utilidad'); ?>
+	<div class='form_field'>
+	<?php echo form_input(array(
+		'name'=>'utilidad',
+		'id'=>'utilidad',
+		'value'=>$almacen_info->utilidad)
 	);?>
 	</div>
 </div>
@@ -61,11 +72,21 @@ $(document).ready(function()
  		wrapper: "li",
 		rules: 
 		{
-			nombre: "required"
+			nombre: "required",
+			utilidad: 
+			{
+				range: [0, 100],
+				number:true
+			}
    		},
 		messages: 
 		{
-     		nombre: "<?php echo $this->lang->line('almacenes_name_required'); ?>"
+     		nombre: "<?php echo $this->lang->line('almacenes_name_required'); ?>",
+			utilidad: 
+			{
+				range: "<?php echo $this->lang->line('almacenes_utilidad_range'); ?>",
+				number: "<?php echo $this->lang->line('almacenes_utilidad_number'); ?>"
+			}
 		}
 	});
 });

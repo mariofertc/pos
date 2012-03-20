@@ -58,7 +58,7 @@ function get_person_data_row($person,$controller)
 	$table_data_row.='<td width="20%">'.character_limiter($person->first_name,13).'</td>';
 	$table_data_row.='<td width="30%">'.mailto($person->email,character_limiter($person->email,22)).'</td>';
 	$table_data_row.='<td width="20%">'.character_limiter($person->phone_number,13).'</td>';		
-	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$person->person_id/width:$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$person->person_id?width=$width&height=450", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
 	$table_data_row.='</tr>';
 	
 	return $table_data_row;
@@ -125,7 +125,7 @@ function get_supplier_data_row($supplier,$controller)
 	$table_data_row.='<td width="17%">'.character_limiter($supplier->first_name,13).'</td>';
 	$table_data_row.='<td width="22%">'.mailto($supplier->email,character_limiter($supplier->email,22)).'</td>';
 	$table_data_row.='<td width="17%">'.character_limiter($supplier->phone_number,13).'</td>';		
-	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$supplier->person_id/width:$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$supplier->person_id?width=$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
 	$table_data_row.='</tr>';
 	
 	return $table_data_row;
@@ -194,7 +194,7 @@ function get_box_data_row($box,$controller)
 	$table_data_row.='<td width="20%">'.$box->close_time."</td>";
 	$table_data_row.='<td width="15%">'.$box->comment.'</td>';
 	$table_data_row.='<td width="20%">'.$nom_emp.'</td>';
-	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$box->box_id/width:$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$box->box_id?width=$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
 	
 	$table_data_row.='</tr>';
 	return $table_data_row;
@@ -217,6 +217,9 @@ function get_items_manage_table($items,$controller)
 	$CI->lang->line('items_cost_price_ab'),
 	$CI->lang->line('items_unit_price_ab'),
 	$CI->lang->line('items_tax_percents_ab'),
+	$CI->lang->line('items_quantity_a'),
+	$CI->lang->line('items_quantity_b'),
+	$CI->lang->line('items_quantity_c'),
 	$CI->lang->line('items_quantity_ab'),
 	//'Inventory'//Ramel Inventory Tracking
 	$CI->lang->line('inv_inventory'),
@@ -281,12 +284,15 @@ function get_item_data_row($item,$controller)
 	$table_data_row.='<td width="9%">'.to_currency($item->unit_price).'</td>';
 	$table_data_row.='<td width="8%">'.$tax_percents.'</td>';	
 	$table_data_row.='<td width="5%">'.$item->quantity.'</td>';
+	$table_data_row.='<td width="5%">'.$item->quantity.'</td>';
+	$table_data_row.='<td width="5%">'.$item->quantity.'</td>';
+	$table_data_row.='<td width="5%">'.$item->quantity.'</td>';
 	
-	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$item->item_id/width:$width", $CI->lang->line('common_edit_ab'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$item->item_id?width=$width", $CI->lang->line('common_edit_ab'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
 	//Ramel Inventory Tracking
-	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory/$item->item_id/width:300", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count'))).'</td>';//inventory count
-	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory_mov/$item->item_id/width:300", $CI->lang->line('common_mov'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_move'))).'</td>';
-	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/count_details/$item->item_id/width:$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
+	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory/$item->item_id?width=300", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count'))).'</td>';//inventory count
+	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory_mov/$item->item_id?width=300", $CI->lang->line('common_mov'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_move'))).'</td>';
+	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/count_details/$item->item_id?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
 	
 	$table_data_row.='</tr>';
 	return $table_data_row;
@@ -315,11 +321,11 @@ function get_item_data_rowdd($item,$controller)
 	$table_data_row.='<td width="14%">'.to_currency($item->unit_price).'</td>';
 	$table_data_row.='<td width="14%">'.$tax_percents.'</td>';	
 	$table_data_row.='<td width="14%">'.$item->quantity.'</td>';
-	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$item->item_id/width:$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$item->item_id?width=$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
 	
 	//Ramel Inventory Tracking
-	$table_data_row.='<td width="10%">'.anchor($controller_name."/inventory/$item->item_id/width:$width", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count')))./*'</td>';//inventory count	
-	$table_data_row.='<td width="5%">'*/'&nbsp;&nbsp;&nbsp;&nbsp;'.anchor($controller_name."/count_details/$item->item_id/width:$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
+	$table_data_row.='<td width="10%">'.anchor($controller_name."/inventory/$item->item_id?width=$width", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count')))./*'</td>';//inventory count	
+	$table_data_row.='<td width="5%">'*/'&nbsp;&nbsp;&nbsp;&nbsp;'.anchor($controller_name."/count_details/$item->item_id?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
 	
 	$table_data_row.='</tr>';
 	return $table_data_row;
@@ -488,11 +494,11 @@ function get_inventory_data_rowdd_Fallo($item,$controller)
 	$table_data_row.='<td width="14%">'.to_currency($item->unit_price).'</td>';
 	$table_data_row.='<td width="14%">'.$tax_percents.'</td>';	
 	$table_data_row.='<td width="14%">'.$item->quantity.'</td>';
-	$table_data_row.='<td width="4%">'.anchor($controller_name."/view/$item->item_id/width:$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	$table_data_row.='<td width="4%">'.anchor($controller_name."/view/$item->item_id?width=$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
 	
 	//Ramel Inventory Tracking
-	$table_data_row.='<td width="10%">'.anchor($controller_name."/inventory/$item->item_id/width:$width", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count')))./*'</td>';//inventory count	
-	$table_data_row.='<td width="5%">'*/'&nbsp;&nbsp;&nbsp;&nbsp;'.anchor($controller_name."/count_details/$item->item_id/width:$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
+	$table_data_row.='<td width="10%">'.anchor($controller_name."/inventory/$item->item_id?width=$width", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count')))./*'</td>';//inventory count	
+	$table_data_row.='<td width="5%">'*/'&nbsp;&nbsp;&nbsp;&nbsp;'.anchor($controller_name."/count_details/$item->item_id?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
 	
 	$table_data_row.='</tr>';
 	return $table_data_row;
@@ -582,7 +588,7 @@ function get_payment_data_row($payment,$controller)
 	$table_data_row.='<td width="17%">'.character_limiter($payment->payment_type,13).'</td>';
 	//$table_data_row.="<td width='5%'><input type='radio' id='payment_$payment->por_cobrar' ".(($payment->por_cobrar)?'checked':'')." value='1' DISABLED></td>";
 	$table_data_row.="<td width='5%'><input type='radio' id='payment_$payment->por_cobrar' ".(($payment->por_cobrar)?'checked':'')." value='". (($payment->por_cobrar)?'1':'0') ."' DISABLED></td>";
-	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$payment->payment_id/width:$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	$table_data_row.='<td width="5%">'.anchor($controller_name."/view/$payment->payment_id?width=$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
 	$table_data_row.='</tr>';
 	
 	return $table_data_row;
@@ -658,11 +664,11 @@ function get_abono_data_row($por_cobrar_m,$controller)
 	//$table_data_row.="<td width='5%'><input type='radio' id='payment_$payment->por_cobrar' ".(($payment->por_cobrar)?'checked':'')." value='1' DISABLED></td>";
 	//$table_data_row.="<td width='5%'><input type='radio' id='por_cobrar_m_$por_cobrar_m->por_cobrar' ".(($por_cobrar_m['por_cobrar'])?'checked':'')." value='". (($por_cobrar_m['por_cobrar'])?'1':'0') ."' DISABLED></td>";
 	// $table_data_row.='<td width="2%">'.anchor($controller_name."/view/$por_cobrar_m[sale_id]/$por_cobrar_m[payment_id]/$por_cobrar_m[debe]/width:$width", $CI->lang->line('common_abono'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update')));		
-	$table_data_row.='<td width="2%">'.anchor($controller_name."/view/$por_cobrar_m[sale_id]/$por_cobrar_m[payment_id]/".to_currency_no_money($por_cobrar_m['debe'])."/width:$width", $CI->lang->line('common_abono'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_abonar')));		
+	$table_data_row.='<td width="2%">'.anchor($controller_name."/view/$por_cobrar_m[sale_id]/$por_cobrar_m[payment_id]/".to_currency_no_money($por_cobrar_m['debe'])."?width=$width", $CI->lang->line('common_abono'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_abonar')));		
 	
 	//Ver Resumen Pagos
 	
-	$table_data_row.='&nbsp;'.anchor($controller_name."/pay_details/$por_cobrar_m[sale_id]/width:$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_view'))).'</td>';//inventory details	
+	$table_data_row.='&nbsp;'.anchor($controller_name."/pay_details/$por_cobrar_m[sale_id]?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_view'))).'</td>';//inventory details	
 	//$table_data_row.='<td width="5%">&nbsp;&nbsp;&nbsp;&nbsp;'.anchor($controller_name."/count_details/$item->item_id/width:$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
 	
 	//$table_data_row.='<td width="10%">'.anchor($controller_name."/inventory/$item->item_id/width:$width", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count')))./*'</td>';//inventory count	
@@ -854,9 +860,9 @@ function get_porpagar_data_row($por_pagar_m,$controller)
 	$table_data_row.='<td width="4%">'.to_currency($por_pagar_m['debe']).'</td>';
 	$table_data_row.='<td width="6%">'. to_dia($por_pagar_m['mora']).'</td>';
 	$table_data_row.='<td width="9%">'. $por_pagar_m['cuotas'].'</td>';
-	$table_data_row.='<td width="2%">'.anchor($controller_name."/view/$por_pagar_m[receiving_id]/$por_pagar_m[payment_id]/".to_currency_no_money($por_pagar_m['debe'])."/width:$width", $CI->lang->line('common_abono'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_abonar')));		
+	$table_data_row.='<td width="2%">'.anchor($controller_name."/view/$por_pagar_m[receiving_id]/$por_pagar_m[payment_id]/".to_currency_no_money($por_pagar_m['debe'])."?width=$width", $CI->lang->line('common_abono'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_abonar')));		
 	//Ver Resumen Pagos
-	$table_data_row.='&nbsp;'.anchor($controller_name."/pay_details/$por_pagar_m[receiving_id]/width:$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_view'))).'</td>';//inventory details	
+	$table_data_row.='&nbsp;'.anchor($controller_name."/pay_details/$por_pagar_m[receiving_id]?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_view'))).'</td>';//inventory details	
 	$table_data_row.='</tr>';
 	
 	return $table_data_row;
@@ -875,6 +881,7 @@ function get_almacen_manage_table($almacen,$controller)
 	$headers = array('<input type="checkbox" id="select_all" />',
 	$CI->lang->line('almacenes_nombre'),
 	$CI->lang->line('almacenes_direccion'),
+	$CI->lang->line('almacenes_utilidad'),
 	'&nbsp');
 	
 	$table.='<thead><tr>';
@@ -917,7 +924,8 @@ function get_almacen_data_row($almacen,$controller)
 	// $table_data_row.='<td width="5%">'.anchor('almacenes/edit/'.$almacen->almacen_id, $almacen->almacen_id, array('target' => '_blank')).'</td>';
 	$table_data_row.='<td width="2%">'.character_limiter($almacen->nombre,13).'</td>';
 	$table_data_row.='<td width="9%">'.character_limiter($almacen->direccion,45).'</td>';
-	$table_data_row.='<td width="2%">'.anchor($controller_name."/view/$almacen->almacen_id/"."width:$width", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update')));		
+	$table_data_row.='<td width="9%">'.to_currency_no_money($almacen->utilidad,7).'</td>';
+	$table_data_row.='<td width="2%">'.anchor($controller_name."/view/$almacen->almacen_id?width=$width&height=250", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update')));		
 	
 	$table_data_row.='</tr>';
 	

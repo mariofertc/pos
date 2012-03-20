@@ -78,7 +78,7 @@ class Sale extends CI_Model
 				'description'=>$item['description'],
 				'serialnumber'=>$item['serialnumber'],
 				'quantity_purchased'=>to_currency_no_money($item['quantity']),
-				'discount_percent'=>$item['discount'],
+				'discount_percent'=>to_currency_no_money($item['discount']),
 				'item_cost_price' => $cur_item_info->cost_price,
 				'item_unit_price'=>$item['price']
 			);

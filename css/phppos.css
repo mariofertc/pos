@@ -44,6 +44,15 @@ a.none
 	
 }
 
+#content_area_items
+{
+	position:relative;
+	margin:0 auto;
+	width:1024px;
+	text-align:left;
+	
+}
+
 #title_bar
 {
 	position:relative;

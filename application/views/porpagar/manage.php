@@ -85,7 +85,7 @@ function show_hide_search_filter(search_filter_section, switchImgTag) {
 <div id="title_bar">
 	<div id="title" class="float_left"><?php echo $this->lang->line('common_list_of').' '.$this->lang->line('module_'.$controller_name); ?></div>
 	<div id="new_button">
-		<?php echo anchor("$controller_name/excel_import/width:$form_width",
+		<?php echo anchor("$controller_name/excel_import?width=$form_width",
 		"<div class='big_button' style='float: left;'><span>Excel Import</span></div>",
 		array('class'=>'thickbox none','title'=>'Import Items from Excel'));
 		?>
