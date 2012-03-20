@@ -1,0 +1,806 @@
+-- MySQL dump 10.13  Distrib 5.1.51, for Win64 (unknown)
+--
+-- Host: localhost    Database: poss
+-- ------------------------------------------------------
+-- Server version	5.1.51-community
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `phppos_abonos`
+--
+
+DROP TABLE IF EXISTS `phppos_abonos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_abonos` (
+  `abono_id` int(10) NOT NULL AUTO_INCREMENT,
+  `abono_amount` double(15,2) NOT NULL,
+  `abono_type` varchar(50) NOT NULL,
+  `abono_comment` varchar(200) DEFAULT NULL,
+  `payment_id` int(10) NOT NULL,
+  `sale_id` int(10) NOT NULL,
+  `abono_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`abono_id`),
+  KEY `fk_sale_in_abono` (`sale_id`),
+  KEY `fk_payment_in_abono` (`payment_id`),
+  CONSTRAINT `fk_payment_in_abono` FOREIGN KEY (`payment_id`) REFERENCES `phppos_payments` (`payment_id`),
+  CONSTRAINT `fk_sale_in_abono` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales` (`sale_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_abonos`
+--
+
+LOCK TABLES `phppos_abonos` WRITE;
+/*!40000 ALTER TABLE `phppos_abonos` DISABLE KEYS */;
+INSERT INTO `phppos_abonos` VALUES (1,13.00,'Efectivo','',13,4,'2011-05-03 05:00:00'),(2,2.00,'Efectivo','',13,4,'2011-05-03 05:00:00'),(3,7.84,'Efectivo','',13,6,'2011-05-03 05:00:00'),(4,1.00,'Efectivo','',13,5,'2011-05-03 05:00:00'),(5,0.01,'Efectivo','',13,5,'2011-05-03 05:00:00'),(6,0.01,'Efectivo','',13,5,'2011-05-03 05:00:00'),(7,0.01,'Efectivo','',13,5,'2011-05-03 05:00:00'),(8,0.01,'Efectivo','',13,5,'2011-05-03 05:00:00'),(9,0.01,'Efectivo','',13,5,'2011-05-03 05:00:00'),(10,0.01,'Efectivo','',13,5,'2011-05-03 05:00:00'),(11,0.01,'Efectivo','',13,5,'2011-05-03 05:00:00'),(12,0.01,'Efectivo','',13,5,'2011-05-03 05:00:00'),(13,2.00,'Efectivo','',13,5,'2011-05-03 05:00:00'),(14,2.50,'Efectivo','',13,5,'2011-05-03 05:00:00'),(15,0.10,'Efectivo','',13,5,'2011-05-03 05:00:00'),(16,2.84,'Efectivo','',13,6,'2011-05-03 05:00:00'),(17,8.00,'Efectivo','',13,2,'2011-05-03 05:00:00'),(18,1.00,'Efectivo','',13,6,'2011-05-03 05:00:00'),(19,6.24,'Efectivo','',13,3,'2011-05-03 05:00:00'),(20,1.00,'Efectivo','',13,3,'2011-05-03 05:00:00'),(21,1.00,'Efectivo','',13,3,'2011-05-03 05:00:00'),(22,100.00,'Tarjeta de Crédito','',13,1,'2011-05-04 05:00:00'),(23,78.00,'Efectivo','',13,3,'2011-05-04 05:00:00'),(24,4.00,'Efectivo','',13,6,'2011-05-04 05:00:00'),(25,1.00,'Efectivo','',14,10,'2011-05-05 05:00:00'),(26,2.00,'Efectivo','',14,13,'2011-05-10 05:00:00'),(27,3.80,'Efectivo','',14,13,'2011-06-11 05:00:00'),(28,12.67,'Efectivo','Cancelado.',14,13,'2011-05-25 05:00:00'),(29,18.47,'Efectivo','',13,14,'2011-05-25 05:00:00'),(30,18.47,'Efectivo','',14,19,'2011-05-25 05:00:00'),(31,10.99,'Efectivo','',13,20,'2011-07-06 05:00:00'),(32,25.00,'Efectivo','',13,20,'2011-07-06 05:00:00'),(33,25.00,'Cheque','Cancell',13,20,'2011-07-06 05:00:00'),(34,-10.00,'Efectivo','',13,20,'2011-07-06 05:00:00'),(35,10.00,'Efectivo','',13,20,'2011-07-06 05:00:00');
+/*!40000 ALTER TABLE `phppos_abonos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_app_config`
+--
+
+DROP TABLE IF EXISTS `phppos_app_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_app_config` (
+  `key` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_app_config`
+--
+
+LOCK TABLES `phppos_app_config` WRITE;
+/*!40000 ALTER TABLE `phppos_app_config` DISABLE KEYS */;
+INSERT INTO `phppos_app_config` VALUES ('address','Av. Rumiñahui y Pichincha'),('company','Su Ahorro'),('default_tax_1_name','IVA'),('default_tax_1_rate','12'),('default_tax_2_name','IECE'),('default_tax_2_rate','8'),('default_tax_rate','8'),('email','ivo@comercialivo.com'),('fax',''),('language','spanishec'),('phone','032452979'),('print_after_sale','print_after_sale'),('return_policy','La tienda devuelve hasta 3 días después de salida la mercadería.'),('timezone','America/Bogota'),('version','10.0'),('website','www.latienda.com');
+/*!40000 ALTER TABLE `phppos_app_config` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_boxes`
+--
+
+DROP TABLE IF EXISTS `phppos_boxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_boxes` (
+  `close_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `comment` text NOT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `box_id` int(11) NOT NULL AUTO_INCREMENT,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`box_id`),
+  KEY `pk_employees_boxes` (`employee_id`),
+  CONSTRAINT `pk_employees_boxes` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_boxes`
+--
+
+LOCK TABLES `phppos_boxes` WRITE;
+/*!40000 ALTER TABLE `phppos_boxes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_boxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_customers`
+--
+
+DROP TABLE IF EXISTS `phppos_customers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_customers` (
+  `person_id` int(10) NOT NULL,
+  `account_number` varchar(255) DEFAULT NULL,
+  `taxable` int(1) NOT NULL DEFAULT '1',
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  UNIQUE KEY `account_number` (`account_number`),
+  KEY `person_id` (`person_id`),
+  CONSTRAINT `phppos_customers_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `phppos_people` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_customers`
+--
+
+LOCK TABLES `phppos_customers` WRITE;
+/*!40000 ALTER TABLE `phppos_customers` DISABLE KEYS */;
+INSERT INTO `phppos_customers` VALUES (3,NULL,1,1),(7,NULL,1,1),(9,NULL,0,0),(10,NULL,0,0),(13,NULL,1,0),(14,NULL,1,0),(15,NULL,1,0),(17,NULL,1,0),(19,NULL,1,0),(20,NULL,0,1),(21,NULL,0,1),(22,NULL,0,1),(23,NULL,0,1),(24,NULL,0,1),(25,NULL,0,1),(26,NULL,0,1),(27,NULL,0,1),(28,NULL,1,0),(29,NULL,1,0),(32,NULL,1,0),(170,'1',0,0),(171,'2',1,0),(182,'3344',1,0);
+/*!40000 ALTER TABLE `phppos_customers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_employees`
+--
+
+DROP TABLE IF EXISTS `phppos_employees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_employees` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `person_id` int(10) NOT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  UNIQUE KEY `username` (`username`),
+  KEY `person_id` (`person_id`),
+  CONSTRAINT `phppos_employees_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `phppos_people` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_employees`
+--
+
+LOCK TABLES `phppos_employees` WRITE;
+/*!40000 ALTER TABLE `phppos_employees` DISABLE KEYS */;
+INSERT INTO `phppos_employees` VALUES ('admin','439a6de57d475c1a0ba9bcb1c39f0af6',1,0),('daniela','50a0c479a82076fbc2b4488a1af7f6de',18,0),('mariofertc','827ccb0eea8a706c4c34a16891f84e7b',180,0),('vicente','e9d23ef863e6d8ad409aa1b837372688',8,0),('yoyomax','6531401f9a6807306651b87e44c05751',181,0);
+/*!40000 ALTER TABLE `phppos_employees` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_inventory`
+--
+
+DROP TABLE IF EXISTS `phppos_inventory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_inventory` (
+  `trans_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trans_items` int(11) NOT NULL DEFAULT '0',
+  `trans_user` int(11) NOT NULL DEFAULT '0',
+  `trans_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `trans_comment` text NOT NULL,
+  `trans_inventory` double(15,2) DEFAULT NULL,
+  PRIMARY KEY (`trans_id`),
+  KEY `phppos_inventory_ibfk_1` (`trans_items`),
+  KEY `phppos_inventory_ibfk_2` (`trans_user`),
+  CONSTRAINT `phppos_inventory_ibfk_1` FOREIGN KEY (`trans_items`) REFERENCES `phppos_items` (`item_id`),
+  CONSTRAINT `phppos_inventory_ibfk_2` FOREIGN KEY (`trans_user`) REFERENCES `phppos_employees` (`person_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_inventory`
+--
+
+LOCK TABLES `phppos_inventory` WRITE;
+/*!40000 ALTER TABLE `phppos_inventory` DISABLE KEYS */;
+INSERT INTO `phppos_inventory` VALUES (1,1,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(2,2,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(3,3,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(4,4,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(5,5,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(6,6,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(7,7,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(8,8,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(9,9,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(10,10,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(11,11,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(12,12,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(13,13,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(14,14,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(15,15,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(16,16,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(17,17,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(18,18,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(19,19,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(20,20,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(21,21,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(22,22,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(23,23,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(24,24,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(25,25,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(26,26,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(27,27,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(28,28,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(29,29,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(30,30,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(31,31,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(32,32,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(33,33,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(34,34,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(35,35,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(36,36,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(37,37,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(38,38,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(39,39,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(40,40,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(41,41,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(42,42,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(43,43,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(44,44,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(45,45,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(46,46,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(47,47,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(48,48,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(49,49,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(50,50,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(51,51,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(52,52,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(53,53,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(54,54,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(55,55,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(56,56,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(57,57,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(58,58,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(59,59,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(60,60,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(61,61,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(62,62,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(63,63,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(64,64,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(65,65,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(66,66,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(67,67,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(68,68,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(69,69,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(70,70,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(71,71,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(72,72,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(73,73,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(74,74,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(75,75,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(76,76,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(77,77,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(78,78,8,'2011-05-11 22:59:45','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(79,79,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(80,80,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(81,81,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(82,82,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(83,83,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(84,84,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(85,85,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(86,86,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(87,87,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(88,88,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(89,89,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(90,90,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(91,91,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(92,92,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(93,93,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(94,94,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(95,95,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(96,96,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(97,97,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(98,98,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(99,99,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(100,100,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(101,101,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(102,102,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(103,103,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(104,104,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(105,105,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(106,106,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(107,107,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(108,108,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(109,109,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(110,110,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(111,111,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(112,112,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(113,113,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(114,114,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(115,115,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(116,116,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(117,117,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(118,118,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(119,119,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(120,120,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(121,121,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(122,122,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(123,123,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(124,124,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(125,125,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(126,126,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(127,127,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(128,128,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(129,129,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(130,130,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(131,131,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(132,132,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(133,133,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(134,134,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(135,135,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(136,136,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(137,137,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(138,138,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(139,139,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(140,140,8,'2011-05-11 22:59:46','Qty Excel Imported: means BEGIN/RESET/ACTUAL count',1.00),(141,1,8,'2011-05-11 23:18:33','Vent 8',-0.10),(142,1,8,'2011-05-11 23:21:28','Vent 10',0.10),(143,1,8,'2011-05-11 23:53:15','Vent 11',-0.50),(144,140,8,'2011-05-17 04:53:33','Edición Manual de Cantidad',1.00),(145,1,8,'2011-05-17 20:09:36','Edición Manual de Cantidad',0.00),(146,1,8,'2011-05-17 20:12:27','Edición Manual de Cantidad',0.00),(147,1,8,'2011-05-17 20:12:40','Edición Manual de Cantidad',0.00),(148,1,8,'2011-05-17 20:12:56','Edición Manual de Cantidad',0.00),(149,75,8,'2011-05-17 20:14:33','Edición Manual de Cantidad',0.00),(150,2,8,'2011-05-17 20:19:45','Edición Manual de Cantidad',0.00),(151,140,8,'2011-05-17 20:20:04','Edición Manual de Cantidad',0.00),(152,1,8,'2011-05-17 20:23:15','Edición Manual de Cantidad',0.00),(153,140,8,'2011-05-17 20:24:12','Edición Manual de Cantidad',0.00),(154,140,8,'2011-05-17 20:26:42','Edición Manual de Cantidad',0.00),(155,1,8,'2011-05-17 20:26:53','Edición Manual de Cantidad',0.00),(156,140,8,'2011-05-17 20:27:32','Edición Manual de Cantidad',0.00),(157,80,8,'2011-05-20 23:19:50','Edición Manual de Cantidad',0.00),(158,1,8,'2011-05-20 23:20:12','Edición Manual de Cantidad',0.00),(159,1,8,'2011-05-20 23:21:31','Edición Manual de Cantidad',0.00),(160,140,8,'2011-05-21 07:18:16','Edición Manual de Cantidad',0.00),(161,1,8,'2011-05-24 17:05:44','Vent 12',-1.00),(162,1,8,'2011-05-25 17:34:18','Vent 13',-1.00),(163,1,8,'2011-05-25 17:35:43','Vent 14',-1.00),(164,80,8,'2011-05-25 17:42:56','RECV 4',1.00),(165,1,8,'2011-05-25 17:52:40','RECV 5',4.00),(166,1,8,'2011-05-25 17:54:44','Vent 15',-0.50),(167,8,8,'2011-05-25 17:57:25','Vent 16',-1.00),(168,8,8,'2011-05-25 17:58:35','Vent 17',-1.00),(169,1,8,'2011-05-25 22:52:13','Vent 18',-1.00),(170,1,8,'2011-05-25 22:58:48','Vent 19',-1.00),(171,8,8,'2011-07-03 16:24:19','Vent 20',-1.00),(172,13,8,'2011-07-03 16:24:19','Vent 20',-1.00),(173,8,8,'2011-07-26 22:28:06','Vent 21',-3.00),(174,141,8,'2011-07-26 22:40:05','Edición Manual de Cantidad',3.00),(175,141,8,'2011-07-26 22:42:07','Vent 22',-1.00);
+/*!40000 ALTER TABLE `phppos_inventory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_items`
+--
+
+DROP TABLE IF EXISTS `phppos_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_items` (
+  `name` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `item_number` varchar(255) DEFAULT NULL,
+  `description` varchar(255) NOT NULL,
+  `cost_price` double(15,2) NOT NULL,
+  `unit_price` double(15,2) NOT NULL,
+  `quantity` double(15,2) NOT NULL DEFAULT '0.00',
+  `reorder_level` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_id` int(10) NOT NULL AUTO_INCREMENT,
+  `allow_alt_description` tinyint(1) DEFAULT NULL,
+  `is_serialized` tinyint(1) DEFAULT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`item_id`),
+  UNIQUE KEY `item_number` (`item_number`),
+  KEY `phppos_items_ibfk_1` (`supplier_id`),
+  CONSTRAINT `phppos_items_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `phppos_suppliers` (`person_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_items`
+--
+
+LOCK TABLES `phppos_items` WRITE;
+/*!40000 ALTER TABLE `phppos_items` DISABLE KEYS */;
+INSERT INTO `phppos_items` VALUES ('AVENA EN FUNDADA                                            ','PRODUCTOS EN GENERAL                    ',NULL,'100000                ','aa\na\n',16.50,18.47,-1.00,1.00,1,0,0,0),('FIDEO A GRANEL                                              ','PRODUCTOS EN GENERAL                    ',NULL,'10000000              ','',19.50,22.42,1.00,1.00,2,0,0,0),('ARROZ CONEJO PRINCIPE                                       ','PRODUCTOS EN GENERAL                    ',NULL,'100000021             ','',39.00,45.24,1.00,1.00,3,NULL,NULL,0),('UNIDADES FUNDA DEJA 1 KIL                                   ','PRODUCTOS EN GENERAL                    ',NULL,'10000004              ','',0.00,2.40,1.00,1.00,4,NULL,NULL,0),('ARROZ SAN ISIDRO                                            ','PRODUCTOS EN GENERAL                    ',NULL,'1000001               ','',31.00,45.00,1.00,1.00,5,NULL,NULL,0),('AZUCAR VALDEZ DE 2K BLANCA                                  ','PRODUCTOS EN GENERAL                    ',NULL,'10000010              ','',30.30,33.50,1.00,1.00,6,NULL,NULL,0),('AZUCAR VALDEZ DE 10K (ARROBA)                               ','PRODUCTOS EN GENERAL                    ',NULL,'10000011              ','',6.06,8.00,1.00,1.00,7,NULL,NULL,0),('ACEITE COCINERO 1LT.                                        ','PRODUCTOS EN GENERAL                    ',NULL,'10000013              ','',22.00,34.50,-5.00,1.00,8,NULL,NULL,0),('ACEITE COCINERO GIRASOL 1LT                                 ','PRODUCTOS EN GENERAL                    ',NULL,'10000014              ','',27.98,32.01,1.00,1.00,9,NULL,NULL,0),('ACEITE MAZORCA DE ORO 1LT.                                  ','PRODUCTOS EN GENERAL                    ',NULL,'10000015              ','',17.13,33.50,1.00,1.00,10,NULL,NULL,0),('UNIDAD ACEITE MAZORCA DE ORO 1LT                            ','PRODUCTOS EN GENERAL                    ',NULL,'10000016              ','',1.99,2.27,1.00,1.00,11,NULL,NULL,0),('ACEITE GIRASOL LA FABORITA 1LTS                             ','PRODUCTOS EN GENERAL                    ',NULL,'10000017              ','',25.28,30.34,1.00,1.00,12,NULL,NULL,0),('ACEITE PALMA DE ORO                                         ','PRODUCTOS EN GENERAL                    ',NULL,'10000018              ','',17.00,26.49,0.00,1.00,13,NULL,NULL,0),('MARGARINA KLAR 250 GR                                       ','PRODUCTOS EN GENERAL                    ',NULL,'10000019              ','',0.86,0.92,1.00,1.00,14,NULL,NULL,0),('ARROZ REY LEON                                              ','PRODUCTOS EN GENERAL                    ',NULL,'1000002               ','',35.00,41.00,1.00,1.00,15,NULL,NULL,0),('JABON TOP COMBI                                             ','PRODUCTOS EN GENERAL                    ',NULL,'10000020              ','',10.50,12.00,1.00,1.00,16,NULL,NULL,0),('DEJA DE 200G                                                ','PRODUCTOS EN GENERAL                    ',NULL,'10000021              ','',21.71,26.05,1.00,1.00,17,NULL,NULL,0),('DEJA DE 420G                                                ','PRODUCTOS EN GENERAL                    ',NULL,'10000022              ','',26.73,32.00,1.00,1.00,18,NULL,NULL,0),('DEJA DE 2 K                                                 ','PRODUCTOS EN GENERAL                    ',NULL,'10000023              ','',23.44,31.50,1.00,1.00,19,NULL,NULL,0),('DETERGENTE SURF DE 2K                                       ','PRODUCTOS EN GENERAL                    ',NULL,'10000024              ','',21.18,28.00,1.00,1.00,20,NULL,NULL,0),('DETERGENTE SURF 4 K                                         ','PRODUCTOS EN GENERAL                    ',NULL,'10000025              ','',21.73,28.00,1.00,1.00,21,NULL,NULL,0),('FIDEO CATEDRAL                                              ','PRODUCTOS EN GENERAL                    ',NULL,'10000026              ','',12.00,14.00,1.00,1.00,22,NULL,NULL,0),('FIDEO CATEDRAL UNIDADES EN FUNDA                            ','PRODUCTOS EN GENERAL                    ',NULL,'10000027              ','',0.48,0.62,1.00,1.00,23,NULL,NULL,0),('COMBO FIDEO                                                 ','PRODUCTOS EN GENERAL                    ',NULL,'10000028              ','',1.95,2.50,1.00,1.00,24,NULL,NULL,0),('PASTA DENTAL                                                ','PRODUCTOS EN GENERAL                    ',NULL,'10000029              ','',8.50,10.00,1.00,1.00,25,NULL,NULL,0),('ARROZ MELAV                                                 ','PRODUCTOS EN GENERAL                    ',NULL,'1000003               ','',28.00,35.50,1.00,1.00,26,NULL,NULL,0),('SAL YODADA CRISAL 2K                                        ','PRODUCTOS EN GENERAL                    ',NULL,'10000030              ','',13.17,15.00,1.00,1.00,27,NULL,NULL,0),('SEDAL 505 CASPA DE 200ML                                    ','PRODUCTOS EN GENERAL                    ',NULL,'10000031              ','',2.07,2.30,1.00,1.00,28,NULL,NULL,0),('MOROCHO                                                     ','PRODUCTOS EN GENERAL                    ',NULL,'10000032              ','',10.50,13.00,1.00,1.00,29,NULL,NULL,0),('DEJA DE 4KILOS                                              ','PRODUCTOS EN GENERAL                    ',NULL,'10000033              ','',23.20,31.00,1.00,1.00,30,NULL,NULL,0),('DETERGENTE SURF DE 200GR                                    ','PRODUCTOS EN GENERAL                    ',NULL,'10000034              ','',9.42,12.00,1.00,1.00,31,NULL,NULL,0),('DETERJENTE SURF DE 450 GRM                                  ','PRODUCTOS EN GENERAL                    ',NULL,'10000035              ','',0.00,9.32,1.00,1.00,32,NULL,NULL,0),('ARROBA AZUCAR                                               ','PRODUCTOS EN GENERAL                    ',NULL,'10000038              ','',6.50,8.52,1.00,1.00,33,NULL,NULL,0),('ARROZ EXTRA FLOR                                            ','PRODUCTOS EN GENERAL                    ',NULL,'1000004               ','',37.00,41.00,1.00,1.00,34,NULL,NULL,0),('DETERGENTE SURF 450. GRM                                    ','PRODUCTOS EN GENERAL                    ',NULL,'10000040              ','',9.32,9.32,1.00,1.00,35,NULL,NULL,0),('ACEITE LA FAVORITA                                          ','PRODUCTOS EN GENERAL                    ',NULL,'10000041              ','',28.85,34.00,1.00,1.00,36,NULL,NULL,0),('UNIDEADES SUR 200 GRM                                       ','PRODUCTOS EN GENERAL                    ',NULL,'10000042              ','',0.50,0.50,1.00,1.00,37,NULL,NULL,0),('UNIDADES MAICENA PEQ                                        ','PRODUCTOS EN GENERAL                    ',NULL,'10000043              ','',0.55,0.55,1.00,1.00,38,NULL,NULL,0),('UNIDADES MAICENA GRD                                        ','PRODUCTOS EN GENERAL                    ',NULL,'10000044              ','',0.85,0.85,1.00,1.00,39,NULL,NULL,0),('JABON LUX                                                   ','PRODUCTOS EN GENERAL                    ',NULL,'10000045              ','',1.78,1.78,1.00,1.00,40,NULL,NULL,0),('JABON LUX                                                   ','PRODUCTOS EN GENERAL                    ',NULL,'10000046              ','',0.73,0.73,1.00,1.00,41,NULL,NULL,0),('ARROCILLO                                                   ','PRODUCTOS EN GENERAL                    ',NULL,'1000005               ','',22.00,25.01,1.00,1.00,42,NULL,NULL,0),('UNIDADES JABON LAVA TODO                                    ','PRODUCTOS EN GENERAL                    ',NULL,'10000050              ','',0.50,0.50,1.00,1.00,43,NULL,NULL,0),('UNIDADES DEJA DE 4KLOS                                      ','PRODUCTOS EN GENERAL                    ',NULL,'10000057              ','',7.73,10.05,1.00,1.00,44,NULL,NULL,0),('ARROZ EL GALLITO                                            ','PRODUCTOS EN GENERAL                    ',NULL,'10000058              ','',41.00,41.00,1.00,1.00,45,NULL,NULL,0),('ARROBAS ARROZ GALLITO                                       ','PRODUCTOS EN GENERAL                    ',NULL,'10000059              ','',11.00,11.00,1.00,1.00,46,NULL,NULL,0),('ARROBAS REY LEON                                            ','PRODUCTOS EN GENERAL                    ',NULL,'1000006               ','',8.75,10.51,1.00,1.00,47,NULL,NULL,0),('ARROBAS ARROZ CONEJO                                        ','PRODUCTOS EN GENERAL                    ',NULL,'10000060              ','',10.50,10.50,1.00,1.00,48,NULL,NULL,0),('AZUCAR  VALDEZ  1/2 KILO                                    ','PRODUCTOS EN GENERAL                    ',NULL,'10000061              ','',22.00,22.00,1.00,1.00,49,NULL,NULL,0),('SARDINA TINAPA  ISABEL                                      ','PRODUCTOS EN GENERAL                    ',NULL,'10000062              ','',0.65,0.65,1.00,1.00,50,NULL,NULL,0),('ATUN ISABEL                                                 ','PRODUCTOS EN GENERAL                    ',NULL,'10000063              ','',1.15,1.15,1.00,1.00,51,NULL,NULL,0),('SARDINA TOMATE ISABEL                                       ','PRODUCTOS EN GENERAL                    ',NULL,'10000064              ','',1.24,1.24,1.00,1.00,52,NULL,NULL,0),('PAPEL SCOT                                                  ','PRODUCTOS EN GENERAL                    ',NULL,'10000065              ','',11.80,11.80,1.00,1.00,53,NULL,NULL,0),('FIDEO TALLARIN AMANCAY                                      ','PRODUCTOS EN GENERAL                    ',NULL,'10000066              ','',0.70,0.70,1.00,1.00,54,NULL,NULL,0),('SHAMPO HEARLD SHOULDER                                      ','PRODUCTOS EN GENERAL                    ',NULL,'10000067              ','',5.50,5.50,1.00,1.00,55,NULL,NULL,0),('SHAMPO HERLD SHOULDER PEQ                                   ','PRODUCTOS EN GENERAL                    ',NULL,'10000068              ','',2.95,2.95,1.00,1.00,56,NULL,NULL,0),('SUAVITEL SACHET  1800                                       ','PRODUCTOS EN GENERAL                    ',NULL,'10000069              ','',0.85,0.85,1.00,1.00,57,NULL,NULL,0),('ARROZ 1001 ESPECIAL                                         ','PRODUCTOS EN GENERAL                    ',NULL,'1000007               ','',28.00,37.24,1.00,1.00,58,NULL,NULL,0),('SUAVITEL SACHET 80ML                                        ','PRODUCTOS EN GENERAL                    ',NULL,'10000070              ','',0.50,0.50,1.00,1.00,59,NULL,NULL,0),('SUAVITEL  FRASCO                                            ','PRODUCTOS EN GENERAL                    ',NULL,'10000071              ','',3.60,3.60,1.00,1.00,60,NULL,NULL,0),('FIDEO TALLARIN PACA                                         ','PRODUCTOS EN GENERAL                    ',NULL,'10000072              ','',20.00,20.00,1.00,1.00,61,NULL,NULL,0),('UNIDADES MAICENA IRIS SABORES                               ','PRODUCTOS EN GENERAL                    ',NULL,'10000073              ','',1.20,1.20,1.00,1.00,62,NULL,NULL,0),('CHOCOLISTO 300 GR.FRASC                                     ','PRODUCTOS EN GENERAL                    ',NULL,'10000074              ','',2.60,2.60,1.00,1.00,63,NULL,NULL,0),('CHOCOLISTO DE 200GR FUNDA                                   ','PRODUCTOS EN GENERAL                    ',NULL,'10000075              ','',1.35,1.35,1.00,1.00,64,NULL,NULL,0),('LAVA VAJILLA PEQ                                            ','PRODUCTOS EN GENERAL                    ',NULL,'10000076              ','',0.73,0.73,1.00,1.00,65,NULL,NULL,0),('LAVA VAJILLA GRANDE                                         ','PRODUCTOS EN GENERAL                    ',NULL,'10000077              ','',1.10,1.17,1.00,1.00,66,NULL,NULL,0),('TOALLAS STAYFRE NORMALES                                    ','PRODUCTOS EN GENERAL                    ',NULL,'10000078              ','',1.20,1.20,1.00,1.00,67,NULL,NULL,0),('AZUCAR DE 2K MORENA                                         ','PRODUCTOS EN GENERAL                    ',NULL,'1000008               ','',30.30,33.50,1.00,1.00,68,NULL,NULL,0),('TOALLAS STAYFRE NOCTURNAS                                   ','PRODUCTOS EN GENERAL                    ',NULL,'10000080              ','',2.00,2.00,1.00,1.00,69,NULL,NULL,0),('ARROZ OSO                                                   ','PRODUCTOS EN GENERAL                    ',NULL,'10000081              ','',38.00,38.00,1.00,1.00,70,NULL,NULL,0),('GELATINA GEL HADA                                           ','PRODUCTOS EN GENERAL                    ',NULL,'10000082              ','',2.40,2.40,1.00,1.00,71,NULL,NULL,0),('MOTE                                                        ','PRODUCTOS EN GENERAL                    ',NULL,'10000083              ','',53.00,53.00,1.00,1.00,72,NULL,NULL,0),('ACEITE SUPER                                                ','PRODUCTOS EN GENERAL                    ',NULL,'10000084              ','',32.00,32.00,1.00,1.00,73,NULL,NULL,0),('FUNDAS DE AZUCAR MORENA                                     ','PRODUCTOS EN GENERAL                    ',NULL,'1000009               ','',1.22,1.40,1.00,1.00,74,NULL,NULL,0),('SERVILLETA                                                  ','PRODUCTOS EN GENERAL                    ',NULL,'100001                ','',14.00,16.25,1.00,1.00,75,0,0,0),('ATUN REAL                                                   ','PRODUCTOS EN GENERAL                    ',NULL,'1000010               ','',1.05,1.10,1.00,1.00,76,NULL,NULL,0),('ACEITE SABROSON                                             ','PRODUCTOS EN GENERAL                    ',NULL,'1000018               ','',1.80,1.80,1.00,1.00,77,NULL,NULL,0),('UNIDADES JABON DEFENSE                                      ','PRODUCTOS EN GENERAL                    ',NULL,'100002                ','',0.56,0.56,1.00,1.00,78,NULL,NULL,0),('COMBO CATEDRAL                                              ','PRODUCTOS EN GENERAL                    ',NULL,'1000028               ','',0.00,0.00,1.00,1.00,79,NULL,NULL,0),('JABON REXONA                                                ','PRODUCTOS EN GENERAL                    ',NULL,'100003                ','aa',0.70,0.73,2.00,1.00,80,0,0,0),('COMBO CATEDRAL                                              ','PRODUCTOS EN GENERAL                    ',NULL,'1000033               ','',20.40,28.08,1.00,1.00,81,NULL,NULL,0),('HARINA 10 KLS                                               ','PRODUCTOS EN GENERAL                    ',NULL,'1000034               ','',5.80,8.49,1.00,1.00,82,NULL,NULL,0),('FIDEO A GRANEL                                              ','PRODUCTOS EN GENERAL                    ',NULL,'1000035               ','',10.50,11.83,1.00,1.00,83,NULL,NULL,0),('ARROZ KATTY                                                 ','PRODUCTOS EN GENERAL                    ',NULL,'1000036               ','',10.00,36.00,1.00,1.00,84,NULL,NULL,0),('CANECA DE ACEITE COCINERO                                   ','PRODUCTOS EN GENERAL                    ',NULL,'1000037               ','',27.50,33.00,1.00,1.00,85,NULL,NULL,0),('UNIDADES COCINERO                                           ','PRODUCTOS EN GENERAL                    ',NULL,'1000038               ','',1.53,1.84,1.00,1.00,86,NULL,NULL,0),('UNIDADES PASTA CLOSE UP                                     ','PRODUCTOS EN GENERAL                    ',NULL,'1000039               ','',0.85,1.02,1.00,1.00,87,NULL,NULL,0),('ARROZ SAN ISIDRO GOURMET                                    ','PRODUCTOS EN GENERAL                    ',NULL,'100004                ','',34.00,40.00,1.00,1.00,88,NULL,NULL,0),('ARROZ REY                                                   ','PRODUCTOS EN GENERAL                    ',NULL,'1000040               ','',36.00,41.40,1.00,1.00,89,NULL,NULL,0),('UNIDAD SURF 2klos                                           ','PRODUCTOS EN GENERAL                    ',NULL,'1000041               ','',4.50,5.40,1.00,1.00,90,NULL,NULL,0),('UNIDAD TOP COMBI                                            ','PRODUCTOS EN GENERAL                    ',NULL,'1000042               ','',0.38,0.44,1.00,1.00,91,NULL,NULL,0),('LIBRAS ARROZ REY LEON                                       ','PRODUCTOS EN GENERAL                    ',NULL,'1000043               ','',0.37,0.44,1.00,1.00,92,NULL,NULL,0),('LIBRAS ARROZ SAN ISIDRO                                     ','PRODUCTOS EN GENERAL                    ',NULL,'1000044               ','',32.00,40.00,1.00,1.00,93,NULL,NULL,0),('FIDEO 400 GRM                                               ','PRODUCTOS EN GENERAL                    ',NULL,'1000045               ','',0.45,0.59,1.00,1.00,94,NULL,NULL,0),('LIBRAS ARROZ MELAV                                          ','PRODUCTOS EN GENERAL                    ',NULL,'1000046               ','',0.30,0.36,1.00,1.00,95,NULL,NULL,0),('ARROBA SAN ISIDRO                                           ','PRODUCTOS EN GENERAL                    ',NULL,'1000047               ','',7.75,9.03,1.00,1.00,96,NULL,NULL,0),('AVENA PACA 50 LIBRAS A GRANEL                               ','PRODUCTOS EN GENERAL                    ',NULL,'1000048               ','',15.60,18.06,1.00,1.00,97,NULL,NULL,0),('FIDEO PACA 400GR*25 SURTIDO                                 ','PRODUCTOS EN GENERAL                    ',NULL,'1000049               ','',10.72,13.94,1.00,1.00,98,NULL,NULL,0),('MANTECA LOS 3 CHANCHITOS                                    ','PRODUCTOS EN GENERAL                    ',NULL,'100005                ','',1.00,1.05,1.00,1.00,99,NULL,NULL,0),('ACEITE GIRAZOL FABORITA                                     ','PRODUCTOS EN GENERAL                    ',NULL,'1000050               ','',27.03,31.35,1.00,1.00,100,NULL,NULL,0),('JABON LAVA TODO                                             ','PRODUCTOS EN GENERAL                    ',NULL,'1000051               ','',20.50,23.78,1.00,1.00,101,NULL,NULL,0),('JABON PERLA BLANCO                                          ','PRODUCTOS EN GENERAL                    ',NULL,'1000052               ','',15.96,18.51,1.00,1.00,102,NULL,NULL,0),('UNIDADES JABON JOLLY                                        ','PRODUCTOS EN GENERAL                    ',NULL,'1000053               ','',0.77,1.08,1.00,1.00,103,NULL,NULL,0),('UNIDADES ACEITE GIRAZOL                                     ','PRODUCTOS EN GENERAL                    ',NULL,'1000054               ','',2.29,2.66,1.00,1.00,104,NULL,NULL,0),('UNIDADES FIDEO 400 GR                                       ','PRODUCTOS EN GENERAL                    ',NULL,'1000055               ','',0.43,0.60,1.00,1.00,105,NULL,NULL,0),('UNIDADES DEJA DE 2KLOS                                      ','PRODUCTOS EN GENERAL                    ',NULL,'1000056               ','',5.00,4.41,1.00,1.00,106,NULL,NULL,0),('DEJA DE  1 KL                                               ','PRODUCTOS EN GENERAL                    ',NULL,'1000058               ','',24.40,31.08,1.00,1.00,107,NULL,NULL,0),('PAPEL H . ELEITE 12PAQ*4UNI                                 ','PRODUCTOS EN GENERAL                    ',NULL,'1000059               ','',9.50,11.88,1.00,1.00,108,NULL,NULL,0),('UNIDADES PAPEL 4+1                                          ','PRODUCTOS EN GENERAL                    ',NULL,'100006                ','',0.90,0.95,1.00,1.00,109,NULL,NULL,0),('PAPEL H.ELITE 12PAQ*12 UNI                                  ','PRODUCTOS EN GENERAL                    ',NULL,'1000060               ','',9.39,12.21,1.00,1.00,110,NULL,NULL,0),('ATUN REAL 180GRMOS                                          ','PRODUCTOS EN GENERAL                    ',NULL,'1000061               ','',42.85,49.28,1.00,1.00,111,NULL,NULL,0),('TRIPAC ATUN REAL                                            ','PRODUCTOS EN GENERAL                    ',NULL,'1000062               ','',1.73,2.08,1.00,1.00,112,NULL,NULL,0),('TRIPAC CAJA                                                 ','PRODUCTOS EN GENERAL                    ',NULL,'1000063.              ','',34.40,41.28,1.00,1.00,113,NULL,NULL,0),('CLORO FULL 25 UNI                                           ','PRODUCTOS EN GENERAL                    ',NULL,'1000064               ','',2.20,2.75,1.00,1.00,114,NULL,NULL,0),('CLORO FULL 100UNI                                           ','PRODUCTOS EN GENERAL                    ',NULL,'1000065               ','',8.80,12.32,1.00,1.00,115,NULL,NULL,0),('DETERJENTE AS LIMON                                         ','PRODUCTOS EN GENERAL                    ',NULL,'1000066               ','',0.90,0.99,1.00,1.00,116,NULL,NULL,0),('ATUN MAR BRAVA                                              ','PRODUCTOS EN GENERAL                    ',NULL,'1000067               ','',0.68,0.78,1.00,1.00,117,NULL,NULL,0),('ATUN MAR BRAVA                                              ','PRODUCTOS EN GENERAL                    ',NULL,'1000068               ','',32.34,37.19,1.00,1.00,118,NULL,NULL,0),('HARINA 50KLS                                                ','PRODUCTOS EN GENERAL                    ',NULL,'1000069               ','',29.00,34.80,1.00,1.00,119,NULL,NULL,0),('PAPEL HIGUIENIC .UNID                                       ','PRODUCTOS EN GENERAL                    ',NULL,'100007                ','',0.25,0.25,1.00,1.00,120,NULL,NULL,0),('FULL CLORO 1000CC                                           ','PRODUCTOS EN GENERAL                    ',NULL,'1000070               ','',0.89,1.07,1.00,1.00,121,NULL,NULL,0),('LIMPIA TODO SAPOLIO                                         ','PRODUCTOS EN GENERAL                    ',NULL,'1000071               ','',1.06,1.22,1.00,1.00,122,NULL,NULL,0),('COLGATE MENTE PURA                                          ','PRODUCTOS EN GENERAL                    ',NULL,'1000072               ','',0.93,1.16,1.00,1.00,123,NULL,NULL,0),('COLGATE TRIPLE ACCION 75CC                                  ','PRODUCTOS EN GENERAL                    ',NULL,'1000073               ','',0.87,1.39,1.00,1.00,124,NULL,NULL,0),('COLGATE MAXFRESH                                            ','PRODUCTOS EN GENERAL                    ',NULL,'1000074               ','',1.81,2.35,1.00,1.00,125,NULL,NULL,0),('AXION CREMA 450GR                                           ','PRODUCTOS EN GENERAL                    ',NULL,'1000075               ','',0.96,1.25,1.00,1.00,126,NULL,NULL,0),('AXION CREMA 235 GR                                          ','PRODUCTOS EN GENERAL                    ',NULL,'1000076               ','',0.55,0.72,1.00,1.00,127,NULL,NULL,0),('SI CAFE CLASICO                                             ','PRODUCTOS EN GENERAL                    ',NULL,'1000078               ','',4.50,5.18,1.00,1.00,128,NULL,NULL,0),('ARROBA DE REY ARROZ                                         ','PRODUCTOS EN GENERAL                    ',NULL,'1000079               ','',0.00,8.00,1.00,1.00,129,NULL,NULL,0),('JABON JOLLY UNIDADES                                        ','PRODUCTOS EN GENERAL                    ',NULL,'100008                ','',0.36,0.36,1.00,1.00,130,NULL,NULL,0),('JABON REXONA                                                ','PRODUCTOS EN GENERAL                    ',NULL,'1000081               ','',1.37,1.78,1.00,1.00,131,NULL,NULL,0),('ACEITE GIRAZOL 2LTROS                                       ','PRODUCTOS EN GENERAL                    ',NULL,'1000084               ','',37.33,41.06,1.00,1.00,132,NULL,NULL,0),('FUNDAS AZUCAR BLANCA 2 KL.                                  ','PRODUCTOS EN GENERAL                    ',NULL,'100040                ','',1.40,1.50,1.00,1.00,133,NULL,NULL,0),('FUNDA DE SAL YODADA                                         ','PRODUCTOS EN GENERAL                    ',NULL,'100041                ','',0.60,0.60,1.00,1.00,134,NULL,NULL,0),('LIBRAS DE FIDEO                                             ','PRODUCTOS EN GENERAL                    ',NULL,'100042                ','',0.00,0.60,1.00,1.00,135,NULL,NULL,0),('UNIDAD FUNDA DEJA 420 GRM                                   ','PRODUCTOS EN GENERAL                    ',NULL,'100044                ','',1.00,1.10,1.00,1.00,136,NULL,NULL,0),('UNIDAD ACEITE PALMA DE ORO                                  ','PRODUCTOS EN GENERAL                    ',NULL,'100050                ','',1.55,1.50,1.00,1.00,137,NULL,NULL,0),('LIBRAS DE ARROCILLO                                         ','PRODUCTOS EN GENERAL                    ',NULL,'100051                ','',0.25,0.25,1.00,1.00,138,NULL,NULL,0),('UNIDAD FUNDAS DEJA 200.GR                                   ','PRODUCTOS EN GENERAL                    ',NULL,'100052                ','',0.55,0.55,1.00,1.00,139,NULL,NULL,0),('ARROZ                                                       ','PRODUCTOS EN GENERAL                    ',165,'0','',1.00,3.00,2.00,1.00,140,0,0,0),('Prueba','PRODUCTOS EN GENERAL',164,NULL,'',3.00,4.00,2.00,1.00,141,0,0,0);
+/*!40000 ALTER TABLE `phppos_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_items_taxes`
+--
+
+DROP TABLE IF EXISTS `phppos_items_taxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_items_taxes` (
+  `item_id` int(10) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `percent` double(15,2) NOT NULL,
+  PRIMARY KEY (`item_id`,`name`,`percent`),
+  CONSTRAINT `phppos_items_taxes_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_items_taxes`
+--
+
+LOCK TABLES `phppos_items_taxes` WRITE;
+/*!40000 ALTER TABLE `phppos_items_taxes` DISABLE KEYS */;
+INSERT INTO `phppos_items_taxes` VALUES (140,'IVA',12.00),(141,'IECE',8.00),(141,'IVA',12.00);
+/*!40000 ALTER TABLE `phppos_items_taxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_modules`
+--
+
+DROP TABLE IF EXISTS `phppos_modules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_modules` (
+  `name_lang_key` varchar(255) NOT NULL,
+  `desc_lang_key` varchar(255) NOT NULL,
+  `sort` int(10) NOT NULL,
+  `module_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`module_id`),
+  UNIQUE KEY `desc_lang_key` (`desc_lang_key`),
+  UNIQUE KEY `name_lang_key` (`name_lang_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_modules`
+--
+
+LOCK TABLES `phppos_modules` WRITE;
+/*!40000 ALTER TABLE `phppos_modules` DISABLE KEYS */;
+INSERT INTO `phppos_modules` VALUES ('module_abonos','module_abonos_desc',10,'abonos'),('module_close_box','module_close_box_desc',8,'boxes'),('module_config','module_config_desc',12,'config'),('module_customers','module_customers_desc',1,'customers'),('module_employees','module_employees_desc',7,'employees'),('module_items','module_items_desc',2,'items'),('module_payments','module_payments_desc',9,'payments'),('module_porpagar','module_porpagar_desc',11,'porpagar'),('module_receivings','module_receivings_desc',5,'receivings'),('module_reports','module_reports_desc',3,'reports'),('module_sales','module_sales_desc',6,'sales'),('module_suppliers','module_suppliers_desc',4,'suppliers');
+/*!40000 ALTER TABLE `phppos_modules` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_payments`
+--
+
+DROP TABLE IF EXISTS `phppos_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_payments` (
+  `payment_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(40) DEFAULT NULL,
+  `deleted` tinyint(4) DEFAULT '0',
+  `por_cobrar` int(1) DEFAULT '0',
+  `sort` int(11) DEFAULT NULL,
+  `have_plazo` int(1) DEFAULT '0',
+  `payment_days` int(11) DEFAULT '0',
+  `payment_months` int(11) DEFAULT '0',
+  `share` int(11) DEFAULT '0',
+  PRIMARY KEY (`payment_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_payments`
+--
+
+LOCK TABLES `phppos_payments` WRITE;
+/*!40000 ALTER TABLE `phppos_payments` DISABLE KEYS */;
+INSERT INTO `phppos_payments` VALUES (2,'Efectivo',0,0,1,0,0,0,0),(3,'Cheque',0,0,3,0,0,0,0),(4,'Cuentas por Cobrar',0,1,4,0,0,0,0),(5,'Tarjeta Débito',0,0,5,0,0,0,0),(13,'Crédito 2 Sem',0,1,6,0,7,0,2),(14,'Crédito 1 Mes',0,1,7,0,0,1,1),(15,'Crédito Plazo Fijo',0,1,8,1,0,0,0);
+/*!40000 ALTER TABLE `phppos_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_people`
+--
+
+DROP TABLE IF EXISTS `phppos_people`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_people` (
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `phone_number` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `address_1` varchar(255) NOT NULL,
+  `address_2` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `state` varchar(255) NOT NULL,
+  `zip` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `comments` text NOT NULL,
+  `person_id` int(10) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`person_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_people`
+--
+
+LOCK TABLES `phppos_people` WRITE;
+/*!40000 ALTER TABLE `phppos_people` DISABLE KEYS */;
+INSERT INTO `phppos_people` VALUES ('John','Doe','555-555-5555','admin@phppointofsale.com','Address 1','','','','','','',1),('Josesaso','Solis','','','','','','','','','',2),('Mario','Torres','','','','','','','','','',3),('Juanito','Lara','','','','','','','','','',4),('Pepe','Robayo','','','','','','','','','',5),('Joaquin','Lalama','','','','','','','','','',6),('Ivonne Alexandra','Aldás Mera','','','','','','','','','',7),('Vicente','Delgado','','','','','','','','','',8),('Patricia','Torres','','pator@gmail.com','','','','','','','',9),('Tannia','Lascano','','','','','','','','','',10),('Gordita','Quito','032876789','','','','','','','','banco Pichincha',11),('Patricio','Manobanda','','','','','','','','','Banco Guayaquil',12),('Rocío','Chavez','22334455','','','','','','2223','','',13),('Jamilet','Colombia','','sex@xom.com','','','','','','','',14),('Carmen','Mangui','','','','','','','','','',15),('José','Acosta','','','','','','','','','',16),('Patricia Joaquina','Torres Toala','','','','','','','','','',17),('Daniela','Fernandez','','','','','','','','','',18),('Mario','Perez','','','','','','','','','',19),('0','0','0','0','0','0','0','0','0','0','0',20),('0','0','0','0','0','0','0','0','0','0','0',21),('0','0','0','0','0','0','0','0','0','0','0',22),('0','0','0','0','0','0','0','0','0','0','0',23),('0','0','0','0','0','0','0','0','0','0','0',24),('0','0','0','0','0','0','0','0','0','0','0',25),('0','0','0','0','0','0','0','0','0','0','0',26),('0','0','0','0','0','0','0','0','0','0','0',27),('mar','tor','','','','','','','','','',28),('mar','tor','','','','','','','','','',29),('Carlos','Llucsa','','','','','','','','','',30),('Mario','Torres','','','','','','','','','',31),('Juan','Salas','','','','','','','','','',32),('Juan','Lalama','','','','','','','','','',33),('Freddy','Cabezas','','','','','','','','','',34),('Juan Alejandro','Cajas Monroy','','','','','','','','','',35),('Mart¡n','Molina','099358004','','','','Cuenca','Azuay','','Ecuador','',36),('Miryan','Morales','','','','','Quito','Pichincha','','Ecuador','',37),('Humberto','Molina','','','','','','','','','',38),('Vendedores','Varios','','','','','Ambato','Tungurahua','','Ecuador','',39),('A¡da Margot','Daqui Janeta','','','','','Quito','Pichincha','','Ecuador','',40),('Carlos','Ter n','','','','','Quito','Pichincha','','Ecuador','',41),('N\n','N','','','','','Quito','Pichincha','','Ecuador','',42),('Eguberto','Molina','','','','','','','','','',43),('Juan','Vaca','','','','','Quito','Pichincha','','Ecuador','',44),('Diego','Larrea','','','','','','','','','',45),('Monica','Cobo','096275971','','','','','','','','',46),('Marcela','Romero','02-232237 / 095666704','','','','','','','','',47),('N','N','','','','','','','','','',48),('Yolanda','Villota','','','','','','','','','Produbanco',49),('Carolina','Andrade','','','','','','','','','',50),('Marcela','Romero','095666704','','','','Quito','Pichincha','','Ecuador','',58),('Sr','Caiza','','','','','','','','','',59),('N','N','','','','','','','','','',60),('N','N','','','','','','','','','',61),('N','N','','','','','','','','','',62),('N','N','','','','','','','','','',63),('N','N','022474585','','Mariano Cardenal 7335 y Jos‚ Larrea','','Quito','Pichincha','','Ecuador','',64),('N','N','','','','','','','','','',65),('N','N','','','','','','','','','',66),('N','N','','','','','','','','','',67),('N','N','','','','','','','','','',68),('N','N','','','','','','','','','',69),('N','N','','','','','','','','','',70),('N','N','','','','','','','','','',71),('N','N','','','','','','','','','',72),('N','N','','','','','','','','','',73),('N','N','','','','','','','','','',74),('nn','nn','','','','','','','','','',75),('nn','nn','','','','','','','','','',76),('NN','NN','','','','','','','','','',77),('NN','NN','','','','','','','','','',78),('NN','NN','','','','','','','','','',79),('NN','NN','','','','','','','','','',80),('NN','NN','','','','','','','','','',81),('NN','NN','','','','','','','','','',82),('SANDRA ','BELTRAN','','','','','','','','','',83),('NN','NN','','','','','','','','','',84),('NN','NN','','','','','','','','','',85),('Araceli ','Barreno','','','','','','','','','',86),('NN','NN','','','','','','','','','',87),('NN','NN','','','','','','','','','',88),('NN','NN','','','','','','','','','',89),('N','N','','','','','','','','','',90),('N','N','','','','','','','','','',91),('NN','NN','','','','','','','','','',92),('NN','NN','','','','','','','','','',93),('NN','NN','','','','','','','','','',94),('NN','NN','','','','','','','','','',95),('NN','NN','','','','','','','','','',96),('NN','NN','','','','','','','','','',97),('NN','NN','','','','','','','','','',98),('NN','NN','','','','','','','','','',99),('NN','NN','','','','','','','','','',100),('NN','NN','','','','','','','','','',101),('NN','NN','','','','','','','','','',102),('NN','NN','','','','','','','','','',103),('NN','NN','','','','','','','','','',104),('N','N','','','','','','','','','',105),('N','N','','','','','','','','','',106),('N','N','','','','','','','','','',107),('N','N','','','','','','','','','',108),('N','N','','','','','','','','','',109),('NN','NN','','','','','','','','','',110),('NN','NN','','','','','','','','','',111),('NN','NN','','','','','','','','','',112),('N','N','','','','','','','','','',113),('NN','NN','','','','','','','','','',114),('NN','NN','','','','','','','','','',115),('NN','NN','','','','','','','','','',116),('NN','NN','','','','','','','','','',117),('NN','NN','','','','','','','','','',118),('NN','NN','','','','','','','','','',119),('NN','NN','','','','','','','','','',120),('NN','NN','','','','','','','','','',121),('NN','NN','','','','','','','','','',122),('NN','NN','','','','','','','','','',123),('NN','NN','','','','','','','','','',124),('N','Sr castro','','','','','','','','','',125),('N','N','','','','','','','','','',126),('N','N','','','','','','','','','',127),('N','N','','','','','','','','','',128),('N','N','','','','','','','','','',129),('N','N','','','','','','','','','',130),('N','N','','','','','','','','','',131),('N','N','','','','','','','','','',132),('N','N','','','','','','','','','',133),('N','N','','','','','','','','','',134),('N','N','','','','','','','','','',135),('N','N','','','','','','','','','',136),('N','N','','','','','','','','','',137),('N','N','','','','','','','','','',138),('N','N','','','','','','','','','',139),('NN','NN','','','','','','','','','',140),('NN','NN','','','','','','','','','',141),('N','N','','','','','','','','','',142),('Emma','Chicaiza','','','','','','','','','',143),('N','N','','','','','','','','','',144),('N','N','','','','','','','','','',145),('N','N','','','','','','','','','',146),('N','N','','','','','','','','','',147),('N','N','','','','','','','','','',148),('N','N','','','','','','','','','',149),('N','N','','','','','','','','','',150),('N','N','','','','','','','','','',151),('N','N','','','','','','','','','',152),('N','N','','','','','','','','','',153),('N','N','','','','','','','','','',154),('N','N','','','','','','','','','',155),('N','N','','','','','','','','','',156),('N','N','','','','','','','','','',157),('N','N','','','','','','','','','',158),('N','N','','','','','','','','','',159),('N','N','','','','','','','','','',160),('N','N','','','','','','','','','',161),('N','N','','','','','','','','','',162),('N','N','','','','','','','','','',163),('Karla','Falquez','','','','','','','','','',164),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',165),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',166),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',170),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',171),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',172),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',173),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',174),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',175),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',176),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',177),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',178),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',179),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',180),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',181),('Irene','Artiaga','','','','','','','','','',182);
+/*!40000 ALTER TABLE `phppos_people` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_permissions`
+--
+
+DROP TABLE IF EXISTS `phppos_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_permissions` (
+  `module_id` varchar(255) NOT NULL,
+  `person_id` int(10) NOT NULL,
+  PRIMARY KEY (`module_id`,`person_id`),
+  KEY `person_id` (`person_id`),
+  CONSTRAINT `phppos_permissions_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `phppos_employees` (`person_id`),
+  CONSTRAINT `phppos_permissions_ibfk_2` FOREIGN KEY (`module_id`) REFERENCES `phppos_modules` (`module_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_permissions`
+--
+
+LOCK TABLES `phppos_permissions` WRITE;
+/*!40000 ALTER TABLE `phppos_permissions` DISABLE KEYS */;
+INSERT INTO `phppos_permissions` VALUES ('config',1),('customers',1),('employees',1),('items',1),('receivings',1),('reports',1),('sales',1),('suppliers',1),('abonos',8),('boxes',8),('config',8),('customers',8),('employees',8),('items',8),('payments',8),('porpagar',8),('receivings',8),('reports',8),('sales',8),('suppliers',8),('customers',18),('receivings',18),('sales',18);
+/*!40000 ALTER TABLE `phppos_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_porpagar`
+--
+
+DROP TABLE IF EXISTS `phppos_porpagar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_porpagar` (
+  `porpagar_id` int(10) NOT NULL AUTO_INCREMENT,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `amount` double(15,2) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `comment` varchar(200) DEFAULT NULL,
+  `payment_id` int(10) NOT NULL,
+  `receiving_id` int(10) NOT NULL,
+  PRIMARY KEY (`porpagar_id`),
+  KEY `fk_recv_in_abono_recv` (`receiving_id`),
+  KEY `fk_payment_in_abono_recv` (`payment_id`),
+  CONSTRAINT `fk_payment_in_abono_recv` FOREIGN KEY (`payment_id`) REFERENCES `phppos_payments` (`payment_id`),
+  CONSTRAINT `fk_recv_in_abono_recv` FOREIGN KEY (`receiving_id`) REFERENCES `phppos_receivings` (`receiving_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_porpagar`
+--
+
+LOCK TABLES `phppos_porpagar` WRITE;
+/*!40000 ALTER TABLE `phppos_porpagar` DISABLE KEYS */;
+INSERT INTO `phppos_porpagar` VALUES (1,'2011-04-16 05:00:00',2.66,'Efectivo','',4,34),(2,'2011-04-16 05:00:00',0.06,'Efectivo','seis ctvs',4,33),(3,'2011-04-16 05:00:00',0.50,'Efectivo','cincuenta ctvs',4,33),(4,'2011-04-16 05:00:00',0.56,'Efectivo','',4,33),(5,'2011-04-17 05:00:00',5.00,'Efectivo','Me abona el vecino.',4,31),(6,'2011-04-18 05:00:00',7.00,'Efectivo','',4,31),(7,'2011-05-04 05:00:00',0.00,'0','0',13,1),(8,'2011-05-04 05:00:00',0.00,'0','0',13,1),(9,'2011-05-04 05:00:00',3.00,'Efectivo','Tres dolar',13,1),(10,'2011-05-04 05:00:00',1.00,'Efectivo','One dollar',13,1),(11,'2011-05-04 05:00:00',1.00,'Efectivo','one one',13,1),(12,'2011-05-04 05:00:00',5405.00,'Efectivo','',13,1),(13,'2011-05-04 05:00:00',-4310.00,'Efectivo','',13,1),(14,'2011-05-04 05:00:00',1.00,'Efectivo','',13,1),(15,'2011-05-04 05:00:00',1.00,'Efectivo','',13,1),(16,'2011-05-04 05:00:00',-1.00,'Efectivo','',13,1),(17,'2011-05-04 05:00:00',-0.50,'Efectivo','',13,1),(18,'2011-05-04 05:00:00',-0.25,'Efectivo','',13,1),(19,'2011-05-04 05:00:00',-0.15,'Efectivo','',13,1),(20,'2011-05-04 05:00:00',-0.05,'Efectivo','',13,1),(21,'2011-05-04 05:00:00',-0.05,'Efectivo','',13,1),(22,'2011-05-04 05:00:00',1.00,'Efectivo','',13,1),(23,'2011-05-04 05:00:00',-1.00,'Efectivo','',13,1),(24,'2011-05-04 05:00:00',0.00,'Efectivo','',13,1),(25,'2011-05-05 05:00:00',2.10,'Efectivo','',13,3),(26,'2011-05-10 05:00:00',1.15,'Efectivo','',14,2),(27,'2011-05-10 05:00:00',58.85,'Efectivo','',14,2),(28,'2011-05-25 05:00:00',0.70,'Efectivo','',13,4),(29,'2011-05-25 05:00:00',65.00,'Efectivo','55',14,5),(30,'2011-05-25 05:00:00',1.00,'Efectivo','',14,5);
+/*!40000 ALTER TABLE `phppos_porpagar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_receivings`
+--
+
+DROP TABLE IF EXISTS `phppos_receivings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_receivings` (
+  `receiving_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `supplier_id` int(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `receiving_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(400) DEFAULT NULL,
+  PRIMARY KEY (`receiving_id`),
+  KEY `supplier_id` (`supplier_id`),
+  KEY `employee_id` (`employee_id`),
+  CONSTRAINT `phppos_receivings_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`),
+  CONSTRAINT `phppos_receivings_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `phppos_suppliers` (`person_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_receivings`
+--
+
+LOCK TABLES `phppos_receivings` WRITE;
+/*!40000 ALTER TABLE `phppos_receivings` DISABLE KEYS */;
+INSERT INTO `phppos_receivings` VALUES ('2011-05-25 17:42:56',NULL,8,'',4,'Crédito 2 Sem: $0.70<br>'),('2011-05-25 17:52:40',165,8,'',5,'Crédito 1 Mes: $66.00<br>');
+/*!40000 ALTER TABLE `phppos_receivings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_receivings_items`
+--
+
+DROP TABLE IF EXISTS `phppos_receivings_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_receivings_items` (
+  `receiving_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `description` varchar(250) DEFAULT NULL,
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `line` int(3) NOT NULL,
+  `quantity_purchased` int(10) NOT NULL DEFAULT '0',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `discount_percent` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`receiving_id`,`item_id`,`line`),
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `phppos_receivings_items_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
+  CONSTRAINT `phppos_receivings_items_ibfk_2` FOREIGN KEY (`receiving_id`) REFERENCES `phppos_receivings` (`receiving_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_receivings_items`
+--
+
+LOCK TABLES `phppos_receivings_items` WRITE;
+/*!40000 ALTER TABLE `phppos_receivings_items` DISABLE KEYS */;
+INSERT INTO `phppos_receivings_items` VALUES (4,80,'aa','',1,1,'0.70',0.70,0),(5,1,'aa\r\na\r\n','0',1,4,'16.50',16.50,0);
+/*!40000 ALTER TABLE `phppos_receivings_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_receivings_payments`
+--
+
+DROP TABLE IF EXISTS `phppos_receivings_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_receivings_payments` (
+  `receiving_id` int(10) NOT NULL,
+  `payment_id` int(10) NOT NULL,
+  `payment_amount` double(15,2) NOT NULL,
+  PRIMARY KEY (`receiving_id`,`payment_id`),
+  CONSTRAINT `phppos_receivings_payments_ibfk_1` FOREIGN KEY (`receiving_id`) REFERENCES `phppos_receivings` (`receiving_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_receivings_payments`
+--
+
+LOCK TABLES `phppos_receivings_payments` WRITE;
+/*!40000 ALTER TABLE `phppos_receivings_payments` DISABLE KEYS */;
+INSERT INTO `phppos_receivings_payments` VALUES (4,13,0.70),(5,14,66.00);
+/*!40000 ALTER TABLE `phppos_receivings_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales`
+--
+
+DROP TABLE IF EXISTS `phppos_sales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales` (
+  `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `customer_id` int(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `sale_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(400) DEFAULT NULL,
+  PRIMARY KEY (`sale_id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `employee_id` (`employee_id`),
+  CONSTRAINT `phppos_sales_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`),
+  CONSTRAINT `phppos_sales_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `phppos_customers` (`person_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales`
+--
+
+LOCK TABLES `phppos_sales` WRITE;
+/*!40000 ALTER TABLE `phppos_sales` DISABLE KEYS */;
+INSERT INTO `phppos_sales` VALUES ('2011-05-11 23:18:33',NULL,8,'0',8,'Efectivo: $1.85<br>'),('2011-05-11 23:21:28',NULL,8,'0',10,'Efectivo: -$1.85<br>'),('2011-05-11 23:53:15',14,8,'',11,'Efectivo: $9.24<br>'),('2011-05-24 17:05:44',NULL,8,'',12,'Efectivo: $18.47<br>'),('2011-05-25 17:34:18',NULL,8,'',13,'Crédito 1 Mes: $18.47<br>'),('2011-05-25 17:35:43',NULL,8,'',14,'Crédito 2 Sem: $18.47<br>'),('2011-05-25 17:54:44',NULL,8,'',15,'Efectivo: $9.24<br>'),('2011-05-25 17:57:25',13,8,'',16,'Efectivo: $34.50<br>'),('2011-05-25 17:58:35',171,8,'',17,'Efectivo: $34.50<br>'),('2011-05-25 22:52:13',170,8,'Venta inicial',18,'Efectivo: $20.00<br>'),('2011-05-25 22:58:48',NULL,8,'',19,'Crédito 1 Mes: $18.47<br>'),('2011-07-03 16:24:19',19,8,'cliente edbe 333',20,'Crédito 2 Sem: $60.99<br>'),('2011-07-26 22:28:06',15,8,'Listo',21,'Efectivo: $103.50<br>'),('2011-07-26 22:42:07',182,8,'',22,'Efectivo: $4.80<br>');
+/*!40000 ALTER TABLE `phppos_sales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_items`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_items` (
+  `sale_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `description` varchar(250) DEFAULT NULL,
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `quantity_purchased` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `discount_percent` double(15,3) NOT NULL DEFAULT '0.000',
+  PRIMARY KEY (`sale_id`,`item_id`,`line`),
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `phppos_sales_items_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
+  CONSTRAINT `phppos_sales_items_ibfk_2` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales` (`sale_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_items`
+--
+
+LOCK TABLES `phppos_sales_items` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_items` DISABLE KEYS */;
+INSERT INTO `phppos_sales_items` VALUES (8,1,'','0',1,0.10,'16.50',18.48,0.000),(10,1,'','0',1,-0.10,'16.50',18.48,0.000),(11,1,'0','',1,0.50,'16.50',18.48,5.000),(12,1,'aa\na\n','',1,1.00,'16.50',18.47,0.000),(13,1,'aa\na\n','',1,1.00,'16.50',18.47,0.000),(14,1,'aa\na\n','',1,1.00,'16.50',18.47,0.000),(15,1,'aa\r\na\r\n','0',1,0.50,'16.50',18.47,0.000),(16,8,'','',1,1.00,'22.00',34.50,0.000),(17,8,'','',1,1.00,'22.00',34.50,0.000),(18,1,'aa\na\n','',1,1.00,'16.50',18.47,0.000),(19,1,'aa\na\n','',1,1.00,'16.50',18.47,0.000),(20,8,'','',1,1.00,'22.00',34.50,0.000),(20,13,'','',2,1.00,'17.00',26.49,0.000),(21,8,'','0',1,3.00,'22.00',34.50,0.000),(22,141,'','',1,1.00,'3.00',4.00,0.000);
+/*!40000 ALTER TABLE `phppos_sales_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_items_taxes`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_items_taxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_items_taxes` (
+  `sale_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `percent` double(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`item_id`,`line`,`name`,`percent`),
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `phppos_sales_items_taxes_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_items` (`sale_id`),
+  CONSTRAINT `phppos_sales_items_taxes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_items_taxes`
+--
+
+LOCK TABLES `phppos_sales_items_taxes` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_items_taxes` DISABLE KEYS */;
+INSERT INTO `phppos_sales_items_taxes` VALUES (22,141,1,'IECE',8.00),(22,141,1,'IVA',12.00);
+/*!40000 ALTER TABLE `phppos_sales_items_taxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_payments`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_payments` (
+  `sale_id` int(10) NOT NULL,
+  `payment_id` int(10) NOT NULL,
+  `payment_amount` double(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`payment_id`),
+  CONSTRAINT `phppos_sales_payments_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales` (`sale_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_payments`
+--
+
+LOCK TABLES `phppos_sales_payments` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_payments` DISABLE KEYS */;
+INSERT INTO `phppos_sales_payments` VALUES (8,2,1.85),(10,2,-1.85),(11,2,9.24),(12,2,18.47),(13,14,18.47),(14,13,18.47),(15,2,9.24),(16,2,34.50),(17,2,34.50),(18,2,20.00),(19,14,18.47),(20,13,60.99),(21,2,103.50),(22,2,4.80);
+/*!40000 ALTER TABLE `phppos_sales_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_suspended`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_suspended`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_suspended` (
+  `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `customer_id` int(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `sale_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`sale_id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `employee_id` (`employee_id`),
+  CONSTRAINT `phppos_sales_suspended_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`),
+  CONSTRAINT `phppos_sales_suspended_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `phppos_customers` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_suspended`
+--
+
+LOCK TABLES `phppos_sales_suspended` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_suspended` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_sales_suspended` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_suspended_items`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_suspended_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_suspended_items` (
+  `sale_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `description` varchar(30) DEFAULT NULL,
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `quantity_purchased` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `discount_percent` double(15,3) NOT NULL DEFAULT '0.000',
+  PRIMARY KEY (`sale_id`,`item_id`,`line`),
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `phppos_sales_suspended_items_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
+  CONSTRAINT `phppos_sales_suspended_items_ibfk_2` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_suspended` (`sale_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_suspended_items`
+--
+
+LOCK TABLES `phppos_sales_suspended_items` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_suspended_items` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_sales_suspended_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_suspended_items_taxes`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_suspended_items_taxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_suspended_items_taxes` (
+  `sale_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `percent` double(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`item_id`,`line`,`name`,`percent`),
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `phppos_sales_suspended_items_taxes_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_suspended_items` (`sale_id`),
+  CONSTRAINT `phppos_sales_suspended_items_taxes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_suspended_items_taxes`
+--
+
+LOCK TABLES `phppos_sales_suspended_items_taxes` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_suspended_items_taxes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_sales_suspended_items_taxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_suspended_payments`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_suspended_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_suspended_payments` (
+  `sale_id` int(10) NOT NULL,
+  `payment_id` int(10) NOT NULL,
+  `payment_amount` decimal(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`payment_id`),
+  KEY `phppos_sales_suspended_payments_ibfk_2` (`payment_id`),
+  CONSTRAINT `phppos_sales_suspended_payments_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_suspended` (`sale_id`),
+  CONSTRAINT `phppos_sales_suspended_payments_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `phppos_payments` (`payment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_suspended_payments`
+--
+
+LOCK TABLES `phppos_sales_suspended_payments` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_suspended_payments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_sales_suspended_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sessions`
+--
+
+DROP TABLE IF EXISTS `phppos_sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sessions` (
+  `session_id` varchar(40) NOT NULL DEFAULT '0',
+  `ip_address` varchar(16) NOT NULL DEFAULT '0',
+  `user_agent` varchar(50) NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sessions`
+--
+
+LOCK TABLES `phppos_sessions` WRITE;
+/*!40000 ALTER TABLE `phppos_sessions` DISABLE KEYS */;
+INSERT INTO `phppos_sessions` VALUES ('67e9310c6bada5a7e8625705338efb07','127.0.0.1','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/',1311720202,'a:1:{s:9:\"person_id\";s:1:\"8\";}'),('c4aaf9cb99d79be20ff2063b914b97b4','127.0.0.1','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/',1311726298,'a:5:{s:9:\"person_id\";s:1:\"8\";s:4:\"cart\";a:0:{}s:9:\"sale_mode\";s:4:\"sale\";s:8:\"customer\";i:-1;s:8:\"payments\";a:0:{}}');
+/*!40000 ALTER TABLE `phppos_sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_suppliers`
+--
+
+DROP TABLE IF EXISTS `phppos_suppliers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_suppliers` (
+  `person_id` int(10) NOT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `account_number` varchar(255) DEFAULT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  UNIQUE KEY `account_number` (`account_number`),
+  KEY `person_id` (`person_id`),
+  CONSTRAINT `phppos_suppliers_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `phppos_people` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_suppliers`
+--
+
+LOCK TABLES `phppos_suppliers` WRITE;
+/*!40000 ALTER TABLE `phppos_suppliers` DISABLE KEYS */;
+INSERT INTO `phppos_suppliers` VALUES (164,'BOB Kart',NULL,0),(165,'notUse','1',0),(166,'notUse','2',0);
+/*!40000 ALTER TABLE `phppos_suppliers` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2011-07-27 12:23:44
