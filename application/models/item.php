@@ -24,7 +24,20 @@ class Item extends CI_Model
 		$this->db->from('items');
 		$this->db->where('deleted',0);
 		$this->db->order_by("name", "asc");
-		return $this->db->get();
+		
+		//Aumentar los stocks de las sucursales.
+		$items = $this->db->get();
+		$almacenes = $this->Almacen->get_all();
+		
+		foreach($items->result() as $item)
+		{
+			foreach($almacenes->result() as $almacen)
+			{
+				$id =  "id".$almacen->almacen_id;
+				$item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+			}
+		}		
+		return $items;
 	}
 
 	/*
@@ -36,7 +49,24 @@ class Item extends CI_Model
 		$this->db->join('suppliers','suppliers.person_id=items.supplier_id', 'left');
 		$this->db->where('items.deleted',0);
 		$this->db->order_by("name", "asc");
-		return $this->db->get();
+		
+		//Aumentar los stocks de las sucursales.
+		$items = $this->db->get();
+		$almacenes = $this->Almacen->get_all();
+		
+		foreach($items->result() as $item)
+		{
+			foreach($almacenes->result() as $almacen)
+			{
+				$id =  "id".$almacen->almacen_id;
+				$item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+			}
+		}		
+		// return $this->db->get();
+		// var_dump($items);
+		return $items;
+		
+		// return $this->db->get();
 	}
 	/*
 	Returns all the items with limit
@@ -65,8 +95,23 @@ class Item extends CI_Model
 		$this->db->limit($limit, $start_row);
 		// $this->db->limit($start_row, $limit);
 		//$this->db->limit(1, 5);
-		return $this->db->get();
+		
+		//Aumentar los stocks de las sucursales.
+		$items = $this->db->get();
+		$almacenes = $this->Almacen->get_all();
+		
+		foreach($items->result() as $item)
+		{
+			foreach($almacenes->result() as $almacen)
+			{
+				$id =  "id".$almacen->almacen_id;
+				$item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+			}
+		}		
+		return $items;
 	}
+	
+	
 
 	function get_all_filtered($low_inventory=0,$is_serialized=0,$no_description,$almacen_id)
 	{
@@ -92,10 +137,20 @@ class Item extends CI_Model
 		
 		$this->db->where('items.deleted',0);
 		$this->db->order_by("name", "asc");
-		// return $this->db->get();
-		// $this->db->get();
-		// die($this->db->last_query());
-		return $this->db->get();
+		
+		//Aumentar los stocks de las sucursales.
+		$items = $this->db->get();
+		$almacenes = $this->Almacen->get_all();
+		
+		foreach($items->result() as $item)
+		{
+			foreach($almacenes->result() as $almacen)
+			{
+				$id =  "id".$almacen->almacen_id;
+				$item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+			}
+		}		
+		return $items;
 	}
 
 	/*
@@ -108,11 +163,23 @@ class Item extends CI_Model
 		$this->db->where('item_id',$item_id);
 		$this->db->where('items.deleted',0);
 		
-		$query = $this->db->get();
-
-		if($query->num_rows()==1)
+		//Aumentar los stocks de las sucursales.
+		$items = $this->db->get();
+		$almacenes = $this->Almacen->get_all();
+		
+		foreach($items->result() as $item)
 		{
-			return $query->row();
+			foreach($almacenes->result() as $almacen)
+			{
+				$id =  "id".$almacen->almacen_id;
+				$item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+			}
+		}		
+		
+
+		if($items->num_rows()==1)
+		{
+			return $items->row();
 		}
 		else
 		{
@@ -159,8 +226,21 @@ class Item extends CI_Model
 		$this->db->join('suppliers','suppliers.person_id=items.supplier_id', 'left');
 		$this->db->where_in('item_id',$item_ids);
 		$this->db->where('items.deleted',0);
-		$this->db->order_by("yo", "asc");
-		return $this->db->get();
+		// $this->db->order_by("yo", "asc");
+		
+		//Aumentar los stocks de las sucursales.
+		$items = $this->db->get();
+		$almacenes = $this->Almacen->get_all();
+		
+		foreach($items->result() as $item)
+		{
+			foreach($almacenes->result() as $almacen)
+			{
+				$id =  "id".$almacen->almacen_id;
+				$item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+			}
+		}		
+		return $items;
 	}
 
 	/*
@@ -326,7 +406,21 @@ class Item extends CI_Model
 		item_number LIKE '%".$this->db->escape_like_str($search)."%' or 
 		category LIKE '%".$this->db->escape_like_str($search)."%') and phppos_items.deleted=0");
 		$this->db->order_by("name", "asc");
-		return $this->db->get();	
+		
+		//Aumentar los stocks de las sucursales.
+		$items = $this->db->get();
+		$almacenes = $this->Almacen->get_all();
+		
+		foreach($items->result() as $item)
+		{
+			foreach($almacenes->result() as $almacen)
+			{
+				$id =  "id".$almacen->almacen_id;
+				$item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+			}
+		}		
+		return $items;
+		
 	}
 
 	function get_categories()

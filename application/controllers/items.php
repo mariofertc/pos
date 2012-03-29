@@ -16,7 +16,7 @@ class Items extends Secure_area implements iData_controller
 	
 	function show()
 	{
-		//$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(TRUE);
 		$base_url = $this->uri->segment(3);
 		$start_row = str_replace("&per_page=","",$base_url);
 		$per_page = 100;
