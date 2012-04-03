@@ -45,7 +45,8 @@ class Sale extends CI_Model
 		'employee_id'=>$employee_id,
 		//'payment_id'=>$payment['payment_id'],
 		'payment_type'=>$payment_types,
-		'comment'=>$comment
+		'comment'=>$comment,
+		'almacen_id'=>$data['almacen_id']
 		);
 		
 
@@ -205,9 +206,11 @@ class Sale extends CI_Model
 		".$this->db->dbprefix('sales_items').".line as line, serialnumber, ".$this->db->dbprefix('sales_items').".description as description,
 		ROUND((item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100)*(1+(SUM(percent)/100)),2) as total,
 		ROUND((item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100)*(SUM(percent)/100),2) as tax,
-		(item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) - (item_cost_price*quantity_purchased) as profit
+		(item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) - (item_cost_price*quantity_purchased) as profit, nombre as almacen
 		FROM ".$this->db->dbprefix('sales_items')."
-		INNER JOIN ".$this->db->dbprefix('sales')." ON  ".$this->db->dbprefix('sales_items').'.sale_id='.$this->db->dbprefix('sales').'.sale_id'."
+		INNER JOIN ".$this->db->dbprefix('sales')."
+		ON  ".$this->db->dbprefix('sales_items').'.sale_id='.$this->db->dbprefix('sales').'.sale_id'."
+		LEFT OUTER JOIN ".$this->db->dbprefix('almacenes')." ON  ".$this->db->dbprefix('sales').'.almacen_id='.$this->db->dbprefix('almacenes').'.almacen_id'."
 		INNER JOIN ".$this->db->dbprefix('items')." ON  ".$this->db->dbprefix('sales_items').'.item_id='.$this->db->dbprefix('items').'.item_id'."
 		LEFT OUTER JOIN ".$this->db->dbprefix('suppliers')." ON  ".$this->db->dbprefix('items').'.supplier_id='.$this->db->dbprefix('suppliers').'.person_id'."
 		LEFT OUTER JOIN ".$this->db->dbprefix('sales_items_taxes')." ON  "

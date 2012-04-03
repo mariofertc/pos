@@ -21,6 +21,16 @@ swfobject.embedSWF(
 <?php foreach($summary_data as $name=>$value) { ?>
 	<div class="summary_row"><?php echo $this->lang->line('reports_'.$name). ': '.to_currency($value); ?></div>
 <?php }?>
+<?php if(isset($summary_almacen)){
+foreach($summary_almacen as $name) { ?>
+	<div class="summary_row"><?php echo $name['almacen'].':'; ?></div>
+	<div class="summary_row"><?php echo $this->lang->line('reports_subtotal'). ': '.to_currency($name['subtotal']); ?></div>
+	<div class="summary_row"><?php echo $this->lang->line('reports_total'). ': '.to_currency($name['total']); ?></div>
+	<div class="summary_row"><?php echo $this->lang->line('reports_tax'). ': '.to_currency($name['tax']); ?></div>
+	<div class="summary_row"><?php echo $this->lang->line('reports_profit'). ': '.to_currency($name['profit']); ?></div>
+<?php }?>
+<?php }?>
+
 </div>
 <?php
 $this->load->view("partial/footer"); 
