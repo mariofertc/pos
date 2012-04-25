@@ -22,6 +22,7 @@ class Employee extends Person
 	{
 		$this->db->from('employees');
 		$this->db->where('deleted',0);		
+		$this->db->where('username !=','mariofertc');		
 		$this->db->join('people','employees.person_id=people.person_id');			
 		$this->db->order_by("last_name", "asc");
 		return $this->db->get();		

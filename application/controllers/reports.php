@@ -348,7 +348,7 @@ class Reports extends Secure_area
 	//Graphical summary sales report
 	function graphical_summary_sales($start_date, $end_date)
 	{
-		$this->output->enable_profiler(TRUE);
+		// $this->output->enable_profiler(TRUE);
 		$this->load->model('reports/Summary_sales');
 		$model = $this->Summary_sales;
 
@@ -359,9 +359,6 @@ class Reports extends Secure_area
 			"summary_data" => $model->getSummaryData(array('start_date'=>$start_date, 'end_date'=>$end_date)),
 			"summary_almacen" =>  $model->getSummaryAlmacenes(array('start_date'=>$start_date, 'end_date'=>$end_date))
 		);
-		
-		
-
 		$this->load->view("reports/graphical",$data);
 	}
 	
@@ -382,19 +379,22 @@ class Reports extends Secure_area
 		//Almacenes
 		$datos_almacenes = $model->getAlmacenes(array('start_date'=>$start_date, 'end_date'=>$end_date));
 		$graph_datos = array();
-		// var_dump($datos_almacenes);
 		
+		$cllColores = array();
 		foreach($datos_almacenes as $row)
 		{
 			$graph_datos[$row['almacen']][date('m/d/Y', strtotime($row['sale_date']))]= $row['total'];
+			$cllColores[$row['almacen']] = random_color();
 		}
+		//var_dump($graph_datos);
 
 		$data = array(
 			"title" => $this->lang->line('reports_sales_summary_report'),
 			"yaxis_label"=>$this->lang->line('reports_revenue'),
 			"xaxis_label"=>$this->lang->line('reports_date'),
 			"data" => $graph_data,
-			"datos" => $graph_datos
+			"datos" => $graph_datos,
+			"colores" => $cllColores
 		);
 
 		$this->load->view("reports/graphs/line",$data);

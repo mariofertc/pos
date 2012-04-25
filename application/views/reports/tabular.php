@@ -58,7 +58,7 @@ if($export_excel == 1){
 </div>
 <div id="report_summary">
 <?php foreach($summary_data as $name=>$value) { ?>
-	<div class="summary_row"><?php echo $this->lang->line('reports_'.$name). ': '.to_currency($value); ?></div>
+	<div class="summary_row"><?php echo $this->lang->line('reports_'.$name). ': '.($name=="items"?$value:to_currency($value)); ?></div>
 <?php }?>
 </div>
 <?php 

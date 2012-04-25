@@ -19,16 +19,17 @@ $line = new line();
 $line->set_default_dot_style($hol); 
 $line->set_values($line_data);
 $line->set_colour(random_color());
+$line->set_key('Total', 12 );
 
 //New lines stores
 $chart = new open_flash_chart();
 $chart->set_title(new title($title));
 $chart->add_element($line);
-
-foreach($datos as $label)
+$color = "fffff";
+foreach($datos as $label=>$valor)
 {
     $line_data = null;
-	foreach($label as $dato)
+	foreach($valor as $dato)
 	{
 		$line_data[] = (float)$dato;
 		//$labels[] = (string)$dato;
@@ -37,17 +38,12 @@ foreach($datos as $label)
 	$line = new line();
 	$line->set_default_dot_style($hol); 
 	$line->set_values($line_data);
-	$line->set_colour(random_color());
+	$color = random_color();
+	$line->set_colour($color);
+	$line->set_key($label, 12 );
 	$chart->add_element($line);
 	echo $line;
 }
-
-
-
-
-//$chart->add_element($line2);
-
-
 $x = new x_axis();
 $x->steps(count($data) > 10 ? (int)(count($data)/4) : 1);
 $x->set_labels_from_array($labels);
@@ -57,6 +53,7 @@ $y = new y_axis();
 $y->set_tick_length(7);
 $y->set_range(0, (count($data) > 0 ? max($data) : 0) + 25, ((count($data) > 0 ? max($data) : 0)+25)/10);
 $chart->set_y_axis( $y );
+// $chart->set_y_legend("222");
 $chart->set_bg_colour("#f3f3f3");
 
 

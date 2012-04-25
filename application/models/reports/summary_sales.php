@@ -32,7 +32,7 @@ class Summary_sales extends Report
 
 	public function getAlmacenes(array $inputs)
 	{		
-		$this->db->select('sale_date, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax,sum(profit) as profit');
+		$this->db->select('sale_date, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax,sum(profit) as profit, almacen');
 		$this->db->from('sales_items_temp');
 		$this->db->group_by('sale_date', 'almacen');
 		$this->db->having('sale_date BETWEEN "'. $inputs['start_date']. '" and "'. $inputs['end_date'].'"');
