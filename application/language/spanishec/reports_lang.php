@@ -88,4 +88,5 @@ $lang['reports_detailed_por_cobrar_report'] = 'Reporte De Cuentas por Cobrar';
 $lang['reports_detailed_por_pagar_report'] = 'Reporte De Cuentas por Pagar';
 $lang['reports_total_porpagar'] = 'Total por Pagar';
 $lang['reports_total_por_cobrar'] = 'Total por Cobrar';
+$lang['reports_almacen'] = 'Almacén';
 ?>

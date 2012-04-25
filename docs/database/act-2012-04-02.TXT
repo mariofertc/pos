@@ -1,4 +1,0 @@
-#Modificación 2012-04-02
-alter table phppos_sales add column almacen_id int(10) not null;
-alter table phppos_sales add constraint fk_almacen_en_sale foreign key(almacen_id) references phppos_almacenes(almacen_id);
-drop table phppos_sales_items_temp;

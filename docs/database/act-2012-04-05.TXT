@@ -1,2 +1,0 @@
-#Modificación 2012-04-04
-alter table phppos_sales_items modify column discount_percent double(15,3) default 0;

@@ -189,16 +189,11 @@ class Sale extends CI_Model
 	//We create a temp table that allows us to do easy report/sales queries
 	public function create_sales_items_temp_table()
 	{
-		//$query = $this->db->get("sales_items_temp");
-		//if($query->num_rows()!=0)
+		if($this->db->table_exists('sales_items_temp'))
 		{
-			// $this->db->query("CREATE TEMPORARY TABLE if not exists " . $this->db->dbprefix("sales_items_temp") . "(temp varchar(2));");
-			// $this->db->query("drop table ".$this->db->dbprefix('sales_items_temp'));
+			//Borra datos previos
+			$this->db->query("truncate table ".$this->db->dbprefix('sales_items_temp'));
 		}
-		
-		//Borra datos previos
-		$this->db->query("truncate table ".$this->db->dbprefix('sales_items_temp'));
-		
 		$this->db->query("CREATE TABLE if not exists ".$this->db->dbprefix('sales_items_temp')."
 		(SELECT date(sale_time) as sale_date, ".$this->db->dbprefix('sales_items').".sale_id, comment, payment_type, customer_id, employee_id, 
 		".$this->db->dbprefix('items').".item_id, supplier_id, quantity_purchased, item_cost_price, item_unit_price, SUM(percent) as item_tax_percent,
@@ -206,7 +201,7 @@ class Sale extends CI_Model
 		".$this->db->dbprefix('sales_items').".line as line, serialnumber, ".$this->db->dbprefix('sales_items').".description as description,
 		ROUND((item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100)*(1+(SUM(percent)/100)),2) as total,
 		ROUND((item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100)*(SUM(percent)/100),2) as tax,
-		(item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) - (item_cost_price*quantity_purchased) as profit, nombre as almacen
+		(item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) - (item_cost_price*quantity_purchased) as profit, nombre as almacen, phppos_almacenes.almacen_id as almacen_id
 		FROM ".$this->db->dbprefix('sales_items')."
 		INNER JOIN ".$this->db->dbprefix('sales')."
 		ON  ".$this->db->dbprefix('sales_items').'.sale_id='.$this->db->dbprefix('sales').'.sale_id'."
