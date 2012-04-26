@@ -116,7 +116,7 @@ class Reports extends Secure_area
 	//Summary sales report
 	function summary_sales($start_date, $end_date, $almacen_id, $export_excel=0)
 	{
-		$this->output->enable_profiler(TRUE);
+		// $this->output->enable_profiler(TRUE);
 		$this->load->model('reports/Summary_sales');
 		$model = $this->Summary_sales;
 		$tabular_data = array();
@@ -1083,6 +1083,51 @@ class Reports extends Secure_area
 
 		$this->load->view("reports/tabular",$data);	
 	}
+	function inventory_summary_almacen($almacen_id,$export_excel=0)
+	{
+		$this->load->model('reports/Inventory_summary_almacen');
+		$model = $this->Inventory_summary_almacen;
+		$tabular_data = array();
+		$report_data = $model->getData(array("almacen_id"=>$almacen_id));
+		$total_items = 0;
+		$total_valor = 0;
+		
+		foreach($report_data as $row)
+		{
+			$tabular_data[] = array($row['name'], $row['item_number'], $row['description'], $row['quantity'], $row['reorder_level'], $row['total']);
+			$total_items += $row['quantity'];
+			$total_valor += $row['total'];
+		}
+
+		$data = array(
+			"title" => $this->lang->line('reports_inventory_summary_report'),
+			"subtitle" => ' Almac&eacute;n '.(($almacen_id!=0)?$row['nombre']:''),
+			"headers" => $model->getDataColumns(),
+			"data" => $tabular_data,
+			"summary_data" => array('items'=>$total_items, 'items_purchased'=>$total_valor),
+			"export_excel" => $export_excel,
+			// "total_items" => $total_items,
+			// "total_valor" => $total_valor,
+			"inventario" => 'sum'
+		);
+
+		$this->load->view("reports/tabular",$data);	
+	}
 	
+	//Específico SummarySale. Esto elimina los dos metodos de arriba.
+	function specific_summary_almacen_input()
+	{
+		$data = $this->_get_common_report_data();
+		$data['specific_input_name'] = $this->lang->line('reports_almacen');
+		
+		$almacenes = array('Todos');
+		foreach($this->Almacen->get_all()->result() as $almacen)
+		{
+			$almacenes[$almacen->almacen_id] = $almacen->nombre;
+		}
+		//var_dump($almacenes);
+		$data['specific_input_data'] = $almacenes;
+		$this->load->view("reports/specific_input_almacen",$data);	
+	}
 }
 ?>

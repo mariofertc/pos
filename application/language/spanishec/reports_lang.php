@@ -66,6 +66,7 @@ $lang['reports_detailed_reports'] = 'Reportes Detallados';
 $lang['reports_inventory_reports'] = 'Reporte Inventario';
 $lang['reports_low_inventory'] = 'Inventario Bajo';
 $lang['reports_inventory_summary'] = 'Resumen de Inventario';
+$lang['reports_inventory_summary_almacen'] = 'Resumen de Inventario por Almacenes';
 $lang['reports_item_number'] = 'Número Artículo';
 $lang['reports_reorder_level'] = 'Reordenar Nivel';
 $lang['reports_low_inventory_report'] = 'Reporte de Inventario Bajo';

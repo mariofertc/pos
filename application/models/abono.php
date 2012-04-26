@@ -164,9 +164,9 @@ class Abono extends CI_Model
 		$this->db->where("p.por_cobrar = 1");
 		if($search)
 		{
-			$this->db->where("(customer.first_name LIKE '%".$this->db->escape_like_str($search)."%' or 
-			customer.last_name LIKE '%".$this->db->escape_like_str($search)."%' or 
-			CONCAT(customer.first_name,' ',customer.last_name) LIKE '%".$this->db->escape_like_str($search)."%')");
+			$this->db->where("(trim(customer.first_name) LIKE '%".$this->db->escape_like_str($search)."%' or 
+			trim(customer.last_name) LIKE '%".$this->db->escape_like_str($search)."%' or 
+			CONCAT(trim(customer.first_name),' ',trim(customer.last_name)) LIKE '%".$this->db->escape_like_str($search)."%')");
 		}
 		
 		$this->db->group_by('sales_items_temp.sale_id');
@@ -293,9 +293,9 @@ class Abono extends CI_Model
 		$this->db->join('sales_payments as sp', 'sp.sale_id = phppos_sales_items_temp.sale_id', 'left outer');
 		$this->db->join('payments as p', 'p.payment_id = sp.payment_id');
 		$this->db->join('sales_payments as sp2', 'sp2.sale_id = phppos_sales_items_temp.sale_id', 'left outer');
-		$this->db->where("p.por_cobrar = 1 and customer.first_name LIKE '%".$this->db->escape_like_str($search)."%' or 
-		customer.last_name LIKE '%".$this->db->escape_like_str($search)."%' or 
-		CONCAT(customer.first_name,' ',customer.last_name) LIKE '%".$this->db->escape_like_str($search)."%'");
+		$this->db->where("p.por_cobrar = 1 and trim(customer.first_name) LIKE '%".$this->db->escape_like_str($search)."%' or 
+		trim(customer.last_name) LIKE '%".$this->db->escape_like_str($search)."%' or 
+		CONCAT(trim(customer.first_name),' ',trim(customer.last_name)) LIKE '%".$this->db->escape_like_str($search)."%'");
 		$this->db->group_by('sales_items_temp.sale_id');
 		$this->db->order_by("customer.last_name", "asc");
 
@@ -303,7 +303,7 @@ class Abono extends CI_Model
 		foreach($by_name->result() as $row)
 		{
 			// $suggestions[]=$row->sale_id.'|'.$row->first_name.' '.$row->last_name;		
-			$suggestions[]=$row->first_name.' '.$row->last_name;		
+			$suggestions[]=trim($row->first_name).' '.trim($row->last_name);		
 		}		
 		//only return $limit suggestions
 		if(count($suggestions > $limit))

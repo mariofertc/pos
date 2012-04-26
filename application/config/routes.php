@@ -46,6 +46,10 @@ $route['reports/graphical_:any'] = "reports/date_input";
 $route['reports/(inventory_:any)/(:any)'] = "reports/$1/$2";
 $route['reports/inventory_:any'] = "reports/excel_export";
 
+//Para inventario por almacenes.
+$route['reports/(inventory_summary_almacen)/(:any)'] = "reports/$1/$2/$3/$4";
+$route['reports/inventory_summary_almacen'] = "reports/specific_summary_almacen_input";
+
 //Cambio de ruta para Reportes detallados ventas. Adherir almacen.
 // $route['reports/(specific_:any)/(:any)/(:any)/(:any)'] = "reports/$1/$2/$3/$4";
 $route['reports/summary_sales'] = "reports/specific_summary_sale_input";

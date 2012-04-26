@@ -45,6 +45,7 @@
 		<ul>
 			<li><a href="<?php echo site_url('reports/inventory_low');?>"><?php echo $this->lang->line('reports_low_inventory'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/inventory_summary');?>"><?php echo $this->lang->line('reports_inventory_summary'); ?></a></li>
+			<li><a href="<?php echo site_url('reports/inventory_summary_almacen');?>"><?php echo $this->lang->line('reports_inventory_summary_almacen'); ?></a></li>
 		</ul>
 	</li>
 	<!--<li><h3><?php echo $this->lang->line('reports_cuentas'); ?></h3>
