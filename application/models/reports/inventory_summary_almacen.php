@@ -14,7 +14,7 @@ class Inventory_summary_almacen extends Report
 	
 	public function getData(array $inputs)
 	{
-		$this->db->select('name, item_number, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, (phppos_stock_almacenes.cantidad*quantity) as total, almacenes.almacen_id, almacenes.nombre');
+		$this->db->select('name, item_number, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, (phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre');
 		$this->db->from('items');
 		$this->db->where('items.deleted', 0);	
 		$this->db->join('stock_almacenes', 'stock_almacenes.item_id = items.item_id');

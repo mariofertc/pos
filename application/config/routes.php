@@ -50,6 +50,9 @@ $route['reports/inventory_:any'] = "reports/excel_export";
 $route['reports/(inventory_summary_almacen)/(:any)'] = "reports/$1/$2/$3/$4";
 $route['reports/inventory_summary_almacen'] = "reports/specific_summary_almacen_input";
 
+$route['reports/(inventory_low_almacen)/(:any)'] = "reports/$1/$2/$3/$4";
+$route['reports/inventory_low_almacen'] = "reports/specific_summary_almacen_input";
+
 //Cambio de ruta para Reportes detallados ventas. Adherir almacen.
 // $route['reports/(specific_:any)/(:any)/(:any)/(:any)'] = "reports/$1/$2/$3/$4";
 $route['reports/summary_sales'] = "reports/specific_summary_sale_input";
