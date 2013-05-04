@@ -43,7 +43,7 @@ function enable_search(suggest_url,confirm_search_message)
 }
 enable_search.enabled=false;
 
-function do_search(show_feedback,on_complete)
+function do_search(show_feedback,on_complete,attr=0)
 {	
 	//If search is not enabled, don't do anything
 	if(!enable_search.enabled)
@@ -52,7 +52,7 @@ function do_search(show_feedback,on_complete)
 	if(show_feedback)
 		$('#spinner').show();
 		
-	$('#sortable_table tbody').load($('#search_form').attr('action'),{'search':$('#search').val()},function()
+	$('#sortable_table tbody').load($('#search_form').attr('action'),{'search':$('#search').val(),'id':attr},function()
 	{
 		if(typeof on_complete=='function')
 			on_complete();

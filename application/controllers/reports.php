@@ -389,7 +389,7 @@ class Reports extends Secure_area
 	//The actual graph data
 	function graphical_summary_sales_graph($start_date, $end_date)
 	{
-		$this->output->enable_profiler(TRUE);
+		// $this->output->enable_profiler(TRUE);
 		$this->load->model('reports/Summary_sales');
 		$model = $this->Summary_sales;
 		$report_data = $model->getData(array('start_date'=>$start_date, 'end_date'=>$end_date));
@@ -1055,7 +1055,7 @@ class Reports extends Secure_area
 	
 	function inventory_low_almacen($almacen_id,$export_excel=0)
 	{
-		$this->output->enable_profiler(true);
+		// $this->output->enable_profiler(true);
 		$this->load->model('reports/Inventory_low_almacen');
 		$model = $this->Inventory_low_almacen;
 		$tabular_data = array();

@@ -672,9 +672,14 @@ function get_abono_data_row($por_cobrar_m,$controller)
 	$table_data_row.="<td width='1%'><input type='checkbox' id='por_cobrar_m_$por_cobrar_m[sale_id]' value='".$por_cobrar_m['sale_id']."'/></td>";
 	$table_data_row.='<td width="5%">'.anchor('sales/edit/'.$por_cobrar_m['sale_id'], 'POS '.$por_cobrar_m['sale_id'], array('target' => '_blank')).'</td>';
 	$table_data_row.='<td width="2%">'.character_limiter($por_cobrar_m['sale_date'],13).'</td>';
-	$table_data_row.='<td width="9%">'.character_limiter($por_cobrar_m['customer_name'],13).'</td>';
+	//$table_data_row.='<td width="9%">'.character_limiter($por_cobrar_m['customer_name'],13).'</td>';
+	//$table_data_row.='<td width="9%">'.anchor('do_search()',character_limiter($por_cobrar_m['customer_name'],13)).'</td>';
+	//$table_data_row.='<td width="9%">'.anchor('abonos/search?'.$por_cobrar_m['person_id'],character_limiter($por_cobrar_m['customer_name'],13)).'</td>';
+	$table_data_row.='<td width="9%">'.'<button type="submit" value="upvote" onclick="do_search(true,true,'.$por_cobrar_m['person_id'].')">
+  <span>'.character_limiter($por_cobrar_m['customer_name'],13).'</span>
+</button>'.'</td>';
 	// $table_data_row.='<td width="9%">'.character_limiter($por_cobrar_m['employee_name'],13).'</td>';
-	$table_data_row.='<td width="10%">'.character_limiter($por_cobrar_m['payment_type'],65).'</td>';
+	$table_data_row.='<td width="10%">'.character_limiter($por_cobrar_m['payment_type'],14).'</td>';
 	$table_data_row.='<td width="4%">'.to_currency($por_cobrar_m['total']).'</td>';
 	$table_data_row.='<td width="4%">'.to_currency($por_cobrar_m['debe']).'</td>';
 	// $table_data_row.='<td width="7%">'. date('Y-m-d', $por_cobrar_m['mora']).'</td>';

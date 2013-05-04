@@ -415,7 +415,8 @@ class Abonos extends Secure_area
 	function search()
 	{
 		$search=$this->input->post('search');
-		$data_rows=get_abono_manage_table_data_rows($this->Abono->search($search),$this);
+		$search_id=$this->input->post('id');
+		$data_rows=get_abono_manage_table_data_rows($this->Abono->search($search, $search_id),$this);
 		echo $data_rows;
 	}
 	function suggest()

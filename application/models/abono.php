@@ -105,7 +105,7 @@ class Abono extends CI_Model
 	{
 		//return $data = array();
 //		$this->db->select('sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, sum(sp.payment_amount)-sum(abono_sale.abono_amount) as debe', false);
-		$this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe', false);
+		$this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
 		$this->db->from('sales_items_temp');
 		$this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
 		$this->db->join('people as customer', 'sales_items_temp.customer_id = customer.person_id', 'left');
@@ -151,9 +151,9 @@ class Abono extends CI_Model
 		return $data['summary'][0];
 	}
 	
-	function search($search)
+	function search($search, $search_id = 0)
 	{
-		$this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe,'.
+		$this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id,'.
 		'null as mora, null as cuotas', false);
 		$this->db->from('sales_items_temp');
 		$this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
@@ -162,7 +162,11 @@ class Abono extends CI_Model
 		$this->db->join('payments as p', 'p.payment_id = sp.payment_id');
 		$this->db->join('sales_payments as sp2', 'sp2.sale_id = phppos_sales_items_temp.sale_id', 'left outer');
 		$this->db->where("p.por_cobrar = 1");
-		if($search)
+		if($search_id != 0)
+		{
+			$this->db->where("customer.person_id", $search_id);
+		}
+		else if($search)
 		{
 			$this->db->where("(trim(customer.first_name) LIKE '%".$this->db->escape_like_str($search)."%' or 
 			trim(customer.last_name) LIKE '%".$this->db->escape_like_str($search)."%' or 
@@ -315,7 +319,7 @@ class Abono extends CI_Model
 
 	function get_all_filtered($en_mora=0,$tiene_deuda=0)
 	{
-		$this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe,'.
+		$this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id,'.
 		'null as mora, null as cuotas', false);
 		$this->db->from('sales_items_temp');
 		$this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
@@ -341,7 +345,7 @@ class Abono extends CI_Model
 				if(empty($data['summary'][$key]['mora']))
 					unset($data['summary'][$key]);
 			}
-			if ($tiene_deuda !=0 )
+			if ($tiene_deuda != 0 )
 			{
 				//if($data['summary'][$key]['debe']==0)
 				if(empty($data['summary'][$key]['debe']))

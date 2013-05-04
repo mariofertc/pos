@@ -101,7 +101,7 @@ class Sales extends Secure_area
 		{
 			$this->sale_lib->return_entire_sale($item_id_or_number_or_receipt);
 		}
-		elseif(!$this->sale_lib->add_item($item_id_or_number_or_receipt,$quantity, null,null,null,null,null,$almacen))
+		elseif(!$this->sale_lib->add_item($item_id_or_number_or_receipt,$quantity, 0,null,null,null,null,$almacen))
 		{
 			$data['error']=$this->lang->line('sales_unable_to_add_item');
 		}
