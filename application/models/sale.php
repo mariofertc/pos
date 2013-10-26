@@ -189,10 +189,10 @@ class Sale extends CI_Model
 	//We create a temp table that allows us to do easy report/sales queries
 	public function create_sales_items_temp_table()
 	{
-		if($this->db->table_exists('sales_items_temp'))
+		if($this->db->table_exists('phppos_sales_items_temp'))
 		{
 			//Borra datos previos
-			$this->db->query("truncate table ".$this->db->dbprefix('sales_items_temp'));
+			$this->db->query("drop table ".$this->db->dbprefix('sales_items_temp'));
 		}
 		$this->db->query("CREATE TABLE if not exists ".$this->db->dbprefix('sales_items_temp')."
 		(SELECT date(sale_time) as sale_date, ".$this->db->dbprefix('sales_items').".sale_id, comment, payment_type, customer_id, employee_id, 

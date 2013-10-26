@@ -129,7 +129,7 @@ class Receiving extends CI_Model
 		if($this->db->table_exists('receivings_items_temp'))
 		{
 			//Borra datos previos
-			$this->db->query("truncate table ".$this->db->dbprefix('receivings_items_temp'));
+			$this->db->query("drop table ".$this->db->dbprefix('receivings_items_temp'));
 		}
 		$this->db->query("CREATE  TABLE if not exists ".$this->db->dbprefix('receivings_items_temp')."
 		(SELECT date(receiving_time) as receiving_date, ".$this->db->dbprefix('receivings_items').".receiving_id, comment,payment_type, employee_id, 
