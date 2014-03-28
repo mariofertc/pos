@@ -1,9 +1,9 @@
-.field_row 
+.field_row
 {
 	margin: 0 0 10px 0;
 }
 
-.field_row label 
+.field_row label
 {
 	float:left;
 	width:100px;
@@ -11,7 +11,7 @@
 	line-height:2.3;
 }
 
-.field_row label.wide 
+.field_row label.wide
 {
     width:180px;
 	width:90px;
@@ -41,21 +41,21 @@ label.important
 	color:#990000;
 	color:#ffffff;
 }
- 
+
 .form_field
 {
  	float:left;
  	padding: 3px;
  	background-color: #f2f2f2;
 }
-  
-.form_field input, .form_field textarea 
+
+.form_field input, .form_field textarea
 {
  	border: 1px solid #ccc;
  	padding: 4px;
 }
 
-.submit_button 
+.submit_button
 {
 	padding: 5px;
 	color: #fff;
@@ -63,7 +63,7 @@ label.important
 	border: 2px solid #ddd;
 }
 
-.delete_button 
+.delete_button
 {
 	padding: 5px;
 	color: #fff;
@@ -76,8 +76,9 @@ label.important
 	position:relative;
 	width:95px;
 	height:30px;
-	background-image: url(../images/small_action_button.jpg);
-	background-repeat:no-repeat;
+	/*background-image: url(../images/small_action_button.jpg);
+	background-repeat:no-repeat;*/
+	background: #0063B0;
 	cursor:pointer;
 }
 .small_button span
@@ -106,19 +107,23 @@ label.important
 {
 	position:relative;
 	width:119px;
-	height:45px;
-	background-image: url(../images/big_action_button.jpg);
-	background-repeat:no-repeat;
+	height:35px;
+	/*background-image: url(../images/big_action_button.jpg);
+	background-repeat:no-repeat;*/
+	background: #0063B0;
 	cursor:pointer;
+	/********/
+	padding-top: 5px;
+	margin: 2px;
 }
 
 .big_button span
 {
-	position:absolute;
+	/*position:absolute;*/
 	width:100%;
 	top:35%;
 	color:#FFF;
-	font-size:13px;
+	font-size:11px;
 	font-weight:bold;
 	text-align:center;
 }
@@ -161,7 +166,19 @@ input
 	font-family:arial;
 }
 
-.clearfix:after 
+#search
+{
+	height: 33px;
+	background-image:url(../../pos/images/menubar/lupa.png);
+	background-repeat: no-repeat;
+	background-position: left;
+
+
+}
+
+
+
+.clearfix:after
 {
 	content: ".";
 	display: block;
@@ -174,7 +191,7 @@ input
 html[xmlns] .clearfix {	display: block; }
 * html .clearfix { height: 1%; }
 
-.allline:after 
+.allline:after
 {
 	content: ".";
 	display: block;

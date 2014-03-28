@@ -12,7 +12,7 @@
 	position:relative;
 	/*float:left;*/
 	background-color:#DDD;
-	padding: 3px 0px 3px 5px;
+	padding: 25px 0px 3px 5px;
 }
 #almacen_form span
 {
@@ -23,10 +23,10 @@
 {
 	position:absolute;
 	background-color:#DDD;
-	
-	right:250px;
+
+	right:265px;
 	top:3px;
-	
+
 }
 #mode_form span
 {
@@ -37,7 +37,7 @@
 {
 	position:absolute;
 	top:3px;
-	right:4px;	
+	right:4px;
 }
 
 
@@ -47,7 +47,7 @@
 	background-color:#BBBBBB;
 	width:100%;
 	padding: 8px 0px 8px 0px;
-	
+
 }
 
 #new_item_button_register
@@ -61,7 +61,7 @@
 {
  	border: 1px solid #ccc;
  	padding: 2px;
- 	
+
 }
 
 #item_label,#customer_label
@@ -79,12 +79,12 @@
 	position:relative;
 	width:100%;
 	padding:0px;
-	border-collapse:collapse;	
+	border-collapse:collapse;
 }
 
 #register th
-{	
-	background-color:#4386a1;
+{
+	background-color:#0063B0;
 	padding:5px;
 	text-align:center;
 	color:#FFFFFF;
@@ -106,7 +106,7 @@
 	padding:5px;
 	font-family:Arial;
 	font-size:13px;
-	
+
 }
 
 #sale_details

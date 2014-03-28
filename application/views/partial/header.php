@@ -7,6 +7,9 @@
 	<title><?php echo $this->config->item('company').' -- '.$this->lang->line('common_powered_by').' PHP Point Of Sale'; ?></title>
 	<link rel="stylesheet" rev="stylesheet" href="<?php echo base_url();?>css/phppos.css" />
 	<link rel="stylesheet" rev="stylesheet" href="<?php echo base_url();?>css/phppos_print.css"  media="print"/>
+
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+
 	<script src="<?php echo base_url();?>js/jquery-1.2.6.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 	<!--<script src="http://code.jquery.com/jquery-1.7.1.js" type="text/javascript" language="javascript" charset="UTF-8"></script>-->
 	<script src="<?php echo base_url();?>js/jquery.color.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
@@ -77,5 +80,5 @@ html {
 <div id="content_area_wrapper">
 <?php if($controller_name == "items"){
 echo "<div id='content_area_items'>";
-}else 
+}else
  { echo "<div id='content_area'>"; } ?>

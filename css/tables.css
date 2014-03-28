@@ -4,11 +4,11 @@
 	width:100%;
 	background-color:#EEEEEE;
 	background-image:url(../images/checkbox_arrow.gif);
-	height:20px;
-	border-top:1px solid #CCCCCC;	
+	height:30px;
+	border-top:1px solid #CCCCCC;
 	background-position:5px 10px;
-	background-repeat:no-repeat;	
-	padding:3px 0px 3px 0px;
+	background-repeat:no-repeat;
+	/*padding:10px 0px 10px 0px;*/
 }
 
 #table_action_header ul
@@ -23,22 +23,22 @@
 {
 	margin-left:8px;
 	margin-right:4px;
-	
+
 }
 
 #table_action_header ul li span
 {
-	background-color:#0a6184;
-	border:2px solid #DDDDDD;
+	background-color:#0063B0;
+	/*border:2px solid #DDDDDD;*/
 	font-size:14px;
-	padding:2px 5px 2px 5px;
-	
+	padding:3px;
+
 }
 
 #table_action_header a
 {
 	text-decoration:none;
-	color:#FFF;	
+	color:#FFF;
 }
 
 #table_holder
@@ -47,7 +47,7 @@
 	margin-bottom:50px;
 }
 
-table.tablesorter 
+table.tablesorter
 {
 	position:relative;
 	width:100%;
@@ -55,15 +55,15 @@ table.tablesorter
 	border-collapse:collapse;
 }
 
-table.tablesorter thead tr th, table.tablesorter tfoot tr th 
+table.tablesorter thead tr th, table.tablesorter tfoot tr th
 {
 	color:#FFFFFF;
 	text-align:left;
-	background-color:#4386a1;
-	padding: 0px 5px 0px 5px;
+	background-color:#0063B0;
+	padding: 10px 5px 10px 5px;
 }
 
-table.tablesorter thead tr .header 
+table.tablesorter thead tr .header
 {
 	background-image: url(../images/tables/bg.gif);
 	background-repeat: no-repeat;
@@ -71,18 +71,41 @@ table.tablesorter thead tr .header
 	cursor: pointer;
 }
 
-table.tablesorter tbody td 
+table.tablesorter tbody td
 {
 	color: #3D3D3D;
 	background-color: #FFF;
 	vertical-align: top;
 	padding: 0px 5px 0px 5px;
-	
+
 }
 
-table.tablesorter tbody td 
+table.tablesorter tbody td
 {
-	border-bottom:1px solid #DDDDDD;
+	border-bottom: 1.5px dashed silver;
+    font-family: verdana;
+    font-size: 0.8em;
+    padding: 10px 0;
+    text-align: left;
+    background: #F8F8F8;
+    -webkit-transition: all 2s ease-out;
+    -moz-transition: all 2s ease-out;
+    -ms-transition: all 2s ease-out;
+    -o-transition: all 2s ease-out;
+    transition: all 2s ease-out;
+    cursor: pointer;
+
+}
+
+table.tablesorter tbody td:first-child
+{
+	    padding: 10px 5px;
+
+}
+
+a.thickbox{
+
+	text-decoration: none;
 }
 
 table.tablesorter tbody td.over
@@ -100,17 +123,17 @@ table.tablesorter tbody td.paint
 	background-color:#FFC;
 }
 
-table.tablesorter thead tr .headerSortUp 
+table.tablesorter thead tr .headerSortUp
 {
 	background-image: url(../images/tables/asc.gif);
 }
 
-table.tablesorter thead tr .headerSortDown 
+table.tablesorter thead tr .headerSortDown
 {
 	background-image: url(../images/tables/desc.gif);
 }
 
-table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp 
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp
 {
 	background-color: #8dbdd8;
 }
@@ -120,17 +143,17 @@ table.innertable
 	display: none;
 }
 
-table.innertable thead tr th 
+table.innertable thead tr th
 {
 	background-color: #0a6184;
 }
 
-table.innertable tbody tr td 
+table.innertable tbody tr td
 {
 	background-color: #DDD;
 }
 
-table.tabledist 
+table.tabledist
 {
 	position:relative;
 	width:100%;
@@ -139,7 +162,7 @@ table.tabledist
 	font-size:14px;
 }
 
-table.tabledist thead tr th, table.tablesorter tfoot tr th 
+table.tabledist thead tr th, table.tablesorter tfoot tr th
 {
 	color:#FFFFFF;
 	text-align:left;
@@ -147,7 +170,7 @@ table.tabledist thead tr th, table.tablesorter tfoot tr th
 	padding: 0px 2px 0px 2px;
 }
 
-table.tabledist thead tr .header 
+table.tabledist thead tr .header
 {
 	background-image: url(../images/tables/bg.gif);
 	background-repeat: no-repeat;
@@ -155,16 +178,16 @@ table.tabledist thead tr .header
 	cursor: pointer;
 }
 
-table.tabledist tbody td 
+table.tabledist tbody td
 {
 	color: #3D3D3D;
 	background-color: #FFF;
 	vertical-align: top;
 	padding: 0px 2px 0px 2px;
-	
+
 }
 
-table.tabledist tbody td 
+table.tabledist tbody td
 {
 	border-bottom:1px solid #DDDDDD;
 }
@@ -184,17 +207,17 @@ table.tabledist tbody td.paint
 	background-color:#FFC;
 }
 
-table.tabledist thead tr .headerSortUp 
+table.tabledist thead tr .headerSortUp
 {
 	background-image: url(../images/tables/asc.gif);
 }
 
-table.tabledist thead tr .headerSortDown 
+table.tabledist thead tr .headerSortDown
 {
 	background-image: url(../images/tables/desc.gif);
 }
 
-table.tabledist thead tr .headerSortDown, table.tabledist thead tr .headerSortUp 
+table.tabledist thead tr .headerSortDown, table.tabledist thead tr .headerSortUp
 {
 	background-color: #8dbdd8;
 }
