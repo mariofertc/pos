@@ -90,11 +90,19 @@ tr{
 #page_title
 {
 	margin-top:8px;
-	font-size:30px;
-	font-weight:bold;
+	font-size:20px;
+	/*font-weight:bold;*/
 	color:#000000;
 	text-align:center;
+	font-family: 'Roboto', sans-serif;
 
+}
+
+legend{
+	background: #0063B0;
+	padding: 10px;
+	color: white;
+	border-radius: 10px;
 }
 
 #page_subtitle
@@ -185,6 +193,7 @@ tr{
 #config_wrapper
 {
 	text-align:center;
+
 }
 
 #config_info
@@ -195,6 +204,11 @@ tr{
 	margin-bottom:30px;
 	margin-top:10px;
 	text-align:left;
+	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 0 5px;
+	font-family: 'Roboto', sans-serif !important;
+	border-radius: 10px;
+	border: none;
 }
 
 #footer
