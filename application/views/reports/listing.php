@@ -1,10 +1,9 @@
-
 <?php $this->load->view("partial/header"); ?>
 <div id="page_title" style="margin-bottom:8px;"><?php echo $this->lang->line('reports_reports'); ?></div>
 <div id="welcome_message"><?php echo $this->lang->line('reports_welcome_message'); ?>
-<ul id="report_list">
-	<li><h3><?php echo $this->lang->line('reports_graphical_reports'); ?></h3>
-		<ul>
+<div id="report_list">
+	<div><h3><?php echo $this->lang->line('reports_graphical_reports'); ?></h3>
+		<div>
 			<li><a href="<?php echo site_url('reports/graphical_summary_sales');?>"><?php echo $this->lang->line('reports_sales'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/graphical_summary_categories');?>"><?php echo $this->lang->line('reports_categories'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/graphical_summary_customers');?>"><?php echo $this->lang->line('reports_customers'); ?></a></li>
@@ -14,11 +13,11 @@
 			<li><a href="<?php echo site_url('reports/graphical_summary_taxes');?>"><?php echo $this->lang->line('reports_taxes'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/graphical_summary_discounts');?>"><?php echo $this->lang->line('reports_discounts'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/graphical_summary_payments');?>"><?php echo $this->lang->line('reports_payments'); ?></a></li>
-		</ul>
-	</li>
+		</div>
+	</div>
 	
-	<li><h3><?php echo $this->lang->line('reports_summary_reports'); ?></h3>
-		<ul>
+	<div><h3><?php echo $this->lang->line('reports_summary_reports'); ?></h3>
+		<div>
 			<li><a href="<?php echo site_url('reports/summary_sales');?>"><?php echo $this->lang->line('reports_sales'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/summary_categories');?>"><?php echo $this->lang->line('reports_categories'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/summary_customers');?>"><?php echo $this->lang->line('reports_customers'); ?></a></li>
@@ -28,34 +27,34 @@
 			<li><a href="<?php echo site_url('reports/summary_taxes');?>"><?php echo $this->lang->line('reports_taxes'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/summary_discounts');?>"><?php echo $this->lang->line('reports_discounts'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/summary_payments');?>"><?php echo $this->lang->line('reports_payments'); ?></a></li>
-		</ul>
-	</li>
+		</div>
+	</div>
 	
-	<li><h3><?php echo $this->lang->line('reports_detailed_reports'); ?></h3>
-		<ul>
+	<div><h3><?php echo $this->lang->line('reports_detailed_reports'); ?></h3>
+		<div>
 			<li><a href="<?php echo site_url('reports/detailed_sales');?>"><?php echo $this->lang->line('reports_sales'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/detailed_receivings');?>"><?php echo $this->lang->line('reports_receivings'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/specific_customer');?>"><?php echo $this->lang->line('reports_customer'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/specific_employee');?>"><?php echo $this->lang->line('reports_employee'); ?></a></li>
-		</ul>
+		</div>
 	
-	</li>
+	</div>
 	
-	<li><h3><?php echo $this->lang->line('reports_inventory_reports'); ?></h3>
-		<ul>
+	<div><h3><?php echo $this->lang->line('reports_inventory_reports'); ?></h3>
+		<div>
 			<!--<li><a href="<?php //echo site_url('reports/inventory_low');?>"><?php //echo $this->lang->line('reports_low_inventory'); ?></a></li>-->
 			<li><a href="<?php echo site_url('reports/inventory_low_almacen');?>"><?php echo $this->lang->line('reports_low_inventory'); ?></a></li>
 			<!--<li><a href="<?php //echo site_url('reports/inventory_summary');?>"><?php //echo $this->lang->line('reports_inventory_summary'); ?></a></li>-->
 			<li><a href="<?php echo site_url('reports/inventory_summary_almacen');?>"><?php echo $this->lang->line('reports_inventory_summary_almacen'); ?></a></li>
-		</ul>
-	</li>
+		</div>
+	</div>
 	<!--<li><h3><?php echo $this->lang->line('reports_cuentas'); ?></h3>
 		<ul>
 			<li><a href="<?php echo site_url('reports/detailed_por_cobrar');?>"><?php echo $this->lang->line('reports_por_cobrar'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/detailed_porpagar');?>"><?php echo $this->lang->line('reports_por_pagar'); ?></a></li>
 		</ul>
 	</li>-->
-</ul>
+</div>
 <?php
 if(isset($error))
 {
