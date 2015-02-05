@@ -144,7 +144,7 @@ class Reports extends Secure_area
 	
 	
 	
-	//Específico SummarySale. Esto elimina los dos metodos de arriba.
+	//Especï¿½fico SummarySale. Esto elimina los dos metodos de arriba.
 	function specific_summary_sale_input()
 	{
 		$data = $this->_get_common_report_data();
@@ -160,7 +160,7 @@ class Reports extends Secure_area
 		$this->load->view("reports/specific_input",$data);	
 	}
 	
-	//Fin Específico SummarySale
+	//Fin Especï¿½fico SummarySale
 	
 	//Summary categories report
 	function summary_categories($start_date, $end_date, $export_excel=0)
@@ -1139,7 +1139,7 @@ class Reports extends Secure_area
 		$this->load->view("reports/tabular",$data);	
 	}
 	
-	//Específico SummarySale. Esto elimina los dos metodos de arriba.
+	//Especï¿½fico SummarySale. Esto elimina los dos metodos de arriba.
 	function specific_summary_almacen_input()
 	{
 		$data = $this->_get_common_report_data();
@@ -1155,4 +1155,3 @@ class Reports extends Secure_area
 		$this->load->view("reports/specific_input_almacen",$data);	
 	}
 }
-?>

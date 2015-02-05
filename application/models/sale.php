@@ -226,4 +226,3 @@ class Sale extends CI_Model
 		$this->db->query('UPDATE '.$this->db->dbprefix('sales_items_temp'). ' SET total=subtotal WHERE total IS NULL');
 	}
 }
-?>

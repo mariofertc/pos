@@ -53,4 +53,3 @@ class Summary_sales extends Report
 		return $this->db->get()->result_array();
 	}
 }
-?>

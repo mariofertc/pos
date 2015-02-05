@@ -43,6 +43,19 @@ class Item extends CI_Model
 	/*
 	Returns all the items
 	*/
+	function get_total_items()
+	{
+		$this->db->from('items');
+		$this->db->join('suppliers','suppliers.person_id=items.supplier_id', 'left');
+		$this->db->where('items.deleted',0);
+		$this->db->order_by("name", "asc");
+                $result = $this->db->get(); 
+                return $result->num_rows();
+        }
+	/**
+         * Returns all the items
+         * Deprecated
+	*/
 	function get_all_prov()
 	{
 		$this->db->from('items');

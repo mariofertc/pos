@@ -49,4 +49,3 @@ class Detailed_sales extends Report
 		return $this->db->get()->row_array();
 	}
 }
-?>

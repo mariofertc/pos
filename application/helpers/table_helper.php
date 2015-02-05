@@ -207,10 +207,7 @@ Gets the html table to manage items.
 */
 function get_items_manage_table($items,$controller)
 {
-	$CI =& get_instance();
-	
-	
-	
+	$CI =& get_instance();	
 	
 	$table='<table class="tablesorter" id="sortable_table">';
 	$headers = array('<input type="checkbox" id="select_all" />', 

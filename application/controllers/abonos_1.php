@@ -12,27 +12,13 @@ class Abonos extends Secure_area
 
 	function index()
 	{
-		return $this->load->view('abonos/menu');
-                
 		//$this->_reload();
 		// $this->output->enable_profiler(TRUE);
+		$data['controller_name']=strtolower($this->uri->segment(1));
+		$data['form_width']=$this->get_form_width();
+		$data['manage_table']=get_abono_manage_table($this->Abono->get_all(),$this);
+		$this->load->view('abonos/manage',$data);
 	}
-        
-        function abonos()
-        {
-            $data['controller_name']=strtolower($this->uri->segment(1));
-		$data['form_width']=$this->get_form_width();
-		$data['manage_table']=get_abono_manage_table($this->Abono->get_all(),$this);
-		$this->load->view('abonos/manage',$data);
-        }
-        
-        function abonos_por_persona()
-        {
-            $data['controller_name']=strtolower($this->uri->segment(1));
-		$data['form_width']=$this->get_form_width();
-		$data['manage_table']=get_abono_manage_table($this->Abono->get_all(),$this);
-		$this->load->view('abonos/manage',$data);
-        }
 
 	function item_search()
 	{

@@ -22,9 +22,9 @@ swfobject.embedSWF(
 	<div class="summary_row"><?php echo $this->lang->line('reports_'.$name). ': '.to_currency($value); ?></div>
 <?php }?>
 <?php if(isset($summary_almacen)){
-var_dump($colores)."22";
 foreach($summary_almacen as $name) { ?>
-	<div class="summary_row"><?php echo $name['almacen'].':'; ?></div>
+        <hr align="center">
+	<div class="summary_row"><b><?php echo $name['almacen']; ?></b></div>
 	<div class="summary_row"><?php echo $this->lang->line('reports_subtotal'). ': '.to_currency($name['subtotal']); ?></div>
 	<div class="summary_row"><?php echo $this->lang->line('reports_total'). ': '.to_currency($name['total']); ?></div>
 	<div class="summary_row"><?php echo $this->lang->line('reports_tax'). ': '.to_currency($name['tax']); ?></div>

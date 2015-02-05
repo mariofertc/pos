@@ -9,27 +9,26 @@ class Items extends Secure_area implements iData_controller
 		// $this->load->library('my_pagination');
 	}
 
-	function index()
-	{
+	function index(){
 		$this->show();
 	}
 	
 	function show()
 	{
+            
 		// $this->output->enable_profiler(TRUE);
 		$base_url = $this->uri->segment(3);
 		$start_row = str_replace("&per_page=","",$base_url);
-		$per_page = 100;
+		$per_page = 50;
 		if($start_row == '')
 		 $start_row = 0;
 		$data['yop'] = str_replace("&per_page=","",$base_url);
 		$data['controller_name']=strtolower($this->uri->segment(1));
 		$data['form_width']=$this->get_form_width();
-		$cllItem = $this->Item->get_all_prov();
-		$total_rows = $cllItem->num_rows();
+		//$cllItem = $this->Item->get_all_prov();
+		$total_rows = $this->Item->get_total_items();
 		$data['manage_table']=get_items_manage_table($this->Item->get_all_limit_prov($start_row,$per_page),$this);
-		
-		//Paginación
+		//Paginaciï¿½n
 		//if(!$this->pagination) {
 			$this->load->library('pagination');
 		//}
@@ -622,4 +621,3 @@ class Items extends Secure_area implements iData_controller
 		return 360;
 	}
 }
-?>
