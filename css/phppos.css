@@ -18,7 +18,9 @@ body
 	/*background-color:#f7f7f7;*/
 	font-family: 'Roboto', sans-serif;
 	background-attachment: fixed;
-    background-image: url("../images/city5.png"), url("../../images/cenefa1.jpg"), url("../../images/fd.gif");
+    background-image: url("../images/city5.png");
+/*    , url("../../images/cenefa1.jpg"), url("../../images/fd.gif");
+    background-image: url("../images/city5.png"), url("../../images/cenefa1.jpg"), url("../../images/fd.gif");*/
     background-position: center bottom, center top;
     background-repeat: repeat-x, repeat-x, repeat;
 }

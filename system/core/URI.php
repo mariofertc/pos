@@ -5,8 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @author		EllisLab Dev Team
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -23,7 +24,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	URI
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/uri.html
  */
 class CI_URI {
@@ -216,19 +217,7 @@ class CI_URI {
 			return '/';
 		}
 
-		//yo
-		// $uri = parse_url($uri, PHP_URL_PATH);
-		// Parse_url will fail on segments that look like "foo:number". It is the
-		// colon that appears to be causing it (probably because parse_url thinks
-		// that it is a port number, and thus malformed). So, if the pattern is
-		// found it needs to be worked around.
-		if (preg_match("/:\d/", $uri))
-		{
-		  // Substitue colons, parse the URI, reinstate colons again
-		  $uri = str_replace('{C0L0N}',':',parse_url(str_replace(':','{C0L0N}',$uri),PHP_URL_PATH));
-		}
-		// Otherwise parse_url should work without problems
-		else $uri = parse_url($uri, PHP_URL_PATH);  
+		$uri = parse_url($uri, PHP_URL_PATH);
 
 		// Do some final cleaning of the URI and return it
 		return str_replace(array('//', '../'), '/', trim($uri, '/'));
