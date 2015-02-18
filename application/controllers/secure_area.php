@@ -1,6 +1,7 @@
 <?php
 class Secure_area extends CI_Controller 
 {
+    public $data;
 	/*
 	Controllers that are considered secure extend Secure_area, optionally a $module_id can
 	be set to also check if a user can access a particular module in the system.
@@ -24,9 +25,8 @@ class Secure_area extends CI_Controller
 		
 		//load up global data
 		$logged_in_employee_info=$this->Employee->get_logged_in_employee_info();
-		$data['allowed_modules']=$this->Module->get_allowed_modules($logged_in_employee_info->person_id);
-		$data['user_info']=$logged_in_employee_info;
-		$this->load->vars($data);
+		$this->data['allowed_modules']=$this->Module->get_allowed_modules($logged_in_employee_info->person_id);
+		$this->data['user_info']=$logged_in_employee_info;
+//		$this->load->vars($data);
 	}
 }
-?>

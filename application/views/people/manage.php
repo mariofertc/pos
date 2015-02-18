@@ -1,4 +1,35 @@
 <?php $this->load->view("partial/header"); ?>
+
+<div id="title_bar">
+	<div id="title" class="float_left"><?php echo $this->lang->line('common_list_of').' '.$this->lang->line('module_'.$controller_name); ?></div>
+	<div id="new_button">
+		<?php echo anchor("$controller_name/view/-1?width=$form_width",
+		"<div class='big_button' style='float: left;'><span>".$this->lang->line($controller_name.'_new')."</span></div>",
+		array('class'=>'thickbox none','title'=>$this->lang->line($controller_name.'_new')));
+		?>
+		<?php echo anchor("$controller_name/excel_import?width=$form_width",
+		"<div class='big_button' style='float: left;'><span>Excel Import</span></div>",
+		array('class'=>'thickbox none','title'=>'Import '. $this->lang->line('module_'.$controller_name) .' from Excel'));
+		?>
+	</div>
+</div>
+<div id="table_action_header">
+	<ul>
+		<li class="float_left"><span><?php echo anchor("$controller_name/delete",$this->lang->line("common_delete"),array('id'=>'delete')); ?></span></li>
+		<li class="float_left"><span><a href="#" id="email"><?php echo $this->lang->line("common_email");?></a></span></li>
+		<li class="float_right">
+		<img src='<?php echo base_url()?>images/spinner_small.gif' alt='spinner' id='spinner' />
+		<?php echo form_open("$controller_name/search",array('id'=>'search_form')); ?>
+		<input type="text" name ='search' id='search'/>
+		</form>
+		</li>
+	</ul>
+</div>
+<div id="table_holder">
+<?php echo $manage_table; ?>
+</div>
+<div id="feedback_bar"></div>
+
 <script type="text/javascript">
 $(document).ready(function() 
 { 
@@ -55,34 +86,4 @@ function post_person_form_submit(response)
 	}
 }
 </script>
-
-<div id="title_bar">
-	<div id="title" class="float_left"><?php echo $this->lang->line('common_list_of').' '.$this->lang->line('module_'.$controller_name); ?></div>
-	<div id="new_button">
-		<?php echo anchor("$controller_name/view/-1?width=$form_width",
-		"<div class='big_button' style='float: left;'><span>".$this->lang->line($controller_name.'_new')."</span></div>",
-		array('class'=>'thickbox none','title'=>$this->lang->line($controller_name.'_new')));
-		?>
-		<?php echo anchor("$controller_name/excel_import?width=$form_width",
-		"<div class='big_button' style='float: left;'><span>Excel Import</span></div>",
-		array('class'=>'thickbox none','title'=>'Import '. $this->lang->line('module_'.$controller_name) .' from Excel'));
-		?>
-	</div>
-</div>
-<div id="table_action_header">
-	<ul>
-		<li class="float_left"><span><?php echo anchor("$controller_name/delete",$this->lang->line("common_delete"),array('id'=>'delete')); ?></span></li>
-		<li class="float_left"><span><a href="#" id="email"><?php echo $this->lang->line("common_email");?></a></span></li>
-		<li class="float_right">
-		<img src='<?php echo base_url()?>images/spinner_small.gif' alt='spinner' id='spinner' />
-		<?php echo form_open("$controller_name/search",array('id'=>'search_form')); ?>
-		<input type="text" name ='search' id='search'/>
-		</form>
-		</li>
-	</ul>
-</div>
-<div id="table_holder">
-<?php echo $manage_table; ?>
-</div>
-<div id="feedback_bar"></div>
 <?php $this->load->view("partial/footer"); ?>

@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "homepage": "https://github.com/mariofertc/pos",
+  "authors": [
+    "Mario Torres <mariofertc@mixmail.com>"
+  ],
+  "description": "Bootstrap Template",
+  "main": "main.css",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "template",
+    "bootstrap"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "startbootstrap-sb-admin-2": "~1.0.5",
+    "jquery-validation": "~1.13.1",
+    "jquery-ui": "~1.11.2"
+  }
+}

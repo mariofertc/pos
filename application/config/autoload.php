@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database','session','form_validation','session',
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('form','url','table','text','currency', 'html','date');
+$autoload['helper'] = array('form','url','table','text','currency', 'html','date', 'common');
 
 
 /*
@@ -112,6 +112,6 @@ $autoload['language'] = array('common', 'config', 'customers', 'employees', 'err
 //$autoload['model'] = array('Appconfig');
 $autoload['model'] = array('Almacen','Appconfig','Person','Customer','Employee','Module','Item', 'Item_taxes', 'Sale', 'Sale_suspended','Supplier','Inventory','Receiving', 'Payment', 'Box', 'Abono', 'Porpagarm', 'Almacen', 'Almacen_stock');
 
-
+$autoload['sparks'] = array('Twiggy/0.8.5');
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

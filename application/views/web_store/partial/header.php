@@ -7,8 +7,12 @@
 	<title><?php echo $this->config->item('company').' -- '.$this->lang->line('common_powered_by').' PHP Point Of Sale'; ?></title>
 	<link rel="stylesheet" rev="stylesheet" href="<?php echo base_url();?>css/phppos.css" />
 	<link rel="stylesheet" rev="stylesheet" href="<?php echo base_url();?>css/phppos_print.css"  media="print"/>
+	<link rel="stylesheet" rev="stylesheet" href="<?php echo base_url();?>assets/bower_components/bootstrap/dist/css/bootstrap.css"  media="print"/>
+	<link rel="stylesheet" rev="stylesheet" href="<?php echo base_url();?>assets/bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css"  media="print"/>
+        
+        
 
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'/>
+	<!--<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'/>-->
 <style type="text/css">
 html {
     overflow: auto;
