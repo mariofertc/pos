@@ -26,5 +26,3 @@ class Home extends Secure_area {
     }
 
 }
-
-?>

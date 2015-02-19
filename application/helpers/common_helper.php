@@ -18,5 +18,10 @@ function line($text) {
     return $CI->lang->line($text);
 }
 
+function config($var){
+    $CI = & get_instance();
+    return $CI->config->item($var);
+}
+
 /* End of file common.php */
 /* Location: ./helpers/common.php */

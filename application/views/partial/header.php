@@ -155,7 +155,7 @@
         
                     </div>
                 </div>
-                <div id="content_area_wrapper">
+                <div id="content_area_wrapper">-->
         <?php
         if ($controller_name === "items") {
             echo "<div id='content_area_items'>";

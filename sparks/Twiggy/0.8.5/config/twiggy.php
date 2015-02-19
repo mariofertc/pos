@@ -195,7 +195,7 @@ $config['twiggy']['register_functions'] = array
 'line','base_url','site_url','host', 
     'form_open', 'form_close', 'form_submit',
     'validation_errors', 'form_input', 'form_password', 'set_value',
-    
+    'config'
 );
 
 
