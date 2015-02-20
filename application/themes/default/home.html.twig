@@ -4,6 +4,7 @@
 {% endblock %}
 {% block content %}
     <div id="page-wrapper">
+        {{data}}
         <h3>{{line('common_welcome_message')}}</h3>
         {% for module in allowed_modules.result %}
             {{ loop.index%4==0 ? '<div class = "row">':''}}

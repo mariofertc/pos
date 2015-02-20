@@ -13,10 +13,9 @@ class Home extends Secure_area {
 
     function index() {
         // $this->output->enable_profiler(TRUE);
-//        $data = $this->load->get_var('data');
-        $this->data['controller_name'] = $this->controller_name;
-        $this->data['title'] = 'home_home';
-        $this->twiggy->set($this->data);
+        $data['controller_name'] = $this->controller_name;
+        $data['title'] = 'home_home';
+        $this->twiggy->set($data);
         $this->twiggy->display('home');
 //        $this->load->view("home", $data);
     }
