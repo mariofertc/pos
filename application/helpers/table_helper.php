@@ -1,8 +1,76 @@
 <?php
+function get_people_manage_table()
+{
+	$CI =& get_instance();
+	$table='<table cellpadding="0" cellspacing="0" border="0" class="display" id="sortable_table">
+		<thead>
+			<tr>
+				<th width="5%"><input type="checkbox" id="select_all" /></th>
+				<th width="25%">'.$CI->lang->line('common_first_name').'</th>
+				<th width="25%">'.$CI->lang->line('common_last_name').'</th>
+				<th width="12%">'.$CI->lang->line('common_email').'</th>
+				<th width="15%">'.$CI->lang->line('common_phone_number').'</th>
+				<th width="25%">Acciones</th> 
+			</tr>
+		</thead>
+		<tbody>
+	<!--Esto se llena con  ajax cloro -->	
+		</tbody>
+		<tfoot>
+			
+		</tfoot>
+	</table>';   
+        
+	return $table;
+}
+
+function get_people_manage_table_data_rows($data,$controller)
+{
+	$CI =& get_instance();
+	$table_data_rows='';
+	foreach($data->result() as $beneficiario)
+	{
+		$table_data_rows.=get_person_data_row($beneficiario,$controller);
+	}
+	if($data->num_rows()==0)
+	{
+		$table_data_rows.="<tr><td colspan='7'><div class='warning_message' style='padding:7px;'>".$CI->lang->line('common_no_persons_to_display')."</div></tr></tr>";
+	}
+	return $table_data_rows;
+}
+
+function get_person_data_row($data,$controller)	
+{	
+	$CI =& get_instance();
+	$controller_name=$CI->uri->segment(1);
+	$width = $controller->get_form_width();
+	$height = $controller->get_form_height()+50;
+	$id  = mb_strtolower($data['_id']);
+	
+	$table_data_row='<tr>';
+	$table_data_row.="<td><input type='checkbox' id='$id' value='".$data['_id']."'/></td>";
+	$table_data_row.='<td>'.character_limiter($data['nombres']).'</td>';
+	$table_data_row.='<td>'.character_limiter($data['apellidos']).'</td>';
+	$table_data_row.='<td>'.character_limiter($data['ci']).'</td>';
+	$table_data_row.='<td>'.character_limiter($data['sector']).'</td>';		
+        $table_data_row.='<td>'.character_limiter($data['coordenadas']).'</td>';
+        $table_data_row.='<td>'.character_limiter($data['sexo']).'</td>';
+        $table_data_row.='<td>'.character_limiter($data['edad']).'</td>';		
+	$table_data_row.='<td>'. anchor($data . "/beneficiarios/views/$id/?width=$width&height=$height", 
+							img(array('src' => 'images/ico/page_edit.png','alt' => 'Editar','title' => 'Editar','class' => 'IconosOpcion')), 
+							array('class'=>'thickbox','title'=>$CI->lang->line($data.'_update')));
+	$table_data_row.='</tr>';
+	
+	return $table_data_row;
+}
+
+
+
+
 /*
 Gets the html table to manage people.
 */
-function get_people_manage_table($people,$controller)
+function get_people_manage_table_old($people,$controller)
 {
 	$CI =& get_instance();
 	$table='<table class="tablesorter" id="sortable_table">';
@@ -28,7 +96,7 @@ function get_people_manage_table($people,$controller)
 /*
 Gets the html data rows for the people.
 */
-function get_people_manage_table_data_rows($people,$controller)
+function get_people_manage_table_data_rows_old($people,$controller)
 {
 	$CI =& get_instance();
 	$table_data_rows='';
@@ -46,7 +114,7 @@ function get_people_manage_table_data_rows($people,$controller)
 	return $table_data_rows;
 }
 
-function get_person_data_row($person,$controller)
+function get_person_data_row_old($person,$controller)
 {
 	$CI =& get_instance();
 	$controller_name=$CI->uri->segment(1);

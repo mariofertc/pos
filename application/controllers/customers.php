@@ -4,23 +4,56 @@ require_once ("person_controller.php");
 
 class Customers extends Person_controller {
 
-    protected $controller;
+    protected $controller_name;
 
     function __construct() {
-        parent::__construct($this->controller);
-        $this->controller = 'customers';
+        parent::__construct($this->controller_name);
+        $this->controller_name = 'customers';
     }
 
     function index() {
 //        $data['manage_table'] = get_people_manage_table($this->Customer->get_all(), $this);
 //        $this->load->view('people/manage', $data);
-        $data['controller_name'] = $this->controller;
+        $data['controller_name'] = $this->controller_name;
         $data['form_width'] = $this->get_form_width();
-        $data['manage_table'] = get_people_manage_table($this->Customer->get_all(), $this);
+//        $data['manage_table'] = get_people_manage_table($this->Customer->get_all(), $this);
+        $data['manage_table'] = get_people_manage_table();
         $data['title'] = 'home_home';
+        
+//        $data['admin_table']=get_beneficios_admin_table();
+//        $this->twiggy->template('beneficiarios/manage')->display();
+        
+        
         $this->twiggy->set($data);
         $this->twiggy->display('people/manage');
     }
+    
+    function mis_datos() {
+		$data['controller_name'] = $this->controller_name;
+		$data['form_width'] = $this->get_form_width();
+		$data['form_height'] = 150;
+		$aColumns = array('person_id', 'first_name', 'last_name', 'email','phone_number');
+		//Eventos Tabla
+		$cllAccion = array(
+				'1' => array(
+						'function' => "view",
+						'common_language' => "common_edit",
+						'language' => "_update",
+						'width' => $this->get_form_width(),
+						'height' => $this->get_form_height()),
+				'2' => array('function' => "load_muestreos",
+						'common_language' => "estaciones_muestra",
+						'language' => "_muestra_actualiza",
+						'height' => 200),
+				'3' => array('function' => "get_datos",
+						'common_language' => "estaciones_datos",
+						'language' => "_datos_ver",
+						'height' => 200,
+						'width' => 450
+		));
+		echo getData($this->Customer, $aColumns, $cllAccion);
+	}
+
 
     /*
       Returns customer table data rows. This will be called with AJAX.
@@ -190,7 +223,8 @@ class Customers extends Person_controller {
     function get_form_width() {
         return 350;
     }
+    function get_form_height() {
+        return 550;
+    }
 
 }
-
-?>
