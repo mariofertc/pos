@@ -41,16 +41,7 @@ class Customers extends Person_controller {
 						'language' => "_update",
 						'width' => $this->get_form_width(),
 						'height' => $this->get_form_height()),
-				'2' => array('function' => "load_muestreos",
-						'common_language' => "estaciones_muestra",
-						'language' => "_muestra_actualiza",
-						'height' => 200),
-				'3' => array('function' => "get_datos",
-						'common_language' => "estaciones_datos",
-						'language' => "_datos_ver",
-						'height' => 200,
-						'width' => 450
-		));
+				);
 		echo getData($this->Customer, $aColumns, $cllAccion);
 	}
 

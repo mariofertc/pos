@@ -5,7 +5,7 @@
  * Licensed under the MIT License: http://www.opensource.org/licenses/mit-license.php
 */
 		  
-var tb_pathToImage = "images/loadingAnimation.gif";
+var tb_pathToImage = "../images/loadingAnimation.gif";
 
 /*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
 
@@ -281,7 +281,8 @@ function tb_remove() {
 
 function tb_position() {
 $("#TB_window").css({marginLeft: '-' + parseInt((TB_WIDTH / 2),10) + 'px', width: TB_WIDTH + 'px'});
-	if ( !(jQuery.browser.msie && jQuery.browser.version < 7)) { // take away IE6
+//	if ( !(jQuery.browser.msie && jQuery.browser.version < 7)) { // take away IE6
+	if ( !(navigator.userAgent.toUpperCase().indexOf('MSIE') >= 0 && jQuery.browser.version < 7)) { // take away IE6
 		$("#TB_window").css({marginTop: '-' + parseInt((TB_HEIGHT / 2),10) + 'px'});
 	}
 }

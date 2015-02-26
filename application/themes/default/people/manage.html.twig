@@ -1,8 +1,10 @@
 {% extends _layout %}
 {% block css %}
     {{parent()}}
-     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
- {%endblock%}
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
+    <link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>
+{%endblock%}
 {% block header %}
     {% include 'partials/header.html.twig' %}
 {% endblock %}
@@ -10,90 +12,79 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">{{line('common_list_of')~' '~line('module_'~controller_name)}}</h1>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading"> DataTables Advanced Tables </div>
+                    <div class="panel-heading">{{line('common_list_of')~' '~line('module_'~controller_name)}}
+                        <div class="button-group">
+                          
+                                {{ anchor(controller_name~"/view/-1?width="~form_width,
+                "<div class='btn btn-default'><span>"~line(controller_name~'_new')~"</span></div>",
+                {'class':'thickbox none','title':line(controller_name~'_new')})}}
+                                {{anchor(controller_name~"/excel_import?width="~form_width,
+                "<div class='btn btn-info' style='float: left;'><span>Excel Import</span></div>",
+                {'class':'thickbox none','title':'Import '~ line('module_'~controller_name) ~' from Excel'})}}
+                          
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        {{ anchor(controller_name~"/delete",line("common_delete"),{'id':'delete', 'class':'btn btn-warning'})}}
+                        <a href="#" id="email" class="btn btn-default">{{line("common_email")}}</a>
+                    </div>
+
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-
+                            {{  manage_table }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="title_bar">
-            <div id="title" class="float_left">{{line('common_list_of')~' '~line('module_'~controller_name)}}</div>
-            <div id="new_button">
-                {{ anchor(controller_name~"/view/-1?width="~form_width,
-                "<div class='big_button' style='float: left;'><span>"~line(controller_name~'_new')~"</span></div>",
-                {'class':'thickbox none','title':line(controller_name~'_new')})}}
-                {{anchor(controller_name~"/excel_import?width="~form_width,
-                "<div class='big_button' style='float: left;'><span>Excel Import</span></div>",
-                {'class':'thickbox none','title':'Import '~ line('module_'~controller_name) ~' from Excel'})}}
-            </div>
-        </div>
-        <div id="table_action_header">
-            <ul>
-                <li class="float_left"><span>{{ anchor(controller_name~"/delete",line("common_delete"),{'id':'delete'})}}</span></li>
-                <li class="float_left"><span><a href="#" id="email">{{line("common_email")}}</a></span></li>
-                <li class="float_right">
-                    <img src='{{base_url()}}images/spinner_small.gif' alt='spinner' id='spinner' />
-                    {{ form_open(controller_name~"/search",{'id':'search_form'})}}
-                    <input type="text" name ='search' id='search'/>
-                    </form>
-                </li>
-            </ul>
-        </div>
+
+
         <div id="table_holder">
             {#manage_table#}
 
             <div class="demo_jui">
-                {{  manage_table }}
+                {#                {{  manage_table }}#}
                 <div class="spacer"></div>
             </div>
         </div>
-        <div id="feedback_bar"></div>
-    {% endblock %}
-    {% block javascript %}
-        {{parent()}}
-        <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-        <script type="text/javascript">
-            var oTable;
-            $(document).ready(function ()
-            {
-                init_table_sorting();
-            {#		enable_select_all();#}
-            {#		enable_checkboxes();#}
-            {#		enable_row_selection();#}
-{#            		enable_delete('Esta seguro que desea eliminar el elemento seleccionado?','');	#}
-                //enable_bulk_edit("Favor seleccione un usuario para editar","?width=580&height=450");
+    </div>
+    <div id="feedback_bar"></div>
+{% endblock %}
+{% block javascript %}
+    {{parent()}}
+    <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}js/thickbox.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}js/common.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script type="text/javascript">
+        var oTable;
+        $(document).ready(function ()
+        {
+            init_table_sorting();
+        		enable_select_all();
+        {#		enable_checkboxes();#}
+        {#		enable_row_selection();#}
+                    		enable_delete('Esta seguro que desea eliminar el elemento seleccionado?','');
+                                 enable_email('{{site_url(controller_name~"/mailto")}}');
+{#                enable_bulk_edit("Favor seleccione un usuario para editar","?width=580&height=450");#}
 
                 oTable = $('#sortable_table').dataTable({
-                {#    "bProcessing": true,
-                    "bServerSide": true,#}
                     "processing": true,
-                    "serverSide": true,
-{#                    "bJQueryUI": true,#}
-                    "iDisplayLength": 10,
-{#                    "sPaginationType": "full_numbers",#}
-{#                    "sAjaxSource": 'customers/mis_datos',#}
+                    "serverSide": true,{#                    "bJQueryUI": true,#}
+                    "iDisplayLength": 10,{#                    "sPaginationType": "full_numbers",#}{#                    "sAjaxSource": 'customers/mis_datos',#}
                     "ajax": 'customers/mis_datos',
                     "aoColumnDefs": [{'bSortable': false, 'aTargets': [0]}],
                     "fnDrawCallback": function () {
                         //tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
-{#                        tb_init('#sortable_table a.thickbox');#}
-{#                        imgLoader = new Image();// preload image#}
+                                tb_init('#sortable_table a.thickbox');
+        {#                        imgLoader = new Image();// preload image#}
                         //imgLoader.src = tb_pathToImage;
-            {#				enable_row_selection();#}
+        {#				enable_row_selection();#}
                     }
                 });
-{#                $('#refresh').click(refresca);#}
+        {#                $('#refresh').click(refresca);#}
             });
 
 
@@ -101,7 +92,7 @@
 
             $(document).ready(function ()
             {
-return true;
+                return true;
                 init_table_sorting();
                 enable_select_all();
                 enable_row_selection();
@@ -154,5 +145,5 @@ return true;
                     }
                 }
             }
-        </script>
-    {%endblock%}
+    </script>
+{%endblock%}
