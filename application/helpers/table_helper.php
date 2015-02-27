@@ -45,20 +45,18 @@ function get_person_data_row($data,$controller)
 	$controller_name=$CI->uri->segment(1);
 	$width = $controller->get_form_width();
 	$height = $controller->get_form_height()+50;
-	$id  = mb_strtolower($data['_id']);
+	$data = (array)$data;
+	$id  = mb_strtolower($data['person_id']);
 	
 	$table_data_row='<tr>';
-	$table_data_row.="<td><input type='checkbox' id='$id' value='".$data['_id']."'/></td>";
-	$table_data_row.='<td>'.character_limiter($data['nombres']).'</td>';
-	$table_data_row.='<td>'.character_limiter($data['apellidos']).'</td>';
-	$table_data_row.='<td>'.character_limiter($data['ci']).'</td>';
-	$table_data_row.='<td>'.character_limiter($data['sector']).'</td>';		
-        $table_data_row.='<td>'.character_limiter($data['coordenadas']).'</td>';
-        $table_data_row.='<td>'.character_limiter($data['sexo']).'</td>';
-        $table_data_row.='<td>'.character_limiter($data['edad']).'</td>';		
-	$table_data_row.='<td>'. anchor($data . "/beneficiarios/views/$id/?width=$width&height=$height", 
+	$table_data_row.="<td><input type='checkbox' id='$id' value='".$data['person_id']."'/></td>";
+	$table_data_row.='<td>'.character_limiter($data['first_name']).'</td>';
+	$table_data_row.='<td>'.character_limiter($data['last_name']).'</td>';
+	$table_data_row.='<td>'.mailto($data['email'],character_limiter($data['email'],22)).'</td>';
+	$table_data_row.='<td>'.character_limiter($data['phone_number']).'</td>';			
+	$table_data_row.='<td>'. anchor($controller_name . "/view/$id/?width=$width&height=$height", 
 							img(array('src' => 'images/ico/page_edit.png','alt' => 'Editar','title' => 'Editar','class' => 'IconosOpcion')), 
-							array('class'=>'thickbox','title'=>$CI->lang->line($data.'_update')));
+							array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update')));
 	$table_data_row.='</tr>';
 	
 	return $table_data_row;

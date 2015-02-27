@@ -71,7 +71,10 @@ class Customers extends Person_controller {
 
     function view($customer_id = -1) {
         $data['person_info'] = $this->Customer->get_info($customer_id);
-        $this->load->view("customers/form", $data);
+//        $this->load->view("customers/form", $data);
+        
+         $this->twiggy->set($data);
+        $this->twiggy->display('customers/form');
     }
 
     /*

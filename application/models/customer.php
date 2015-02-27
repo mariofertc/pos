@@ -45,9 +45,11 @@ class Customer extends Person {
     }
     
     function get_total($where='') {
-        $this->db->from('people');
+        $this->db->from('customers');
+        $this->db->join('people', 'customers.person_id=people.person_id');
         if ($where != "")
             $this->db->where($where);
+        $this->db->where('deleted', 0);
         return $this->db->count_all_results();
     }
 
