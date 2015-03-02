@@ -14,16 +14,16 @@ class Customers extends Person_controller {
     function index() {
 //        $data['manage_table'] = get_people_manage_table($this->Customer->get_all(), $this);
 //        $this->load->view('people/manage', $data);
-        $data['controller_name'] = $this->controller_name;
-        $data['form_width'] = $this->get_form_width();
 //        $data['manage_table'] = get_people_manage_table($this->Customer->get_all(), $this);
-        $data['manage_table'] = get_people_manage_table();
-        $data['title'] = 'home_home';
         
 //        $data['admin_table']=get_beneficios_admin_table();
 //        $this->twiggy->template('beneficiarios/manage')->display();
         
         
+        $data['controller_name'] = $this->controller_name;
+        $data['form_width'] = $this->get_form_width();
+        $data['manage_table'] = get_people_manage_table();
+        $data['title'] = 'home_home';
         $this->twiggy->set($data);
         $this->twiggy->display('people/manage');
     }

@@ -271,7 +271,122 @@ function get_box_data_row($box,$controller)
 /*
 Gets the html table to manage items.
 */
-function get_items_manage_table($items,$controller)
+function get_items_manage_table()
+{
+	$CI =& get_instance();	
+	
+	$table='<table class="tablesorter" id="sortable_table">';
+	$headers = array('<input type="checkbox" id="select_all" />', 
+	$CI->lang->line('items_item_number_ab'),
+	$CI->lang->line('items_name'),
+	$CI->lang->line('items_category'),
+	$CI->lang->line('suppliers_supplier'),
+	$CI->lang->line('items_cost_price_ab'),
+	$CI->lang->line('items_unit_price_ab'),
+	$CI->lang->line('items_tax_percents_ab'),
+	// $CI->lang->line('items_quantity_a'),
+	// $CI->lang->line('items_quantity_b'),
+	// $CI->lang->line('items_quantity_c'),
+	$CI->lang->line('items_quantity_ab'),
+	//'Inventory'//Ramel Inventory Tracking
+	$CI->lang->line('inv_inventory'),
+	//'&nbsp', 
+	//'&nbsp',
+	);
+	$table.='<thead><tr>';
+	foreach($headers as $header)
+	{
+		if($header == $CI->lang->line('inv_inventory'))
+			$table.="<th colspan='4' width='10' style='text-align:center'>$header</th>";
+		else if($header == $CI->lang->line('items_tax_percents_ab'))
+		{
+			$table.="<th>$header</th>";
+			$almacenes = $CI->Almacen->get_all();
+			foreach($almacenes->result() as $almacen)
+			{
+				$table.="<th>".word_limiter($almacen->nombre,1)."</th>";
+			}
+		}
+		else
+			$table.="<th>$header</th>";
+	}
+	$table.='</tr></thead><tbody>';
+	//$table.=get_items_manage_table_data_rows($items,$controller);
+	$table.='</tbody></table>';
+	return $table;
+}
+
+/*
+Gets the html data rows for the items.
+*/
+function get_items_manage_table_data_rows($items,$controller)
+{
+	$CI =& get_instance();
+	$table_data_rows='';
+	
+	foreach($items->result() as $item)
+	{
+		$table_data_rows.=get_item_data_row($item,$controller);
+	}
+	
+	if($items->num_rows()==0)
+	{
+		$table_data_rows.="<tr><td colspan='11'><div class='warning_message' style='padding:7px;'>".$CI->lang->line('items_no_items_to_display')."</div></tr></tr>";
+	}
+	
+	return $table_data_rows;
+}
+
+function get_item_data_row($item,$controller)
+{
+	$CI =& get_instance();
+	$item_tax_info=$CI->Item_taxes->get_info($item->item_id);
+	$tax_percents = '';
+	foreach($item_tax_info as $tax_info)
+	{
+		$tax_percents.=$tax_info['percent']. '%, ';
+	}
+	$tax_percents=substr($tax_percents, 0, -2);
+	$controller_name=$CI->uri->segment(1);
+	$width = $controller->get_form_width();
+
+	$table_data_row='<tr>';
+	$table_data_row.="<td width='1%'><input type='checkbox' id='item_$item->item_id' value='".$item->item_id."'/></td>";
+	$table_data_row.='<td width="5%">'.$item->item_number.'</td>';
+	$table_data_row.='<td width="20%">'.$item->name.'</td>';
+	$table_data_row.='<td width="13%">'.$item->category.'</td>';
+	$table_data_row.='<td width="13%">'.$item->company_name.'</td>';
+	$table_data_row.='<td width="9%">'.to_currency($item->cost_price).'</td>';
+	$table_data_row.='<td width="9%">'.to_currency($item->unit_price).'</td>';
+	$table_data_row.='<td width="8%">'.$tax_percents.'</td>';
+	$almacenes = $CI->Almacen->get_all();
+	foreach($almacenes->result() as $almacen)
+	{
+		$almacen_id = "id".$almacen->almacen_id;
+		$table_data_row.='<td width="5%">'.$item->$almacen_id.'</td>';
+	}
+	
+	// $table_data_row.='<td width="5%">'.$item->quantity.'</td>';
+	// $table_data_row.='<td width="5%">'.$item->quantity.'</td>';
+	$table_data_row.='<td width="5%">'.$item->quantity.'</td>';
+	
+	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$item->item_id?width=$width", $CI->lang->line('common_edit_ab'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	//Ramel Inventory Tracking
+	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory/$item->item_id?width=300", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count'))).'</td>';//inventory count
+	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory_mov/$item->item_id?width=300", $CI->lang->line('common_mov'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_move'))).'</td>';
+	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/count_details/$item->item_id?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
+	
+	$table_data_row.='</tr>';
+	return $table_data_row;
+}
+
+
+
+
+/*
+Gets the html table to manage items.
+*/
+function get_items_manage_table_old($items,$controller)
 {
 	$CI =& get_instance();	
 	
@@ -319,7 +434,7 @@ function get_items_manage_table($items,$controller)
 /*
 Gets the html data rows for the items.
 */
-function get_items_manage_table_data_rows($items,$controller)
+function get_items_manage_table_data_rows_old($items,$controller)
 {
 	$CI =& get_instance();
 	$table_data_rows='';
@@ -337,7 +452,7 @@ function get_items_manage_table_data_rows($items,$controller)
 	return $table_data_rows;
 }
 
-function get_item_data_row($item,$controller)
+function get_item_data_row_old($item,$controller)
 {
 	$CI =& get_instance();
 	$item_tax_info=$CI->Item_taxes->get_info($item->item_id);
