@@ -125,6 +125,7 @@ function getData($model, $aColumns, $cllAccion = array(), $es_mas = false) {
     $offset = isset($_GET['length']) ? $_GET['length'] : 0;
     //return json_encode($sOrder);
     $rResult = $model->get_all($offset, ($page == null ? 0 : $page), $sWhere, $sOrder);
+//    var_dump($rResult);
     $total = $model->get_total();
 
     $filtrados = $model->get_total($sWhere);
@@ -141,9 +142,6 @@ function getData($model, $aColumns, $cllAccion = array(), $es_mas = false) {
 //        "aaData" => array()
         "data" => array()
     );
-
-    $id = 0;
-    $limit = count($cllAccion) == 0 ? count($aColumns) : count($aColumns) - 1;
 
 //    $output['aaData'] = get_data($rResult, $aColumns, $cllAccion, $es_mas);
     $output['data'] = get_data($rResult, $aColumns, $cllAccion, $es_mas);
@@ -169,7 +167,9 @@ function getColumnAccion($cllAccion, $id) {
 function get_data($rows, $aColumns, $cllAccion, $es_mas = false) {
     $resp = array();
     $id = "";
-    foreach ($rows->result_array() as $aRow) {
+//        var_dump($rows);
+    foreach ($rows as $aRow) {
+//        var_dump($aRow);
         $row = array();
         for ($i = 0; $i < count($aColumns); $i++) {
 //			echo gettype($aColumns[$i]);

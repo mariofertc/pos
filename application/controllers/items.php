@@ -68,10 +68,13 @@ class Items extends Secure_area implements iData_controller {
         $data['form_height'] = 150;
         $almacen = array();
        foreach ($this->Almacen->get_all()->result() as $row) {
-            $almacen[] = $row->nombre;
+//            $almacen[] = $row->nombre;
+            $almacen[] = "id" . $row->almacen_id;;
         }
-        $aColumns = array('item_id', 'item_number', 'name', 'category', 'suppliers_supplier', 'items_cost_price_ab', 'items_unit_price_ab', 'items_tax_percents_ab', 'items_quantity_ab', 'inv_inventory');
+        $aColumns = array('item_id', 'item_number', 'name', 'category', 'company_name', 'cost_price', 'unit_price', 'tax_percents');
         $aColumns = array_merge($aColumns, $almacen);
+        $aColumns = array_merge($aColumns, array('quantity'));
+//        var_dump($aColumns);
         //Eventos Tabla
         $cllAccion = array(
             '1' => array(

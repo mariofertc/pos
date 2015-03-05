@@ -41,7 +41,7 @@ class Customer extends Person {
         $this->db->order_by($order);
         $this->db->limit($num, $offset);
 
-        return $this->db->get();
+        return $this->db->get()->result_array();
     }
     
     function get_total($where='') {

@@ -20,22 +20,30 @@ class Item extends CI_Model {
         if ($order == null)
             $order = "name";
         //$this->db->select('id','nombre');
+        $this->db->select('items.*,suppliers.company_name');
         $this->db->from('items');
-         if ($where != "")
+        $this->db->join('suppliers', 'suppliers.person_id=items.supplier_id', 'left');
+//        $this->db->join('items_taxes', 'items_taxes.item_id=items.item_id', 'left');
+        if ($where != "")
             $this->db->where($where);
-        $this->db->where('deleted', 0);
+        $this->db->where('items.deleted', 0);
         $this->db->order_by($order);
         $this->db->limit($num, $offset);
         //Aumentar los stocks de las sucursales.
-        $items = $this->db->get();
+        $items = $this->db->get()->result_array();
         $almacenes = $this->Almacen->get_all();
-        
-
-        foreach ($items->result() as $item) {
+        foreach ($items as &$item) {
             foreach ($almacenes->result() as $almacen) {
                 $id = "id" . $almacen->almacen_id;
-                $item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+                $item[$id] = $this->Almacen_stock->get_cantidad($item['item_id'], $almacen->almacen_id);
             }
+            //Aumenta taxes
+            $item_tax_info = $this->Item_taxes->get_info($item['item_id']);
+            $tax_percents = '';
+            foreach ($item_tax_info as $tax_info) {
+                $tax_percents.=$tax_info['percent'] . '%, ';
+            }
+            $item['tax_percents'] = substr($tax_percents, 0, -2);
         }
         return $items;
     }
@@ -268,7 +276,7 @@ class Item extends CI_Model {
      */
 
     function save(&$item_data, $item_id = false) {
-        if (!$item_id or ! $this->exists($item_id)) {
+        if (!$item_id or !$this->exists($item_id)) {
             if ($this->db->insert('items', $item_data)) {
                 $item_data['item_id'] = $this->db->insert_id();
                 return true;
