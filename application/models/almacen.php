@@ -21,7 +21,7 @@ class Almacen extends CI_Model
 	{
 		$this->db->from('almacenes');
 		$this->db->where('deleted', 0);
-		$this->db->order_by("nombre	", "asc");
+		$this->db->order_by("nombre", "asc");
 		return $this->db->get();		
 	}
 	

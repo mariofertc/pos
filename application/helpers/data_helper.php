@@ -84,8 +84,8 @@ function getData($model, $aColumns, $cllAccion = array(), $es_mas = false) {
         $sOrder = "";
 //        for ($i = 0; $i < intval($_GET['iSortingCols']); $i++) {
 //            if ($_GET['bSortable_' . intval($_GET['iSortCol_' . $i])] == "true") {
-                $sOrder .= "" . $aColumns[intval($order['column'])] . " " .
-                        ( $order['dir'] ) . ", ";
+        $sOrder .= "" . $aColumns[intval($order['column'])] . " " .
+                ( $order['dir'] ) . ", ";
 //                 $sOrder .= "" . $aColumns[intval($_GET['iSortCol_' . $i])] . " " .
 //                        ( $_GET['sSortDir_' . $i] ) . ", ";
 
@@ -101,7 +101,9 @@ function getData($model, $aColumns, $cllAccion = array(), $es_mas = false) {
     if (isset($search['value']) && $search['value'] !== '') {
         $sWhere = '(';
         for ($i = 1; $i < count($aColumns); $i++) {
-            $sWhere .= $aColumns[$i] . " LIKE '%" . ($search['value']) . "%' OR ";
+            if ($_GET['columns'][$i]['searchable'] == 'true'){
+                $sWhere .= $aColumns[$i] . " LIKE '%" . ($search['value']) . "%' OR ";
+            }
 //            $mWhere = array_merge($mWhere, array($aColumns[$i] => new MongoRegex('/' . $search['value'] . '/i')));
         }
         $sWhere = substr_replace($sWhere, "", -3);

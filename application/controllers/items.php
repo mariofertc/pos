@@ -29,6 +29,7 @@ class Items extends Secure_area implements iData_controller {
             $data['selected_almacen'] = $row['almacen_id'];
         }
         $data['almacenes'] = $almacenes;
+        $data['total_almacenes'] = count($almacenes);
         $this->twiggy->set($data);
         return $this->twiggy->display('items/manage');
 
@@ -63,15 +64,14 @@ class Items extends Secure_area implements iData_controller {
     }
 
     function mis_datos() {
-        $data['controller_name'] = $this->controller_name;
-        $data['form_width'] = $this->get_form_width();
-        $data['form_height'] = 150;
         $almacen = array();
-       foreach ($this->Almacen->get_all()->result() as $row) {
+        foreach ($this->Almacen->get_all()->result() as $row) {
 //            $almacen[] = $row->nombre;
-            $almacen[] = "id" . $row->almacen_id;;
+            $almacen[] = "id" . $row->almacen_id;
+            ;
         }
         $aColumns = array('item_id', 'item_number', 'name', 'category', 'company_name', 'cost_price', 'unit_price', 'tax_percents');
+
         $aColumns = array_merge($aColumns, $almacen);
         $aColumns = array_merge($aColumns, array('quantity'));
 //        var_dump($aColumns);
@@ -583,6 +583,7 @@ class Items extends Secure_area implements iData_controller {
     function get_form_width() {
         return 360;
     }
+
     function get_form_height() {
         return 550;
     }
