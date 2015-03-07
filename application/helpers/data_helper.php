@@ -182,8 +182,9 @@ function get_data($rows, $aColumns, $cllAccion, $es_mas = false) {
                     $row[] = (!$es_mas) ? "<input type='checkbox' id='empleado_$id' value='" . $id . "'/>" : '<img src="' . asset_url() . '/images/table/add.png">';
                 } else if ($aColumns[$i] == "email") {
                     $row[] = mailto($aRow['email'], character_limiter($aRow['email'], 10));
-                } else if ($aColumns[$i] != ' ') {
+                } else if (trim($aColumns[$i]) != '') {
                     /* General output */
+//                    $row[] = '-';                    
                     $row[] = get_value($aRow, $aColumns[$i]);
                 }
             } else {
@@ -216,7 +217,7 @@ function get_value($row, $column_key, $id = null) {
                 return (string) $dato;
         }
 
-        return $dato;
+        return trim($dato)==''?'-':$dato;
     } else
         return "-";
 }

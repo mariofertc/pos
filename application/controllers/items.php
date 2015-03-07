@@ -83,6 +83,31 @@ class Items extends Secure_area implements iData_controller {
                 'language' => "_update",
                 'width' => $this->get_form_width(),
                 'height' => $this->get_form_height()),
+            '2' => array(
+                'function' => "inventory",
+                'common_language' => "common_inv",
+                'language' => "_update",
+                'width' => $this->get_form_width(),
+                'height' => $this->get_form_height()),
+            '3' => array(
+                'function' => "inventory_mov",
+                'common_language' => "common_mov",
+                'language' => "_update",
+                'width' => $this->get_form_width(),
+                'height' => $this->get_form_height()),
+            '4' => array(
+                'function' => "count_details",
+                'common_language' => "common_det",
+                'language' => "_update",
+                'width' => $this->get_form_width(),
+                'height' => $this->get_form_height()),
+            
+            
+            
+            
+        
+        
+        
         );
         echo getData($this->Item, $aColumns, $cllAccion);
     }

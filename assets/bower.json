@@ -27,6 +27,7 @@
     "startbootstrap-sb-admin-2": "~1.0.5",
     "jquery-validation": "~1.13.1",
     "jquery-ui": "~1.11.2",
-    "datatables": "~1.10.5"
+    "datatables": "~1.10.5",
+    "datatables-fixedcolumns": "~3.0.3"
   }
 }

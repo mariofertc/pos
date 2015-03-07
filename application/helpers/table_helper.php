@@ -275,7 +275,7 @@ function get_items_manage_table()
 {
 	$CI =& get_instance();	
 	
-	$table='<table class="tablesorter" id="sortable_table">';
+	$table='<table class="stripe row-border order-column dataTable no-footer DTFC_Cloned" id="sortable_table">';
 	$headers = array('<input type="checkbox" id="select_all" />', 
 	$CI->lang->line('items_item_number_ab'),
 	$CI->lang->line('items_name'),
@@ -297,14 +297,15 @@ function get_items_manage_table()
 	foreach($headers as $header)
 	{
 		if($header == $CI->lang->line('inv_inventory'))
-			$table.="<th colspan='4' width='10' style='text-align:center'>$header</th>";
+//			$table.="<th colspan='4' width='10' style='text-align:center'>$header</th>";
+			$table.="<th>$header</th>";
 		else if($header == $CI->lang->line('items_tax_percents_ab'))
 		{
 			$table.="<th>$header</th>";
 			$almacenes = $CI->Almacen->get_all();
 			foreach($almacenes->result() as $almacen)
 			{
-				$table.="<th>".word_limiter($almacen->nombre,1)."</th>";
+				$table.="<th>".word_limiter($almacen->nombre,2)."</th>";
 			}
 		}
 		else

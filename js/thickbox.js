@@ -11,14 +11,16 @@ var tb_pathToImage = "../images/loadingAnimation.gif";
 
 //on page load call tb_init
 $(document).ready(function(){   
-	tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
+//	tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
+	tb_init('#sortable_table a.thickbox');//pass where to apply thickbox
 	imgLoader = new Image();// preload image
 	imgLoader.src = tb_pathToImage;
 });
 
 //add thickbox to href & area elements that have a class of .thickbox
 function tb_init(domChunk){
-	$(domChunk).click(function(){
+//	$(domChunk).click(function(){
+	$('body').on( "click",domChunk, function() {
 	var t = this.title || this.name || null;
 	var a = this.href || this.alt;
 	var g = this.rel || false;
