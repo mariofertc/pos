@@ -1,0 +1,44 @@
+{% extends _layout %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+{% endblock %}
+{% block content %}
+    <div id="page-wrapper" style="min-height: 514px;">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{title}}</h1>
+                <p>{{subtitle }}</p>
+            </div>
+        </div>
+        <div style="text-align: center;">
+
+            <script type="text/javascript">
+                swfobject.embedSWF(
+                        "{{ base_url()}}open-flash-chart.swf", "chart",
+                        "775", "420", "9.0.0", "expressInstall.swf",
+                        {"data-file": "{{data_file}}"});
+            </script>
+
+        </div>
+        <div id="chart_wrapper">
+            <div id="chart"></div>
+        </div>
+        <div id="report_summary">
+            {# for key in users|keys #}
+            {% for(name, value in summary_data) %}
+                <div class="summary_row">{{ line('reports_'~ name) ~ ': '~ to_currency(value)}}</div>
+            {% endfor %}
+            {% if(summary_almacen is not empty) %}
+                {% for(name in summary_almacen) %}
+                    <hr align="center">
+                    <div class="summary_row"><b><?php echo $name['almacen']; ?></b></div>
+                    <div class="summary_row">{{ line('reports_subtotal'). ': '.to_currency($name['subtotal']); ?></div>
+            <div class="summary_row">{{ line('reports_total'). ': '.to_currency($name['total']); ?></div>
+            <div class="summary_row">{{ line('reports_tax'). ': '.to_currency($name['tax']); ?></div>
+            <div class="summary_row">{{ line('reports_profit'). ': '.to_currency($name['profit']); ?></div>
+            {% endfor %}
+            {% endif %}
+
+        </div>
+       {% endblock %}
