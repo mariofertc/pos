@@ -29,7 +29,7 @@ $config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -365,7 +365,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-//Fechas en Español
+//Fechas en Espaï¿½ol
 setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 
 /* End of file config.php */

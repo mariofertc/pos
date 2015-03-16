@@ -333,7 +333,9 @@ class Reports extends Secure_area {
     //Input for reports that require only a date range. (see routes.php to see that all graphical summary reports route here)
     function date_input() {
         $data = $this->_get_common_report_data();
-        $this->load->view("reports/date_input", $data);
+//        $this->load->view("reports/date_input", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/date_input");
     }
 
     //Graphical summary sales report
@@ -344,14 +346,14 @@ class Reports extends Secure_area {
 
         $data = array(
             "title" => $this->lang->line('reports_sales_summary_report'),
-            "data_file" => site_urL("reports/graphical_summary_sales_graph/$start_date/$end_date"),
+            "data_file" => site_url("reports/graphical_summary_sales_graph/$start_date/$end_date"),
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
             "summary_almacen" => $model->getSummaryAlmacenes(array('start_date' => $start_date, 'end_date' => $end_date))
         );
 //		$this->load->view("reports/graphical",$data);
         $this->twiggy->set($data);
-        return $this->twiggy->display('reports/graphical');
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
