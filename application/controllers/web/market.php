@@ -9,6 +9,7 @@ class Market extends CI_Controller {
         parent::__construct();
         $this->controller_name = strtolower($this->uri->segment(1));
         $this->data['controller_name'] = $this->controller_name;
+        $this->data['categorias']=$this->Item->get_categories()->result();
         $this->twiggy->theme('web');
     }
 

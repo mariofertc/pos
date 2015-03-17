@@ -60,11 +60,11 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="{{site_url('web/market/compra')}}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="{{site_url('web/market/carrito')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="{{site_url('web/market/login')}}"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="#"><i class="fa fa-user"></i>{{line('market_cuenta')}}</a></li>
+								<li><a href="#"><i class="fa fa-star"></i>{{line('market_lista_deseos')}}</a></li>
+								<li><a href="{{site_url('web/market/compra')}}"><i class="fa fa-crosshairs"></i>{{line('market_caja')}}</a></li>
+								<li><a href="{{site_url('web/market/carrito')}}"><i class="fa fa-shopping-cart"></i>{{line('market_carrito')}}</a></li>
+								<li><a href="{{site_url('web/market/login')}}"><i class="fa fa-lock"></i>{{line('market_login')}}</a></li>
 							</ul>
 						</div>
 					</div>
@@ -86,14 +86,13 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="{{site_url('web/market')}}" class="active">Home</a></li>
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+								<li><a href="{{site_url('web/market')}}" class="active">{{line('market_home')}}</a></li>
+								<li class="dropdown"><a href="#">{{line('market_tienda')}}<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="{{site_url('web/market/tienda')}}">Products</a></li>
-										<li><a href="{{site_url('web/market/producto')}}">Product Details</a></li> 
-										<li><a href="{{site_url('web/market/compra')}}">Checkout</a></li> 
-										<li><a href="{{site_url('web/market/carrito')}}">Cart</a></li> 
-										<li><a href="{{site_url('web/market/login')}}">Login</a></li> 
+                                        <li><a href="{{site_url('web/market/tienda')}}">{{line('market_tienda')}}</a></li>
+										<li><a href="{{site_url('web/market/compra')}}">{{line('market_caja')}}</a></li> 
+										<li><a href="{{site_url('web/market/carrito')}}">{{line('market_carrito')}}</a></li> 
+										<li><a href="{{site_url('web/market/login')}}">{{line('market_login')}}</a></li> 
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -109,7 +108,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<input type="text" placeholder="{{line('common_search')}}"/>
 						</div>
 					</div>
 				</div>

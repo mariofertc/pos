@@ -1,0 +1,29 @@
+
+row1: 
+  name: "producto A"
+  category: "categoria A"
+  supplier_id: 
+  item_number: ""
+  description: "descripcion"
+  cost_price: 80.00
+  unit_price: 100.00
+  quantity: 100.00
+  reorder_level: 2.00
+  item_id: 1
+  allow_alt_description: 
+  is_serialized: 
+  deleted: 0
+row2: 
+  name: "producto B"
+  category: "categoria B"
+  supplier_id: 
+  item_number: ""
+  description: "descripcion"
+  cost_price: 8.00
+  unit_price: 10.00
+  quantity: 100.00
+  reorder_level: 1.00
+  item_id: 2
+  allow_alt_description: 
+  is_serialized: 
+  deleted: 0
