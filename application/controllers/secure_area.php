@@ -13,8 +13,8 @@ class Secure_area extends CI_Controller
 		
 		if(!$this->Employee->is_logged_in())
 		{
-		//echo $this->Employee->is_logged_in();
-			redirect('login');
+//		echo $this->Employee->is_logged_in();
+			redirect(site_url('login'));
 		}
 		
 		if(!$this->Employee->has_permission($module_id,$this->Employee->get_logged_in_employee_info()->person_id))

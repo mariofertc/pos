@@ -29,7 +29,7 @@ $config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -257,7 +257,7 @@ $config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']	= true;
 $config['sess_table_name']		= 'sessions';
 $config['sess_match_ip']		= FALSE;
-$config['sess_match_useragent']	= TRUE;
+$config['sess_match_useragent']	= FALSE;
 $config['sess_time_to_update']	= 300;
 $config['sess_time_to_update'] = $config['sess_expiration'];
 
@@ -365,7 +365,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-//Fechas en Español
+//Fechas en Espaï¿½ol
 setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 
 /* End of file config.php */

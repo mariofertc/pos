@@ -42,7 +42,6 @@ foreach($datos as $label=>$valor)
 	$line->set_colour($color);
 	$line->set_key($label, 12 );
 	$chart->add_element($line);
-	echo $line;
 }
 $x = new x_axis();
 $x->steps(count($data) > 10 ? (int)(count($data)/4) : 1);

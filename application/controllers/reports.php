@@ -131,7 +131,7 @@ class Reports extends Secure_area {
         $this->load->view("reports/tabular", $data);
     }
 
-    //Espec�fico SummarySale. Esto elimina los dos metodos de arriba.
+    //Específico SummarySale. Esto elimina los dos metodos de arriba.
     function specific_summary_sale_input() {
         $data = $this->_get_common_report_data();
         $data['specific_input_name'] = $this->lang->line('reports_almacen');
@@ -142,7 +142,10 @@ class Reports extends Secure_area {
         }
         //var_dump($almacenes);
         $data['specific_input_data'] = $almacenes;
-        $this->load->view("reports/specific_input", $data);
+//        $this->load->view("reports/specific_input", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/specific_input');
+//        $this->load->view("reports/specific_input", $data);
     }
 
     //Fin Espec�fico SummarySale
@@ -333,25 +336,27 @@ class Reports extends Secure_area {
     //Input for reports that require only a date range. (see routes.php to see that all graphical summary reports route here)
     function date_input() {
         $data = $this->_get_common_report_data();
-        $this->load->view("reports/date_input", $data);
+//        $this->load->view("reports/date_input", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/date_input");
     }
 
     //Graphical summary sales report
     function graphical_summary_sales($start_date, $end_date) {
-         $this->output->enable_profiler(TRUE);
+//        $this->output->enable_profiler(TRUE);
         $this->load->model('reports/Summary_sales');
         $model = $this->Summary_sales;
 
         $data = array(
             "title" => $this->lang->line('reports_sales_summary_report'),
-            "data_file" => site_urL("reports/graphical_summary_sales_graph/$start_date/$end_date"),
+            "data_file" => site_url("reports/graphical_summary_sales_graph/$start_date/$end_date"),
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
             "summary_almacen" => $model->getSummaryAlmacenes(array('start_date' => $start_date, 'end_date' => $end_date))
         );
 //		$this->load->view("reports/graphical",$data);
         $this->twiggy->set($data);
-        return $this->twiggy->display('reports/graphical');
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
@@ -385,7 +390,6 @@ class Reports extends Secure_area {
             "datos" => $graph_datos,
             "colores" => $cllColores
         );
-
         $this->load->view("reports/graphs/line", $data);
     }
 
@@ -1040,7 +1044,7 @@ class Reports extends Secure_area {
         $this->load->view("reports/tabular", $data);
     }
 
-    //Espec�fico SummarySale. Esto elimina los dos metodos de arriba.
+    //Específico SummarySale. Esto elimina los dos metodos de arriba.
     function specific_summary_almacen_input() {
         $data = $this->_get_common_report_data();
         $data['specific_input_name'] = $this->lang->line('reports_almacen');
@@ -1052,6 +1056,74 @@ class Reports extends Secure_area {
         //var_dump($almacenes);
         $data['specific_input_data'] = $almacenes;
         $this->load->view("reports/specific_input_almacen", $data);
+    }
+
+    function do_line($result) {
+        extract($result);
+        $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate");
+        $this->output->set_header("Pragma: public");
+        $line_data = array();
+        $line_dataA1 = array();
+        $labels = array();
+        foreach ($data as $label => $value) {
+            $line_data[] = (float) $value;
+            $labels[] = (string) $label;
+        }
+        $hol = new hollow_dot();
+        $hol->size(3)->halo_size(1)->tooltip('#x_label#<br>#val#');
+
+        $line = new line();
+        $line->set_default_dot_style($hol);
+        $line->set_values($line_data);
+        $line->set_colour(random_color());
+        $line->set_key('Total', 12);
+
+//New lines stores
+        $chart = new open_flash_chart();
+//        $chart->set_title(new title($title));
+        $chart->set_title($title);
+        $chart->add_element($line);
+        $color = "fffff";
+        foreach ($datos as $label => $valor) {
+            $line_data = null;
+            foreach ($valor as $dato) {
+                $line_data[] = (float) $dato;
+                //$labels[] = (string)$dato;
+            }
+            $line = null;
+            $line = new line();
+            $line->set_default_dot_style($hol);
+            $line->set_values($line_data);
+            $color = random_color();
+            $line->set_colour($color);
+            $line->set_key($label, 12);
+            $chart->add_element($line);
+        }
+        $x = new x_axis();
+        $x->steps(count($data) > 10 ? (int) (count($data) / 4) : 1);
+        $x->set_labels_from_array($labels);
+        $chart->set_x_axis($x);
+
+        $y = new y_axis();
+        $y->set_tick_length(7);
+        $y->set_range(0, (count($data) > 0 ? max($data) : 0) + 25, ((count($data) > 0 ? max($data) : 0) + 25) / 10);
+        $chart->set_y_axis($y);
+// $chart->set_y_legend("222");
+        $chart->set_bg_colour("#f3f3f3");
+
+
+        if (isset($yaxis_label)) {
+            $y_legend = new y_legend($yaxis_label);
+            $y_legend->set_style('{font-size: 20px; color: #000000}');
+            $chart->set_y_legend($y_legend);
+        }
+
+        if (isset($xaxis_label)) {
+            $x_legend = new x_legend($xaxis_label);
+            $x_legend->set_style('{font-size: 20px; color: #000000}');
+            $chart->set_x_legend($x_legend);
+        }
+        echo $chart->toPrettyString();
     }
 
 }

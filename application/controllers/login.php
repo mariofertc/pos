@@ -16,13 +16,12 @@ class Login extends CI_Controller {
             $this->form_validation->set_rules('username', 'lang:login_username', 'callback_login_check');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
-            if ($this->form_validation->run() == FALSE) {
-//                $this->load->view('login');
+            if ($this->form_validation->run() == false) {                
                 $data['title'] = 'login_login';
                 $this->twiggy->set($data);
                 $this->twiggy->display('login');
             } else {
-                //echo "yap";
+//                echo "yap";
                 redirect('home');
             }
         }
