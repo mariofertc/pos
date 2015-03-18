@@ -433,6 +433,21 @@ class Item extends CI_Model {
         return $items;
     }
 
+    /**
+     * Retorna el nombre de la categoria y el numero de productos
+     * @return [StdClass] [{category,total}]
+     */
+    function get_count_categories($num=0,$offset=0) {
+        $this->db->select('category, count(*) as total');
+        $this->db->from('items');
+        $this->db->where('deleted', 0);
+        $this->db->limit($num,$offset);
+        $this->db->group_by('category');
+        $this->db->order_by("total", "desc");
+
+        return $this->db->get();
+    }
+
     function get_categories() {
         $this->db->select('category');
         $this->db->from('items');

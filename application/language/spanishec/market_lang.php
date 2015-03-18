@@ -21,4 +21,9 @@ $lang['market_agregar_a_carrito']='Añadir a Carrito';
 $lang['market_agregar_a_lista_deseos']='Añadir a Lista de Deseos';
 $lang['market_lista_deseos']='Lista de Deseos';
 $lang['market_agregar_para_comparar']='Añadir para comparar';
+$lang['market_login_to_account']='Ingresar a su cuenta';
+$lang['market_register_new_user']='Registrar nuevo usuario';
+$lang['market_username']='Usuario';
+$lang['market_email_address']='Email';
+$lang['market_mantener_logeado']='Recordarme';
 ?>

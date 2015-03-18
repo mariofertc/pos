@@ -1,0 +1,14 @@
+{% block login %}
+	<div class="login-form"><!--login form-->
+		<h2>{{line('market_login_to_account')}}</h2>
+		<form action="#">
+			<input type="text" placeholder="{{line('market_username')}}" />
+			<input type="email" placeholder="{{line('market_email_address')}}" />
+			<span>
+				<input type="checkbox" class="checkbox"> 
+				{{line('market_mantener_logeado')}}
+			</span>
+			<button type="submit" class="btn btn-default">{{line('market_login')}}</button>
+		</form>
+	</div><!--/login form-->
+{% endblock %}

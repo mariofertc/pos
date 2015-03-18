@@ -2,3 +2,5 @@ application/config/database.php
 .htaccess
 application/logs/*
 /nbproject/private/
+pos.sublime-project
+pos.sublime-workspace

@@ -1,0 +1,8 @@
+<div class="features_items">
+	<h2 class="title text-center">{{line('market_catalogo')}}</h2>
+	{% for producto in productos %}
+		<div class="col-sm-4">
+			{% include 'elementos/item_producto_destacado.html.twig' with {'producto':producto} %}
+		</div>
+	{% endfor %}
+</div>

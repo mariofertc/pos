@@ -81,4 +81,14 @@ class ItemTest extends CIUnit_TestCase
 		$this->assertCount(2,$res->result());	
 	}
 
+	public function testGetCountCategories(){
+		$res = $this->_pcm->get_count_categories();
+		$this->assertNotNull($res->result());	
+	}
+
+	public function testGelAll(){
+		$res = $this->_pcm->get_all(2,0,array());
+		$this->assertNotNull($res);	
+		$this->assertCount(2,$res);	
+	}
 }
