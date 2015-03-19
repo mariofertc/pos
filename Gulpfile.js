@@ -1,0 +1,54 @@
+var gulp = require('gulp'),
+	browserSync = require('browser-sync'),
+	browserify = require('gulp-browserify'),
+	uglify = require('gulp-uglify'),
+	gulpif = require('gulp-if'),
+	connect = require('gulp-connect-php')
+	reload = browserSync.reload;
+
+var env=process.env.NODE_ENV || 'development';
+var host = "192.168.1.8";
+var puerto = 6666;
+
+gulp.task('js',function(){
+	return gulp.src(['assets/web/js/**/*.js'])
+	//	.pipe(browserify({ debug : env === 'development' }))
+		.pipe(gulpif(env === "production",uglify()))
+		.pipe(gulp.dest('assets/web/js_min/'));
+});
+
+gulp.task('css',function(){
+	return gulp.src(['assets/web/css/**/*.css'])
+		.pipe(gulpif(env === "production",uglify()))
+		.pipe(gulp.dest('assets/web/css_min/'))
+		.pipe(reload({stream:true}));
+});
+
+gulp.task('connect-sync',function(){
+	connect.server({host:host},function(){
+		browserSync({
+			proxy:{
+				target: host+'/pos/web/market'
+			}
+		});
+	})
+});
+
+gulp.task('php',function(){
+	gulp.src(['**/*.php'])
+		.pipe(reload({stream:true}));	
+});
+
+gulp.task('views',function(){
+	gulp.src(['**/*.twig'])
+		.pipe(reload({stream:true}));	
+});
+
+gulp.task('watch',function(){
+	gulp.watch(['assets/web/js/**/*.js','assets/web/js_min/**/*.js'],['js']);
+	gulp.watch(['assets/web/css/**/*.css','!assets/web/css_min/**/*.css'],['css']);
+	gulp.watch('**/*.php',['php']);
+	gulp.watch('**/*.twig',['views']);
+});
+
+gulp.task('default',['js','css','connect-sync','watch']);

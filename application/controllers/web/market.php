@@ -14,7 +14,7 @@ class Market extends CI_Controller {
     }
 
     function index() {
-        $this->data['title'] = 'Market';
+        $this->data['title'] = 'Marketsillo';
         $this->twiggy->set($this->data);
         $this->twiggy->display('inicio');
     }
@@ -37,6 +37,7 @@ class Market extends CI_Controller {
      * @return [HTML] [bloques de productos]
      */
     function catalogo(){
+        $filtros = $this->input->get('filtro');
         $this->data['productos'] = $this->Item->get_all(10,0,array());
         $this->twiggy->set($this->data);
         $this->twiggy->display('elementos/catalogo');
