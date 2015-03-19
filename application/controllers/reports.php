@@ -106,7 +106,6 @@ class Reports extends Secure_area {
 
     //Summary sales report
     function summary_sales($start_date, $end_date, $almacen_id, $export_excel = 0) {
-        // $this->output->enable_profiler(TRUE);
         $this->load->model('reports/Summary_sales');
         $model = $this->Summary_sales;
         $tabular_data = array();
@@ -127,8 +126,9 @@ class Reports extends Secure_area {
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date, 'almacen_id' => $almacen_id)),
             "export_excel" => $export_excel
         );
-
-        $this->load->view("reports/tabular", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
+//        $this->load->view("reports/tabular", $data);
     }
 
     //Específico SummarySale. Esto elimina los dos metodos de arriba.
@@ -341,12 +341,14 @@ class Reports extends Secure_area {
         $this->twiggy->display("reports/date_input");
     }
 
-    //Graphical summary sales report
+    /**
+     * Graphical summary sales report
+     * @param type $start_date
+     * @param type $end_date
+     */
     function graphical_summary_sales($start_date, $end_date) {
-//        $this->output->enable_profiler(TRUE);
         $this->load->model('reports/Summary_sales');
         $model = $this->Summary_sales;
-
         $data = array(
             "title" => $this->lang->line('reports_sales_summary_report'),
             "data_file" => site_url("reports/graphical_summary_sales_graph/$start_date/$end_date"),
@@ -354,14 +356,14 @@ class Reports extends Secure_area {
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
             "summary_almacen" => $model->getSummaryAlmacenes(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-//		$this->load->view("reports/graphical",$data);
         $this->twiggy->set($data);
         $this->twiggy->display('reports/graphical');
     }
 
-    //The actual graph data
+    /**
+     * Resume gráfico de ventas
+     */
     function graphical_summary_sales_graph($start_date, $end_date) {
-        // $this->output->enable_profiler(TRUE);
         $this->load->model('reports/Summary_sales');
         $model = $this->Summary_sales;
         $report_data = $model->getData(array('start_date' => $start_date, 'end_date' => $end_date));
@@ -397,18 +399,21 @@ class Reports extends Secure_area {
     function graphical_summary_items($start_date, $end_date) {
         $this->load->model('reports/Summary_items');
         $model = $this->Summary_items;
-
         $data = array(
             "title" => $this->lang->line('reports_items_summary_report'),
             "data_file" => site_urL("reports/graphical_summary_items_graph/$start_date/$end_date"),
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-
-        $this->load->view("reports/graphical", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/graphical');
     }
 
-    //The actual graph data
+    /**
+     * The actual Graph
+     * @param type $start_date
+     * @param type $end_date
+     */
     function graphical_summary_items_graph($start_date, $end_date) {
         $this->load->model('reports/Summary_items');
         $model = $this->Summary_items;
@@ -429,7 +434,9 @@ class Reports extends Secure_area {
         $this->load->view("reports/graphs/hbar", $data);
     }
 
-    //Graphical summary customers report
+    /**
+     * Reports Summary Categories
+     */
     function graphical_summary_categories($start_date, $end_date) {
         $this->load->model('reports/Summary_categories');
         $model = $this->Summary_categories;
@@ -440,8 +447,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-
-        $this->load->view("reports/graphical", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
@@ -466,15 +473,14 @@ class Reports extends Secure_area {
     function graphical_summary_suppliers($start_date, $end_date) {
         $this->load->model('reports/Summary_suppliers');
         $model = $this->Summary_suppliers;
-
         $data = array(
             "title" => $this->lang->line('reports_suppliers_summary_report'),
             "data_file" => site_urL("reports/graphical_summary_suppliers_graph/$start_date/$end_date"),
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-
-        $this->load->view("reports/graphical", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
@@ -506,8 +512,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-
-        $this->load->view("reports/graphical", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
@@ -532,15 +538,14 @@ class Reports extends Secure_area {
     function graphical_summary_taxes($start_date, $end_date) {
         $this->load->model('reports/Summary_taxes');
         $model = $this->Summary_taxes;
-
         $data = array(
             "title" => $this->lang->line('reports_taxes_summary_report'),
             "data_file" => site_urL("reports/graphical_summary_taxes_graph/$start_date/$end_date"),
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-
-        $this->load->view("reports/graphical", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
@@ -573,8 +578,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-
-        $this->load->view("reports/graphical", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
@@ -609,8 +614,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-
-        $this->load->view("reports/graphical", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
@@ -644,8 +649,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-
-        $this->load->view("reports/graphical", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display('reports/graphical');
     }
 
     //The actual graph data
