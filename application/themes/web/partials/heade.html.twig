@@ -1,6 +1,6 @@
 {% block header %}
 <header id="header"><!--header-->
-		<div class="header_top"><!--header_top-->
+		<!--header_top <div class="header_top">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6">
@@ -24,7 +24,7 @@
 					</div>
 				</div>
 			</div>
-		</div><!--/header_top-->
+		</div> header_top-->
 		
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
@@ -33,7 +33,7 @@
 						<div class="logo pull-left">
 							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
 						</div>
-						<div class="btn-group pull-right">
+						<!--<div class="btn-group pull-right">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
 									USA
@@ -55,16 +55,20 @@
 									<li><a href="#">Pound</a></li>
 								</ul>
 							</div>
-						</div>
+						</div>-->
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								<li><a href="#"><i class="fa fa-user"></i>{{line('market_cuenta')}}</a></li>
 								<li><a href="#"><i class="fa fa-star"></i>{{line('market_lista_deseos')}}</a></li>
-								<li><a href="{{site_url('web/market/compra')}}"><i class="fa fa-crosshairs"></i>{{line('market_caja')}}</a></li>
-								<li><a href="{{site_url('web/market/carrito')}}"><i class="fa fa-shopping-cart"></i>{{line('market_carrito')}}</a></li>
+								<li><a href="{{site_url('web/Carts')}}"><i class="fa fa-crosshairs"></i>{{line('market_caja')}}</a></li>
+								<li><a href="{{site_url('web/Carts')}}"><i class="fa fa-shopping-cart"></i>{{line('market_carrito')}}</a></li>
+							{% if webuser_data.user_id!=FALSE %}
+								<li><a href="{{site_url('web/Users/logout')}}"><i class="fa fa-lock"></i>{{line('market_logout')}}</a></li>
+							{% else %}
 								<li><a href="{{site_url('web/market/login')}}"><i class="fa fa-lock"></i>{{line('market_login')}}</a></li>
+							{% endif %}
 							</ul>
 						</div>
 					</div>
@@ -91,7 +95,7 @@
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="{{site_url('web/market/tienda')}}">{{line('market_tienda')}}</a></li>
 										<li><a href="{{site_url('web/market/compra')}}">{{line('market_caja')}}</a></li> 
-										<li><a href="{{site_url('web/market/carrito')}}">{{line('market_carrito')}}</a></li> 
+										<li><a href="{{site_url('web/Carts')}}">{{line('market_carrito')}}</a></li> 
 										<li><a href="{{site_url('web/market/login')}}">{{line('market_login')}}</a></li> 
                                     </ul>
                                 </li> 
@@ -101,7 +105,6 @@
 										<li><a href="{{site_url('web/market/blog_item')}}">Blog Single</a></li>
                                     </ul>
                                 </li> 
-								<li><a href="{{site_url('web/market/error404')}}">404</a></li>
 								<li><a href="{{site_url('web/market/contacto')}}">Contact</a></li>
 							</ul>
 						</div>

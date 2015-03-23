@@ -16,7 +16,7 @@ class Item extends CI_Model {
         return ($query->num_rows() == 1);
     }
 
-    function get_all($num = 0, $offset = 0, $where, $order = null) {
+    function get_all($num = 0, $offset = 0, $where, $order = null,$where_in=null) {
         if ($order == null)
             $order = "name";
         //$this->db->select('id','nombre');
@@ -27,6 +27,10 @@ class Item extends CI_Model {
         if ($where != "")
             $this->db->where($where);
         $this->db->where('items.deleted', 0);
+        if(!is_null($where_in))
+            foreach ($where_in as $key => $value) {
+                $this->db->where_in($key,$value);
+            }
         $this->db->order_by($order);
         $this->db->limit($num, $offset);
         //Aumentar los stocks de las sucursales.

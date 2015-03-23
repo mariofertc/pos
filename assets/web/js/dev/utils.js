@@ -1,0 +1,18 @@
+module.exports={
+	log: function(string){
+		if(console) console.log(string);
+	},
+	//Obtiene un array con todos los segmetos de la URL
+	getBasePath : function(){
+		var port = window.location.port;
+		var pathArray = window.location.pathname.split('/');
+		var applicacion = (window.location.host === "127.0.0.1" || window.location.host === "localhost" || window.location.host.indexOf('192.168.') !== -1) ? pathArray[1] : '';
+		if(port==="3000"){
+			applicacion = applicacion+'pos/';
+		}
+		if (!window.location.origin)
+			return window.location.protocol + "//" + window.location.host + "/" + applicacion;
+		else
+			return window.location.origin + "/" + applicacion;
+	}
+}

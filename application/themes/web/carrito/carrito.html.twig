@@ -1,0 +1,89 @@
+{% block header %}
+    {% include 'partials/heading.html.twig' %}
+    {% include 'partials/heade.html.twig' %}
+{% endblock %}
+{% block content %}
+{% block main_banner %}
+	{# include 'main_banner.html.twig' #}
+{% endblock %}
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">{{line('market_home')}}</a></li>
+				  <li class="active">{{line('market_carrito_compras')}}</li>
+				</ol>
+			</div>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">{{line('market_producto')}}</td>
+							<td class="description"></td>
+							<td class="price">{{line('market_precio')}}</td>
+							<td class="quantity">{{line('market_cantidad')}}</td>
+							<td class="total">{{line('market_total')}}</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for producto in productos %}
+							{% include 'carrito/item_carrito.html.twig' with {'producto':producto} %}
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+		<section id="do_action">
+		<div class="container">
+			<div class="heading">
+				<h3>{{line('market_que_hacer_a_continuacion')}}</h3>
+				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="chose_area">
+						<ul class="user_option">
+							<li>
+								<input type="checkbox">
+								<label>{{line('market_estimar_envio_e_impuestos')}}</label>
+							</li>
+						</ul>
+						<ul class="user_info">
+							<li class="single_field">
+								<label>{{line('market_provincia')}}:</label>
+								<select>
+								</select>
+								
+							</li>
+							<li class="single_field">
+								<label>{{line('market_ciudad')}}:</label>
+								<select>
+								</select>
+							</li>
+						</ul>
+						<a class="btn btn-default update" href="">{{line('market_obtener_cuotas')}}</a>
+						<a class="btn btn-default check_out" href="">{{line('market_continuar')}}</a>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>{{line('market_subtotal')}}<span>$59</span></li>
+							<li>{{line('market_costos_envio')}}<span>Free</span></li>
+							<li>{{line('market_total')}}<span>$61</span></li>
+						</ul>
+							<a class="btn btn-default check_out" href="">{{line('market_pagar')}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/foote.html.twig' %}
+    {% include 'partials/footing.html.twig' %}
+{% endblock %}

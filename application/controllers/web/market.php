@@ -10,6 +10,10 @@ class Market extends CI_Controller {
         $this->controller_name = strtolower($this->uri->segment(1));
         $this->data['controller_name'] = $this->controller_name;
         $this->data['categorias']=$this->Item->get_count_categories(10)->result();
+        $userdata = $this->session->userdata('webuser_data');
+        if(isset($userdata)){
+            $this->data['webuser_data']=$userdata;
+        }
         $this->twiggy->theme('web');
     }
 
@@ -37,8 +41,21 @@ class Market extends CI_Controller {
      * @return [HTML] [bloques de productos]
      */
     function catalogo(){
-        $filtros = $this->input->get('filtro');
-        $this->data['productos'] = $this->Item->get_all(10,0,array());
+        $filtros = array();
+        $where = array();
+        $categorias = $this->input->get('categoria');
+        if(!empty($categorias)){
+            $filtros['category']= $categorias;
+        }
+        $precios = $this->input->get('precios');
+        if(!empty($precios)){
+            $precios=explode(',', $precios);
+            $where['unit_price >= ']=$precios[0];
+            $where['unit_price <= ']=$precios[1];
+        }
+        print_r($filtros);
+        print_r($where);
+        $this->data['productos'] = $this->Item->get_all(10,0,$where,null,$filtros);
         $this->twiggy->set($this->data);
         $this->twiggy->display('elementos/catalogo');
     }
@@ -57,12 +74,6 @@ class Market extends CI_Controller {
         else
             $this->twiggy->display('elementos/item_producto_destacado');
     }
-
-    function carrito() {
-        $this->data['title'] = 'Market - Carrito ';
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('carrito');
-    }   
 
     function compra() {
         $this->data['title'] = 'Market - Compra ';
@@ -99,6 +110,5 @@ class Market extends CI_Controller {
         $this->twiggy->set($this->data);
         $this->twiggy->display('error404');
     } 
-
 
 }

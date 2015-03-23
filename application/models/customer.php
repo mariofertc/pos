@@ -261,7 +261,7 @@ class Customer extends Person {
 
         return $this->db->get();
     }
-
+    
 }
 
 ?>

@@ -11,10 +11,18 @@ var host = "192.168.1.8";
 var puerto = 6666;
 
 gulp.task('js',function(){
-	return gulp.src(['assets/web/js/**/*.js'])
-	//	.pipe(browserify({ debug : env === 'development' }))
+	return gulp.src(['assets/web/js/**/*.js','!assets/web/js/dev/main.js'])
 		.pipe(gulpif(env === "production",uglify()))
-		.pipe(gulp.dest('assets/web/js_min/'));
+		.pipe(gulp.dest('assets/web/js_min/'))
+		.pipe(reload({stream:true}));
+});
+
+gulp.task('browsy',function(){
+	return gulp.src(['assets/web/js/dev/main.js'])
+		.pipe(browserify({ debug : env === 'development' }))
+		.pipe(gulpif(env === "production",uglify()))
+		.pipe(gulp.dest('assets/web/js_min/'))
+		.pipe(reload({stream:true}));
 });
 
 gulp.task('css',function(){
@@ -28,7 +36,7 @@ gulp.task('connect-sync',function(){
 	connect.server({host:host},function(){
 		browserSync({
 			proxy:{
-				target: host+'/pos/web/market'
+				target: host+'/pos/web/market/login'
 			}
 		});
 	})
@@ -45,10 +53,11 @@ gulp.task('views',function(){
 });
 
 gulp.task('watch',function(){
-	gulp.watch(['assets/web/js/**/*.js','assets/web/js_min/**/*.js'],['js']);
+	gulp.watch(['assets/web/js/**/*.js','!assets/web/js/dev/main.js'],['js']);
+	gulp.watch(['assets/web/js/dev/**/*.js'],['browsy']);
 	gulp.watch(['assets/web/css/**/*.css','!assets/web/css_min/**/*.css'],['css']);
 	gulp.watch('**/*.php',['php']);
 	gulp.watch('**/*.twig',['views']);
 });
 
-gulp.task('default',['js','css','connect-sync','watch']);
+gulp.task('default',['js','browsy','css','connect-sync','watch']);
