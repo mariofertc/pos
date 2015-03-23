@@ -20,7 +20,7 @@ class Market extends CI_Controller {
     function index() {
         $this->data['title'] = 'Marketsillo';
         $this->twiggy->set($this->data);
-        $this->twiggy->display('inicio');
+        $this->twiggy->display('tienda');
     }
 
     function tienda() {
@@ -35,8 +35,13 @@ class Market extends CI_Controller {
         $this->twiggy->display('producto_detail');
     }
 
+    function destacados(){
+        $this->data['productos'] = $this->Item->get_all(6,0,null,null,null);
+        $this->twiggy->set($this->data);
+        $this->twiggy->display('elementos/catalogo');
+    }
     /**
-     * Bloque HTML con 10 productos paginados que cumplan con 
+     * Bloque HTML con 9 productos paginados que cumplan con 
      * los parametros obtenidos por GET
      * @return [HTML] [bloques de productos]
      */
@@ -53,11 +58,13 @@ class Market extends CI_Controller {
             $where['unit_price >= ']=$precios[0];
             $where['unit_price <= ']=$precios[1];
         }
-        print_r($filtros);
-        print_r($where);
-        $this->data['productos'] = $this->Item->get_all(10,0,$where,null,$filtros);
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('elementos/catalogo');
+        $ultimo=$this->input->get('ultimo');
+        $ultimo=(int)$ultimo+1;
+        $this->data['productos'] = $this->Item->get_all(9,$ultimo,$where,null,$filtros);
+        if(count($this->data['productos'])>0){
+            $this->twiggy->set($this->data);
+            $this->twiggy->display('elementos/catalogo');
+        }
     }
 
     /**

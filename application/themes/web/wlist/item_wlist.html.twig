@@ -1,0 +1,21 @@
+{% block item_wlist %}	
+	<tr>
+		<td class="cart_product">
+			<a href=""><img src="images/cart/one.png" alt="{{producto.name}}"></a>
+		</td>
+		<td class="cart_description">
+			<h4><a href="">{{producto.name}}</a></h4>
+			<p>{{producto.categoria}}{{producto.item_id}}</p>
+		</td>
+		<td class="cart_price">
+			<p class="cart_total_price">$ <span>{{producto.unit_price}}</span></p>
+		</td>
+		<td class="cart_total">
+			<p><span>{{producto.stock}}</span></p>
+		</td>
+		<td class="cart_delete">
+			<a href="{{producto.item_id}}" class="add-to-cart" data-toggle="tooltip" title="{{line('market_agregar_a_carrito')}}"><i class="fa fa-shopping-cart"></i></a>
+			<a class="remove-from-wlist" href="{{producto.wlist_id}}" data-toggle="tooltip" title="{{line('market_remover_de_lista_deseos')}}"><i class="fa fa-times"></i></a>
+		</td>
+	</tr>
+{% endblock %}

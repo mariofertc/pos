@@ -39,19 +39,45 @@ $(document).on('click','.market-filter',function(e){
 $(document).on('click','.add-to-cart',function(e){
 	e.preventDefault();
 	catalogo.handle_add_to_cart($(this));    
-	
 });
 
 $(document).on('click','.remove-from-cart',function(e){
 	e.preventDefault();
 	catalogo.handle_remove_from_cart($(this));    
+});
+
+$(document).on('click','.add-to-wlist',function(e){
+	e.preventDefault();
+	catalogo.handle_add_to_wlist($(this));    
+});
+
+$(document).on('click','.remove-from-wlist',function(e){
+	e.preventDefault();
+	catalogo.handle_remove_from_wlist($(this));    
+});
+
+$(document).on('click','.cart_quantity_up, .cart_quantity_down',function(e){
+	e.preventDefault();
+	catalogo.update_cantidad_item($(this));    
 	
+});
+
+
+//on scroll gets when bottom of the page is reached and calls the function do load more content
+$(window).scroll(function(e){
+	//Not always the pos == h statement is verified, expecially on mobile devices, that's why a 300px of margin are assumed.
+	if($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
+		utils.log("Final de página alcanzado");
+		if($('#market-catalogo').length)
+			catalogo.refresh_catalogo();
+	}
 });
 
 function main(){
 	catalogo.reload_catalogo();
 	frms.handle_login_submit();
 	frms.handle_register_submit();
+	catalogo.load_destacados();
 }
 
 $(document).ready(main);

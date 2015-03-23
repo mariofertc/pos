@@ -10,6 +10,7 @@ class Cart extends CI_Model
 		foreach ($res as $key => $item) {
 			$producto = $this->Item->get_info($item->item_id);
 			$producto->cart_id=$item->cart_id;
+			$producto->cantidad=$item->cantidad;
 			$productos[]=$producto;
 		}
 		return $productos;
@@ -44,7 +45,7 @@ class Cart extends CI_Model
 			$this->db->where('user_id',$data['user_id']);
 			$this->db->where('item_id',$data['item_id']);
 			if($this->db->update('cart',$data))
-				return array('error'=>FALSE,'ID'=>$user_id);
+				return array('error'=>FALSE,'ID'=>$data['item_id']);
 			else
 				return array('error'=>TRUE,'msg'=>$this->db->_error_message(),'code'=>$this->db->_error_number());
 		}

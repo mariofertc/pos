@@ -2,6 +2,18 @@
 class Wishlist extends CI_Model 
 {	
 
+	function get_items_by_user($user_id){
+		$this->db->where('user_id',$user_id);
+		$res = $this->db->get('wishlist')->result();
+		$productos = array();
+		foreach ($res as $key => $item) {
+			$producto = $this->Item->get_info($item->item_id);
+			$producto->wlist_id=$item->wlist_id;
+			$productos[]=$producto;
+		}
+		return $productos;
+	}
+
 	/**
 	 * Verifica si un producto ya esta en  la lista de deseos
 	 * @param  [type] $data [description]
@@ -31,7 +43,7 @@ class Wishlist extends CI_Model
 			$this->db->where('user_id',$data['user_id']);
 			$this->db->where('item_id',$data['item_id']);
 			if($this->db->update('wishlist',$data))
-				return array('error'=>FALSE,'ID'=>$user_id);
+				return array('error'=>FALSE,'ID'=>$data['item_id']);
 			else
 				return array('error'=>TRUE,'msg'=>$this->db->_error_message(),'code'=>$this->db->_error_number());
 		}

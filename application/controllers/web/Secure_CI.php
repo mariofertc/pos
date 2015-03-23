@@ -11,7 +11,7 @@ class Secure_CI extends CI_Controller
 			redirect(site_url('web/market/login'));
 		}else{
 			$this->user = $this->session->userdata('webuser_data');
-		     $this->twiggy->set('webuser_data',$this->session->userdata('webuser_data'));
+		    $this->twiggy->set('webuser_data',$this->session->userdata('webuser_data'));
 		}
 	}
 }

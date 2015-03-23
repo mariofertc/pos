@@ -8,7 +8,7 @@ CREATE TABLE phppos_webusers
 	fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE phppos_whishlist
+CREATE TABLE phppos_wishlist
 (
 	wlist_id 	INT PRIMARY KEY AUTO_INCREMENT,
 	user_id 	INT,
@@ -23,4 +23,11 @@ CREATE TABLE phppos_cart
 	item_id		INT,
 	cantidad	INT DEFAULT 1,
 	fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE phppos_paypal
+(
+	tran_id	INT PRIMARY KEY AUTO_INCREMENT,
+	hash	VARCHAR(255),
+	user_id	INT
 );

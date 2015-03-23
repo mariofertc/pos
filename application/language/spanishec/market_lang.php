@@ -22,6 +22,7 @@ $lang['market_ingresar']='Ingresar';
 $lang['market_cuenta']='Cuenta';
 $lang['market_agregar_a_carrito']='Añadir a Carrito';
 $lang['market_agregar_a_lista_deseos']='Añadir a Lista de Deseos';
+$lang['market_remover_de_lista_deseos']='Quitar de Lista de Deseos';
 $lang['market_lista_deseos']='Lista de Deseos';
 $lang['market_agregar_para_comparar']='Añadir para comparar';
 $lang['market_login_to_account']='Ingresar a su cuenta';
@@ -39,6 +40,12 @@ $lang['market_item_add_to_cart_error']='Error al agregar producto al carrito';
 $lang['market_item_remove_from_cart']='Producto removido del carrito correctamente';
 $lang['market_item_remove_from_cart_error']='Error al remover producto del carrito';
 
+$lang['market_item_added_to_wishlist']='Producto agregado a la lista de deseos correctamente';
+$lang['market_item_add_to_wishlist_error']='Error al agregar producto a la lista de deseos';
+$lang['market_item_remove_from_whislist']='Producto removido de la lista de deseos correctamente';
+$lang['market_item_remove_from_whishlist_error']='Error al remover producto de la lista de deseos';
+
+
 $lang['market_producto']='Producto';
 $lang['market_precio']='Precio';
 $lang['market_cantidad']='Cantidad';
@@ -49,12 +56,20 @@ $lang['market_gratis']='Gratis';
 $lang['market_obtener_cuotas']='Obtener cuotas';
 $lang['market_continuar']='Continuar';
 $lang['market_pagar']='Pagar';
+$lang['market_stock']='Stock';
+$lang['market_gratis']='Gratis';
 
 
 $lang['market_provincia']='Provincia';
 $lang['market_ciudad']='Ciudad';
-$lang['market_estimar_envio_e_impuestos']='Estimar envio e impuestos';
+$lang['market_estimargh_envio_e_impuestos']='Estimar envio e impuestos';
 $lang['market_que_hacer_a_continuacion']='¿Qué le gustaria hacer a continuación?';
 
+$lang['market_toggle_navigation']='Toggle navegación';
+$lang['market_blog']='Blog';
+$lang['market_contactenos']='Contáctenos';
+$lang['market_contacto_info']='Información de Contacto';
+$lang['market_get_in_touch']='Sugerencias / Comentarios';
+$lang['market_redes_sociales']='Redes Sociales';
 
 ?>

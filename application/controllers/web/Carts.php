@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once ("Secure_CI.php");
 class Carts extends Secure_CI {
 
@@ -15,21 +15,27 @@ class Carts extends Secure_CI {
 
     function index(){
     	$this->data['title'] = 'Market - Carrito ';
-    	
     	$this->data['productos'] = $this->cart->get_items_by_user($this->user->user_id);
-        
+        $subtotal =0;
+        foreach ($this->data['productos'] as $key => $producto) {
+            $subtotal+=( $producto->cantidad*$producto->unit_price);
+        }
+        $this->data['subtotal']=$subtotal;
+        $this->data['total']=$subtotal;
+
         $this->twiggy->set($this->data);
         $this->twiggy->display('carrito/carrito');
     }
 
     function add_to_cart(){
         $item_id = $this->input->post('producto');
-
         if(!is_null($item_id)){
             $item_data=array(
                 'item_id'=>$item_id,
                 'user_id'=>$this->user->user_id
                 );
+            if($this->input->post('cantidad')!="")
+                $item_data['cantidad']=$this->input->post('cantidad');
             $res = $this->cart->save($item_data);
             if(!$res['error'])
                 echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('market_item_added_to_cart'))); 
@@ -49,4 +55,5 @@ class Carts extends Secure_CI {
                 echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_item_remove_from_cart_error'))); 
         }
     }
+
 }

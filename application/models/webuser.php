@@ -53,6 +53,6 @@ class Webuser extends CI_Model{
 	function is_logged()
 	{
 		$userdata = $this->session->userdata('webuser_data');
-		return !is_null($userdata);
+		return (bool)($userdata);
 	}
 }

@@ -1531,7 +1531,7 @@ h2.title {
 
 .breadcrumbs .breadcrumb {
   background:transparent;
-  margin-bottom: 75px;
+  /*margin-bottom: 75px;*/
   padding-left: 0;
 }
 
@@ -2555,4 +2555,15 @@ h2.title {
   background: -o-linear-gradient(#3c3c3c, #222222) !important;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c3c3c', endColorstr='#222222', GradientType=0) !important;
   color: #fff;
+}
+#loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  opacity: .8;
+  background-color: #FFFFFF;
 }
