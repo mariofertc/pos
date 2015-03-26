@@ -838,8 +838,16 @@ class Reports extends Secure_area {
             "overall_summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
             "export_excel" => $export_excel
         );
+        
+         if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular_details");
 
-        $this->load->view("reports/tabular_details", $data);
+//        $this->load->view("reports/tabular_details", $data);
+        
     }
 
     function detailed_por_cobrar($start_date, $end_date, $export_excel = 0) {
