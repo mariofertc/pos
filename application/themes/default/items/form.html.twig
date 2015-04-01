@@ -1,0 +1,336 @@
+{% block css %}
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>
+    
+{%endblock%}
+<div id="required_fields_message">{{ line('common_fields_required_message')}}</div>
+<ul id="error_message_box"></ul>
+{{ form_open('items/find_item_info/'~item_info.item_id,{'id':'item_number_form'}) }}
+{{ form_close() }}
+{{ form_open('items/save/'~item_info.item_id,{'id':'item_form'})}}
+<fieldset id="item_basic_info">
+    <legend>{{ line("items_basic_information")}}</legend>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_almacen')~':', 'almacen',{'class':'required small_wide'})}}
+        <div class='form_field'>
+            {{ form_dropdown('almacen_id', almacenes, selected_almacen,"id = 'almacen_id' style='width: 163px;'")}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_item_number')~':', 'name',{'class':'wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'item_number',
+		'id':'item_number',
+		'value':item_info.item_number}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_name')~':', 'name',{'class':'required wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'name',
+		'id':'name',
+		'value':item_info.name}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_category')~':', 'category',{'class':'required wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'category',
+		'id':'category',
+		'value':item_info.category}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_supplier')~':', 'supplier',{'class':'required small_wide'})}}
+        <div class='form_field'>
+            {{ form_dropdown('supplier_id', suppliers, selected_supplier,"style='width: 163px;'")}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_cost_price')~':', 'cost_price',{'class':'required wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'cost_price',
+		'size':'8',
+		'id':'cost_price',
+		'value':item_info.cost_price}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_unit_price')~':', 'unit_price',{'class':'required wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'unit_price',
+		'size':'8',
+		'id':'unit_price',
+		'value':item_info.unit_price}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_tax_1')~':', 'tax_percent_1',{'class':'small_wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'tax_names[]',
+		'id':'tax_name_1',
+		'size':'6',
+                    'value': item_tax_info[0]['name'] is not empty ? item_tax_info[0]['name'] : default_tax_1_name })
+            }}
+        </div>
+        <div class='form_field'>
+            {{ form_input({
+		'name':'tax_percents[]',
+		'id':'tax_percent_name_1',
+		'size':'3',
+		'value': item_tax_info[0]['percent'] is not empty ? item_tax_info[0]['percent'] : default_tax_1_rate}
+	)}}
+            %
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_tax_2')~':', 'tax_percent_2',{'class':'small_wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'tax_names[]',
+		'id':'tax_name_2',
+		'size':'6',
+		'value': item_tax_info[1]['name'] is not empty ? item_tax_info[1]['name'] : default_tax_2_name}
+	)}}
+        </div>
+        <div class='form_field'>
+            {{ form_input({
+		'name':'tax_percents[]',
+		'id':'tax_percent_name_2',
+		'size':'3',
+		'value': item_tax_info[1]['percent'] is not empty ? item_tax_info[1]['percent'] : default_tax_2_rate}
+	)}}
+            %
+        </div>
+    </div>
+
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_quantity')~':', 'quantity',{'class':'required wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'quantity',
+		'id':'quantity',
+		'value':item_info.quantity}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_reorder_level')~':', 'reorder_level',{'class':'required wide'})}}
+        <div class='form_field'>
+            {{ form_input({
+		'name':'reorder_level',
+		'id':'reorder_level',
+		'value':item_info.reorder_level}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_description')~':', 'description',{'class':'wide'})}}
+        <div class='form_field'>
+            {{ form_textarea({
+		'name':'description',
+		'id':'description',
+		'value':item_info.description,
+		'rows':'5',
+		'cols':'17'}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_allow_alt_desciption')~':', 'allow_alt_description',{'class':'wide'})}}
+        <div class='form_field'>
+            {{ form_checkbox({
+		'name':'allow_alt_description',
+		'id':'allow_alt_description',
+		'value':1,
+		'checked':(item_info.allow_alt_description)? 1  :0}
+	)}}
+        </div>
+    </div>
+
+    <div class="field_row clearfix">
+        {{ form_label(line('items_is_serialized')~':', 'is_serialized',{'class':'wide'})}}
+        <div class='form_field'>
+            {{ form_checkbox({
+		'name':'is_serialized',
+		'id':'is_serialized',
+		'value':1,
+		'checked':(item_info.is_serialized)? 1 : 0}
+	)}}
+        </div>
+    </div>
+
+    {{ form_submit({
+	'name':'submit',
+	'id':'submit',
+	'value':line('common_submit'),
+	'class':'btn btn-success'})
+    }}
+</fieldset>
+{{ form_close() }}
+
+<script>
+    /*$("select").change(function () {
+     var str = "";
+     $("select option:selected").each(function () {
+     str += $(this).text() + " ";
+     });
+     $("quantity").text(str);
+     })
+     .change();*/
+
+
+
+    // $('#almacen_id').change(function()
+// {
+    // alert('Value change to ' + $(this).attr('value'));
+// });
+</script>
+<script src="{{base_url()}}assets/bower_components/jquery-ui/jquery-ui.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script type='text/javascript'>
+
+//validation and submit handling
+    $(document).ready(function ()
+    {
+
+        //Almacen Cantidad
+        $("#almacen_id").change(function () {
+            $.post("{{ site_url('items/cantidades_almacen')}}", {item_id: "{{ item_info.item_id }}", almacen_id: $(this).val()},
+            function (data) {
+                //alert(cantidad);
+                $("#quantity").val(data.cantidad);
+            }, 'json');
+
+        });
+
+        $.post("{{ site_url('items/cantidades_almacen')}}", {item_id: "{{item_info.item_id}}", almacen_id: "{{ selected_almacen}}"},
+        function (data) {
+            $("#quantity").val(data.cantidad);
+        }, 'json');
+    {#	$(this.target).find('input').autocomplete();#}
+    {#	$("#category").autocomplete({source:"{{site_url('items/suggest_category')}}",max:100,minChars:0,delay:10});#}
+        $("#category").autocomplete({ source: function (request, response) {
+            $.ajax({
+            url: "{{site_url('items/suggest_category')}}",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                    q: request.term
+                            },
+                    success: function (data) {
+                        response(data);
+                        }
+            }); }});        {#$("#category").autocomplete( type: "POST",
+                minLength: 3,minChars:0,delay:10,
+                source: "{{site_url('items/suggest_category')}}",{max:100,});
+        $("#category").result(function(event, data, formatted){});#}
+                    //$("#category").search();
+                    $('#item_form').validate({
+                submitHandler: function (form)
+                {
+                    /*
+                     make sure the hidden field #item_number gets set
+                     to the visible scan_item_number value
+                     */
+                    $('#item_number').val($('#scan_item_number').val());
+                    //alert($('#item_number').val($('#scan_item_number').val()));
+                    $.ajax({
+                        type: $(form).attr('method'),
+                        url: $(form).attr('action'),
+                        data: $(form).serialize(),
+                        success: function (response)
+                        {
+                            tb_remove();
+                            post_item_form_submit(response);
+                        },
+                        dataType: 'json'
+                    });
+
+                },
+                errorLabelContainer: "#error_message_box",
+                wrapper: "li",
+                rules:
+                        {
+                            name: "required",
+                            category: "required",
+                            cost_price:
+                                    {
+                                        required: true,
+                                        number: true
+                                    },
+                            unit_price:
+                                    {
+                                        required: true,
+                                        number: true
+                                    },
+                            tax_percents:
+                                    {
+                                        number: true
+                                    },
+                            quantity:
+                                    {
+                                        required: true,
+                                        number: true
+                                    },
+                            reorder_level:
+                                    {
+                                        required: true,
+                                        number: true
+                                    }
+                        },
+                messages:
+                        {
+                            name: "{{ line('items_name_required')}}",
+                            category: "{{line('items_category_required')}}",
+                            cost_price:
+                                    {
+                                        required: "{{ line('items_cost_price_required')}}",
+                                        number: "{{ line('items_cost_price_number')}}"
+                                    },
+                            unit_price:
+                                    {
+                                        required: "{{ line('items_unit_price_required')}}",
+                                        number: "{{ line('items_unit_price_number')}}"
+                                    },
+                            tax_percents:
+                                    {
+                                        number: "{{ line('items_tax_percent_number')}}"
+                                    },
+                            quantity:
+                                    {
+                                        required: "{{ line('items_quantity_required')}}",
+                                        number: "{{ line('items_quantity_number')}}"
+                                    },
+                            reorder_level:
+                                    {
+                                        required: "{{ line('items_reorder_level_required')}}",
+                                        number: "{{ line('items_reorder_level_number')}}"
+                                    }
+
+                        }
+            });
+        });
+</script>

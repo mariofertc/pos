@@ -219,8 +219,10 @@ class Receivings extends Secure_area
 			$data['supplier']=$supplier_info->first_name.' '.$supplier_info->last_name;
 		}
 		$data['receiving_id']='RECV '.$receiving_id;
-		$this->load->view("receivings/receipt",$data);
 		$this->receiving_lib->clear_all();
+//		$this->load->view("receivings/receipt",$data);
+		$this->twiggy->set($data);
+        $this->twiggy->display("receivings/receipt");
 
 	}
 

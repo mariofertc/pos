@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
     <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
     {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
 {% endblock %}
 {% block header %}
@@ -72,6 +73,7 @@
     <script src="{{base_url()}}js/thickbox.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}js/common.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+     <script src="{{base_url()}}assets/bower_components/pnotify/pnotify.core.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script type="text/javascript">
         $(document).ready(function ()
         {
@@ -189,7 +191,12 @@
             {
                 if (!response.success)
                 {
-                    set_feedback(response.message, 'error_message', true);
+{#                    set_feedback(response.message, 'error_message', true);#}
+                        new PNotify({
+                                    title: 'Oh No!',
+                                    text: response.message,
+                                    type: 'error'
+                                });
                 }
                 else
                 {
@@ -197,7 +204,12 @@
                     if (jQuery.inArray(response.item_id, get_visible_checkbox_ids()) != -1)
                     {
                         update_row(response.item_id, '{{ site_url(controller_name~"/get_row")}}');
-                        set_feedback(response.message, 'success_message', false);
+                        //set_feedback(response.message, 'success_message', false);
+                        new PNotify({
+                                    title: 'Exito',
+                                    text: response.message,
+                                    type: 'success'
+                                });
 
                     }
                     else //refresca toda la tabla.
@@ -207,7 +219,12 @@
                         {
                             //highlight new row
                             hightlight_row(response.item_id);
-                            set_feedback(response.message, 'success_message', false);
+                            //set_feedback(response.message, 'success_message', false);
+                           new PNotify({
+                                    title: 'Exito',
+                                    text: response.message,
+                                    type: 'success'
+                                });
                         });
                     }
                 }

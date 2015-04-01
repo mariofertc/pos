@@ -211,10 +211,17 @@ class Sales extends Secure_area {
             $data['customer'] = $cust_info->first_name . ' ' . $cust_info->last_name;
         }
         $data['sale_id'] = 'POS ' . $sale_id;
+        $data['print_after_sale'] = $this->Appconfig->get('print_after_sale');
+        $data['company'] = $this->config->item('company');
+        $data['address'] = $this->config->item('address');
+        $data['phone'] = $this->config->item('phone');
+        $data['return_policy'] = $this->config->item('return_policy');
+        
+        
 //        $this->load->view("sales/receipt", $data);
+        $this->sale_lib->clear_all();
         $this->twiggy->set($data);
         $this->twiggy->display("sales/receipt");
-        $this->sale_lib->clear_all();
     }
 
     function edit($sale_id) {

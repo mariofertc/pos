@@ -100,14 +100,7 @@ class Items extends Secure_area implements iData_controller {
                 'common_language' => "common_det",
                 'language' => "_update",
                 'width' => $this->get_form_width(),
-                'height' => $this->get_form_height()),
-            
-            
-            
-            
-        
-        
-        
+                'height' => $this->get_form_height())
         );
         echo getData($this->Item, $aColumns, $cllAccion);
     }
@@ -164,7 +157,8 @@ class Items extends Secure_area implements iData_controller {
 
     function suggest_category() {
         $suggestions = $this->Item->get_category_suggestions($this->input->post('q'));
-        echo implode("\n", $suggestions);
+//        echo implode("\n", $suggestions);
+        echo json_encode($suggestions);
     }
 
     function cantidades_almacen() {
@@ -201,10 +195,14 @@ class Items extends Secure_area implements iData_controller {
         //$data['selected_almacen'] = 2;
         //var_dump($data['selected_almacen']);
         $data['default_tax_1_rate'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_1_rate') : '';
+        $data['default_tax_1_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_1_name') : '';
         $data['default_tax_2_rate'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_2_rate') : '';
+        $data['default_tax_2_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_2_name') : '';
         // call_user_method(
-        $this->load->view("items/form", $data);
-    }
+//        $this->load->view("items/form", $data);
+        $this->twiggy->set($data);
+                $this->twiggy->display("items/form");
+        }
 
     //Ramel Inventory Tracking
     function inventory($item_id = -1) {
