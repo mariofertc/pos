@@ -179,7 +179,7 @@ class Items extends Secure_area implements iData_controller {
         $data['item_tax_info'] = $this->Item_taxes->get_info($item_id);
         $suppliers = array('' => $this->lang->line('items_none'));
         //$almacenes = array('' => $this->lang->line('items_none'));
-        foreach ($this->Supplier->get_all()->result_array() as $row) {
+        foreach ($this->Supplier->get_all(100,0) as $row) {
             $suppliers[$row['person_id']] = $row['company_name'] . ' (' . $row['first_name'] . ' ' . $row['last_name'] . ')';
         }
         $almacenes = array();

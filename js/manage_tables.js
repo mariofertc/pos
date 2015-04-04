@@ -134,11 +134,13 @@ function do_delete(url)
                     update_sortable_table();
                 });
             });
-            set_feedback(response.message, 'success_message', false);
+            //set_feedback(response.message, 'success_message', false);
+            new PNotify({title: 'Elemento Eliminado', text: response.message, type: 'success'});
         }
         else
         {
-            set_feedback(response.message, 'error_message', true);
+            //set_feedback(response.message, 'error_message', true);
+             new PNotify({title: 'Oh No!',text: response.message,type: 'error'});
         }
 
 
@@ -214,9 +216,10 @@ function enable_row_selection(rows)
     );
     rows.click(function row_click(event)
     {
-
         var checkbox = $(this).find(":checkbox");
-        checkbox.attr('checked', !checkbox.attr('checked'));
+//        checkbox.attr('checked', !checkbox.attr('checked'));
+         checkbox.prop("checked", !checkbox.prop("checked"));
+//        checkbox.toggle('checked');
         do_email(enable_email.url);
         if (checkbox.attr('checked'))
         {
@@ -259,7 +262,7 @@ function reinit_row(checkbox_id)
     enable_row_selection(new_row);
     //Re-init some stuff as we replaced row
     update_sortable_table();
-    tb_init(new_row.find("a.thickbox"));
+    //tb_init(new_row.find("a.thickbox"));
     //re-enable e-mail
     new_checkbox.click(checkbox_click);
 }

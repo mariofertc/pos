@@ -1,16 +1,23 @@
-<?php $this->load->view("partial/header"); ?>
+{% extends _layout %}
+{% block css %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
+    <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
+    {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
+{% endblock %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+{% endblock %}
+{% block content %}
 
-<div id="page_title" style="margin-bottom:8px;"><?php echo $this->lang->line('recvs_register'); ?></div>
-
-<?php
-if(isset($error))
-{
-	echo "<div class='error_message'>".$error."</div>";
-}
-?>
-
-
-
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{line('recvs_register') }}
 <div id="register_wrapper">
 
 	<?php echo form_open("receivings/change_almacen",array('id'=>'almacen_form')); ?>

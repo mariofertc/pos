@@ -262,7 +262,9 @@ class Receivings extends Secure_area
 			$info=$this->Supplier->get_info($supplier_id);
 			$data['supplier']=$info->first_name.' '.$info->last_name;
 		}
-		$this->load->view("receivings/receiving",$data);
+//		$this->load->view("receivings/receiving",$data);
+                $this->twiggy->set($data);
+                $this->twiggy->display("receivings/receiving");
 	}
 
     function cancel_receiving()
