@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
     <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>
+    
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
     {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
 {% endblock %}
 {% block header %}
@@ -20,292 +23,229 @@
                         {{line('recvs_register') }}
 <div id="register_wrapper">
 
-	<?php echo form_open("receivings/change_almacen",array('id'=>'almacen_form')); ?>
-	<span><?php echo $this->lang->line('almacenes_almacen') ?></span>
-	<?php echo form_dropdown('almacen',$almacenes,$almacen,'onchange="$(\'#almacen_form\').submit();"'); ?>
+	{{ form_open("receivings/change_almacen",{'id':'almacen_form'})}}
+	<span>{{ line('almacenes_almacen')}}</span>
+	{{ form_dropdown('almacen',almacenes,almacen,'onchange="$(\'#almacen_form\').submit();"')}}
 	</form>
 	
-	<?php echo form_open("receivings/change_mode",array('id'=>'mode_form')); ?>
-		<span><?php echo $this->lang->line('recvs_mode') ?></span>
-	<?php echo form_dropdown('mode',$modes,$mode,'onchange="$(\'#mode_form\').submit();"'); ?>
+	{{ form_open("receivings/change_mode",{'id':'mode_form'})}}
+		<span>{{ line('recvs_mode')}}</span>
+	{{ form_dropdown('mode',modes,mode,'onchange="$(\'#mode_form\').submit();"')}}
 	</form>
-	<?php echo form_open("receivings/add",array('id'=>'add_item_form')); ?>
+	{{ form_open("receivings/add",{'id':'add_item_form'})}}
 	<label id="item_label" for="item">
 
-	<?php
-	if($mode=='receive')
-	{
-		echo $this->lang->line('recvs_find_or_scan_item');
-	}
-	else
-	{
-		echo $this->lang->line('recvs_find_or_scan_item_or_receipt');
-	}
-	?>
+	{% if(mode=='receive') %}
+		{{ line('recvs_find_or_scan_item') }}
+	{% else %}
+		 {{ line('recvs_find_or_scan_item_or_receipt') }}
+	{% endif %}
 	</label>
-<?php echo form_input(array('name'=>'item','id'=>'item','size'=>'40'));?>
+{{ form_input({'name':'item','id':'item','size':'40'})}}
 <div id="new_item_button_register" >
-		<?php echo anchor("items/view/-1?width=360",
-		"<div class='small_button'><span>".$this->lang->line('sales_new_item')."</span></div>",
-		array('class'=>'thickbox none','title'=>$this->lang->line('sales_new_item')));
-		?>
+		{{ anchor("items/view/-1?width=360",
+		"<div class='small_button'><span>"~line('sales_new_item')~"</span></div>",
+		{'class':'thickbox none','title':line('sales_new_item')})
+		}}
 	</div>
-
 </form>
 
 <!-- Receiving Items List -->
-
 <table id="register">
 <thead>
 <tr>
-<th style="width:11%;"><?php echo $this->lang->line('common_delete'); ?></th>
+<th style="width:11%;">{{ line('common_delete')}}</th>
 
-<th style="width:30%;"><?php echo $this->lang->line('recvs_item_name'); ?></th>
-<th style="width:11%;"><?php echo $this->lang->line('recvs_cost'); ?></th>
-<th style="width:11%;"><?php echo $this->lang->line('recvs_quantity'); ?></th>
-<th style="width:11%;"><?php echo $this->lang->line('recvs_discount'); ?></th>
-<th style="width:15%;"><?php echo $this->lang->line('recvs_total'); ?></th>
-<th style="width:11%;"><?php echo $this->lang->line('recvs_edit'); ?></th>
+<th style="width:30%;">{{ line('recvs_item_name')}}</th>
+<th style="width:11%;">{{ line('recvs_cost')}}</th>
+<th style="width:11%;">{{ line('recvs_quantity')}}</th>
+<th style="width:11%;">{{ line('recvs_discount')}}</th>
+<th style="width:15%;">{{ line('recvs_total')}}</th>
+<th style="width:11%;">{{ line('recvs_edit')}}</th>
 </tr>
 </thead>
 <tbody id="cart_contents">
-<?php
-if(count($cart)==0)
-{
-?>
+    {% if cart|length==0 %}
 <tr><td colspan='7'>
-<div class='warning_message' style='padding:7px;'><?php echo $this->lang->line('sales_no_items_in_cart'); ?></div>
+<div class='warning_message' style='padding:7px;'>{{ line('sales_no_items_in_cart')}}</div>
 </tr></tr>
-<?php
-}
-else
-{
-	foreach($cart as $item_id=>$item)
-	{
-		echo form_open("receivings/edit_item/$item_id");
-	?>
+{% else %}
+	{# foreach(cart as item_id:item)#}
+	{% for item_id, item in cart %}
+	{{ form_open("receivings/edit_item/"~item_id) }}
 		<tr>
-		<td><?php echo anchor("receivings/delete_item/$item_id",'['.$this->lang->line('common_delete').']');?></td>
+		<td>{{ anchor("receivings/delete_item/"~ item_id,'['~line('common_delete')~']')}}</td>
 
-		<td style="align:center;"><?php echo $item['name']; ?><br>
+		<td style="align:center;">{{ item['name']}}<br>
 
-		<?php
-        	if($item['allow_alt_description']==1 && false)
-        	{
-        		echo form_input(array('name'=>'description','value'=>$item['description'],'size'=>'20'));
-        	}
-        	else
-        	{
-				echo $item['description'];
-        		echo form_hidden('description',$item['description']);
-        	}
-		?>
+		{% if item['allow_alt_description']==1 and false %}
+        	{{ form_input({'name':'description','value':item['description'],'size':'20'}) }}
+        	{% else %}
+                    {{item['description']}}
+        		 {{form_hidden('description',item['description'])}}
+		{% endif %}
 		<br>
-
-
-
-		<?php
-        	if($item['is_serialized']==1 && false)
-        	{
-				echo form_input(array('name'=>'serialnumber','value'=>$item['serialnumber'],'size'=>'20'));
-			}
-		?></td>
-
-
-		<?php if ($items_module_allowed)
-		{
-		?>
-			<td><?php echo form_input(array('name'=>'price','value'=>$item['price'],'size'=>'6'));?></td>
-		<?php
-		}
-		else
-		{
-		?>
-			<td><?php echo $item['price']; ?></td>
-			<?php echo form_hidden('price',$item['price']); ?>
-		<?php
-		}
-		?>
+		{% if item['is_serialized']==1 and false %}
+                    {{form_input({'name':'serialnumber','value':item['serialnumber'],'size':'20'}) }}
+                {% endif %}</td>
+		{% if items_module_allowed %}
+			<td>{{ form_input({'name':'price','value':item['price'],'size':'6'})}}</td>
+		{% else %}
+			<td>{{ item['price']}}</td>
+			{{ form_hidden('price',item['price'])}}
+		{% endif %}
 		<td>
-		<?php
-        	if($item['is_serialized']==1 && false)
-        	{
-        		echo $item['quantity'];
-        		echo form_hidden('quantity',$item['quantity']);
-        	}
-        	else
-        	{
-        		echo form_input(array('name'=>'quantity','value'=>$item['quantity'],'size'=>'2'));
-        	}
-		?>
+		{% if item['is_serialized']==1 and false %}
+        		 {{ item['quantity'] }}
+        		 {{ form_hidden('quantity',item['quantity']) }}
+        	{% else %}
+        		 {{ form_input({'name':'quantity','value':item['quantity'],'size':'2'}) }}
+        	{% endif %}
 		</td>
-
-
-		<td><?php echo form_input(array('name'=>'discount','value'=>$item['discount'],'size'=>'3'));?></td>
-		<td><?php echo to_currency($item['price']*$item['quantity']-$item['price']*$item['quantity']*$item['discount']/100); ?></td>
-		<td><?php echo form_submit("edit_item", $this->lang->line('sales_edit_item'));?></td>
+		<td>{{ form_input({'name':'discount','value':item['discount'],'size':'3'})}}</td>
+		<td>{{ to_currency(item['price']*item['quantity']-item['price']*item['quantity']*item['discount']/100)}}</td>
+		<td>{{ form_submit("edit_item", line('sales_edit_item'))}}</td>
 		</tr>
 		</form>
-	<?php
-	}
-}
-?>
+                {% endfor %}
+	{% endif %}
 </tbody>
 </table>
 </div>
-
 <!-- Overall Receiving -->
 
 <div id="overall_sale">
-	<?php
-	if(isset($supplier))
-	{
-		echo $this->lang->line("recvs_supplier").': <b>'.$supplier. '</b><br />';
-		echo anchor("receivings/delete_supplier",'['.$this->lang->line('common_delete').' '.$this->lang->line('suppliers_supplier').']');
-	}
-	else
-	{
-		echo form_open("receivings/select_supplier",array('id'=>'select_supplier_form')); ?>
-		<label id="supplier_label" for="supplier"><?php echo $this->lang->line('recvs_select_supplier'); ?></label>
-		<?php echo form_input(array('name'=>'supplier','id'=>'supplier','size'=>'30','value'=>$this->lang->line('recvs_start_typing_supplier_name')));?>
+    {% if supplier is not empty%}
+		 {{line("recvs_supplier")~': <b>'~supplier~ '</b><br />'}}
+		 {{anchor("receivings/delete_supplier",'['~line('common_delete')~' '~line('suppliers_supplier')~']')}}
+	{% else %}
+		 {{form_open("receivings/select_supplier",{'id':'select_supplier_form'})}}
+		<label id="supplier_label" for="supplier">{{ line('recvs_select_supplier')}}</label>
+		{{ form_input({'name':'supplier','id':'supplier','size':'30','value':line('recvs_start_typing_supplier_name')})}}
 		</form>
 		<div style="margin-top:5px;text-align:center;">
-		<h3 style="margin: 5px 0 5px 0"><?php echo $this->lang->line('common_or'); ?></h3>
-		<?php echo anchor("suppliers/view/-1?width=350",
-		"<div class='small_button' style='margin:0 auto;'><span>".$this->lang->line('recvs_new_supplier')."</span></div>",
-		array('class'=>'thickbox none','title'=>$this->lang->line('recvs_new_supplier')));
-		?>
+		<h3 style="margin: 5px 0 5px 0">{{ line('common_or')}}</h3>
+		{{ anchor("suppliers/view/-1?width=350",
+		"<div class='small_button' style='margin:0 auto;'><span>"~line('recvs_new_supplier')~"</span></div>",
+		{'class':'thickbox none','title':line('recvs_new_supplier')})
+		}}
 		</div>
 		<div class="clearfix">&nbsp;</div>
-		<?php
-	}
-	?>
+		{% endif %}
 
 	<div id='sale_details'>
-		<div class="float_left" style="width:55%;"><?php echo $this->lang->line('sales_sub_total'); ?>:</div>
-		<div class="float_left" style="width:45%;font-weight:bold;"><?php echo to_currency($subtotal); ?></div>
+		<div class="float_left" style="width:55%;">{{ line('sales_sub_total')}}:</div>
+		<div class="float_left" style="width:45%;font-weight:bold;">{{ to_currency(subtotal)}}</div>
 
-		<div class="float_left" style='width:55%;'><?php echo $this->lang->line('sales_total'); ?>:</div>
-		<div class="float_left" style="width:45%;font-weight:bold;"><?php echo to_currency($total); ?></div>
+		<div class="float_left" style='width:55%;'>{{ line('sales_total')}}:</div>
+		<div class="float_left" style="width:45%;font-weight:bold;">{{ to_currency(total)}}</div>
 	</div>
-	<?php
-	if(count($cart) > 0)
-	{
-	?>
+                {% if cart|length > 0 %}
 	<div id="Cancel_sale">
-	<?php echo form_open("receivings/cancel_receiving",array('id'=>'cancel_sale_form')); ?>
+	{{ form_open("receivings/cancel_receiving",{'id':'cancel_sale_form'})}}
 			    <div class='small_button' id='cancel_sale_button' style='float:left;margin-top:5px;'>
-					<span><?php echo $this->lang->line('recvs_cancel_receiving');?> </span>
+					<span>{{ line('recvs_cancel_receiving')}} </span>
 				</div>
         </form>
 		</div>
 		<div class="clearfix" style="margin-bottom:1px;">&nbsp;</div>
-	<?php if(count($payments)>0){?>
+                {% if payments|length>0 %}
 	<div id="finish_sale">
-		<?php echo form_open("receivings/complete",array('id'=>'finish_sale_form')); ?>
-		<label id="comment_label" for="comment"><?php echo $this->lang->line('common_comments'); ?>:</label>
-		<?php echo form_textarea(array('name'=>'comment','value'=>'','rows'=>'4','cols'=>'23'));?>
+		{{ form_open("receivings/complete",{'id':'finish_sale_form'})}}
+		<label id="comment_label" for="comment">{{ line('common_comments')}}:</label>
+		{{ form_textarea({'name':'comment','value':'','rows':'4','cols':'23'})}}
 		<br>
         <br>
-		<?php echo "<div class='small_button' id='finish_sale_button' style='float:left;margin-top:5px;'><span>".$this->lang->line('recvs_complete_receiving')."</span></div>";
-		?>
+		<div class='small_button' id='finish_sale_button' style='float:left;margin-top:5px;'><span>{{line('recvs_complete_receiving')}}</span></div>
 		</div>
 
 		</form>
-		<?php }?>
+		{% endif %}
 		
 		<table width="100%"><tr>
-    <td style="width:55%; "><div class="float_left"><?php echo $this->lang->line('recvs_payments_total').':';?></div></td>
-    <td style="width:45%; text-align:right;"><div class="float_left" style="text-align:right;font-weight:bold;"><?php echo to_currency($amount_tendered); ?></div></td>
+    <td style="width:55%; "><div class="float_left">{{ line('recvs_payments_total')~':'}}</div></td>
+    <td style="width:45%; text-align:right;"><div class="float_left" style="text-align:right;font-weight:bold;">{{ to_currency(amount_tendered)}}</div></td>
 	</tr>
 	<tr>	
-	<td style="width:55%; "><div class="float_left" ><?php echo ($amount_due>=0 ? $this->lang->line('recvs_amount_due'):$this->lang->line('recvs_change_due')).':'; ?></div></td>
-	<td style="width:45%; text-align:right; "><div class="float_left" style="text-align:right;font-weight:bold;"><?php echo to_currency($amount_due); ?></div></td>
+	<td style="width:55%; "><div class="float_left" >{{ (amount_due>=0 ? line('recvs_amount_due'):line('recvs_change_due'))~':'}}</div></td>
+	<td style="width:45%; text-align:right; "><div class="float_left" style="text-align:right;font-weight:bold;">{{ to_currency(amount_due)}}</div></td>
 	</tr>
         </table>
 		<!-- YOOOO -->
 		<div id="Payment_Types" >
 		<div style="height:100px;">
-			<?php echo form_open("receivings/add_payment",array('id'=>'add_payment_form')); ?>
+			{{ form_open("receivings/add_payment",{'id':'add_payment_form'})}}
 			<table width="100%">
 			<tr>
 			<td>
-				<?php echo $this->lang->line('sales_payment').':   ';?>
+				{{ line('sales_payment')~':   '}}
 			</td>
 			<td>
-				<?php echo form_dropdown('payment_type',$payment_options,array(), 'id="payment_types"');?>
+				{{ form_dropdown('payment_type',payment_options,{}, 'id="payment_types"')}}
 			</td>
 			</tr>
 			<tr>
 			<td>
-				<?php echo $this->lang->line('sales_amount_tendered').':   ';?>
+				{{ line('sales_amount_tendered')~':   '}}
 			</td>
 			<td>
-				<?php echo form_input(array('name'=>'amount_tendered','value'=>to_currency_no_money($amount_due),'size'=>'10'));	?>
+				{{ form_input({'name':'amount_tendered','value':to_currency_no_money(amount_due),'size':'10'})	}}
 			</td>
 			</tr>
         	</table>
 			<div class='small_button' id='add_payment_button' style='float:left;margin-top:5px;'>
-				<span><?php echo $this->lang->line('sales_add_payment'); ?></span>
+				<span>{{ line('sales_add_payment')}}</span>
 			</div>
 		</div>
 		</form>
 
-		<?php
 		// Only show this part if there is at least one payment entered.
-		if(count($payments) > 0)
-		{
-		?>
+                {% if payments|length > 0 %}
 	    	<table id="register">
 	    	<thead>
 			<tr>
-			<th style="width:11%;"><?php echo $this->lang->line('common_delete'); ?></th>
-			<th style="width:60%;"><?php echo 'Type'; ?></th>
-			<th style="width:18%;"><?php echo 'Amount'; ?></th>
+			<th style="width:11%;">{{ line('common_delete')}}</th>
+			<th style="width:60%;">{{ 'Type'}}</th>
+			<th style="width:18%;">{{ 'Amount'}}</th>
 			</tr>
 			</thead>
 			<tbody id="payment_contents">
-			<?php
-				foreach($payments as $payment_id=>$payment)
-				{
-				echo form_open("receivings/edit_payment/$payment_id",array('id'=>'edit_payment_form'.$payment_id));
-				?>
+			{% for payment_id,payment in payments %}
+				 {{form_open("receivings/edit_payment/"~payment_id,{'id':'edit_payment_form'~payment_id})}}
 	            <tr>
-	            <td><?php echo anchor("receivings/delete_payment/$payment_id",'['.$this->lang->line('common_delete').']');?></td>
-				<td><?php echo  $payment_options[$payment_id] ?> </td>
-				<td style="text-align:right;"><?php echo  to_currency($payment['payment_amount'])  ?>  </td>
+	            <td>{{ anchor("receivings/delete_payment/"~payment_id,'['.line('common_delete')~']')}}</td>
+				<td>{{  payment_options[payment_id]}} </td>
+				<td style="text-align:right;">{{ to_currency(payment['payment_amount']) }}  </td>
 				</tr>
 				</form>
-				<?php
-				}
-				?>
+				{% endfor %}
 			</tbody>
 			</table>
 		    <br />
-		<?php
-		}
-		?>
-
-
+		{% endif %}
 
 	</div>
 		<!-- YOOOO -->
 	</div>
-	<?php
-	}
-	?>
+	{%endif %}
 
 </div>
 <div class="clearfix" style="margin-bottom:30px;">&nbsp;</div>
+ </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-
-<?php $this->load->view("partial/footer"); ?>
-
-
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script src="{{base_url()}}assets/bower_components/jquery-ui/jquery-ui.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 <script type="text/javascript" language="javascript">
-$(document).ready(function()
-{
-    $("#item").autocomplete('<?php echo site_url("receivings/item_search"); ?>',
+$(document).ready(function(){
+    var oTable = $('#register').dataTable();
+    /*$("#item").autocomplete('{{ site_url("receivings/item_search")}}',
     {
     	minChars:0,
     	max:100,
@@ -314,18 +254,37 @@ $(document).ready(function()
     	formatItem: function(row) {
 			return row[1];
 		}
-    });
+    });*/
+    $("#item").autocomplete({ source: function (request, response) {
+            $.ajax({
+            url: "{{site_url('receivings/item_search')}}",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                    q: request.term,
+            limit:25
+                            },
+                    success: function (data) {
+                        response(data);
+                        }
+            }); },select: function(e, ui) {
+            valor = ui.item.value;
+             $(this).val(valor.split("|")[0]);
+            $("#add_item_form").submit();
+         //alert("User selected: " + ui.item.value);
+    }}
+            );
 
-    $("#item").result(function(event, data, formatted)
+    /*$("#item").result(function(event, data, formatted)
     {
 		$("#add_item_form").submit();
-    });
+    });*/
 
 	$('#item').focus();
 
 	$('#item').blur(function()
     {
-    	$(this).attr('value',"<?php echo $this->lang->line('sales_start_typing_item_name'); ?>");
+    	$(this).attr('value',"{{ line('sales_start_typing_item_name')}}");
     });
 
 	$('#item,#supplier').click(function()
@@ -333,7 +292,7 @@ $(document).ready(function()
     	$(this).attr('value','');
     });
 
-    $("#supplier").autocomplete('<?php echo site_url("receivings/supplier_search"); ?>',
+    /*$("#supplier").autocomplete('{{ site_url("receivings/supplier_search")}}',
     {
     	minChars:0,
     	delay:10,
@@ -341,21 +300,37 @@ $(document).ready(function()
     	formatItem: function(row) {
 			return row[1];
 		}
-    });
+    });*/
+    $("#supplier").autocomplete({ source: function (request, response) {
+            $.ajax({
+            url: "{{site_url('receivings/item_search')}}",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                    q: request.term,
+            limit:25
+                            },
+                    success: function (data) {
+                        response(data);
+                        }
+            }); },select: function(e, ui) {
+            $("#select_supplier_form").submit();
+         //alert("User selected: " + ui.item.value);
+    }});
 
-    $("#supplier").result(function(event, data, formatted)
+    /*$("#supplier").result(function(event, data, formatted)
     {
 		$("#select_supplier_form").submit();
-    });
+    });*/
 
     $('#supplier').blur(function()
     {
-    	$(this).attr('value',"<?php echo $this->lang->line('recvs_start_typing_supplier_name'); ?>");
+    	$(this).attr('value',"{{ line('recvs_start_typing_supplier_name')}}");
     });
 
     $("#finish_sale_button").click(function()
     {
-    	if (confirm('<?php echo $this->lang->line("recvs_confirm_finish_receiving"); ?>'))
+    	if (confirm('{{ line("recvs_confirm_finish_receiving")}}'))
     	{
     		$('#finish_sale_form').submit();
     	}
@@ -363,7 +338,7 @@ $(document).ready(function()
 
     $("#cancel_sale_button").click(function()
     {
-    	if (confirm('<?php echo $this->lang->line("recvs_confirm_cancel_receiving"); ?>'))
+    	if (confirm('{{ line("recvs_confirm_cancel_receiving")}}'))
     	{
     		$('#cancel_sale_form').submit();
     	}
@@ -396,3 +371,4 @@ function post_person_form_submit(response)
 }
 
 </script>
+{% endblock %}
