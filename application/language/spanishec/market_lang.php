@@ -29,9 +29,13 @@ $lang['market_login_to_account']='Ingresar a su cuenta';
 $lang['market_register_new_user']='Registrar nuevo usuario';
 $lang['market_new_user_registered']='Usuario registrado correctamente';
 $lang['market_username']='Usuario/Email';
+$lang['market_perfil']='Perfil';
+$lang['market_fecha_registro']='Fecha Registro';
 $lang['market_email_address']='Email';
+$lang['market_email']='Email';
 $lang['market_mantener_logeado']='Recordarme';
 $lang['market_password']='Password';
+$lang['market_confirm_password']='Confirmar Password';
 $lang['market_register_new_user']='Registrar nuevo usuario';
 $lang['market_signup']='Registrarme';
 $lang['market_error_registrando_user']='Error al registrar nuevo usuario';
@@ -47,6 +51,7 @@ $lang['market_item_remove_from_whishlist_error']='Error al remover producto de l
 
 
 $lang['market_producto']='Producto';
+$lang['market_compra']='Compra';
 $lang['market_precio']='Precio';
 $lang['market_cantidad']='Cantidad';
 $lang['market_total']='Total';
@@ -58,6 +63,8 @@ $lang['market_continuar']='Continuar';
 $lang['market_pagar']='Pagar';
 $lang['market_stock']='Stock';
 $lang['market_gratis']='Gratis';
+$lang['market_pais']='Pais';
+$lang['market_estado_provincia_region']='Estado / Provincia / Región';
 
 
 $lang['market_provincia']='Provincia';
@@ -71,5 +78,45 @@ $lang['market_contactenos']='Contáctenos';
 $lang['market_contacto_info']='Información de Contacto';
 $lang['market_get_in_touch']='Sugerencias / Comentarios';
 $lang['market_redes_sociales']='Redes Sociales';
+
+$lang['market_paso1']='(1) Entrega';
+$lang['market_paso2']='(2) Pago Seguro';
+$lang['market_paso3']='(3) Confirmación';
+$lang['market_paso4']='(4) Finalizar';
+$lang['market_continuar']='Continuar';
+$lang['market_pago']='Pago Seguro';
+$lang['market_pagar_con_tarjeta']='Pagar con tarjeta';
+$lang['market_pagar_con_paypal']='Pagar con Paypal';
+$lang['market_tipo']='Tipo';
+$lang['market_numero_tarjeta']='Número tarjera';
+$lang['market_fecha_expiracion']='Fecha expiración';
+$lang['market_mes']='Mes';
+$lang['market_card_ccv']='CCV';
+$lang['market_card_codigo_ver']='Código de Seguridad';
+$lang['market_debit_credit_card']='Número de tarjeta de Debito/Credito';
+
+$lang['market_informacion_comprador']='Información Comprador';
+$lang['market_facturar_a']='Facturar a';
+$lang['market_orden_de_envio']='Orden de Envio';
+$lang['market_detalles_de_envio']='Detalles de Envio';
+$lang['market_notas_de_envio']='Notas acerca de su orden, especialmente notas para entrega';
+$lang['market_enviar_a_direccion_factura']='Enviar a la dirección de la factura';
+$lang['market_estimar_envio_e_impuestos']='Estimar envio & impuestos';
+$lang['market_codigo_zip']='Código zip';
+
+$lang['market_orden_cc_ok']='Su pago ha sido realizado correctamente';
+$lang['market_orden_cc_error']='Error al procesar transacción';
+$lang['market_codigo_zip']='Código zip';
+$lang['market_gracias_por_comprar']='Gracias por comprar';
+$lang['market_carrito_limpiado_ok']='Carrito de compras vaciado correctamente';
+$lang['market_carrito_limpiado_erro']='Error al vaciar carrito de compras';
+
+$lang['market_servicios']='Servicios';
+$lang['market_carrito_limpiado_erro']='Error al vaciar carrito de compras';
+$lang['market_carrito_limpiado_erro']='Error al vaciar carrito de compras';
+$lang['market_monto_cero']='El precio no puede ser cero, Debe añadir almenos 1 producto al carrito';
+
+$lang['market_procesar_compra_ok']='Transacción realizada correctamente';
+$lang['market_procesar_compra_error']='Error al realizar transacción';
 
 ?>

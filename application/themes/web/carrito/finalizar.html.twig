@@ -1,0 +1,40 @@
+{% block header %}
+    {% include 'partials/heading.html.twig' %}
+    {% include 'partials/heade.html.twig' %}
+{% endblock %}
+{% block content %}
+
+<section id="cart_items">
+	<div class="container">
+		<div class="breadcrumbs">
+			<ol class="breadcrumb">
+			  <li><a href="#">{{line('market_home')}}</a></li>
+			  <li class="active">{{line('market_compra')}}</li>
+			</ol>
+		</div><!--/breadcrums-->
+
+		<div class="step-one">
+			<h2 class="heading"><a href="{{site_url('web/Carts/entrega')}}">{{line('market_paso1')}}</a><span class="fa fa-chevron-right"></span><a href="{{site_url('web/Carts/pago')}}">{{line('market_paso2')}}</a><span class="fa fa-chevron-right"></span>{{line('market_paso4')}}</h2>
+		</div>
+
+			<div class="shopper-informations">
+				<div class="row">
+					<div class="col-sm-7 clearfix">
+						<div class="alert alert-info">{{line('market_gracias_por_comprar')}}</div>
+					</div>
+					<div class="col-sm-5">
+						<div class="order-message">
+							<p>{{line('market_orden_de_envio')}}</p>
+							<textarea name="message"  placeholder="{{line('market_notas_de_envio')}}" rows="8"></textarea>
+						</div>	
+					</div>					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+{% endblock %}
+{% block footer %}
+    {% include 'partials/foote.html.twig' %}
+    {% include 'partials/footing.html.twig' %}
+{% endblock %}

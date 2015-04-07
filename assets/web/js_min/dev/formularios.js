@@ -1,4 +1,5 @@
-var utils = require('./utils');
+var utils = require('./utils'),
+	ctlg=require('./catalogo');
 module.exports={
 	handle_login_submit :function (){
 		 $('#form-loginmarket').find('.errors').hide();
@@ -84,6 +85,51 @@ module.exports={
 	                    password: "required",
 	                }
 	    });
+	},
+	handle_pago_cc :function (){
+		 $('#form-pago-cc').find('.errors').hide();
+		 $('#form-pago-cc').validate({
+	        submitHandler: function (form)
+	        {
+	             $('#form-pago-cc').submit(function (event) {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-pago-cc').attr( "action" ),
+	                    data:  $( '#form-pago-cc' ).serialize(), 
+	                    dataType: 'json', 
+	                    async:false,
+			            beforeSend:function(){
+			              $('#submit_cc').addClass('disabled');
+			              $('#submit_cc').val('Procesando...');
+			            },
+			            success : function(data){
+			              if(!data.error){
+			              	ctlg.clear_cart();
+			               window.open(utils.getBasePath()+'/web/Carts/finalizar','_self');
+			              
+			              }else{
+			                $('#form-pago-cc').find('.errors').fadeIn('slow').html(data.msg); 
+			                $('#submit_cc').val('Guardar');
+			                $('#submit_cc').removeClass('disabled');
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-pago-cc').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            }
+	                })
+	              
+	            });
+			return false;
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    credit_card: "required",
+	                    "card-number": "required",
+	                    "expiry-month": "required",
+	                    "expiry-year": "required",
+	                }
+	    });
 	}
-
 }

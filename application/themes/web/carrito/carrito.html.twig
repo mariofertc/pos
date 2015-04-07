@@ -47,7 +47,7 @@
 					<div class="chose_area">
 						<ul class="user_option">
 							<li>
-								<input type="checkbox">
+								<input type="checkbox" >
 								<label>{{line('market_estimar_envio_e_impuestos')}}</label>
 							</li>
 						</ul>
@@ -63,9 +63,16 @@
 								<select>
 								</select>
 							</li>
+							<li class="single_field zip-field">
+								<label>{{line('market_codigo_zip')}}:</label>
+								<input type="text">
+							</li>
 						</ul>
-						<a class="btn btn-default update" href="">{{line('market_obtener_cuotas')}}</a>
-						<a class="btn btn-default check_out" href="">{{line('market_continuar')}}</a>
+						<div class="btn-group btn-group-justified">
+							<div class="btn-group">
+								<a class="btn btn-default check_out" href="">{{line('market_continuar')}}</a>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -75,7 +82,11 @@
 							<li>{{line('market_costos_envio')}}<span>{{line('market_gratis')}}</span></li>
 							<li id="cart-total">{{line('market_total')}}$<span>{{total}}</span></li>
 						</ul>
-							<a class="btn btn-default check_out" href="">{{line('market_pagar')}}</a>
+						<div class="btn-group btn-group-justified">
+							<div class="btn-group">
+								<a class="btn btn-default check_out" href="{{site_url('web/Carts/entrega')}}">{{line('market_pagar')}}</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

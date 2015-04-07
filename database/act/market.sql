@@ -25,9 +25,14 @@ CREATE TABLE phppos_cart
 	fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE phppos_paypal
-(
-	tran_id	INT PRIMARY KEY AUTO_INCREMENT,
-	hash	VARCHAR(255),
-	user_id	INT
+CREATE TABLE phppos_paypal (
+   order_id  int(11) PRIMARY KEY AUTO_INCREMENT,
+   user_id  varchar(254) NOT NULL,
+   payment_id  varchar(50) DEFAULT NULL,
+   estado  varchar(20) DEFAULT NULL,
+   valor  varchar(20) DEFAULT NULL,
+   descripcion  varchar(40) DEFAULT NULL,
+   fecha_creacion  datetime DEFAULT NULL
 );
+
+ALTER TABLE phppos_webusers ADD COLUMN customer_id INT;

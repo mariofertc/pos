@@ -8,8 +8,13 @@ class Market extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->controller_name = strtolower($this->uri->segment(1));
+        $this->load->model('orden');
+        $this->load->model('cart');
+        $this->load->library('PaypalRest');
+
         $this->data['controller_name'] = $this->controller_name;
         $this->data['categorias']=$this->Item->get_count_categories(10)->result();
+
         $userdata = $this->session->userdata('webuser_data');
         if(isset($userdata)){
             $this->data['webuser_data']=$userdata;
@@ -21,6 +26,94 @@ class Market extends CI_Controller {
         $this->data['title'] = 'Marketsillo';
         $this->twiggy->set($this->data);
         $this->twiggy->display('tienda');
+    }
+    /**
+     * Procesa la compra final con el token del payment(transaccion) y el payerID(comprador) 
+     * parametros devueltos desde paypal: 
+     *  orderId=14&paymentId=PAY-2HG46209BR680105TKURPIWY&token=EC-8AP68113SD778140M&PayerID=8QWG22PUJ668Y
+     * @return [JSON] [description]
+     */
+    function procesar_compra(){
+        $payerID = $this->input->get('PayerID');
+        $orderID = $this->input->get('orderId');
+
+        if(isset($payerID) && isset($orderID)){
+            try {
+                $order = $this->orden->get_info($orderID);
+                $payment = $this->paypalrest->executePayment($order->payment_id, $payerID);
+                $res = $this->orden->save(array('estado'=>$payment->getState()),$orderID);
+                print_r($order);
+                if(!$res['error']){
+                    $this->data['error']=FALSE;
+                    $this->data['msg']=$this->lang->line('market_procesar_compra_ok');
+                    $this->cart->delete_by_user($order->user_id);
+                }
+                else{
+                    $this->data['error']=TRUE;
+                    $this->data['msg']=$this->lang->line('market_procesar_compra_ok');
+                }
+            } catch (\PayPal\Exception\PPConnectionException $ex) {
+                $message = parseApiError($ex->getData());
+                 $this->data['error']=TRUE;
+                $this->data['msg']=$message;
+            } catch (Exception $ex) {
+                $message = $ex->getMessage();
+                $this->data['error']=TRUE;
+                $this->data['msg']=$message;
+            }
+        }
+        $this->twiggy->display('carrito/finalizar');
+    }
+
+     /**
+     * Logea a un comprador en el sistema si el usuario y la clave son correctas
+     * @return [json] {error:TRUE/FALSE,'msg':''}
+     */
+    function login(){
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+      
+        if (!$this->webuser->login($username, $password)) {               
+            echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('login_invalid_username_and_password')));
+        } else {
+            echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('login_validated')));
+        }
+    }
+
+    /**
+     * Deslogea a un webuser del sistema
+     * @return Redirecciona al inicio del market
+     */
+    function logout(){
+        $this->session->unset_userdata('webuser_data');
+        $this->session->sess_destroy();
+        redirect('web/market');
+    }
+    /**
+     * Registra un nuevo Webuser en el sistema solo con los datos básicos,
+     * para que no le de pereza llevar el formulario y abandone
+     * @return [json] {error:TRUE/FALSE,'msg':''}
+     */
+    function register(){
+        $this->form_validation->set_rules('first_name', 'lang:common_first_name', 'required');
+        $this->form_validation->set_rules('email', 'lang:common_email', 'required|valid_email|is_unique[customers.username]');
+        $this->form_validation->set_rules('password', 'lang:market_password', 'required');
+        if($this->form_validation->run()==TRUE){
+            $person_data=array(
+                'nombre'=>$this->input->post('first_name'),
+                'apellido'=>$this->input->post('last_name'),
+                'email'=>$this->input->post('email'),
+                'password'=>md5($this->input->post('password'))
+                );
+            $res= $this->webuser->save($person_data);
+                if(!$res['error']){
+                  echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('market_new_user_registered')));   
+                }else{
+                  echo json_encode(array('error'=>TRUE,'msg'=>$res['msg']));
+                }
+        }else{
+            echo json_encode(array('error'=>TRUE,'msg'=>validation_errors()));
+        }   
     }
 
     function tienda() {
@@ -88,7 +181,7 @@ class Market extends CI_Controller {
         $this->twiggy->display('compra');
     }   
 
-    function login() {
+    function loger() {
         $this->data['title'] = 'Market - Login ';
         $this->twiggy->set($this->data);
         $this->twiggy->display('loger');

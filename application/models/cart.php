@@ -62,5 +62,15 @@ class Cart extends CI_Model
 		return $this->db->delete('cart');
 	}
 	
+	/**
+	 * Elimina los elementos del carrito que le pertenecen a usuario
+	 * @param  [type] $user_id [Clave primaria del usuario]
+	 * @return [type]          [description]
+	 */
+	function delete_by_user($user_id)
+	{
+		$this->db->where('user_id', $user_id);
+		return $this->db->delete('cart');
+	}
 
  }

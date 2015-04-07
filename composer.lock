@@ -4,26 +4,25 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "eba6f0a540b46101c9044e1a4ab1184b",
+    "hash": "d318a2a417cf78d3923fda3165090783",
     "packages": [
         {
             "name": "paypal/rest-api-sdk-php",
-            "version": "V0.5.0",
+            "version": "v1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
-                "reference": "9e09f7bff507e81cbb03d233c15c080fefd1d512"
+                "reference": "0a32a6323c829e0e424e9f4d15e7b346c8472c08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/9e09f7bff507e81cbb03d233c15c080fefd1d512",
-                "reference": "9e09f7bff507e81cbb03d233c15c080fefd1d512",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/0a32a6323c829e0e424e9f4d15e7b346c8472c08",
+                "reference": "0a32a6323c829e0e424e9f4d15e7b346c8472c08",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
-                "paypal/sdk-core-php": "1.2.*",
                 "php": ">=5.3.0"
             },
             "require-dev": {
@@ -53,7 +52,7 @@
                 "rest",
                 "sdk"
             ],
-            "time": "2013-03-08 02:11:59"
+            "time": "2015-03-18 20:40:42"
         },
         {
             "name": "paypal/sdk-core-php",

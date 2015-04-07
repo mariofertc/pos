@@ -1,0 +1,69 @@
+{% block header %}
+    {% include 'partials/heading.html.twig' %}
+    {% include 'partials/heade.html.twig' %}
+{% endblock %}
+{% block content %}
+
+<section>
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+              <li><a href="#">{{line('market_home')}}</a></li>
+              <li class="active">{{line('market_perfil')}}</li>
+            </ol>
+        </div>    
+        <div class="row">
+            <div class="col-lg-2" >
+        	    <img src="https://secure.gravatar.com/avatar/e5418dc1c03927ca3be8729866384bbc?s=140&r=g&d=mm" class="img-circle">
+            </div>
+            
+            <div class="col-lg-8">
+                <h3>{{webuser_data.nombre}}-{{webuser_data.apellido}}</h3>
+                <h6>{{line('market_email')}}: {{webuser_data.email}}</h6>
+                <h6>{{line('market_fecha_registro')}}:{{webuser_data.fecha_registro}}</h6>
+                <div class="rom" id="user_data">
+                </div>
+            </div>
+            
+            <div class="col-lg-2">
+                <div class="btn-group">
+                    <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                        <span class="fa fa-gears"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><span class="fa fa-edit"></span> Modificar</a></li>
+                        <li><a href="#"><span class="fa fa-trash"></span> Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="step-one">
+            <h2 class="heading">{{line('market_lista_deseos')}}</h2>
+        </div>
+        <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr class="cart_menu">
+                            <td class="image">{{line('market_producto')}}</td>
+                            <td class="description"></td>
+                            <td class="price">{{line('market_precio')}}</td>
+                            <td class="quantity">{{line('market_stock')}}</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody id="items-carrito">
+                        {% for producto in productos %}
+                            {% include 'wlist/item_wlist.html.twig' with {'producto':producto} %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/foote.html.twig' %}
+    {% include 'partials/footing.html.twig' %}
+{% endblock %}

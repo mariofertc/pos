@@ -60,14 +60,12 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i>{{line('market_cuenta')}}</a></li>
-								<li><a href="{{site_url('web/Wlist')}}"><i class="fa fa-star"></i>{{line('market_lista_deseos')}}</a></li>
-								<li><a href="{{site_url('web/market/compra')}}"><i class="fa fa-crosshairs"></i>{{line('market_caja')}}</a></li>
-								<li><a href="{{site_url('web/Carts')}}"><i class="fa fa-shopping-cart"></i>{{line('market_carrito')}}</a></li>
 							{% if webuser_data.user_id!=FALSE %}
+								<li><a href="{{site_url('web/Users/perfil')}}"><i class="fa fa-user"></i>{{line('market_cuenta')}}</a></li>
+								<li><a href="{{site_url('web/Carts')}}"><i class="fa fa-shopping-cart"></i>{{line('market_carrito')}}</a></li>
 								<li><a href="{{site_url('web/Users/logout')}}"><i class="fa fa-lock"></i>{{line('market_logout')}}</a></li>
 							{% else %}
-								<li><a href="{{site_url('web/market/login')}}"><i class="fa fa-lock"></i>{{line('market_login')}}</a></li>
+								<li><a href="{{site_url('web/market/loger')}}"><i class="fa fa-lock"></i>{{line('market_login')}}</a></li>
 							{% endif %}
 							</ul>
 						</div>

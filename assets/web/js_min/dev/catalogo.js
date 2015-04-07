@@ -88,6 +88,14 @@ module.exports={
 			}
 		},'json');
 	},
+	clear_cart:function(){
+		$this=this;
+		$.post(utils.getBasePath()+'/web/Carts/clear_cart',{},function(data){
+			if(!data.error){
+				$this.subtotal_cart();
+			}
+		},'json');
+	},
 	subtotal_item:function(tr){
 		$tr =  $(tr);
 		var precio = parseFloat($tr.find('.cart_price p span').html());
