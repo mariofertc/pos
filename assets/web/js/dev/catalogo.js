@@ -57,7 +57,11 @@ module.exports={
 		$producto = $(item);
 		var id_producto = $producto.attr('href');
 		$.post(utils.getBasePath()+'/web/Wlist/add_to_wlist',{'producto':id_producto},function(data){
-			alert(data.msg);
+			 new PNotify({
+                    title: 'Producto agregado!',
+                    text: data.msg,
+                    type: 'info'
+                });
 		},'json');
 	},
 	handle_remove_from_wlist: function(item){
@@ -67,6 +71,11 @@ module.exports={
 		$.post(utils.getBasePath()+'/web/Wlist/remove_from_wlist',{'producto':id_producto},function(data){
 			if(!data.error){
 				$producto.parents('tr').fadeOut('slow').remove();
+				 new PNotify({
+                    title: 'Productor retirado!',
+                    text: data.msg,
+                    type: 'info'
+                });
 			}
 		},'json');
 	},
@@ -74,7 +83,11 @@ module.exports={
 		$producto = $(item);
 		var id_producto = $producto.attr('href');
 		$.post(utils.getBasePath()+'/web/Carts/add_to_cart',{'producto':id_producto},function(data){
-			alert(data.msg);
+			 new PNotify({
+                    title: 'Producto agregado!',
+                    text: data.msg,
+                    type: 'info'
+                });
 		},'json');
 	},
 	handle_remove_from_cart: function(item){
@@ -85,6 +98,11 @@ module.exports={
 			if(!data.error){
 				$producto.parents('tr').fadeOut('slow').remove();
 				$this.subtotal_cart();
+				new PNotify({
+                    title: 'Productor retirado!',
+                    text: data.msg,
+                    type: 'info'
+                });
 			}
 		},'json');
 	},
