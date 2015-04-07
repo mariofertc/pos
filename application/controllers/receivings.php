@@ -21,7 +21,8 @@ class Receivings extends Secure_area {
 
     function supplier_search() {
         $suggestions = $this->Supplier->get_suppliers_search_suggestions($this->input->post('q'), $this->input->post('limit'));
-        echo implode("\n", $suggestions);
+        echo json_encode($suggestions);
+//        echo implode("\n", $suggestions);
     }
 
     function select_supplier() {
@@ -123,6 +124,7 @@ class Receivings extends Secure_area {
     }
 
     function complete() {
+        
         $data['cart'] = $this->receiving_lib->get_cart();
         $data['subtotal'] = $this->receiving_lib->get_subtotal();
         $data['taxes'] = $this->receiving_lib->get_taxes();
@@ -170,8 +172,10 @@ class Receivings extends Secure_area {
             $data['error_message'] = $this->lang->line('receivings_transaction_failed');
         }
 
-        $this->load->view("receivings/receipt", $data);
+        $this->twiggy->set($data);
         $this->receiving_lib->clear_all();
+        //$this->load->view("receivings/receipt", $data);
+        $this->twiggy->display("receivings/receipt");
     }
 
     function receipt($receiving_id) {
