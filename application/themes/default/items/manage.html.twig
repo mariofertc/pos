@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
     <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
     {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
 {% endblock %}
 {% block header %}
@@ -72,10 +73,11 @@
     <script src="{{base_url()}}js/thickbox.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}js/common.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}assets/bower_components/pnotify/pnotify.core.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script type="text/javascript">
         $(document).ready(function ()
         {
-{#                                tb_init('#sortable_table a.thickbox');#}
+            //tb_init('#sortable_table a.thickbox');
 
             var len
             = {{total_almacenes}};
@@ -84,13 +86,9 @@
             for (indice = sort.length; indice < len; indice++) {
                 sort[indice] = indice + idx;
             }
-        {#            alert(sort);#}
-        {#            sort[indice++] = indice + idx -1;#}
             sort[indice++] = 0;
             sort[indice++] = 4;
             sort[indice++] = 7;
-        {#            0, 4, 7#}
-        {#            alert(sort);#}
             enable_select_all()
             enable_checkboxes()
             enable_row_selection()
@@ -98,12 +96,15 @@
             enable_bulk_edit('{{ line(controller_name~"_none_selected")}}')
 
             oTable = $('#sortable_table').dataTable({
-{#                scrollY: "450px",#}
+                //scrollY: "450px",
                 scrollX: true,
                 scrollCollapse: true,
                 "processing": true,
-                "serverSide": true,{#                    "bJQueryUI": true,#}
-                "iDisplayLength": 10,{#                    "sPaginationType": "full_numbers",#}{#                    "sAjaxSource": 'customers/mis_datos',#}
+                "serverSide": true,
+                //"bJQueryUI": true,
+                "iDisplayLength": 10,
+                //"sPaginationType": "full_numbers",
+                //"sAjaxSource": 'customers/mis_datos',
                 "ajax": '{{controller_name}}/mis_datos',
                 /*       "aoColumnDefs": [
                  {'bSortable': false, 'aTargets': [0]},
@@ -122,131 +123,140 @@
                 ],
                 "order": [[2, "asc"]],
                 "fnDrawCallback": function () {
-        {#                    alert("{{total_almacenes}}");#}
-{#                    tb_init('#sortable_table a.thickbox');#}
-        {#                        imgLoader = new Image();// preload image#}
-                        //imgLoader.src = tb_pathToImage;
-        {#				enable_row_selection();#}
-                    }
-                });
-                new $.fn.dataTable.FixedColumns(oTable, {
-                    leftColumns: 3
-                });
-                $('#generate_barcodes').click(function ()
+                    //alert("{{total_almacenes}}");
+                    //tb_init('#sortable_table a.thickbox');
+                    //imgLoader = new Image();// preload image
+                    //imgLoader.src = tb_pathToImage;
+                    //enable_row_selection();
+                }
+            });
+            new $.fn.dataTable.FixedColumns(oTable, {
+                leftColumns: 3
+            });
+            $('#generate_barcodes').click(function ()
+            {
+                var selected = get_selected_values();
+                if (selected.length == 0)
                 {
-                    var selected = get_selected_values();
-                    if (selected.length == 0)
-                    {
-                        alert('{{ line('items_must_select_item_for_barcode') }}');
-                        return false;
-                    }
+                    alert('{{ line('items_must_select_item_for_barcode') }}');
+                    return false;
+                }
 
-                    (this).attr('href', 'index.php/items/generate_barcodes/' + selected.join(','));
-                });
-
-                $("#low_inventory").click(function ()
-                {
-                    $('#items_filter_form').submit();
-                });
-
-                $("#is_serialized").click(function ()
-                {
-                    $('#items_filter_form').submit();
-                });
-
-                $("#no_description").click(function ()
-                {
-                    $('#items_filter_form').submit();
-                });
-
-                $("#almacen_search").change(function ()
-                {
-                    $('#items_filter_form').submit();
-                });
-
+                (this).attr('href', 'index.php/items/generate_barcodes/' + selected.join(','));
             });
 
-            /*function init_table_sorting()
-             {
-             //Only init if there is more than one row
-             if ($('#tablesorter tbody tr').length > 1)
-             {
-             $("#sortable_table").tablesorter(
-             {
-             sortList: [[1, 0]],
-             headers:
-             {
-             0: {sorter: false},
-             8: {sorter: false},
-             9: {sorter: false}
-             }
-             
-             })
-             }
-             }*/
-
-            function post_item_form_submit(response)
+            $("#low_inventory").click(function ()
             {
-                if (!response.success)
-                {
-                    set_feedback(response.message, 'error_message', true);
-                }
-                else
-                {
-                    //This is an update, just update one row
-                    if (jQuery.inArray(response.item_id, get_visible_checkbox_ids()) != -1)
-                    {
-                        update_row(response.item_id, '{{ site_url(controller_name~"/get_row")}}');
-                        set_feedback(response.message, 'success_message', false);
+                $('#items_filter_form').submit();
+            });
 
-                    }
-                    else //refresca toda la tabla.
+            $("#is_serialized").click(function ()
+            {
+                $('#items_filter_form').submit();
+            });
+
+            $("#no_description").click(function ()
+            {
+                $('#items_filter_form').submit();
+            });
+
+            $("#almacen_search").change(function ()
+            {
+                $('#items_filter_form').submit();
+            });
+
+        });
+
+        /*function init_table_sorting()
+         {
+         //Only init if there is more than one row
+         if ($('#tablesorter tbody tr').length > 1)
+         {
+         $("#sortable_table").tablesorter(
+         {
+         sortList: [[1, 0]],
+         headers:
+         {
+         0: {sorter: false},
+         8: {sorter: false},
+         9: {sorter: false}
+         }
+         
+         })
+         }
+         }*/
+
+        function post_item_form_submit(response)
+        {
+            if (!response.success)
+            {
+                //set_feedback(response.message, 'error_message', true);
+                new PNotify({
+                    title: 'Oh No!',
+                    text: response.message,
+                    type: 'error'
+                });
+            }
+            else
+            {
+                //This is an update, just update one row
+                if (jQuery.inArray(response.item_id, get_visible_checkbox_ids()) != -1)
+                {
+                    update_row(response.item_id, '{{ site_url(controller_name~"/get_row")}}');
+                    //set_feedback(response.message, 'success_message', false);
+                    new PNotify({
+                        title: 'Exito',
+                        text: response.message,
+                        type: 'success'
+                    });
+
+                }
+                else //refresca toda la tabla.
+                {
+                    //set_feedback(response.message,'error_message',true)
+                    do_search(true, function ()
                     {
-                        //set_feedback(response.message,'error_message',true)
-                        do_search(true, function ()
-                        {
-                            //highlight new row
-                            hightlight_row(response.item_id);
-                            set_feedback(response.message, 'success_message', false);
+                        //highlight new row
+                        hightlight_row(response.item_id);
+                        //set_feedback(response.message, 'success_message', false);
+                        new PNotify({
+                            title: 'Exito',
+                            text: response.message,
+                            type: 'success'
                         });
-                    }
+                    });
                 }
             }
+        }
 
-            function post_bulk_form_submit(response)
-            {
-                if (!response.success)
-                {
-                    set_feedback(response.message, 'error_message', true);
-                }
-                else
-                {
-                    var selected_item_ids = get_selected_values();
-                    for (k = 0; k < selected_item_ids.length; k++)
-                    {
-                        update_row(selected_item_ids[k], '{{ site_url(controller_name~"/get_row")}}');
-                    }
-                    set_feedback(response.message, 'success_message', false);
-                }
+        function post_bulk_form_submit(response) {
+            if (!response.success) {
+                set_feedback(response.message, 'error_message', true);
             }
+            else {
+                var selected_item_ids = get_selected_values();
+                for (k = 0; k < selected_item_ids.length; k++) {
+                    update_row(selected_item_ids[k], '{{ site_url(controller_name~"/get_row")}}');
+                }
+                set_feedback(response.message, 'success_message', false);
+            }
+        }
 
-            function show_hide_search_filter(search_filter_section, switchImgTag) {
-                var ele = document.getElementById(search_filter_section);
-                var imageEle = document.getElementById(switchImgTag);
-                var elesearchstate = document.getElementById('search_section_state');
-                if (ele.style.display == "block")
-                {
-                    ele.style.display = "none";
-                    imageEle.innerHTML = '<img src=" {{ base_url()}}images/plus.png" style="border:0outline:nonepadding:0pxmargin:0pxposition:relativetop:-5px" >';
-                    elesearchstate.value = "none";
-                }
-                else
-                {
-                    ele.style.display = "block";
-                    imageEle.innerHTML = '<img src=" {{ base_url()}}images/minus.png" style="border:0outline:nonepadding:0pxmargin:0pxposition:relativetop:-5px" >';
-                    elesearchstate.value = "block";
-                }
+        function show_hide_search_filter(search_filter_section, switchImgTag) {
+            var ele = document.getElementById(search_filter_section);
+            var imageEle = document.getElementById(switchImgTag);
+            var elesearchstate = document.getElementById('search_section_state');
+            if (ele.style.display == "block") {
+                ele.style.display = "none";
+                imageEle.innerHTML = '<img src=" {{ base_url()}}images/plus.png" style="border:0outline:nonepadding:0pxmargin:0pxposition:relativetop:-5px" >';
+                elesearchstate.value = "none";
             }
+            else {
+                ele.style.display = "block";
+                imageEle.innerHTML = '<img src=" {{ base_url()}}images/minus.png" style="border:0outline:nonepadding:0pxmargin:0pxposition:relativetop:-5px" >';
+                elesearchstate.value = "block";
+            }
+        }
 
     </script>
 {% endblock %}

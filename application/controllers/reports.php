@@ -101,7 +101,9 @@ class Reports extends Secure_area {
     //Input for reports that require only a date range and an export to excel. (see routes.php to see that all summary reports route here)
     function date_input_excel_export() {
         $data = $this->_get_common_report_data();
-        $this->load->view("reports/date_input_excel_export", $data);
+//        $this->load->view("reports/date_input_excel_export", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports//date_input_excel_export");
     }
 
     //Summary sales report
@@ -126,12 +128,30 @@ class Reports extends Secure_area {
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date, 'almacen_id' => $almacen_id)),
             "export_excel" => $export_excel
         );
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
         $this->twiggy->set($data);
         $this->twiggy->display("reports/tabular");
-//        $this->load->view("reports/tabular", $data);
     }
 
-    //Específico SummarySale. Esto elimina los dos metodos de arriba.
+    function export_excel($datos) {
+        extract($datos);
+        ob_start();
+        //$filename = trim($filename);
+        $filename = str_replace(array(' ', '/', '\\'), '', $title);
+        $filename .= "_Export.xls";
+        header('Content-type: application/ms-excel');
+        header('Content-Disposition: attachment; filename=' . $filename);
+        echo implode("\t", array_values($headers)) . "\r\n";
+        foreach ($data as $row) {
+            echo implode("\t", array_values($row)) . "\r\n";
+        }
+        $content = ob_end_flush();
+//        echo $content;
+        die();
+    }
+
     function specific_summary_sale_input() {
         $data = $this->_get_common_report_data();
         $data['specific_input_name'] = $this->lang->line('reports_almacen');
@@ -148,7 +168,7 @@ class Reports extends Secure_area {
 //        $this->load->view("reports/specific_input", $data);
     }
 
-    //Fin Espec�fico SummarySale
+    //Fin Específico SummarySale
     //Summary categories report
     function summary_categories($start_date, $end_date, $export_excel = 0) {
         $this->load->model('reports/Summary_categories');
@@ -168,8 +188,11 @@ class Reports extends Secure_area {
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
             "export_excel" => $export_excel
         );
-
-        $this->load->view("reports/tabular", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     //Summary customers report
@@ -192,7 +215,11 @@ class Reports extends Secure_area {
             "export_excel" => $export_excel
         );
 
-        $this->load->view("reports/tabular", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     //Summary suppliers report
@@ -215,7 +242,11 @@ class Reports extends Secure_area {
             "export_excel" => $export_excel
         );
 
-        $this->load->view("reports/tabular", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     //Summary items report
@@ -238,7 +269,11 @@ class Reports extends Secure_area {
             "export_excel" => $export_excel
         );
 
-        $this->load->view("reports/tabular", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     //Summary employees report
@@ -261,7 +296,11 @@ class Reports extends Secure_area {
             "export_excel" => $export_excel
         );
 
-        $this->load->view("reports/tabular", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     //Summary taxes report
@@ -284,7 +323,11 @@ class Reports extends Secure_area {
             "export_excel" => $export_excel
         );
 
-        $this->load->view("reports/tabular", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     //Summary discounts report
@@ -307,7 +350,11 @@ class Reports extends Secure_area {
             "export_excel" => $export_excel
         );
 
-        $this->load->view("reports/tabular", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     function summary_payments($start_date, $end_date, $export_excel = 0) {
@@ -328,9 +375,12 @@ class Reports extends Secure_area {
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
             "export_excel" => $export_excel
         );
-        //echo 'yo';
 
-        $this->load->view("reports/tabular", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     //Input for reports that require only a date range. (see routes.php to see that all graphical summary reports route here)
@@ -678,11 +728,13 @@ class Reports extends Secure_area {
         $data['specific_input_name'] = $this->lang->line('reports_customer');
 
         $customers = array();
-        foreach ($this->Customer->get_all()->result() as $customer) {
-            $customers[$customer->person_id] = $customer->first_name . ' ' . $customer->last_name;
+        foreach ($this->Customer->get_all(1000,0) as $customer) {
+            $customers[$customer['person_id']] = $customer['first_name'] . ' ' . $customer['last_name'];
         }
         $data['specific_input_data'] = $customers;
-        $this->load->view("reports/specific_input", $data);
+//        $this->load->view("reports/specific_input", $data);
+         $this->twiggy->set($data);
+        $this->twiggy->display('reports/specific_input');
     }
 
     function specific_customer($start_date, $end_date, $customer_id, $export_excel = 0) {
@@ -711,10 +763,16 @@ class Reports extends Secure_area {
             "summary_data" => $summary_data,
             "details_data" => $details_data,
             "overall_summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date, 'customer_id' => $customer_id)),
-            "export_excel" => $export_excel
+            "export_excel" => $export_excel,
+            'data' => $summary_data
         );
 
-        $this->load->view("reports/tabular_details", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+//        $this->load->view("reports/tabular_details", $data);
+         $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular_details");
     }
 
     function specific_employee_input() {
@@ -726,7 +784,9 @@ class Reports extends Secure_area {
             $employees[$employee->person_id] = $employee->first_name . ' ' . $employee->last_name;
         }
         $data['specific_input_data'] = $employees;
-        $this->load->view("reports/specific_input", $data);
+//        $this->load->view("reports/specific_input", $data);
+         $this->twiggy->set($data);
+        $this->twiggy->display('reports/specific_input');
     }
 
     function specific_employee($start_date, $end_date, $employee_id, $export_excel = 0) {
@@ -755,13 +815,57 @@ class Reports extends Secure_area {
             "summary_data" => $summary_data,
             "details_data" => $details_data,
             "overall_summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date, 'employee_id' => $employee_id)),
-            "export_excel" => $export_excel
+            "export_excel" => $export_excel,
+            'data' => $summary_data
         );
+         if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
 
-        $this->load->view("reports/tabular_details", $data);
+//        $this->load->view("reports/tabular_details", $data);
+         $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular_details");
     }
 
     function detailed_sales($start_date, $end_date, $export_excel = 0) {
+        $this->load->model('reports/Detailed_sales');
+        $model = $this->Detailed_sales;
+
+        $headers = $model->getDataColumns();
+        $report_data = $model->getData(array('start_date' => $start_date, 'end_date' => $end_date));
+
+        $summary_data = array();
+        $details_data = array();
+
+        foreach ($report_data['summary'] as $key => $row) {
+            $summary_data[] = array(anchor('sales/edit/' . $row['sale_id'], 'POS ' . $row['sale_id'], array('target' => '_blank')), $row['sale_date'], $row['items_purchased'], $row['employee_name'], $row['customer_name'], to_currency($row['subtotal']), to_currency($row['total']), to_currency($row['tax']), to_currency($row['profit']), $row['payment_type'], $row['comment']);
+
+//            foreach ($report_data['details'][$key] as $drow) {
+//                $details_data[$key][] = array($drow['name'], $drow['category'], $drow['serialnumber'], $drow['description'], $drow['quantity_purchased'], to_currency($drow['subtotal']), to_currency($drow['total']), to_currency($drow['tax']), to_currency($drow['profit']), $drow['discount_percent'] . '%');
+//            }
+        }
+
+        $data = array(
+            "title" => $this->lang->line('reports_detailed_sales_report'),
+            "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
+            "headers" => $model->getDataColumns(),
+            "summary_data" => $summary_data,
+            "details_data" => $details_data,
+            "overall_summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
+            "export_excel" => $export_excel
+        );
+
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular_details");
+
+//        $this->load->view("reports/tabular_details", $data);
+    }
+
+    function detailed_sales_old($start_date, $end_date, $export_excel = 0) {
         $this->load->model('reports/Detailed_sales');
         $model = $this->Detailed_sales;
 
@@ -789,7 +893,14 @@ class Reports extends Secure_area {
             "export_excel" => $export_excel
         );
 
-        $this->load->view("reports/tabular_details", $data);
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular_details");
+
+//        $this->load->view("reports/tabular_details", $data);
     }
 
     function detailed_por_cobrar($start_date, $end_date, $export_excel = 0) {
@@ -939,7 +1050,9 @@ class Reports extends Secure_area {
             "export_excel" => $export_excel
         );
 
-        $this->load->view("reports/tabular_details", $data);
+//        $this->load->view("reports/tabular_details", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular_details");
     }
 
     function excel_export() {
@@ -965,7 +1078,9 @@ class Reports extends Secure_area {
             "inventario" => 'low'
         );
 
-        $this->load->view("reports/tabular", $data);
+//        $this->load->view("reports/tabular", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     function inventory_low_almacen($almacen_id, $export_excel = 0) {
@@ -988,7 +1103,9 @@ class Reports extends Secure_area {
             "inventario" => 'low'
         );
 
-        $this->load->view("reports/tabular", $data);
+//        $this->load->view("reports/tabular", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     function inventory_summary($export_excel = 0) {
@@ -1046,7 +1163,9 @@ class Reports extends Secure_area {
             "inventario" => 'sum'
         );
 
-        $this->load->view("reports/tabular", $data);
+//        $this->load->view("reports/tabular", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/tabular");
     }
 
     //Específico SummarySale. Esto elimina los dos metodos de arriba.
@@ -1060,7 +1179,9 @@ class Reports extends Secure_area {
         }
         //var_dump($almacenes);
         $data['specific_input_data'] = $almacenes;
-        $this->load->view("reports/specific_input_almacen", $data);
+//        $this->load->view("reports/specific_input_almacen", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("reports/specific_input_almacen");
     }
 
     function do_line($result) {

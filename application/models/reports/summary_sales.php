@@ -15,8 +15,8 @@ class Summary_sales extends Report {
     public function getData(array $inputs) {
         $this->db->select('sale_date, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax,sum(profit) as profit, almacen');
         $this->db->from('sales_items_temp');
-//		if($inputs['almacen_id']!=0)
-        if (isset($inputs['almacen_id']))
+		if($inputs['almacen_id']!=0)
+//        if (isset($inputs['almacen_id']))
             $this->db->where('almacen_id = ' . $inputs['almacen_id']);
         $this->db->group_by('sale_date');
         $this->db->having('sale_date BETWEEN "' . $inputs['start_date'] . '" and "' . $inputs['end_date'] . '"');
@@ -28,8 +28,8 @@ class Summary_sales extends Report {
         $this->db->select('sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax,sum(profit) as profit');
         $this->db->from('sales_items_temp');
         $this->db->where('sale_date BETWEEN "' . $inputs['start_date'] . '" and "' . $inputs['end_date'] . '"');
-//		if(['almacen_id']!=0)
-        if (isset($inputs['almacen_id']))
+		if($inputs['almacen_id']!=0)
+//        if (isset($inputs['almacen_id']))
             $this->db->where('almacen_id = ' . $inputs['almacen_id']);
         return $this->db->get()->row_array();
     }

@@ -133,7 +133,8 @@ function get_person_data_row_old($person,$controller)
 /*
 Gets the html table to manage suppliers.
 */
-function get_supplier_manage_table($suppliers,$controller)
+//function get_supplier_manage_table($suppliers,$controller)
+function get_supplier_manage_table()
 {
 	$CI =& get_instance();
 	$table='<table class="tablesorter" id="sortable_table">';
@@ -152,7 +153,7 @@ function get_supplier_manage_table($suppliers,$controller)
 		$table.="<th>$header</th>";
 	}
 	$table.='</tr></thead><tbody>';
-	$table.=get_supplier_manage_table_data_rows($suppliers,$controller);
+	//$table.=get_supplier_manage_table_data_rows($suppliers,$controller);
 	$table.='</tbody></table>';
 	return $table;
 }
