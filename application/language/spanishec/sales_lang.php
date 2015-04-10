@@ -1,6 +1,6 @@
 <?php
 $lang['sales_register']='Registrar Ventas';
-$lang['sales_mode']='Modo de Registro';
+$lang['sales_mode']='Modo de Venta';
 $lang['sales_new_item'] = 'Nuevo Artículo';
 $lang['sales_item_name'] = 'Nombre del Artículo';
 $lang['sales_item_number'] = 'Artículo #';
@@ -70,7 +70,8 @@ $lang['sales_delete_unsuccessful'] = 'Ventas borradas satisfactoriamente';
 
 $lang['sales_suspend_sale'] = 'Suspender';
 $lang['sales_confirm_suspend_sale'] = 'Estas seguro de querer suspender esta venta?';
-$lang['sales_suspended_sales'] = 'Venta Suspendida';
+$lang['sales_suspended_sales'] = 'Ventas Suspendidas';
+$lang['sales_suspend'] = 'Suspender Venta';
 $lang['sales_suspended_sale_id'] = 'ID Venta Suspendida';
 $lang['sales_date'] = 'Fecha';
 $lang['sales_customer'] = 'Cliente';

@@ -15,12 +15,14 @@ class Sales extends Secure_area {
 
     function item_search() {
         $suggestions = $this->Item->get_item_search_suggestions($this->input->post('q'), $this->input->post('limit'));
-        echo implode("\n", $suggestions);
+        //echo implode("\n", $suggestions);
+        echo json_encode($suggestions);
     }
 
     function customer_search() {
         $suggestions = $this->Customer->get_customer_search_suggestions($this->input->post('q'), $this->input->post('limit'));
-        echo implode("\n", $suggestions);
+        echo json_encode($suggestions);
+        //echo implode("\n", $suggestions);
     }
 
     function select_customer() {
@@ -339,7 +341,9 @@ class Sales extends Secure_area {
         //Si ya se ha cerrado la caja.
         if ($this->Box->ya_cerrado())
             $data['error'] = $this->lang->line('boxes_close_sale');
-        $this->load->view("sales/register", $data);
+//        $this->load->view("sales/register", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("sales/register");
     }
 
     function cancel_sale() {

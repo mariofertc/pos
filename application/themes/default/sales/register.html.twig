@@ -1,0 +1,464 @@
+{% extends _layout %}
+{% block css %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
+    <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>
+
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
+    <!--<link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-responsive/css/dataTables.responsive.css"/>-->
+    {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
+{% endblock %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+{% endblock %}
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                {{line('sales_register') }}
+                                {{ anchor("items/view/-1?width=360",
+		"<div class='small_button'><span>"~line('sales_new_item')~"</span></div>",
+		{'class':'btn btn-success btn-sm thickbox','title':line('sales_new_item')})
+                                }}
+
+                                {{ anchor("sales/suspended?width=425", line('sales_suspended_sales'), {'class':'btn btn-success btn-sm thickbox','title':line('sales_suspended_sales')}) }}
+                            </div>
+                            <div class="col-lg-4 col-sm-4">
+                                {{ form_open("sales/change_almacen",{'id':'almacen_form', class:"form-inline"})}}
+                                <div class="form-group-sm">
+                                    {{ form_label(line('almacenes_almacen'),'almacen')}}
+                                    {{ form_dropdown('almacen',almacenes,almacen,'onchange="$(\'#almacen_form\').submit();" class="form-control"')}}
+                                </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-4 col-sm-4">
+                                {{ form_open("sales/change_mode",{'id':'mode_form', class:"form-inline"})}}
+                                <div class="form-group-sm">
+                                    {{form_label( line('sales_mode'),'mode') }}
+                                    {{ form_dropdown('mode',modes,mode,'onchange="$(\'#mode_form\').submit();" class="form-control"')}}
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-9 col-sm-9">
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        {{ form_open("sales/add",{'id':'add_item_form', class:"form-horizontal"})}}
+                                        <div class="form-group">
+                                            <label id="item_label" for="item" class="col-sm-3">
+                                                {% if(mode=='sale') %}
+                                                    {{ line('sales_find_or_scan_item') }}
+                                                {% else %}
+                                                    {{ line('sales_find_or_scan_item_or_receipt') }}
+                                                {% endif %}
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form_input({'name':'item','id':'item','size':'40', 'class':'form-control'})}}
+                                            </div>
+                                        </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- Receiving Items List -->
+                                        <div class="table-responsive">
+                                            <table id="registerTable" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:11%;">{{ line('common_delete')}}</th>
+                                                        <th style="width:30%;">{{ line('sales_item_number')}}</th>
+                                                        <th style="width:30%;">{{ line('sales_item_name')}}</th>
+                                                        <th style="width:11%;">{{ line('sales_price')}}</th>
+                                                        <th style="width:11%;">{{ line('sales_quantity')}}</th>
+                                                        <th style="width:11%;">{{ line('sales_discount')}}</th>
+                                                        <th style="width:15%;">{{ line('sales_total')}}</th>
+                                                        <th style="width:11%;">{{ line('sales_edit')}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="cart_contents">
+                                                    {% if cart|length>0 %}
+                                                        {% for item_id, item in cart %}
+                                                            {#line('sales_no_items_in_cart'#}
+                                                            {{ form_open("sales/edit_item/"~item_id) }}
+                                                            <tr>
+                                                                <td>{{ anchor("sales/delete_item/"~ item_id,'['~line('common_delete')~']')}}</td>
+
+                                                                <td style="align:center;">{{ item['number']}}<br>
+                                                                <td style="align:center;">{{item['name']}}<br /> [{{ item['quantity']}} {{line('sales_stock')}}]</td>
+                                                                    {% if items_module_allowed %}
+                                                                    <td>{{ form_input({'name':'price','value':item['price'],'size':'6',class:"form-control input-sm"})}}</td>
+                                                                {% else %}
+                                                                    <td>{{ item['price']}}</td>
+                                                                    {{ form_hidden('price',item['price'])}}
+                                                                {% endif %}
+                                                                <td>
+                                                                    {% if item['is_serialized']==1 and false %}
+                                                                        {{ item['quantity'] }}
+                                                                        {{ form_hidden('quantity',item['quantity']) }}
+                                                                    {% else %}
+                                                                        {{ form_input({'name':'quantity','value':item['quantity'],'size':'2',class:"form-control input-sm"}) }}
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{ form_input({'name':'discount','value':item['discount'],'size':'3',class:"form-control input-sm"})}}</td>        
+                                                                <td>{{ to_currency(item['price']*item['quantity']-item['price']*item['quantity']*item['discount']/100)}}</td> <td>{{ form_submit("edit_item", line('sales_edit_item'),'class="btn btn-info btn-sm"')}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="color:#2F4F4F";>{{ line('sales_description_abbrv')~':' }}</td>
+                                                                <td colspan=2 style="text-align:left;">
+                                                                    {% if item['allow_alt_description']==1 %}
+                                                                        {{ form_input({'name':'description','value':item['description'],'size':'20'}) }}
+                                                                    {% else %}
+                                                                        {{item['description']}}
+                                                                        {{form_hidden('description',item['description'])}}
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>&nbsp;</td>
+                                                                <td style="color:#2F4F4F";>
+                                                                    {% if item['is_serialized']==1 %}
+                                                                        {{line('sales_serial')~':'}}
+                                                                    {% endif %}</td>
+                                                                <td colspan=3 style="text-align:left;">
+                                                                    {% if item['is_serialized']==1 %}
+                                                                        {{form_input({'name':'serialnumber','value':item['serialnumber'],'size':'20'}) }}
+                                                                    {% endif %}</td>
+                                                            </tr>
+                                                            <tr style="height:3px">
+                                                                <td colspan=8 style="background-color:white"> </td>
+                                                            </tr>		{{form_close()}}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {#$cur_item_info = $this->Item->get_info($item['item_id']);#}
+                            <div class="col-sm-3">
+                                <div id="overall_sale">
+                                    {% if customer is not empty%}
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <div class="row">{{line("sales_customer")~': <b>'~customer~ '</b><br/>'}}
+                                                </div>
+                                            </div>
+                                            {{anchor("sales/delete_customer",'<div class="panel-footer">
+                                                    <span class="pull-left">'~line("common_delete")~" "~line("customers_customer")~'</span>
+                                                    <span class="pull-right">
+                                                        <i class="fa fa-arrow-circle-right"></i>
+                                                    </span>
+                                                    <div class="clearfix"></div>
+                                                </div>
+')}}</div>
+                                        {% else %}
+                                            {{form_open("sales/select_customer",{'id':'select_customer_form'})}}
+                                        <div class="form-group-sm">
+                                            <label id="customer_label" for="customer">{{ line('sales_select_customer')}}</label>
+                                            {{ form_input({'name':'customer','id':'customer','size':'30','value':line('sales_start_typing_customer_name'), 'class':'form-control'})}}
+                                        </div>
+                                        {{form_close()}}
+                                        <div style="margin-top:5px;text-align:center;">
+                                            <h3 style="margin: 5px 0 5px 0">{{ line('common_or')}}</h3>
+                                            {{ anchor("customers/view/-1?width=350",
+		line('sales_new_customer'),
+		{'class':'thickbox none btn btn-warning btn-sm','title':line('sales_new_customer')})
+                                            }}
+                                        </div>
+                                        <div class="clearfix">&nbsp;</div>
+                                    {% endif %}
+                                    <div class="panel panel-yellow">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <p>
+                                                    {{ line('sales_sub_total')}}:
+                                                    <strong class="pull-right">{{ to_currency(subtotal)}}</strong>
+                                                </p>
+                                                {% for name, value in taxes %}
+                                                    <div class="float_left" style='width:55%;'>{{ name }}:</div>
+                                                    <div class="float_left" style="width:45%;font-weight:bold;">{{ to_currency(value) }}</div>
+                                                {% endfor %}
+                                                <p>
+                                                    {{ line('sales_total')}}:
+                                                    <strong class="pull-right">{{ to_currency(total)}}</strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        {% if cart|length > 0 %}
+                                            {{ form_open("sales/cancel_sale",{'id':'cancel_sale_form'})}}
+                                            <a href="#" id='cancel_sale_button'>
+                                                <div class="panel-footer">
+                                                    <span class="pull-left">{{ line('sales_cancel_sale')}}</span>
+                                                    <span class="pull-right">
+                                                        <i class="fa fa-arrow-circle-right"></i>
+                                                    </span>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </a>
+                                            {{ form_close() }}
+                                        </div>
+                                        {% if payments|length>0 %}
+                                            <div class="panel panel-green">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        {{ form_open("sales/complete",{'id':'finish_sale_form'})}}
+                                                        <label id="comment_label" for="comment">{{ line('common_comments')}}:</label>
+                                                        {{ form_textarea({'name':'comment','value':'','rows':'4','cols':'23',class:'form-control'})}}
+                                                        <a id="suspend_sale_button" src="#" href="#" class="btn btn-primary">{{ line('sales_suspend') }}</a>
+                                                    </div>
+                                                </div>
+                                                <a id="finish_sale_button" href="#">
+                                                    <div class="panel-footer">
+                                                        <span class="pull-left">{{ line('sales_complete_sale')}}</span>
+                                                        <span class="pull-right">
+                                                            <i class="fa fa-arrow-circle-right"></i>
+                                                        </span>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </a>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="alert alert-info">
+                                            <div class="row">
+                                                <p>{{ line('sales_payments_total')~':'}}
+                                                    <strong class="pull-right">{{ to_currency(payments_total)}}</strong>
+                                                </p>
+                                                <p>{{ (amount_due>=0 ? line('sales_amount_due'):line('sales_change_due'))~':'}}
+                                                    <strong class="pull-right">{{ to_currency(amount_due)}}</strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <div class="row">
+                                                    {{ form_open("sales/add_payment",{'id':'add_payment_form'})}}
+                                                    <div class="form-group form-group-sm">
+                                                        {{ line('sales_payment')~':   '}}
+                                                        {{ form_dropdown('payment_type',payment_options,{}, 'id="payment_types" class="form-control"')}}
+                                                        {{ line('sales_amount_tendered')~':   '}}
+                                                        {{ form_input({'name':'amount_tendered','value':to_currency_no_money(amount_due),'size':'10',class:'form-control'})	}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="#" id='add_payment_button'>
+                                                <div class="panel-footer">
+                                                    <span class="pull-left">{{ line('sales_add_payment')}}</span>
+                                                    <span class="pull-right">
+                                                        <i class="fa fa-arrow-circle-right"></i>
+                                                    </span>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </a>
+                                            </form>
+                                        </div>
+                                        {% if payments|length > 0 %}
+                                            <div class="table-responsive">
+                                                <table id="register" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:11%;">{{ line('common_delete')}}</th>
+                                                            <th style="width:60%;">Tipo</th>
+                                                            <th style="width:18%;">{{ line('sales_total')}}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="payment_contents">
+                                                        {% for payment_id,payment in payments %}
+                                                            {{form_open("sales/edit_payment/"~payment_id,{'id':'edit_payment_form'~payment_id})}}
+                                                            <tr>
+                                                                <td>{{ anchor("sales/delete_payment/"~payment_id,'['~line('common_delete')~']')}}</td>
+                                                                <td>{{  payment_options[payment_id]}} </td>
+                                                                <td style="text-align:right;">{{ to_currency(payment['payment_amount']) }}  </td>
+                                                            </tr>
+                                                            </form>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        {% endif %}	
+                                    </div>
+                                    <!-- YOOOO -->
+                                {%endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<!--     <script src="{{base_url()}}assets/bower_components/datatables-responsive/js/dataTables.responsive.js" type="text/javascript" language="javascript" charset="UTF-8"></script>-->
+    <script src="{{base_url()}}js/thickbox.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}assets/bower_components/jquery-ui/jquery-ui.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}assets/bower_components/pnotify/pnotify.core.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function ()
+        {
+            /*$("#item").autocomplete('{{ site_url("sales/item_search")}}',
+             {
+             minChars: 0,
+             max: 100,
+             selectFirst: false,
+             delay: 10,
+             formatItem: function (row) {
+             return row[1];
+             }
+             });
+             
+             $("#item").result(function (event, data, formatted)
+             {
+             $("#add_item_form").submit();
+             });*/
+        {% if error is not empty %}
+            new PNotify({title: 'Oh No!',text: "{{error}}",type: 'error'});
+        {%endif%}
+
+        {% if warning is not empty %}
+            new PNotify({title: 'Precaución!',text: "{{error}}"});
+        {%endif%}
+
+        {% if success is not empty %}
+            new PNotify({title: 'Precaución!',text: "{{success}}", type:"success"});
+        {%endif%}
+                        $("#item").autocomplete({source: function (request, response) {
+                        $.ajax({
+                            url: "{{site_url('sales/item_search')}}",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                q: request.term,
+                                limit: 25
+                            },
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    }, select: function (e, ui) {
+                        valor = ui.item.value;
+                        $(this).val(valor.split("|")[0]);
+                        $("#add_item_form").submit();
+                        //alert("User selected: " + ui.item.value);
+                    }}
+                );
+
+                $('#item').focus();
+
+                $('#item').blur(function ()
+                {
+                    $(this).attr('value', "{{ line('sales_start_typing_item_name')}}");
+                });
+
+                $('#item,#customer').click(function ()
+                {
+                    $(this).attr('value', '');
+                });
+
+                /*$("#customer").autocomplete('{{site_url("sales/customer_search")}}',
+                 {
+                 minChars: 0,
+                 delay: 10,
+                 max: 100,
+                 formatItem: function (row) {
+                 return row[1];
+                 }
+                 });
+                 
+                 $("#customer").result(function (event, data, formatted)
+                 {
+                 $("#select_customer_form").submit();
+                 });*/
+
+                $("#customer").autocomplete({source: function (request, response) {
+                        $.ajax({
+                            url: "{{site_url('sales/customer_search')}}",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                q: request.term,
+                                limit: 25
+                            },
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    }, select: function (e, ui) {
+                        valor = ui.item.value;
+                        $(this).val(valor.split("|")[0]);
+                        $("#select_customer_form").submit();
+                        //alert("User selected: " + ui.item.value);
+                    }});
+
+                $('#customer').blur(function ()
+                {
+                    $(this).attr('value', "{{ line('sales_start_typing_customer_name')}}");
+                });
+
+                $("#finish_sale_button").click(function ()
+                {
+                    if (confirm('{{ line("sales_confirm_finish_sale")}}'))
+                    {
+                        $('#finish_sale_form').submit();
+                    }
+                });
+
+                $("#suspend_sale_button").click(function ()
+                {
+                    if (confirm('{{ line("sales_confirm_suspend_sale")}}'))
+                    {
+                        $('#finish_sale_form').attr('action', '<?php echo site_url("sales/suspend")}}');
+                        $('#finish_sale_form').submit();
+                    }
+                });
+
+                $("#cancel_sale_button").click(function ()
+                {
+                    if (confirm('{{ line("sales_confirm_cancel_sale")}}'))
+                    {
+                        $('#cancel_sale_form').submit();
+                    }
+                });
+
+                $("#add_payment_button").click(function ()
+                {
+                    $('#add_payment_form').submit();
+                });
+
+            });
+
+            function post_item_form_submit(response)
+            {
+                if (response.success)
+                {
+                    $("#item").attr("value", response.item_id);
+                    $("#add_item_form").submit();
+                }
+            }
+
+            function post_person_form_submit(response)
+            {
+                if (response.success)
+                {
+                    $("#customer").attr("value", response.person_id);
+                    $("#select_customer_form").submit();
+                }
+            }
+
+    </script>
+{% endblock %}
