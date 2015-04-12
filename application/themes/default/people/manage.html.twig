@@ -58,7 +58,7 @@
                     "processing": true,
                     "serverSide": true,{#                    "bJQueryUI": true,#}
                     "iDisplayLength": 10,{#                    "sPaginationType": "full_numbers",#}{#                    "sAjaxSource": 'customers/mis_datos',#}
-                    "ajax": 'customers/mis_datos',
+                    "ajax": '{{controller_name}}/mis_datos',
                     "aoColumnDefs": [{'bSortable': false, 'aTargets': [0]}, {'bSortable': false, 'aTargets': [5]}],
                     "order": [[2, "asc"]],
                     "fnDrawCallback": function () {

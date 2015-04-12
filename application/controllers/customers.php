@@ -195,7 +195,7 @@ class Customers extends Person_controller {
                 //echo 'Caught exception: ',  $e->getMessage(), "\n";
                 // echo json_encode( array('success'=>false,'message'=>$e->getMessage()) );
                 echo json_encode(array('success' => false, 'message' => 'vamos'));
-                break;
+                return;
             }
         }
 
