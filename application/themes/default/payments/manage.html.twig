@@ -1,0 +1,74 @@
+{% extends _layout %}
+{% block css %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
+    <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
+    {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
+{% endblock %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+{% endblock %}
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{line('common_list_of')~' '~line('module_'~controller_name) }}
+                        <div class="btn-group" role="group">
+                            {{ anchor(controller_name~"/view/-1?width="~form_width,line(controller_name~'_new'),{'class':'btn btn-primary thickbox','title':line(controller_name~'_new')})}}
+                            {{ anchor(controller_name~"/delete",line("common_delete"),{'id':'delete', 'class':'btn btn-warning'})}}
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            {{  manage_table }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="feedback_bar"></div>
+
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}assets/bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}js/thickbox.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}js/common.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}assets/bower_components/pnotify/pnotify.core.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+           oTable = $('#sortable_table').dataTable();
+            enable_select_all();
+            enable_row_selection();
+            enable_delete('{{line(controller_name~"_confirm_delete")}}', '{{line(controller_name~"_none_selected")}}');
+        });
+
+        function post_payment_form_submit(response){
+            if (!response.success){
+                set_feedback(response.message, 'error_message', true);
+            }
+            else{
+                //This is an update, just update one row
+                if (jQuery.inArray(response.payment_id, get_visible_checkbox_ids()) != -1){
+                    update_row(response.payment_id, '{{ site_url(controller_name~"/get_row")}}');
+                    set_feedback(response.message, 'success_message', false);
+                }
+                else //refresh entire table{
+                    do_search(true, function (){
+                        //highlight new row
+                        hightlight_row(response.person_id);
+                        set_feedback(response.message, 'success_message', false);
+                    });
+                }
+            }
+        
+    </script>
+{% endblock %}

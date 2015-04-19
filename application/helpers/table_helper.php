@@ -734,7 +734,7 @@ function get_inventory_summary_manage_table_data_rows($inventory,$controller)
 /*
 Gets the html table to manage payments.
 */
-function get_payment_manage_table($payments,$controller)
+function get_payment_manage_table()
 {
 	$CI =& get_instance();
 	$table='<table class="tablesorter" id="sortable_table">';
@@ -750,7 +750,6 @@ function get_payment_manage_table($payments,$controller)
 		$table.="<th>$header</th>";
 	}
 	$table.='</tr></thead><tbody>';
-	$table.=get_payment_manage_table_data_rows($payments,$controller);
 	$table.='</tbody></table>';
 	return $table;
 }
@@ -794,8 +793,8 @@ function get_payment_data_row($payment,$controller)
 }
 
 //Abonos Cuentas por Cobrar
-function get_abono_manage_table($por_cobrar_m,$controller)
-{
+//function get_abono_manage_table($por_cobrar_m,$controller){
+function get_abono_manage_table(){
 	$CI =& get_instance();
 	$table='<table class="tabledist" id="sortable_table">';
 	
@@ -814,13 +813,10 @@ function get_abono_manage_table($por_cobrar_m,$controller)
 	);
 	
 	$table.='<thead><tr>';
-	foreach($headers as $header)
-	{
+	foreach($headers as $header){
 		$table.="<th>$header</th>";
 	}
-	$table.='</tr></thead><tbody>';
-	$table.=get_abono_manage_table_data_rows($por_cobrar_m,$controller);
-	$table.='</tbody></table>';
+	$table.='</tr></thead><tbody></tbody></table>';
 	return $table;
 }
 
