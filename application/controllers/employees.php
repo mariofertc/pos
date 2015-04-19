@@ -5,6 +5,7 @@ require_once ("person_controller.php");
 class Employees extends Person_controller {
 
     protected $controller_name;
+
     function __construct() {
         //$this->controller_name  = strtolower($this->uri->segment(1));
         $this->controller_name = "employees";
@@ -63,14 +64,11 @@ class Employees extends Person_controller {
     function view($employee_id = -1) {
         $data['person_info'] = $this->Employee->get_info($employee_id);
         $data['all_modules'] = $this->Module->get_all_modules();
-        
-        
-        $this->Employee->has_permission($module->module_id,$person_info->person_id);
-        $permisos = array();
-        foreach($data['all_modules'] as $module){
-        $permisos = $this->Module->get_all_modules();
+        foreach ($data['all_modules']->result() as &$module) {
+            $module->permiso = $this->Employee->has_permission($module->module_id, $data['person_info']->person_id);
+            //if($module->permiso==true )echo "222";
+            //var_dump($module);
         }
-        $data['selected_modules'] = $this->Module->get_all_modules();
         //$this->load->view("employees/form", $data);
         $this->twiggy->set($data);
         $this->twiggy->display("employees/form");

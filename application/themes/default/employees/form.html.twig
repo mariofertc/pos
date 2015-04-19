@@ -38,7 +38,7 @@
 
 {% for module in all_modules.result() %}
             <li>	
-            {{ form_checkbox("permissions[]", module.module_id) }}
+            {{ form_checkbox("permissions[]", module.module_id, module.permiso) }}
                 <span class="medium">{{ line('module_' ~ module.module_id) }}:</span>
                 <span class="small">{{ line('module_' ~ module.module_id ~ '_desc') }}</span>
             </li>
