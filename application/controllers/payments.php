@@ -16,6 +16,21 @@ class Payments extends Secure_area {
         $this->twiggy->set($data);
         $this->twiggy->display('payments/manage');
     }
+    
+    function mis_datos() {
+        $aColumns = array('payment_id', 'payment_type', 'por_cobrar');
+//        var_dump($aColumns);
+        //Eventos Tabla
+        $cllAccion = array(
+            '1' => array(
+                'function' => "view",
+                'common_language' => "common_edit",
+                'language' => "_update",
+                'width' => $this->get_form_width(),
+                'height' => $this->get_form_height())
+        );
+        echo getData($this->Payment, $aColumns, $cllAccion);
+    }
 
     /*
       Returns supplier table data rows. This will be called with AJAX.
@@ -111,6 +126,10 @@ class Payments extends Secure_area {
 
     function get_form_width() {
         return 360;
+        //return 370;
+    }
+    function get_form_height() {
+        return 350;
         //return 370;
     }
 

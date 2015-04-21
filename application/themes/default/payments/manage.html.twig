@@ -45,7 +45,19 @@
     <script src="{{base_url()}}assets/bower_components/pnotify/pnotify.core.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script type="text/javascript">
         $(document).ready(function (){
-           oTable = $('#sortable_table').dataTable();
+           oTable = $('#sortable_table').dataTable({
+                   "processing": true,
+                "serverSide": true,
+                //"bJQueryUI": true,
+                "iDisplayLength": 10,
+                //"sPaginationType": "full_numbers",
+                //"sAjaxSource": 'customers/mis_datos',
+                "ajax": '{{controller_name}}/mis_datos',
+                 "columnDefs": [
+                    {'sortable': false, 'targets': [0,3]},
+                    {"searchable": false, 'targets': [0,3]}
+                ]
+            });
             enable_select_all();
             enable_row_selection();
             enable_delete('{{line(controller_name~"_confirm_delete")}}', '{{line(controller_name~"_none_selected")}}');
