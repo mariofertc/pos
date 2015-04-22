@@ -22,34 +22,54 @@
 					<div class="col-sm-7 clearfix">
 						<div class="bill-to">
 							<p>{{line('market_facturar_a')}}</p>
-							<div class="form-one">
-								<form>
-									<input type="text" placeholder="{{line('market_email')}}*">
-									<input type="text" placeholder="{{line('common_first_name')}}*">
-									<input type="text" placeholder="{{line('common_last_name')}}*">
-									<input type="text" placeholder="{{line('common_address_1')}}*">
-									<input type="text" placeholder="{{line('common_address_2')}}*">
-								</form>
-							</div>
-							<div class="form-two">
-								<form>
-									<input type="text" placeholder="Zip / {{line('market_codigo_zip')}}* *">
-									<select>
-										<option>-- {{line('market_pais')}} --</option>
-										
-									</select>
-									<select>
-										<option>-- {{line('market_estado_provincia_region')}}--</option>
-									</select>
-									<input type="password" placeholder="{{line('market_confirm_password')}}">
-									<input type="text" placeholder="{{line('common_phone_number')}} *">
-									<div class="btn-group btn-group-justified">
-										<div class="btn-group">
-											<a class="btn btn-primary" href="{{site_url('web/Carts/pago')}}">{{line('market_continuar')}}</a>
+							<form>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<input type="text" class="form-control"  placeholder="{{line('market_email')}}*" name="email" id="email">
 										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="{{line('common_first_name')}}*" name="first_name" id="first_name">
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="{{line('common_last_name')}}*" name="last_name" id="last_name">
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="{{line('common_address_1')}}*" name="address1" id="address1">
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control"placeholder="{{line('common_address_2')}}*" name="address2" id="address2">
+										</div>
+											
 									</div>
-								</form>
-							</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="Zip / {{line('market_codigo_zip')}}">
+										</div>
+										<div class="form-group">
+											<select class="form-control">
+												<option>-- {{line('market_pais')}} --</option>
+												
+											</select>
+										</div>
+										<div class="form-group">
+											<select class="form-control">
+												<option>-- {{line('market_estado_provincia_region')}}--</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<input type="text"class="form-control"  placeholder="{{line('common_phone_number')}} *">
+										</div>
+										
+									</div>
+								</div>
+								
+								<div class="btn-group btn-group-justified">
+									<div class="btn-group">
+										<a class="btn btn-primary" href="{{site_url('web/Carts/pago')}}">{{line('market_continuar')}}</a>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
 					<div class="col-sm-5">

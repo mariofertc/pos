@@ -1,4 +1,5 @@
 var utils = require('./utils');
+	frms=require('./formularios');
 module.exports={
 	add_filter_to_marked : function (filtro){
 		$btn  = $(filtro);
@@ -57,11 +58,23 @@ module.exports={
 		$producto = $(item);
 		var id_producto = $producto.attr('href');
 		$.post(utils.getBasePath()+'/web/Wlist/add_to_wlist',{'producto':id_producto},function(data){
+			if(!data.error){
 			 new PNotify({
                     title: 'Producto agregado!',
                     text: data.msg,
-                    type: 'info'
+                    type: 'info',
+		            delay: 200
                 });
+			}else{
+				 Custombox.open({
+	                target: data.msg,
+	                effect: 'fadein',
+	                complete: function(){
+					 frms.handle_login_submit();
+					 frms.handle_register_submit();
+	                }
+	            });
+			}
 		},'json');
 	},
 	handle_remove_from_wlist: function(item){
@@ -74,7 +87,8 @@ module.exports={
 				 new PNotify({
                     title: 'Productor retirado!',
                     text: data.msg,
-                    type: 'info'
+                    type: 'info',
+		            delay: 200
                 });
 			}
 		},'json');
@@ -83,11 +97,24 @@ module.exports={
 		$producto = $(item);
 		var id_producto = $producto.attr('href');
 		$.post(utils.getBasePath()+'/web/Carts/add_to_cart',{'producto':id_producto},function(data){
+			if(!data.error){
 			 new PNotify({
                     title: 'Producto agregado!',
                     text: data.msg,
-                    type: 'info'
+                    type: 'info',
+		            delay: 200
                 });
+			}else{
+				 Custombox.open({
+	                target: data.msg,
+	                effect: 'fadein',
+	                complete: function(){
+					 frms.handle_login_submit();
+					 frms.handle_register_submit();
+	                }
+	            });
+			}
+
 		},'json');
 	},
 	handle_remove_from_cart: function(item){
@@ -101,7 +128,8 @@ module.exports={
 				new PNotify({
                     title: 'Productor retirado!',
                     text: data.msg,
-                    type: 'info'
+                    type: 'info',
+		            delay: 200
                 });
 			}
 		},'json');

@@ -107,7 +107,10 @@ class Market extends CI_Controller {
                 );
             $res= $this->webuser->save($person_data);
                 if(!$res['error']){
-                  echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('market_new_user_registered')));   
+                    $msg = $this->lang->line('market_new_user_registered');
+                    if($this->webuser->login($username, $password))
+                        $msg .=  $this->lang->line('market_new_user_logged');
+                  echo json_encode(array('error'=>FALSE,'msg'=>$msg));   
                 }else{
                   echo json_encode(array('error'=>TRUE,'msg'=>$res['msg']));
                 }
@@ -181,8 +184,14 @@ class Market extends CI_Controller {
         $this->twiggy->display('compra');
     }   
 
-    function loger() {
+    /**
+     * Página o bloque html con los formularios de Registro y Logeo
+     * @param  boolean $ajax default FALSE
+     * @return [HTML]        [description]
+     */
+    function loger($ajax=FALSE) {
         $this->data['title'] = 'Market - Login ';
+        $this->data['ajax_request']=$ajax;
         $this->twiggy->set($this->data);
         $this->twiggy->display('loger');
     }   

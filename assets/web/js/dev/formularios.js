@@ -2,37 +2,40 @@ var utils = require('./utils'),
 	ctlg=require('./catalogo');
 module.exports={
 	handle_login_submit :function (){
-		 $('#form-loginmarket').find('.errors').hide();
+		 $('form#form-loginmarket').find('.errors').hide();
 		 $('#form-loginmarket').validate({
 	        submitHandler: function (form)
 	        {
-	             $('#form-loginmarket').submit(function (event) {
-	                $.ajax({
-	                    type: 'POST', 
-	                    url:  $('#form-loginmarket').attr( "action" ),
-	                    data:  $( '#form-loginmarket' ).serialize(), 
-	                    dataType: 'json', 
-			            beforeSend:function(){
-			              $('#submit').addClass('disabled');
-			              $('#submit').val('Procesando...');
-			            },
-			            success : function(data){
-			              if(!data.error){
-			               window.open(utils.getBasePath()+'/web/market','_self');
-			              
-			              }else{
-			                $('#form-loginmarket').find('.errors').fadeIn('slow').html(data.msg); 
-			                $('#submit').val('Guardar');
-			                $('#submit').removeClass('disabled');
-			              }
-			            },
-			            error:function(jqXHR,textStatus,errorThrown){
-			              $('#form-loginmarket').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
-			            }
-	                })
-	              
-	            });
-			return false;
+                $.ajax({
+                    type: 'POST', 
+                    url:  $('#form-loginmarket').attr( "action" ),
+                    data:  $( '#form-loginmarket' ).serialize(), 
+                    dataType: 'json', 
+		            beforeSend:function(){
+		              $('#submit').addClass('disabled');
+		              $('#submit').val('Procesando...');
+		            },
+		            success : function(data){
+		              if(!data.error){
+		               window.open(utils.getBasePath()+'/web/market','_self');
+		              	new PNotify({
+		                    title: 'Bienvenido!',
+		                    text: data.msg,
+		                    type: 'info',
+		                    delay: 500
+		                });
+		              
+		              }else{
+		                $('#form-loginmarket').find('.errors').fadeIn('slow').html(data.msg); 
+		                $('#submit').val('Guardar');
+		                $('#submit').removeClass('disabled');
+		              }
+		            },
+		            error:function(jqXHR,textStatus,errorThrown){
+		              $('#form-loginmarket').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+		            }
+                })
+
 	        },
 	        errorLabelContainer: "#error_message_box",
 	        wrapper: "li",
@@ -48,7 +51,6 @@ module.exports={
 		 $('#form-registermarket').validate({
 	        submitHandler: function (form)
 	        {
-	             $('#form-registermarket').submit(function (event) {
 	                $.ajax({
 	                    type: 'POST', 
 	                    url:  $('#form-registermarket').attr( "action" ),
@@ -60,6 +62,11 @@ module.exports={
 			            },
 			            success : function(data){
 			              if(!data.error){
+			              	new PNotify({
+			                    title: 'Bienvenido!',
+			                    text: data.msg,
+			                    type: 'info'
+			                });
 			               window.open(utils.getBasePath()+'/web/market','_self');
 			              
 			              }else{
@@ -72,9 +79,6 @@ module.exports={
 			               $('#form-registermarket').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
 			            }
 	                })
-	              
-	            });
-			return false;
 	        },
 	        errorLabelContainer: "#error_message_box",
 	        wrapper: "li",
@@ -91,7 +95,7 @@ module.exports={
 		 $('#form-pago-cc').validate({
 	        submitHandler: function (form)
 	        {
-	             $('#form-pago-cc').submit(function (event) {
+
 	                $.ajax({
 	                    type: 'POST', 
 	                    url:  $('#form-pago-cc').attr( "action" ),
@@ -117,9 +121,6 @@ module.exports={
 			               $('#form-pago-cc').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
 			            }
 	                })
-	              
-	            });
-			return false;
 	        },
 	        errorLabelContainer: "#error_message_box",
 	        wrapper: "li",

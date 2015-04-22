@@ -8,7 +8,12 @@ class Secure_CI extends CI_Controller
 		parent::__construct();	
 		if(!$this->webuser->is_logged())
 		{
-			redirect(site_url('web/market/loger'));
+			if($this->input->is_ajax_request()){
+				echo json_encode(array('error'=>TRUE,'msg'=>site_url('web/market/loger/true'))); 
+				exit;
+			}else{
+				redirect(site_url('web/market/loger'));
+			}
 		}else{
 			$this->user = $this->session->userdata('webuser_data');
 		    $this->twiggy->set('webuser_data',$this->session->userdata('webuser_data'));

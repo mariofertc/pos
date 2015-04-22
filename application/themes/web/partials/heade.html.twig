@@ -63,7 +63,7 @@
 							{% if webuser_data.user_id!=FALSE %}
 								<li><a href="{{site_url('web/Users/perfil')}}"><i class="fa fa-user"></i>{{line('market_cuenta')}}</a></li>
 								<li><a href="{{site_url('web/Carts')}}"><i class="fa fa-shopping-cart"></i>{{line('market_carrito')}}</a></li>
-								<li><a href="{{site_url('web/Users/logout')}}"><i class="fa fa-lock"></i>{{line('market_logout')}}</a></li>
+								<li><a href="{{site_url('web/market/logout')}}"><i class="fa fa-lock"></i>{{line('market_logout')}}</a></li>
 							{% else %}
 								<li><a href="{{site_url('web/market/loger')}}"><i class="fa fa-lock"></i>{{line('market_login')}}</a></li>
 							{% endif %}
