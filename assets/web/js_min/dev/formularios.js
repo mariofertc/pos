@@ -118,6 +118,9 @@ module.exports={
 			              }
 			            },
 			            error:function(jqXHR,textStatus,errorThrown){
+			            	utils.log(jqXHR);
+			            	utils.log(textStatus);
+			            	utils.log(errorThrown);
 			               $('#form-pago-cc').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
 			            }
 	                })
@@ -132,5 +135,52 @@ module.exports={
 	                    "expiry-year": "required",
 	                }
 	    });
-	}
+	},
+	handle_entrega_submit :function (){
+		 $('#form-entrega').find('.errors').hide();
+		 $('#form-entrega').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-entrega').attr( "action" ),
+	                    data:  $( '#form-entrega' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+			              if(!data.error){
+			              	new PNotify({
+			                    title: 'Información actualizada!',
+			                    text: data.msg,
+			                    type: 'info'
+			                });
+			               window.open(utils.getBasePath()+'/web/Carts/pago','_self');
+			              
+			              }else{
+			                $('#form-entrega').find('.errors').fadeIn('slow').html(data.msg); 
+			                $('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-entrega').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    first_name: "required",
+	                    last_name: "required",
+	                    address_1: "required",
+	                    phone_number: "required",
+	                    email: "required",
+	                    password: "required",
+	                }
+	    });
+	},
 }

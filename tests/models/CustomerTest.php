@@ -7,7 +7,7 @@
 class CustomerTest extends CIUnit_TestCase
 {
 	protected $tables = array(
-		'phppos_employees'		 => 'phppos_customers',
+		'phppos_customers'		 => 'phppos_customers',
 		'phppos_people'		  => 'phppos_people',
 		//'user_group'	=> 'user_group'
 	);
@@ -21,7 +21,7 @@ class CustomerTest extends CIUnit_TestCase
 	
 	public function setUp()
 	{
-	//	$this->CI->db->query("set foreign_key_checks=0");
+		$this->CI->db->query("set foreign_key_checks=0");
 		parent::setUp();
 		
 		$this->CI->load->model('customer');
@@ -30,43 +30,33 @@ class CustomerTest extends CIUnit_TestCase
 
 	public function tearDown()
 	{
-	//	$this->CI->db->query("set foreign_key_checks=1");
+		$this->CI->db->query("set foreign_key_checks=1");
 		parent::tearDown();
 	}
 
 	public function testSave(){
 		$person_data=array(
-			'person_id'=>2,
-			'first_name'=>'tester',
-			'last_name'=>'one',
+			'first_name'=>'customer',
+			'last_name'=>'customer',
 			'phone_number'=>'000000000',
-			'email'=>'test@test.com',
-			'address_1'=>'home',
-			'address_2'=>'home2',
-			'city'=>'here',
-			'state'=>'here',
+			'email'=>'customer@test.com',
+			'address_1'=>'customer',
+			'address_2'=>'customer',
+			'city'=>'customer',
+			'state'=>'customer',
 			'country'=>'EC',
-			'comments'=>'testing'
+			'comments'=>'customer'
 			);
-		$employee_data=array(
-			'username'=>'tester',
-			'password'=>md5('.abcd1234')
+		$ucstomer_data=array(
+			'account_number'=>'123456789',
+			'taxable'=>0
 			);
-		$permisos=array();
-		$data=array_merge($person_data,$employee_data);
 
-		$resultado = $this->_pcm->save($person_data,$employee_data,$permisos,false);
+		$resultado = $this->_pcm->save($person_data,$ucstomer_data,false);
 		$this->assertTrue($resultado);
 		return $resultado;
 	}
 
-	public function testLogin(){
-		$user="administrator";
-		$pass='.abcd1234';
-
-		$resultado = $this->_pcm->login($user,$pass);
-		$this->assertTrue($resultado);
-	}
 
 	public function testExists(){
 		$id = 1;
@@ -83,22 +73,24 @@ class CustomerTest extends CIUnit_TestCase
 	public function testGetAll()
 	{
 		$respuesta = $this->_pcm->get_all();
-		$this->assertCount(1, $respuesta->result());
+		$this->assertCount(0, $respuesta);
 	}
 
 
 	public function testgetInfo(){
-		$id = 1;
-		$res = $this->_pcm->get_info($id);
+		//Inserto un customer, agregado al amdin es de ID=2
+		$this->testSave();
+
+		$res = $this->_pcm->get_info(2);
 		$this->assertEquals(1, count($res));
-		$this->assertEquals("administrator", $res->username);
+		$this->assertEquals("customer", $res->first_name);
 	}
 
 	public function testEmptygetInfo(){
 		$id = 666;
 		$res = $this->_pcm->get_info($id);
 		$this->assertTrue(!empty($res));
-		$this->assertEmpty($res->username);
+		$this->assertEmpty($res->first_name);
 	}
 
 }

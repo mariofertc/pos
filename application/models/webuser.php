@@ -40,6 +40,12 @@ class Webuser extends CI_Model{
         if ($query->num_rows() ==1)
         {
             $row=$query->row();
+            if(!is_null($row->customer_id)){
+            	$customer = $this->Customer->get_info($row->customer_id);
+            	foreach ($customer as $key => $value) {
+            		$row->$key=$value;
+            	}
+            }
             $this->session->set_userdata('webuser_data', $row);
             return TRUE;
         }

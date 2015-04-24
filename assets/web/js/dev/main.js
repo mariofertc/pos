@@ -78,6 +78,7 @@ function main(){
 	frms.handle_login_submit();
 	frms.handle_register_submit();
 	frms.handle_pago_cc();
+	frms.handle_entrega_submit();
 	catalogo.load_destacados();
 }
 

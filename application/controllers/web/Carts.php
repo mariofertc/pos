@@ -86,11 +86,8 @@ class Carts extends Secure_CI {
             }
             else
                 echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_orden_cc_error')));          
-        } catch (\PayPal\Exception\PPConnectionException $ex) {
+        } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             $message = parseApiError($ex->getData());
-            echo json_encode(array('error'=>TRUE,'msg'=>$message));
-        } catch (Exception $ex) {
-            $message = $ex->getMessage();
             echo json_encode(array('error'=>TRUE,'msg'=>$message));
         }
     }
@@ -120,7 +117,7 @@ class Carts extends Secure_CI {
 
             $monto = $this->_get_total($this->user->user_id);
             
-            if($monto>=0){
+            if($monto<=0){
                 echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_monto_cero'))); 
                 exit;
             }
@@ -142,11 +139,19 @@ class Carts extends Secure_CI {
             else
                 echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_orden_cc_error'))); 
 
-        } catch (\PayPal\Exception\PPConnectionException $ex) {
-            $message = parseApiError($ex->getData());
-            echo json_encode(array('error'=>TRUE,'msg'=>$message.'PP')); 
-        } catch (Exception $ex) {
-            $message = $ex->getMessage();
+        } catch (\PayPal\Exception\PayPalConnectionException $ex) {
+            $message = "";
+            $error = json_decode($ex->getData(),true);
+            switch ($error['name']){
+                case 'VALIDATION_ERROR':
+                    $message.= $this->lang->line('market_pagar_con_tarjeta_error_form');
+                    foreach ($error['details'] as $e)
+                    {
+                        $message.="\t" . $e['field'] . "\n\t" . $e['issue'] . "\n\n";
+                    }
+                    break;
+                }
+            
             echo json_encode(array('error'=>TRUE,'msg'=>$message)); 
         }
     }

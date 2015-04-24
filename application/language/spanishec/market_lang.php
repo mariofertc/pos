@@ -86,6 +86,7 @@ $lang['market_paso4']='(4) Finalizar';
 $lang['market_continuar']='Continuar';
 $lang['market_pago']='Pago Seguro';
 $lang['market_pagar_con_tarjeta']='Pagar con tarjeta';
+$lang['market_pagar_con_tarjeta_error_form']='Verifique que los datos ingresados son correctos:';
 $lang['market_pagar_con_paypal']='Pagar con Paypal';
 $lang['market_tipo']='Tipo';
 $lang['market_numero_tarjeta']='Número tarjera';
