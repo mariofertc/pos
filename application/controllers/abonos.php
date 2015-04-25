@@ -18,6 +18,26 @@ class Abonos extends Secure_area {
         $this->twiggy->set($data);
         $this->twiggy->display('abonos/manage');
     }
+    
+    function mis_datos() {
+        $aColumns = array('sale_id', 'sale_date', 'customer_name','payment_type', 'total', 'debe', 'mora', 'cuotas');
+//        var_dump($aColumns);
+        //Eventos Tabla
+        $cllAccion = array(
+            '1' => array(
+                'function' => "view",
+                'common_language' => "common_abono",
+                'language' => "_abonar",
+                'width' => $this->get_form_width(),
+                'height' => $this->get_form_height()),
+            '2' => array('function' => "pay_details",
+                'common_language' => "common_det",
+                'language' => "_view",
+                'width' => $this->get_form_width(),
+                'height' => $this->get_form_height())
+        );
+        echo getData($this->Abono, $aColumns, $cllAccion);
+    }
 
     function menu_abonos() {
         $this->twiggy->display('abonos/menu');
@@ -402,6 +422,9 @@ class Abonos extends Secure_area {
 
     function get_form_width() {
         return 360;
+    }
+    function get_form_height() {
+        return 340;
     }
 
 }
