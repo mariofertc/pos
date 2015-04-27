@@ -1,0 +1,8 @@
+{% block product_review %}
+	<ul>
+		<li><a href=""><i class="fa fa-user"></i>{{review.nombre}}</a></li>
+		<li><i class="fa fa-clock-o"></i>{{review.fecha|date('H:i:s')}}</li>
+		<li><i class="fa fa-calendar-o"></i>{{review.fecha|date('Y-m-d')}}</li>
+	</ul>
+	<p>{{review.detalle}}</p>
+{% endblock %}

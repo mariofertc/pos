@@ -384,3 +384,7 @@
 [24-04-2015 06:06:59] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
 [24-04-2015 06:06:59] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
 [24-04-2015 06:07:01] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[25-04-2015 06:23:45] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[25-04-2015 06:23:48] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[25-04-2015 06:23:48] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[25-04-2015 06:23:49] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201

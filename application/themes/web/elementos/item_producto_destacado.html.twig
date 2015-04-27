@@ -2,13 +2,14 @@
 	<div class="product-image-wrapper">
 		<div class="single-products">
 				<div class="productinfo text-center">
-					<img src="images/home/product1.jpg" alt="{{producto.name}}" />
+					<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
 					<h2>${{producto.unit_price}}</h2>
 					<p>{{producto.name}}</p>
 					<a href="{{producto.item_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{line('market_agregar_a_carrito')}}</a>
 				</div>
 				<div class="product-overlay">
 					<div class="overlay-content">
+						<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
 						<h2>${{producto.unit_price}}</h2>
 						<p>{{producto.name}}</p>
 						<a href="{{producto.item_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{line('market_agregar_a_carrito')}}</a>

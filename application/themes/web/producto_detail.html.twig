@@ -19,27 +19,28 @@
 						<div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
 							<div class="view-product">
-								<img src="images/product-details/1.jpg" alt="" />
+								<img src="{{site_url()}}/images/product-details/1.jpg" alt="" />
 								<h3>ZOOM</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner">
+
 										<div class="item active">
-										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar3.jpg" alt=""></a>
 										</div>
 										<div class="item">
-										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar3.jpg" alt=""></a>
 										</div>
 										<div class="item">
-										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="{{site_url()}}/images/product-details/similar3.jpg" alt=""></a>
 										</div>
 										
 									</div>
@@ -56,26 +57,67 @@
 						</div>
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
-								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
-								<h2>Anne Klein Sleeveless Colorblock Scuba</h2>
+								<img src="{{site_url()}}/images/product-details/new.jpg" class="newarrival" alt="" />
+								<h2>{{producto.name}}</h2>
 								<p>Web ID: 1089772</p>
-								<img src="images/product-details/rating.png" alt="" />
+								<img src="{{site_url()}}/images/product-details/rating.png" alt="" />
 								<span>
-									<span>US $59</span>
-									<label>Quantity:</label>
+									<span>${{producto.unit_price}}</span>
+									<label>{{line('market_cantidad')}}:</label>
 									<input type="text" value="3" />
 									<button type="button" class="btn btn-fefault cart">
 										<i class="fa fa-shopping-cart"></i>
-										Add to cart
+										{{line('market_agregar_a_carrito')}}
 									</button>
 								</span>
-								<p><b>Availability:</b> In Stock</p>
-								<p><b>Condition:</b> New</p>
-								<p><b>Brand:</b> E-SHOPPER</p>
-								<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
+								<p><b>{{line('market_disponibilidad')}}:</b> In Stock</p>
+								<p><b>	{{line('market_marca')}}:</b>{{producto.marca}}</p>
+								<a href=""><img src="{{site_url('images')}}/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							</div><!--/product-information-->
 						</div>
 					</div><!--/product-details-->
+
+					<div class="category-tab shop-details-tab"><!--category-tab-->
+						<div class="col-sm-12">
+							<ul class="nav nav-tabs">
+								<li><a href="#details" data-toggle="tab">{{line('market_detalles')}}</a></li>
+								<li class="active"><a href="#reviews" data-toggle="tab">{{line('market_reviews')}} <span id="num_reviews"></span> </a></li>
+							</ul>
+						</div>
+						<div class="tab-content">
+							<div class="tab-pane fade" id="details" >
+								<div class="col-sm-3">
+								</div>
+							</div>
+							<div class="tab-pane fade active in" id="reviews" >
+								<div class="col-sm-12">
+									<section id="productreviews">
+										{% for review in producto.opiniones %}
+											{% include 'elementos/product_review.html.twig' with {'review':review} %}
+										{% endfor %}
+									</section>
+									
+									<p><b>{{line('market_write_your_review')}}</b></p>
+									
+
+									<form action="{{site_url('web/market/add_review')}}" id="form-productreview">
+										<div class="alert alert-info errors"></div>
+										<span>
+											<input type="text" placeholder="{{line('market_your_name')}}" name="nombre" id="nombre"/>
+											<input type="email" placeholder="{{line('market_email')}}"/ name="email" id="email">
+										</span>
+										<textarea name="detalle" id="detalle" placeholder="{{line('market_detalle')}}"></textarea>
+										<b>{{line('market_rating')}}: </b><input type="number" name="rating" id="rating" class="rating" min=0 max=5 data-size="xs" />
+										<input type="hidden" value="{{producto.item_id}}" name="item">
+										<button type="submit" id="submit" class="btn btn-default pull-right" >
+											{{line('common_submit')}}
+										</button>
+									</form>
+								</div>	
+							</div>
+						</div>
+					</div>
+
 					{% include 'items_recomendados.html.twig' %}
 				</div>
 			</div>

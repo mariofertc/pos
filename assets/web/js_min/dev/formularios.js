@@ -183,4 +183,48 @@ module.exports={
 	                }
 	    });
 	},
+	handle_product_review_submit :function (){
+		 $('#form-productreview').find('.errors').hide();
+		 $('#form-productreview').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-productreview').attr( "action" ),
+	                    data:  $( '#form-productreview' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+			              if(!data.error){
+			              	$contenedor = $('#productreviews');
+							$.post(utils.getBasePath()+'/web/market/get_review',{'ID':data.ID},function(data){
+									$contenedor.prepend(data);
+							},'text');
+							$('#form-productreview').trigger('reset');
+			              }else{
+			                $('#form-productreview').find('.errors').fadeIn('slow').html(data.msg); 
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-entrega').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            },
+			            complete:function(){
+			            	$('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    nombre: "required",
+	                    email: "required",
+	                    detalle: "required",
+	                }
+	    });
+	},
 }

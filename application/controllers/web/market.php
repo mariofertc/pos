@@ -10,6 +10,7 @@ class Market extends CI_Controller {
         $this->controller_name = strtolower($this->uri->segment(1));
         $this->load->model('orden');
         $this->load->model('cart');
+        $this->load->model('product_review');
         $this->load->library('PaypalRest');
 
         $this->data['controller_name'] = $this->controller_name;
@@ -127,8 +128,46 @@ class Market extends CI_Controller {
 
     function producto($pro) {
         $this->data['title'] = 'Market - Producto ';
+        $this->data['producto']=$this->Item->get_info($pro);
+        $opiniones=$this->product_review->get_by_item($pro);
+        $this->data['producto']->opiniones=$this->product_review->get_by_item($pro);
         $this->twiggy->set($this->data);
         $this->twiggy->display('producto_detail');
+    }
+
+    /**
+     * Registra una opinión de un producto
+     * @return [json] {error:TRUE/FALSE,'msg':''}
+     */
+    function add_review(){
+        $this->form_validation->set_rules('nombre', 'lang:market_your_name', 'required');
+        $this->form_validation->set_rules('email', 'lang:market_email', 'required|valid_email');
+        $this->form_validation->set_rules('detalle', 'lang:market_detalle', 'required');
+        if($this->form_validation->run()==TRUE){
+
+            $review_data = array(
+                'nombre'=>$this->input->post('nombre'),
+                'email'=>$this->input->post('email'),
+                'rating'=>$this->input->post('rating'),
+                'detalle'=>$this->input->post('detalle'),
+                'item'=>$this->input->post('item')
+                );
+             $res= $this->product_review->save($review_data);
+                if(!$res['error']){
+                  echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('market_review_added'),'ID'=>$res['ID']));   
+                }else{
+                  echo json_encode(array('error'=>TRUE,'msg'=>$res['msg']));
+                }
+         }else{
+            echo json_encode(array('error'=>TRUE,'msg'=>validation_errors()));
+        }  
+    }
+
+    function get_review(){
+        $review_id=$this->input->post('ID');
+        $this->data['review'] = $this->product_review->get_info($review_id);
+        $this->twiggy->set($this->data);
+        $this->twiggy->display('elementos/product_review');
     }
 
     function destacados(){

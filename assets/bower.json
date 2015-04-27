@@ -30,6 +30,7 @@
     "datatables": "~1.10.5",
     "datatables-fixedcolumns": "~3.0.3",
     "pnotify": "~2.0.1",
-    "custombox": "~2.2.5"
+    "custombox": "~2.2.5",
+    "bootstrap-star-rating": "~3.5.1"
   }
 }

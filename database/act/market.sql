@@ -36,3 +36,13 @@ CREATE TABLE phppos_paypal (
 );
 
 ALTER TABLE phppos_webusers ADD COLUMN customer_id INT;
+
+CREATE TABLE phppos_product_reviews(
+ review_id INT PRIMARY KEY AUTO_INCREMENT,
+ nombre	VARCHAR(250),
+ email	VARCHAR(250),
+ fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ detalle TEXT, 
+ rating INT,
+ item INT REFERENCES phppos_items (item_id)
+);
