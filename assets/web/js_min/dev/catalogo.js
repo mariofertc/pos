@@ -175,9 +175,29 @@ module.exports={
 		var total = valor+cantidad;
 		if(total>0)
 		$.post(utils.getBasePath()+'/web/Carts/add_to_cart',{'producto':id_producto,'cantidad':total},function(data){
-			$input.val(total);
-			$this.subtotal_item($input.parents('tr'));
-			$this.subtotal_cart();
+			if(!data.error){
+				if(cantidad==0){
+					new PNotify({
+		                title: 'Producto agregado!',
+		                text: data.msg,
+		                type: 'info',
+			            delay: 200
+		            });
+				}else{
+					$input.val(total);
+					$this.subtotal_item($input.parents('tr'));
+					$this.subtotal_cart();
+				}
+			}else{
+				 Custombox.open({
+	                target: data.msg,
+	                effect: 'fadein',
+	                complete: function(){
+					 frms.handle_login_submit();
+					 frms.handle_register_submit();
+	                }
+	            });
+			}
 		},'json');
 	}
 }

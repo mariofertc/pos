@@ -56,7 +56,7 @@ $(document).on('click','.remove-from-wlist',function(e){
 	catalogo.handle_remove_from_wlist($(this));    
 });
 
-$(document).on('click','.cart_quantity_up, .cart_quantity_down',function(e){
+$(document).on('click','.cart_quantity_up, .cart_quantity_down, .add-to-cart2',function(e){
 	e.preventDefault();
 	catalogo.update_cantidad_item($(this));    
 	
