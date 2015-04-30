@@ -7,11 +7,13 @@ class Abonos extends Secure_area {
 
     function __construct() {
         parent::__construct('abonos');
-        $this->Sale->create_sales_items_temp_table();
         //$this->load->library('sale_lib');
     }
 
     function index() {
+        //Crear la tabla sólo al ver el índice.
+        $this->Sale->create_sales_items_temp_table();
+        //echo "xc";
         $data['controller_name'] = strtolower($this->uri->segment(1));
         $data['form_width'] = $this->get_form_width();
         $data['manage_table'] = get_abono_manage_table();
@@ -20,12 +22,12 @@ class Abonos extends Secure_area {
     }
     
     function mis_datos() {
-        $aColumns = array('sale_id', 'sale_date', 'customer_name','payment_type', 'total', 'debe', 'mora', 'cuotas');
+        $aColumns = array('sale_id', 'venta_id', 'sale_date', 'customer_name','payment_type', 'total', 'debe', 'mora', 'cuotas');
 //        var_dump($aColumns);
         //Eventos Tabla
         $cllAccion = array(
             '1' => array(
-                'function' => "view",
+                'function' => 'view/$id/$payment_id',
                 'common_language' => "common_abono",
                 'language' => "_abonar",
                 'width' => $this->get_form_width(),
@@ -381,7 +383,9 @@ class Abonos extends Secure_area {
             $this->lang->line('sales_debit') => $this->lang->line('sales_debit'),
             $this->lang->line('sales_credit') => $this->lang->line('sales_credit')
         );
-        $this->load->view("abonos/form", $data);
+        //$this->load->view("abonos/form", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("abonos/form");
     }
 
     function get_row() {

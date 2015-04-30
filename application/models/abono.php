@@ -87,7 +87,7 @@ class Abono extends CI_Model {
         $this->db->where('sale_id', $sale_id);
         return $this->Customer->get_info($this->db->get()->row()->customer_id);
     }
-    
+
     function get_total($where = '') {
         $this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
         $this->db->from('sales_items_temp');
@@ -102,12 +102,15 @@ class Abono extends CI_Model {
         //$this->db->join('abonos as abono_payment', 'sp.payment_id = abono_payment.payment_id', 'left outer');
 
         $this->db->where('p.por_cobrar = 1');
-         $this->db->group_by('sales_items_temp.sale_id');
+        $this->db->group_by('sales_items_temp.sale_id');
         $this->db->order_by('sales_items_temp.sale_id');
         if ($where != "")
             $this->db->where($where);
         $this->db->where('deleted', 0);
-        return $this->db->count_all_results();
+        //$this->db->get();
+        return count($this->db->get()->result_array());
+        //no sé por qué no vale.
+        //return $this->db->count_all_results();
     }
 
     /**
@@ -119,7 +122,7 @@ class Abono extends CI_Model {
      * @return type
      */
     function get_all($num = 0, $offset = 0, $where, $order = null) {
-        $this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
+        $this->db->select('sp.payment_id,sales_items_temp.sale_id, concat("POS-",sales_items_temp.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
         $this->db->from('sales_items_temp');
         $this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
         $this->db->join('people as customer', 'sales_items_temp.customer_id = customer.person_id', 'left');
@@ -139,12 +142,12 @@ class Abono extends CI_Model {
         $this->db->limit($num, $offset);
 
         //$data = array();
-        //$data['summary'] = $this->db->get()->result_array();
-        return $this->db->get()->result_array();
+        $data['summary'] = $this->db->get()->result_array();
+        //return $this->db->get()->result_array();
 
-        //$this->get_payment_abonos($data);
+        $this->get_payment_abonos($data);
         //var_dump($data);
-        //return $data;
+        return $data['summary'];
     }
 
     function get_sale($sale_id) {
@@ -220,62 +223,72 @@ class Abono extends CI_Model {
                 $this->db->where('abonos.payment_id = ' . $pvalue['payment_id']);
                 $this->db->where('abonos.sale_id = ' . $value['sale_id']);
                 $this->db->group_by('abono_id');
-                $data['abonos'][$key] = $this->db->get()->result_array();
+                $abonos = $this->db->get()->result_array();
+                //echo $this->db->last_query();
+                //var_dump($abonos);
+                $data['abonos'][$key] = $abonos;
                 $esDia = false;
-                $cuotas = 1;
+                $cuotas = 0;
                 //Si tiene Plazo, comparar con la fecha de pago.
                 if (!$pvalue['have_plazo']) { //Si tiene Plazo fijo.
                     if ($pvalue['payment_days'] > 0) {
                         $esDia = true;
                     }
                     $cuotas = ($pvalue['share'] != 0 ? $pvalue['share'] : 1);
+                    //$cuotas = $pvalue['share'];
+                    //$cuotas = 1;
                 }
                 foreach ($data['abonos'][$key] as $akey => $avalue) {
                     $tot_pagado += $avalue['abono_amount'];
+                    //echo $avalue['abono_amount'];
                 }
                 $tot_debe += $pvalue['payment_amount'];
                 $dateSale = strtotime($pvalue['sale_date']);
-                $dateHoy = time(); {
-                    //Moroso
-                    $i = 0;
-                    $valorCuota = $tot_debe / $cuotas;
-                    $aux = $tot_pagado;
-                    $det = '';
-                    $cuo = '';
-                    $datePago = $dateSale;
-                    while ($i < $cuotas) {
-                        $diasVencidos = 0;
-                        if ($esDia) {
-                            $datePago = strtotime('+' . $pvalue['payment_days'] . ' day', $datePago);
-                        } else {
-                            $datePago = strtotime('+' . $pvalue['payment_months'] . ' month', $datePago);
-                        }
-                        //Sale del ciclo, porque todav�a no ha pagado y no le toca pagar.
-                        if ($datePago > $dateHoy and $valorCuota > $aux)
-                            break;
-                        //Sigue en el ciclo, porque ya ha pagado (calcula cuotas pagadas) o le toca pagar (calculo cuotas mora).
-                        if ($valorCuota <= $aux) {
-                            $aux -= $valorCuota;
-                            $cuo .= ($i + 1) . ' Pagada ' . to_currency($valorCuota) . '<br>';
-                        } else if ($datePago <= $dateHoy) {
-                            if ($aux > 0)
-                                $aux -= $valorCuota;
-                            else
-                                $aux = 0;
-                            //D�as impagos.
-                            $diasVencidos += ($dateHoy - $datePago) != 0 ? floor(($dateHoy - $datePago) / 60 / 60 / 24) : 0;
-                            // $det .= $diasVencidos.'d�as mora. Cuota '. ($i + 1) . ' Por Pagar. Valor='.$valorCuota.'<br>';
-                            $det .= $diasVencidos;
-                            $cuo .= ($i + 1) . ' Impago ' . to_currency(($aux == 0) ? $valorCuota : abs($aux)) . '<br>';
-                        }
-                        $i++;
+                $dateHoy = time();
+
+                //Moroso
+                $i = 0;
+                $valorCuota = $tot_debe / $cuotas;
+                $aux = $tot_pagado;
+                $det = '';
+                $cuo = '';
+                $datePago = $dateSale;
+                while ($i < $cuotas) {
+                    $diasVencidos = 0;
+                    if ($esDia) {
+                        $datePago = strtotime('+' . $pvalue['payment_days'] . ' day', $datePago);
+                    } elseif ($cuotas == 1) {
+                        $datePago = $dateHoy;
+                    } else {
+                        $datePago = strtotime('+' . $pvalue['payment_months'] . ' month', $datePago);
                     }
+                    //Sale del ciclo, porque todavía no ha pagado y no le toca pagar.
+                    if ($datePago > $dateHoy and $valorCuota > $aux)
+                        break;
+                    //Sigue en el ciclo, porque ya ha pagado (calcula cuotas pagadas) o le toca pagar (calculo cuotas mora).
+                    if ($valorCuota <= $aux) {
+                        $aux -= $valorCuota;
+                        $cuo .= ($i + 1) . ' Pagada ' . to_currency($valorCuota) . '<br>';
+                    } else if ($datePago <= $dateHoy) {
+                        if ($aux > 0)
+                            $aux -= $valorCuota;
+                        else
+                            $aux = 0;
+                        //Días impagos.
+                        $diasVencidos += ($dateHoy - $datePago) != 0 ? floor(($dateHoy - $datePago) / 60 / 60 / 24) : 0;
+                        // $det .= $diasVencidos.'dias mora. Cuota '. ($i + 1) . ' Por Pagar. Valor='.$valorCuota.'<br>';
+                        $det .= $diasVencidos;
+                        $cuo .= ($i + 1) . ' Impago ' . to_currency(($aux == 0) ? $valorCuota : abs($aux)) . '<br>';
+                    }
+                    $i++;
                 }
+
                 // $data['summary'][$key]['mora']=date('Y-m-d',$dateSale).'yo'.date('Y-m-d',$datePago).'-'.$det.'-'.$cuotas;
                 $data['summary'][$key]['cuotas'] = $cuo;
                 $data['summary'][$key]['mora'] = $det;
             }
-            $data['summary'][$key]['debe'] = $tot_debe - $tot_pagado;
+//            $data['summary'][$key]['debe'] = $tot_debe - $tot_pagado;
+            $data['summary'][$key]['debe'] = $tot_pagado;
             $data['summary'][$key]['total'] = $tot_debe;
         }
     }
