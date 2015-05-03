@@ -161,6 +161,7 @@ function getColumnAccion($cllAccion, $id) {
     foreach ($cllAccion as $acc) {
         //$width = ;
 //	$height = ;
+        //eval("\$str = \"$str\";");
         $accion.=anchor($controller_name . "/" . $acc['function'] . "/$id?width=" . (isset($acc['width']) ? $acc['width'] : 300) . "&height=" . (isset($acc['height']) ? $acc['height'] : 450), $CI->lang->line($acc['common_language']), array('class' => 'thickbox', 'title' => $CI->lang->line($controller_name . $acc['language']))) . nbs();
     }
     return $accion;

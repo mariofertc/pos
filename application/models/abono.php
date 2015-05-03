@@ -122,7 +122,7 @@ class Abono extends CI_Model {
      * @return type
      */
     function get_all($num = 0, $offset = 0, $where, $order = null) {
-        $this->db->select('sp.payment_id,sales_items_temp.sale_id, concat("POS-",sales_items_temp.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
+        $this->db->select('sp.payment_id,sales_items_temp.sale_id, concat(phppos_sales_items_temp.sale_id,"/",sp.payment_id) as abono_id, concat("POS-",phppos_sales_items_temp.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
         $this->db->from('sales_items_temp');
         $this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
         $this->db->join('people as customer', 'sales_items_temp.customer_id = customer.person_id', 'left');
@@ -135,8 +135,8 @@ class Abono extends CI_Model {
         //$this->db->join('abonos as abono_payment', 'sp.payment_id = abono_payment.payment_id', 'left outer');
 
         $this->db->where('p.por_cobrar = 1');
-        $this->db->group_by('sales_items_temp.sale_id');
-        $this->db->order_by('sales_items_temp.sale_id');
+        $this->db->group_by('phppos_sales_items_temp.sale_id');
+        $this->db->order_by('phppos_sales_items_temp.sale_id');
 
         $this->db->order_by($order);
         $this->db->limit($num, $offset);
@@ -253,12 +253,16 @@ class Abono extends CI_Model {
                 $det = '';
                 $cuo = '';
                 $datePago = $dateSale;
-                while ($i < $cuotas) {
+                if ($cuotas == 1) {
+                    $datePago = $dateHoy;
+                    if ($tot_pagado > 0)
+                        $cuo = 'Pagado ' . to_currency($tot_pagado) . '<br>';
+                    $tot_pagado = $tot_debe-$tot_pagado;
+                }
+                while ($i < $cuotas && $cuotas != 1) {
                     $diasVencidos = 0;
                     if ($esDia) {
                         $datePago = strtotime('+' . $pvalue['payment_days'] . ' day', $datePago);
-                    } elseif ($cuotas == 1) {
-                        $datePago = $dateHoy;
                     } else {
                         $datePago = strtotime('+' . $pvalue['payment_months'] . ' month', $datePago);
                     }

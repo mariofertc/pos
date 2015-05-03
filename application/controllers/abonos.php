@@ -22,12 +22,13 @@ class Abonos extends Secure_area {
     }
     
     function mis_datos() {
-        $aColumns = array('sale_id', 'venta_id', 'sale_date', 'customer_name','payment_type', 'total', 'debe', 'mora', 'cuotas');
+        $aColumns = array('abono_id', 'venta_id', 'sale_date', 'customer_name','payment_type', 'total', 'debe', 'mora', 'cuotas');
 //        var_dump($aColumns);
         //Eventos Tabla
         $cllAccion = array(
             '1' => array(
-                'function' => 'view/$id/$payment_id',
+                'function' => 'view',
+                //'function' => '$id y $payment_id',
                 'common_language' => "common_abono",
                 'language' => "_abonar",
                 'width' => $this->get_form_width(),
