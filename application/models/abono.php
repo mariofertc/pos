@@ -257,7 +257,7 @@ class Abono extends CI_Model {
                     $datePago = $dateHoy;
                     if ($tot_pagado > 0)
                         $cuo = 'Pagado ' . to_currency($tot_pagado) . '<br>';
-                    $tot_pagado = $tot_debe-$tot_pagado;
+                    //$tot_pagado = $tot_debe-$tot_pagado;
                 }
                 while ($i < $cuotas && $cuotas != 1) {
                     $diasVencidos = 0;
@@ -292,7 +292,7 @@ class Abono extends CI_Model {
                 $data['summary'][$key]['mora'] = $det;
             }
 //            $data['summary'][$key]['debe'] = $tot_debe - $tot_pagado;
-            $data['summary'][$key]['debe'] = $tot_pagado;
+            $data['summary'][$key]['debe'] = $tot_debe - $tot_pagado;
             $data['summary'][$key]['total'] = $tot_debe;
         }
     }

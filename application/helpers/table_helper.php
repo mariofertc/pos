@@ -994,7 +994,7 @@ function get_porpagar_detail_data_row($abonos,$controller)
 }
 
 //Para registrar los pagos a proveedores
-function get_porpagar_manage_table($por_pagar_m,$controller)
+function get_porpagar_manage_table()
 {
 	$CI =& get_instance();
 	$table='<table class="tabledist" id="sortable_table">';
@@ -1019,7 +1019,7 @@ function get_porpagar_manage_table($por_pagar_m,$controller)
 		$table.="<th>$header</th>";
 	}
 	$table.='</tr></thead><tbody>';
-	$table.=get_porpagar_manage_table_data_rows($por_pagar_m,$controller);
+	//$table.=get_porpagar_manage_table_data_rows($por_pagar_m,$controller);
 	$table.='</tbody></table>';
 	return $table;
 }
