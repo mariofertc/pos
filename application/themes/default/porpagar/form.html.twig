@@ -3,115 +3,100 @@
 <ul id="error_message_box"></ul>
 {{form_open('porpagar/save/'~receiving_id~'/'~payment_id,{'id':'item_form'})}}
 <fieldset id="item_basic_info">
-<legend>{{line("abonos_basic_information"); ?></legend>
+    <legend>{{line("abonos_basic_information") }}</legend>
 
-<div class="field_row clearfix">
-{{ form_label(line('sales_date').':', 'name',{'class':'required wide')); ?>
-	<div class='form_field'>
-	{{ form_input({
+    <div class="field_row clearfix">
+        {{ form_label(line('sales_date')~':', 'name',{'class':'required wide'}) }}
+        <div class='form_field'>
+            {{ form_input({
 		'name':'date',
 		'id':'date',
-		'value':date('m/d/Y'))
-	);?>
-	</div>
-</div>
+		'value':"now"|date('Y/m/d')}
+	) }}
+        </div>
+    </div>
 
-<div class="field_row clearfix">
-{{ form_label(line('sales_payment').':', 'name',{'class':'wide')); ?>
-	<div class='form_field'>
-	{{ form_dropdown('type', $payment_options);?>
-	</div>
-</div>
+    <div class="field_row clearfix">
+        {{ form_label(line('sales_payment')~':', 'name',{'class':'wide'}) }}
+        <div class='form_field'>
+            {{ form_dropdown('type', payment_options) }}
+        </div>
+    </div>
 
-<div class="field_row clearfix">
-{{ form_label(line('sales_amount_tendered').':', 'abono_amount_l',{'class':'required wide')); ?>
-	<div class='form_field'>
-	{{ form_input({
+    <div class="field_row clearfix">
+        {{ form_label(line('sales_amount_tendered')~':', 'abono_amount_l',{'class':'required wide'}) }}
+        <div class='form_field'>
+            {{ form_input({
 		'name':'amount',
 		'id':'amount',
-		'value':to_currency_no_money($debe))
-	);?>
-	</div>
-</div>
+		'value':to_currency_no_money(debe)}
+	) }}
+        </div>
+    </div>
 
-<div class="field_row clearfix">
-{{ form_label(line('sales_comment').':', 'abono_comment_l',{'class':'small_wide')); ?>
-	<div class='form_field'>
-	{{ form_textarea({'name':'comment','value':null,'rows':'4','cols':'17', 'id':'comment'));?>
-	</div>
-</div>
-<?php
-echo form_submit({
+    <div class="field_row clearfix">
+        {{ form_label(line('sales_comment')~':', 'abono_comment_l',{'class':'small_wide'}) }}
+        <div class='form_field'>
+            {{ form_textarea({'name':'comment','value':null,'rows':'4','cols':'17', 'id':'comment'}) }}
+        </div>
+    </div>
+    {{ form_submit({
 	'name':'submit',
 	'id':'submit',
 	'value':line('common_submit'),
-	'class':'submit_button float_right')
-);
-?>
+	'class':'submit_button float_right'
+}) }}
 </fieldset>
-<?php
-echo form_close();
-?>
+{{ form_close() }}
+<script src="{{base_url()}}assets/bower_components/jquery-ui/jquery-ui.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 <script type='text/javascript'>
 
 //validation and submit handling
-$(document).ready(function()
-{
-	$('#date').datePicker({startDate: '01/01/1970'});
-	//$("submit").attr("target","_blank");
+    $(document).ready(function () {
+        $("#ui-datepicker-div").remove();
+        $('#date').datepicker({startDate: '01/01/1970', dateFormat: "yy/mm/dd"});
+        //$("submit").attr("target","_blank");
 
-	//$("#category").autocomplete("{{ site_url('items/suggest_category');?>",{max:100,minChars:0,delay:10});
-    //$("#category").result(function(event, data, formatted){});
-	//$("#category").search();
+        //$("#category").autocomplete("{{ site_url('items/suggest_category') }}",{max:100,minChars:0,delay:10});
+        //$("#category").result(function(event, data, formatted){});
+        //$("#category").search();
 
+        $('#item_form').validate({
+            submitHandler: function (form) {
+                $.ajax({
+                    type: $(form).attr('method'),
+                    url: $(form).attr('action'),
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        tb_remove();
+                        post_porpagar_form_submit(response);
+                    },
+                    dataType: 'json'
+                });
 
-	$('#item_form').validate({
-		submitHandler:function(form)
-		{
-			/*
-			make sure the hidden field #item_number gets set
-			to the visible scan_item_number value
-			*/
-			//$('#item_number').val($('#scan_item_number').val());
-			$(form).ajaxSubmit({
-			success:function(response)
-			{
-				tb_remove();
-				post_porpagar_form_submit(response);
-				//PrinterJob job = PrinterJob.getPrinterJob();
-				// jQuery(".page_item a").attr("target","_blank");
-			},
-			dataType:'json'
-		});
+            },
+            errorLabelContainer: "#error_message_box",
+            wrapper: "li",
+            rules: {
+                date: {
+                    required: true,
+                    date: true
+                },
+                amount: {
+                    required: true,
+                    number: true,
+                    //min:0.001
+                }
+            },
+            messages: {
+                date: "{{line('abonos_date_required') }}",
+                abono_amount: {
+                    required: "{{line('abonos_amount_tendered_required') }}",
+                    number: "{{line('abonos_amount_tendered_number') }}",
+                    //min:"{{line('items_cost_price_number') }}"
+                }
+            }
+        });
 
-		},
-		errorLabelContainer: "#error_message_box",
- 		wrapper: "li",
-		rules:
-		{
-			date:
-			{
-				required:true,
-				date:true
-			},
-			amount:
-			{
-				required:true,
-				number:true,
-				//min:0.001
-			}
-   		},
-		messages:
-		{
-			date:"{{line('abonos_date_required'); ?>",
-			abono_amount:
-			{
-				required:"{{line('abonos_amount_tendered_required'); ?>",
-				number:"{{line('abonos_amount_tendered_number'); ?>",
-				//min:"{{line('items_cost_price_number'); ?>"
-			}
-		}
-	});
-	
-});
+    });
 </script>

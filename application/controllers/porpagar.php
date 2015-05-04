@@ -28,7 +28,8 @@ class Porpagar extends Secure_area {
         $cllAccion = array(
             '1' => array(
                 'function' => 'view',
-                //'function' => '$id y $payment_id',
+                //$receiving_id = -1, $payment_id = -1, $debe
+                'function' => 'view/$receiving_id/$payment_id/$debe',
                 'common_language' => "common_abono",
                 'language' => "_abonar",
                 'width' => $this->get_form_width(),
@@ -324,7 +325,9 @@ class Porpagar extends Secure_area {
             $this->lang->line('sales_debit') => $this->lang->line('sales_debit'),
             $this->lang->line('sales_credit') => $this->lang->line('sales_credit')
         );
-        $this->load->view("porpagar/form", $data);
+        //$this->load->view("porpagar/form", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("porpagar/form");
     }
 
     function get_row() {

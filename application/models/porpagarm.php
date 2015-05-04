@@ -93,7 +93,7 @@ class Porpagarm extends CI_Model {
      */
 
     function get_all($num = 0, $offset = 0, $where, $order = null) {
-        $this->db->select('rp.payment_id,rp.receiving_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe', false);
+        $this->db->select('rp.receiving_id, rp.payment_id, concat("RECV-",rp.receiving_id) as compra_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe', false);
         $this->db->from('receivings_items_temp');
         $this->db->join('people as employee', 'receivings_items_temp.employee_id = employee.person_id');
         $this->db->join('people as supplier', 'receivings_items_temp.supplier_id = supplier.person_id', 'left');
@@ -181,8 +181,7 @@ class Porpagarm extends CI_Model {
         $data['abonos'] = array();
         $data['payments'] = array();
         foreach ($data['summary'] as $key => $value) {
-            $this->db->select('receivings_payments.payment_id, payments.payment_type,receivings_payments.payment_amount, receivings_payments.receiving_id, ' .
-                    'por_cobrar,payments.have_plazo, payments.payment_days, payments.payment_months, payments.share, receiving_date', false);
+            $this->db->select('receivings_payments.payment_id, payments.payment_type,receivings_payments.payment_amount, receivings_payments.receiving_id, por_cobrar,payments.have_plazo, payments.payment_days, payments.payment_months, payments.share, receiving_date', false);
             $this->db->from('receivings_items_temp');
             $this->db->join('receivings_payments', 'receivings_payments.receiving_id=receivings_items_temp.receiving_id');
             $this->db->join('payments', 'payments.payment_id=receivings_payments.payment_id');

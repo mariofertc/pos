@@ -9,7 +9,8 @@ class Config extends Secure_area
 	
 	function index()
 	{
-		$this->load->view("config");
+		//$this->load->view("config");
+                $this->twiggy->display("config");
 	}
 		
 	function save()

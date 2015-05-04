@@ -112,7 +112,7 @@ function post_abono_form_submit(response){
 	else{
 		//This is an update, just update one row
 		if(jQuery.inArray(response.sale_id,get_visible_checkbox_ids()) != -1){
-			update_row(response.sale_id,'{{site_url("controller_name/get_row")}}');
+			update_row(response.sale_id,'{{site_url(controller_name~"/get_row")}}');
 			set_feedback(response.message,'success_message',false);
 		}
                 //refresh entire table
