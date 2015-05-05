@@ -16,139 +16,70 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">{{line('module_config')}}</div>
                     <div class="panel-body">
-{{form_open('config/save/',{'id':'config_form'})}}
-<div id="config_wrapper">
-<fieldset id="config_info">
-<div id="required_fields_message">{{line('common_fields_required_message') }}</div>
-<ul id="error_message_box"></ul>
-<legend>{{line("config_info") }}</legend>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {{form_open('config/save/',{'id':'config_form', "role":"form"})}}
+                                <fieldset id="config_info">
+                                    <ul id="error_message_box"></ul>
+                                    <legend>{{line("config_info")}}</legend>
 
-<div class="field_row clearfix">	
-{{ form_label(line('config_company')~':', 'company',{'class':'wide required'}) }}
-	<div class='form_field'>
-	{{ form_input({
-		'name':'company',
-		'id':'company',
-		'value':$this->config->item('company')})}}
-	</div>
-</div>
+                                    <div class="form-group">	
+                                        {{ form_label(line('config_company')~':', 'company',{'class':'wide required'}) }}
+                                        {{ form_input({'name':'company','id':'company','value':config('company'),'class':"form-control", 'placeholder':"Ingrese el Nombre de la Companía"})}}
 
-<div class="field_row clearfix">	
-{{ form_label(line('config_address')~':', 'address',{'class':'wide required'}) }}
-	<div class='form_field'>
-	{{ form_textarea({
-		'name':'address',
-		'id':'address',
-		'rows':4,
-		'cols':17,
-		'value':$this->config->item('address')}) }}
-	</div>
-</div>
+                                    </div>
 
-<div class="field_row clearfix">	
-{{ form_label(line('config_phone')~':', 'phone',{'class':'wide required'}) }}
-	<div class='form_field'>
-	{{ form_input({
-		'name':'phone',
-		'id':'phone',
-		'value':$this->config->item('phone')}) }}
-	</div>
-</div>
+                                    <div class="form-group">	
+                                        {{ form_label(line('config_address')~':', 'address',{'class':'wide required'}) }}
+                                        {{ form_textarea({'name':'address','id':'address','rows':4,'cols':17,'value':config('address'),'class':"form-control"}) }}
+                                    </div>
 
-<div class="field_row clearfix">	
-{{ form_label(line('config_default_tax_rate_1')~':', 'default_tax_1_rate',{'class':'wide required'}) }}
-	<div class='form_field'>
-	{{ form_input({
-		'name':'default_tax_1_name',
-		'id':'default_tax_1_name',
-		'size':'10',
-		'value':$this->config->item('default_tax_1_name')!==FALSE ? $this->config->item('default_tax_1_name') : line('items_sales_tax_1')}) }}
-		
-	{{ form_input({
-		'name':'default_tax_1_rate',
-		'id':'default_tax_1_rate',
-		'size':'4',
-		'value':$this->config->item('default_tax_1_rate')}) }}%
-	</div>
-</div>
+                                    <div class="form-group">
+                                        {{ form_label(line('config_phone')~':', 'phone',{'class':'wide required'}) }}
+                                        {{ form_input({'name':'phone','id':'phone','value':config('phone'),'class':"form-control"}) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_label(line('config_default_tax_rate_1')~':', 'default_tax_1_rate',{'class':'wide required'}) }}
+                                        {{ form_input({'name':'default_tax_1_name','id':'default_tax_1_name','size':'10','value':config('default_tax_1_name')!=FALSE ? config('default_tax_1_name') : line('items_sales_tax_1'),'class':"form-control"}) }}
+                                        <div class="form-group input-group">    
+                                            {{ form_input({'name':'default_tax_1_rate','id':'default_tax_1_rate','size':'4','value':config('default_tax_1_rate'),'class':"form-control"}) }}
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </div>
 
-<div class="field_row clearfix">	
-{{ form_label(line('config_default_tax_rate_2')~':', 'default_tax_1_rate',{'class':'wide'}) }}
-	<div class='form_field'>
-	{{ form_input({
-		'name':'default_tax_2_name',
-		'id':'default_tax_2_name',
-		'size':'10',
-		'value':$this->config->item('default_tax_2_name')!==FALSE ? $this->config->item('default_tax_2_name') : line('items_sales_tax_2')}) }}
-		
-	{{ form_input({
-		'name':'default_tax_2_rate',
-		'id':'default_tax_2_rate',
-		'size':'4',
-		'value':$this->config->item('default_tax_2_rate')}) }}%
-	</div>
-</div>
+                                    <div class="form-group">
+                                        {{ form_label(line('config_default_tax_rate_2')~':', 'default_tax_1_rate',{'class':'wide'}) }}
+                                        {{ form_input({'name':'default_tax_2_name','id':'default_tax_2_name','size':'10','value':config('default_tax_2_name')!=FALSE ? config('default_tax_2_name') : line('items_sales_tax_2'),'class':"form-control"}) }}
 
-<div class="field_row clearfix">	
-{{ form_label(line('common_email')~':', 'email',{'class':'wide'}) }}
-	<div class='form_field'>
-	{{ form_input({
-		'name':'email',
-		'id':'email',
-		'value':$this->config->item('email')}) }}
-	</div>
-</div>
-
-
-<div class="field_row clearfix">	
-{{ form_label(line('config_fax')~':', 'fax',{'class':'wide'}) }}
-	<div class='form_field'>
-	{{ form_input({
-		'name':'fax',
-		'id':'fax',
-		'value':$this->config->item('fax')}) }}
-	</div>
-</div>
-
-<div class="field_row clearfix">	
-{{ form_label(line('config_website')~':', 'website',{'class':'wide'}) }}
-	<div class='form_field'>
-	{{ form_input({
-		'name':'website',
-		'id':'website',
-		'value':$this->config->item('website')}) }}
-	</div>
-</div>
-
-<div class="field_row clearfix">	
-{{ form_label(line('common_return_policy')~':', 'return_policy',{'class':'wide required'}) }}
-	<div class='form_field'>
-	{{ form_textarea({
-		'name':'return_policy',
-		'id':'return_policy',
-		'rows':'4',
-		'cols':'17',
-		'value':$this->config->item('return_policy')}) }}
-	</div>
-</div>
-
-<div class="field_row clearfix">	
-{{ form_label(line('config_language')~':', 'language',{'class':'wide required'}) }}
-	<div class='form_field'>
-	{{ form_dropdown('language', {
-		'spanishec'  : 'Español-Ecuador',
-		'english'  : 'English',
-		'indonesia'    : 'Indonesia',
-		'spanish'   : 'Spanish'), $this->config->item('language'));
-		?>
-	</div>
-</div>
-
-<div class="field_row clearfix">	
-{{ form_label(line('config_timezone')~':', 'timezone',{'class':'wide required'}) }}
-	<div class='form_field'>
-	{{ form_dropdown('timezone', 
-	 {
+                                        <div class="form-group input-group">                                     
+                                            {{ form_input({'name':'default_tax_2_rate','id':'default_tax_2_rate','size':'4','value':config('default_tax_2_rate'),'class':"form-control"}) }}
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_label(line('common_email')~':', 'email',{'class':'wide'}) }}
+                                        {{ form_input({'name':'email','id':'email','value':config('email'),'class':"form-control"}) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_label(line('config_fax')~':', 'fax',{'class':'wide'}) }}
+                                        <div class='form_field'>
+                                            {{ form_input({'name':'fax','id':'fax','value':config('fax'),'class':"form-control"}) }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(line('config_website')~':', 'website',{'class':'wide'}) }}
+                                            {{ form_input({'name':'website','id':'website','value':config('website'),'class':"form-control"}) }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(line('common_return_policy')~':', 'return_policy',{'class':'wide required'}) }}
+                                            {{ form_textarea({'name':'return_policy','id':'return_policy','rows':'4','cols':'17','value':config('return_policy'),'class':"form-control"}) }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(line('config_language')~':', 'language',{'class':'wide required'}) }}
+                                            {{ form_dropdown('language', {'spanishec'  : 'Español-Ecuador','english'  : 'English','indonesia'    : 'Indonesia','spanish'   : 'Spanish'}, config('language'),"class='form-control'") }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(line('config_timezone')~':', 'timezone',{'class':'wide required'}) }}
+                                            {{ form_dropdown('timezone', {
 		'Pacific/Midway':'(GMT-11:00) Midway Island, Samoa',
 		'America/Adak':'(GMT-10:00) Hawaii-Aleutian',
 		'Etc/GMT+10':'(GMT-10:00) Hawaii',
@@ -239,37 +170,32 @@
 		'Pacific/Chatham':'(GMT+12:45) Chatham Islands',
 		'Pacific/Tongatapu':'(GMT+13:00) Nuku\'alofa',
 		'Pacific/Kiritimati':'(GMT+14:00) Kiritimati'
-		), $this->config->item('timezone') ? $this->config->item('timezone') : date_default_timezone_get());
-		?>
+		}, config('timezone') ? config('timezone') : timezone,"class='form-control'" ) 
+}}
 	</div>
-</div>
-
-<div class="field_row clearfix">	
+<div class="form-group">
 {{ form_label(line('config_printe_after_sale')~':', 'print_after_sale',{'class':'wide'}) }}
-	<div class='form_field'>
-	{{ form_checkbox({
-		'name':'print_after_sale',
-		'id':'print_after_sale',
-		'value':'print_after_sale',
-		'checked':$this->config->item('print_after_sale')}) }}
+	{{ form_checkbox({'name':'print_after_sale','id':'print_after_sale','value':'print_after_sale','checked':config('print_after_sale'),'class':"checkbox-inline"}) }}
 	</div>
 </div>
-
-
-<?php 
-echo form_submit({
-	'name':'submit',
-	'id':'submit',
-	'value':line('common_submit'),
-	'class':'submit_button float_right')
-}) }}
+{{ form_submit({'name':'submit','id':'submit','value':line('common_submit'),'class':'btn btn-default'}) }}
 </fieldset>
 </div>
 {{ form_close()}}
 <div id="feedback_bar"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
 {% endblock %}
 {% block javascript %}
     {{ parent() }}
+<script src="{{base_url()}}js/common.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 <script type='text/javascript'>
 
 //validation and submit handling
@@ -278,15 +204,15 @@ $(document).ready(function()
 	$('#config_form').validate({
 		submitHandler:function(form)
 		{
-			$(form).ajaxSubmit({
-			success:function(response)
-			{
-				if(response.success)
-				{
+                       $.ajax({
+                        type: $(form).attr('method'),
+                        url: $(form).attr('action'),
+                        data: $(form).serialize(),
+                        success: function (response) {
+				if(response.success){
 					set_feedback(response.message,'success_message',false);		
 				}
-				else
-				{
+				else{
 					set_feedback(response.message,'error_message',true);		
 				}
 			},
@@ -311,16 +237,16 @@ $(document).ready(function()
    		},
 		messages: 
 		{
-     		company: "{{line('config_company_required'); ?>",
-     		address: "{{line('config_address_required'); ?>",
-     		phone: "{{line('config_phone_required'); ?>",
+     		company: "{{line('config_company_required')}}",
+     		address: "{{line('config_address_required')}}",
+     		phone: "{{line('config_phone_required')}}",
      		default_tax_rate:
     		{
-    			required:"{{line('config_default_tax_rate_required'); ?>",
-    			number:"{{line('config_default_tax_rate_number'); ?>"
+    			required:"{{line('config_default_tax_rate_required')}}",
+    			number:"{{line('config_default_tax_rate_number')}}"
     		},
-     		email: "{{line('common_email_invalid_format'); ?>",
-     		return_policy:"{{line('config_return_policy_required'); ?>"
+     		email: "{{line('common_email_invalid_format')}}",
+     		return_policy:"{{line('config_return_policy_required')}}"
 	
 		}
 	});
