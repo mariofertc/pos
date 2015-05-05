@@ -15,7 +15,7 @@ class Employee extends Person {
         return ($query->num_rows() == 1);
     }
 
-    function get_all($num = 0, $offset = 0, $where = "", $order = null) {
+    function get_all($num = 10, $offset = 0, $where = "", $order = null) {
         if ($order == null)
             $order = "last_name";
         //$this->db->select('id','nombre');

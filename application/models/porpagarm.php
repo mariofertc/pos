@@ -92,7 +92,7 @@ class Porpagarm extends CI_Model {
       Returns all the items
      */
 
-    function get_all($num = 0, $offset = 0, $where, $order = null) {
+    function get_all($num = 10, $offset = 0, $where, $order = null) {
         $this->db->select('rp.receiving_id, rp.payment_id, concat("RECV-",rp.receiving_id) as compra_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe', false);
         $this->db->from('receivings_items_temp');
         $this->db->join('people as employee', 'receivings_items_temp.employee_id = employee.person_id');

@@ -24,7 +24,7 @@ class Items extends Secure_area implements iData_controller {
 
         //Para busqueda almacenes.
         $almacenes = array('' => $this->lang->line('items_none'));
-        foreach ($this->Almacen->get_all()->result_array() as $row) {
+        foreach ($this->Almacen->get_all() as $row) {
             $almacenes[$row['almacen_id']] = $row['nombre'];
             $data['selected_almacen'] = $row['almacen_id'];
         }
@@ -65,10 +65,9 @@ class Items extends Secure_area implements iData_controller {
 
     function mis_datos() {
         $almacen = array();
-        foreach ($this->Almacen->get_all()->result() as $row) {
+        foreach ($this->Almacen->get_all() as $row) {
 //            $almacen[] = $row->nombre;
-            $almacen[] = "id" . $row->almacen_id;
-            ;
+            $almacen[] = "id" . $row['almacen_id'];
         }
         $aColumns = array('item_id', 'item_number', 'name', 'category', 'company_name', 'cost_price', 'unit_price', 'tax_percents');
 
@@ -121,7 +120,7 @@ class Items extends Secure_area implements iData_controller {
         $data['manage_table'] = get_items_manage_table($this->Item->get_all_filtered($low_inventory, $is_serialized, $no_description, $almacen_id), $this);
 
         $almacenes = array('' => $this->lang->line('almacenes_todos'));
-        foreach ($this->Almacen->get_all()->result_array() as $row) {
+        foreach ($this->Almacen->get_all() as $row) {
             $almacenes[$row['almacen_id']] = $row['nombre'];
         }
         $data['selected_almacen'] = $almacen_id;
@@ -183,7 +182,7 @@ class Items extends Secure_area implements iData_controller {
             $suppliers[$row['person_id']] = $row['company_name'] . ' (' . $row['first_name'] . ' ' . $row['last_name'] . ')';
         }
         $almacenes = array();
-        foreach ($this->Almacen->get_all()->result_array() as $row) {
+        foreach ($this->Almacen->get_all() as $row) {
             $almacenes[$row['almacen_id']] = $row['nombre'];
             $data['selected_almacen'] = $row['almacen_id'];
         }
@@ -210,7 +209,7 @@ class Items extends Secure_area implements iData_controller {
         //$this->output->enable_profiler(TRUE);
         //Para Almacenes
         $almacenes = array();
-        foreach ($this->Almacen->get_all()->result_array() as $row) {
+        foreach ($this->Almacen->get_all() as $row) {
             $almacenes[$row['almacen_id']] = $row['nombre'];
             $data['selected_almacen'] = $row['almacen_id'];
         }
@@ -224,7 +223,7 @@ class Items extends Secure_area implements iData_controller {
         //$this->output->enable_profiler(TRUE);
         //Para Almacenes
         $almacenes = array();
-        foreach ($this->Almacen->get_all()->result_array() as $row) {
+        foreach ($this->Almacen->get_all() as $row) {
             $almacenes_det[$row['almacen_id']] = array('nombre' => $row['nombre'], 'cantidad' => $this->Almacen_stock->get_cantidad($item_id, $row['almacen_id']), 'id' => $row['almacen_id']);
 
             $almacenes[$row['almacen_id']] = $row['nombre'];
@@ -348,7 +347,9 @@ class Items extends Secure_area implements iData_controller {
         }
 
         $data['items'] = $result;
-        $this->load->view("barcode_sheet", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("barcode_sheet");
+        //$this->load->view("barcode_sheet", $data);
     }
 
     function bulk_edit() {

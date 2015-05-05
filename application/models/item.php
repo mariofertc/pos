@@ -16,7 +16,7 @@ class Item extends CI_Model {
         return ($query->num_rows() == 1);
     }
 
-    function get_all($num = 0, $offset = 0, $where, $order = null) {
+    function get_all($num = 10, $offset = 0, $where, $order = null) {
         if ($order == null)
             $order = "name";
         //$this->db->select('id','nombre');
@@ -33,9 +33,9 @@ class Item extends CI_Model {
         $items = $this->db->get()->result_array();
         $almacenes = $this->Almacen->get_all();
         foreach ($items as &$item) {
-            foreach ($almacenes->result() as $almacen) {
-                $id = "id" . $almacen->almacen_id;
-                $item[$id] = $this->Almacen_stock->get_cantidad($item['item_id'], $almacen->almacen_id);
+            foreach ($almacenes as $almacen) {
+                $id = "id" . $almacen['almacen_id'];
+                $item[$id] = $this->Almacen_stock->get_cantidad($item['item_id'], $almacen['almacen_id']);
             }
             //Aumenta taxes
             $item_tax_info = $this->Item_taxes->get_info($item['item_id']);
@@ -183,9 +183,9 @@ class Item extends CI_Model {
         $almacenes = $this->Almacen->get_all();
 
         foreach ($items->result() as $item) {
-            foreach ($almacenes->result() as $almacen) {
-                $id = "id" . $almacen->almacen_id;
-                $item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+            foreach ($almacenes as $almacen) {
+                $id = "id" . $almacen['almacen_id'];
+                $item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen['almacen_id']);
             }
         }
         return $items;
@@ -206,9 +206,9 @@ class Item extends CI_Model {
         $almacenes = $this->Almacen->get_all();
 
         foreach ($items->result() as $item) {
-            foreach ($almacenes->result() as $almacen) {
-                $id = "id" . $almacen->almacen_id;
-                $item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen->almacen_id);
+            foreach ($almacenes as $almacen) {
+                $id = "id" . $almacen['almacen_id'];
+                $item->$id = $this->Almacen_stock->get_cantidad($item->item_id, $almacen['almacen_id']);
             }
         }
 

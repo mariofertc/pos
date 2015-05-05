@@ -157,8 +157,8 @@ class Reports extends Secure_area {
         $data['specific_input_name'] = $this->lang->line('reports_almacen');
 
         $almacenes = array('Todos');
-        foreach ($this->Almacen->get_all()->result() as $almacen) {
-            $almacenes[$almacen->almacen_id] = $almacen->nombre;
+        foreach ($this->Almacen->get_all() as $almacen) {
+            $almacenes[$almacen['almacen_id']] = $almacen['nombre'];
         }
         //var_dump($almacenes);
         $data['specific_input_data'] = $almacenes;
@@ -1174,8 +1174,8 @@ class Reports extends Secure_area {
         $data['specific_input_name'] = $this->lang->line('reports_almacen');
 
         $almacenes = array('Todos');
-        foreach ($this->Almacen->get_all()->result() as $almacen) {
-            $almacenes[$almacen->almacen_id] = $almacen->nombre;
+        foreach ($this->Almacen->get_all() as $almacen) {
+            $almacenes[$almacen['almacen_id']] = $almacen['nombre'];
         }
         //var_dump($almacenes);
         $data['specific_input_data'] = $almacenes;

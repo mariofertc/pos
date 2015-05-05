@@ -320,8 +320,8 @@ class Sales extends Secure_area {
         $data['payments'] = $this->sale_lib->get_payments();
 
         $payments_row = array();
-        foreach ($this->Payment->get_all()->result() as $row) {
-            $payments_row[$row->payment_id] = $row->payment_type;
+        foreach ($this->Payment->get_all() as $row) {
+            $payments_row[$row['payment_id']] = $row['payment_type'];
         }
         $data['payment_options'] = $payments_row;
 

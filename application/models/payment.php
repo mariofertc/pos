@@ -19,7 +19,7 @@ class Payment extends CI_Model {
       Returns all the suppliers
      */
 
-    function get_all($num = 0, $offset = 0, $where, $order = null) {
+    function get_all($num = 10, $offset = 0, $where="", $order = null) {
         $this->db->from('payments');
         //$this->db->join('people','suppliers.person_id=people.person_id');		
         if ($where != "")
@@ -27,8 +27,8 @@ class Payment extends CI_Model {
         $this->db->where('deleted', 0);
         if ($order == null)
             $this->db->order_by("sort", "asc");
-
-        $this->db->order_by($order);
+        else
+            $this->db->order_by($order);
         $this->db->limit($num, $offset);
         return $this->db->get()->result_array();
     }

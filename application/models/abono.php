@@ -121,7 +121,7 @@ class Abono extends CI_Model {
      * @param type $order
      * @return type
      */
-    function get_all($num = 0, $offset = 0, $where, $order = null) {
+    function get_all($num = 10, $offset = 0, $where, $order = null) {
         $this->db->select('sp.payment_id,sales_items_temp.sale_id, concat(phppos_sales_items_temp.sale_id,"/",sp.payment_id) as abono_id, concat("POS-",phppos_sales_items_temp.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
         $this->db->from('sales_items_temp');
         $this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');

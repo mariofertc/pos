@@ -22,7 +22,7 @@
 		{'class':'btn btn-primary thickbox','title':line(controller_name~'_new')})}}
                             {{anchor(controller_name~"/bulk_edit?width="~form_width,line(controller_name~"_bulk_edit"),
 {'id':'bulk_edit','title':line(controller_name~'_edit_multiple_items')}) }}
-                            {{anchor(controller_name~"/generate_barcodes",line(controller_name~"_generate_barcodes"),
+                            {{anchor("#",line(controller_name~"_generate_barcodes"),
 {'id':'generate_barcodes', 'target' :'_blank','title':line(controller_name~'_generate_barcodes')}) }}
                             {{ anchor(controller_name~"/excel_import?width="~form_width,"Excel Import",
 		{'class':'btn btn-info thickbox','title':'Import '~ line('module_'~controller_name) ~' from Excel'})}}
@@ -135,13 +135,12 @@
             $('#generate_barcodes').click(function ()
             {
                 var selected = get_selected_values();
-                if (selected.length == 0)
-                {
+                if (selected.length == 0) {
                     alert('{{ line('items_must_select_item_for_barcode') }}');
                     return false;
                 }
-
-                (this).attr('href', 'index.php/items/generate_barcodes/' + selected.join(','));
+                //(this).attr('href', 'index.php/items/generate_barcodes/' + selected.join(','));
+                $(this).attr('href', '{{site_url("items")}}/generate_barcodes/' + selected.join(','));
             });
 
             $("#low_inventory").click(function ()
