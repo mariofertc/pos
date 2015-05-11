@@ -13,7 +13,8 @@ var tb_pathToImage = "../images/loadingAnimation.gif";
 $(document).ready(function(){   
 //	tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
 //	tb_init('#sortable_table a.thickbox');//pass where to apply thickbox
-	tb_init('a.thickbox');//pass where to apply thickbox
+//Este es para inicializar el thickbox una sola vez.
+        //tb_init('a.thickbox');
 	imgLoader = new Image();// preload image
 	imgLoader.src = tb_pathToImage;
 });

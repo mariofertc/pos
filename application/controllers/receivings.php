@@ -221,8 +221,8 @@ class Receivings extends Secure_area {
         $data['amount_tendered'] = $this->receiving_lib->get_payments_total();
         $data['amount_due'] = $this->receiving_lib->get_amount_due();
         $payments_row = array();
-        foreach ($this->Payment->get_all()->result() as $row) {
-            $payments_row[$row->payment_id] = $row->payment_type;
+        foreach ($this->Payment->get_all() as $row) {
+            $payments_row[$row['payment_id']] = $row['payment_type'];
         }
         $data['payment_options'] = $payments_row;
         /* $data['payment_options']=array(
