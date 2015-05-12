@@ -62,13 +62,16 @@ class Employees extends Person_controller {
      */
 
     function view($employee_id = -1) {
-        $data['person_info'] = $this->Employee->get_info($employee_id);
-        $data['all_modules'] = $this->Module->get_all_modules();
-        foreach ($data['all_modules']->result() as &$module) {
-            $module->permiso = $this->Employee->has_permission($module->module_id, $data['person_info']->person_id);
+        $persona = $this->Employee->get_info($employee_id);
+        $result = $this->Module->get_all_modules()->result();
+        
+        foreach ($result as &$module) {
+            $module->permiso = $this->Employee->has_permission($module->module_id, $persona->person_id);
             //if($module->permiso==true )echo "222";
             //var_dump($module);
         }
+        $data['all_modules'] = $result;
+        $data['person_info'] = $persona;
         //$this->load->view("employees/form", $data);
         $this->twiggy->set($data);
         $this->twiggy->display("employees/form");

@@ -1,5 +1,4 @@
-{{ form_open('employees/save/' . person_info.person_id, {'id' : 'employee_form'}) }}
-<div id="required_fields_message">{{ line('common_fields_required_message') }}</div>
+{{ form_open('employees/save/' ~ person_info.person_id, {'id' : 'employee_form'}) }}
 <ul id="error_message_box"></ul>
 <fieldset id="employee_basic_info">
     <legend>{{ line("employees_basic_information") }}</legend>
@@ -36,7 +35,7 @@
 
     <ul id="permission_list">
 
-{% for module in all_modules.result() %}
+{% for module in all_modules %}
             <li>	
             {{ form_checkbox("permissions[]", module.module_id, module.permiso) }}
                 <span class="medium">{{ line('module_' ~ module.module_id) }}:</span>
@@ -49,8 +48,7 @@
 {{ form_close() }}
 {% block javascript %}
 <script type='text/javascript'>
-    $(document).ready(function()
-            {
+    $(document).ready(function(){
             $('#employee_form').validate({
             submitHandler:function(form)
             {
@@ -60,8 +58,8 @@
                     data: $(form).serialize(),
                     success: function (response)
                     {
-                    tb_remove();
-                            post_person_form_submit(response);
+                        tb_remove();
+                        post_person_form_submit(response);
                     },
                     dataType: 'json'
             });

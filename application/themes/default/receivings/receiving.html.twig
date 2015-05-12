@@ -3,13 +3,7 @@
     {{parent()}}
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
-    <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
-    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
-    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>
-
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
-    <!--<link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-responsive/css/dataTables.responsive.css"/>-->
-    {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
 {% endblock %}
 {% block header %}
     {% include 'partials/header.html.twig' %}
@@ -292,9 +286,6 @@
         {% block javascript %}
             {{ parent() }}
             <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-       <!--     <script src="{{base_url()}}assets/bower_components/datatables-responsive/js/dataTables.responsive.js" type="text/javascript" language="javascript" charset="UTF-8"></script>-->
-             <script src="{{base_url()}}js/thickbox.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-            <script src="{{base_url()}}assets/bower_components/jquery-ui/jquery-ui.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
             <script type="text/javascript" language="javascript">
                 $(document).ready(function () {
                     /*var oTable = $('#registerTable').dataTable({bFilter: false, bInfo: false, "bLengthChange": false,

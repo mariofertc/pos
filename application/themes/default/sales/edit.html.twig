@@ -1,10 +1,4 @@
 {% extends _layout %}
-{% block css %}
-    {{parent()}}
-    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/jquery-ui/themes/ui-lightness/theme.css"/>
-    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css"/>
-    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
-{% endblock %}
 {% block header %}
     {% include 'partials/header.html.twig' %}
 {% endblock %}
@@ -69,10 +63,6 @@
 {% endblock %}
 {% block javascript %}
     {{parent()}}
-
-    <script src="{{base_url()}}assets/bower_components/jquery-ui/jquery-ui.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-    <script src="{{base_url()}}assets/bower_components/pnotify/pnotify.core.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-{#    <script src="{{base_url()}}js/common.js" type="text/javascript" language="javascript" charset="UTF-8"></script>#}
 
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {

@@ -3,10 +3,6 @@
     {{parent()}}
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
-    <link rel="stylesheet" href="{{base_url()}}css/thickbox.css"/>
-    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
-    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/jquery-ui/themes/ui-lightness/theme.css"/>
-    {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
 {% endblock %}
 {% block header %}
     {% include 'partials/header.html.twig' %}
@@ -71,43 +67,10 @@
     {{ parent() }}
     <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}assets/bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-    <script src="{{base_url()}}js/thickbox.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-    <script src="{{base_url()}}js/common.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-    <script src="{{base_url()}}assets/bower_components/pnotify/pnotify.core.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-    <script src="{{base_url()}}assets/bower_components/jquery-ui/jquery-ui.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    
     <script type="text/javascript">
         $(document).ready(function () {
-            $.urlParam = function(ref, name){
-               var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(ref);
-               if (results==null){
-                  return null;
-               }
-               else{
-                  return results[1] || 0;
-               }
-           }
-            //$('.thickbox').on('click', function (e) {
-            $('body').on('click', '.thickbox', function (e) {
-                ref = this.href;
-                $(function () {
-                    title = $.urlParam(ref,'title')===null?"":$.urlParam(ref,'title');
-                    width = $.urlParam(ref,'width')===null?400:$.urlParam(ref,'width');
-                    height = $.urlParam(ref,'height')===null?400:$.urlParam(ref,'height');
-                    $('<div>').dialog({
-                        modal: true,
-                        open: function (){
-                            $(this).load(ref);
-                        },
-                        height: height,
-                        width: width,
-                         maxWidth: 600,
-                        title: title
-                    });
-                });
-                return false;
-            });
-
             var len = {{total_almacenes}};
             var sort = [];
             idx = 8;
