@@ -29,6 +29,7 @@
     "jquery-ui": "~1.11.2",
     "datatables": "~1.10.5",
     "datatables-fixedcolumns": "~3.0.3",
-    "pnotify": "~2.0.1"
+    "pnotify": "~2.0.1",
+    "jquery-file-upload": "~9.9.3"
   }
 }

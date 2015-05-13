@@ -1,0 +1,6 @@
+//Categorias
+create table phppos_categoria (categoria_id int(10) not null auto_increment, nombre varchar(255), guia varchar(10),
+primary key categoria_id);
+create table categoria_item (categoria_id int(10), item_id int(10), nombre varchar(255) not null, cantidad int(11) not null, extras varchar(255),
+constraint foreing key fk_categorica_inter_items categoria_id references phppos_categoria(categoria_id),
+constraint foreing key fk_items_inter_items item_id references phppos_items(item_id));

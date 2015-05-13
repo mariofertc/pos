@@ -1,4 +1,10 @@
-<div id="required_fields_message">{{ line('common_fields_required_message')}}</div>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Básico</a></li>
+    <li><a href="#tabs-2">Marcas</a></li>
+    <li><a href="#tabs-3">Imágenes</a></li>
+  </ul>
+  <div id="tabs-1">
 <ul id="error_message_box"></ul>
 {{ form_open('items/find_item_info/'~item_info.item_id,{'id':'item_number_form'}) }}
 {{ form_close() }}
@@ -6,88 +12,76 @@
 <fieldset id="item_basic_info">
     <legend>{{ line("items_basic_information")}}</legend>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_almacen')~':', 'almacen',{'class':'required small_wide'})}}
-        <div class='form_field'>
-            {{ form_dropdown('almacen_id', almacenes, selected_almacen,"id = 'almacen_id' style='width: 163px;'")}}
-        </div>
+            {{ form_dropdown('almacen_id', almacenes, selected_almacen,"id = 'almacen_id' class='form-control'")}}
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_item_number')~':', 'name',{'class':'wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'item_number',
 		'id':'item_number',
-		'value':item_info.item_number}
+		'value':item_info.item_number,
+                'class':'form-control'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_name')~':', 'name',{'class':'required wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'name',
 		'id':'name',
-		'value':item_info.name}
+		'value':item_info.name,
+                'class':'form-control'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_category')~':', 'category',{'class':'required wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'category',
 		'id':'category',
-		'value':item_info.category}
+		'value':item_info.category,
+                'class':'form-control'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_supplier')~':', 'supplier',{'class':'required small_wide'})}}
-        <div class='form_field'>
-            {{ form_dropdown('supplier_id', suppliers, selected_supplier,"style='width: 163px;'")}}
-        </div>
+            {{ form_dropdown('supplier_id', suppliers, selected_supplier,"class='form-control'")}}
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_cost_price')~':', 'cost_price',{'class':'required wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'cost_price',
 		'size':'8',
 		'id':'cost_price',
-		'value':item_info.cost_price}
+		'value':item_info.cost_price,
+                'class':'form-control'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_unit_price')~':', 'unit_price',{'class':'required wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'unit_price',
 		'size':'8',
 		'id':'unit_price',
-		'value':item_info.unit_price}
+		'value':item_info.unit_price,
+                'class':'form-control'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-inline">
         {{ form_label(line('items_tax_1')~':', 'tax_percent_1',{'class':'small_wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'tax_names[]',
 		'id':'tax_name_1',
 		'size':'6',
                     'value': item_tax_info[0]['name'] is not empty ? item_tax_info[0]['name'] : default_tax_1_name })
             }}
-        </div>
-        <div class='form_field'>
             {{ form_input({
 		'name':'tax_percents[]',
 		'id':'tax_percent_name_1',
@@ -95,20 +89,16 @@
 		'value': item_tax_info[0]['percent'] is not empty ? item_tax_info[0]['percent'] : default_tax_1_rate}
 	)}}
             %
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-inline">
         {{ form_label(line('items_tax_2')~':', 'tax_percent_2',{'class':'small_wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'tax_names[]',
 		'id':'tax_name_2',
 		'size':'6',
 		'value': item_tax_info[1]['name'] is not empty ? item_tax_info[1]['name'] : default_tax_2_name}
 	)}}
-        </div>
-        <div class='form_field'>
             {{ form_input({
 		'name':'tax_percents[]',
 		'id':'tax_percent_name_2',
@@ -116,67 +106,62 @@
 		'value': item_tax_info[1]['percent'] is not empty ? item_tax_info[1]['percent'] : default_tax_2_rate}
 	)}}
             %
-        </div>
     </div>
 
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_quantity')~':', 'quantity',{'class':'required wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'quantity',
 		'id':'quantity',
-		'value':item_info.quantity}
+		'value':item_info.quantity,
+                'class':'form-control'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_reorder_level')~':', 'reorder_level',{'class':'required wide'})}}
-        <div class='form_field'>
             {{ form_input({
 		'name':'reorder_level',
 		'id':'reorder_level',
-		'value':item_info.reorder_level}
+		'value':item_info.reorder_level,
+                'class':'form-control'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_description')~':', 'description',{'class':'wide'})}}
-        <div class='form_field'>
             {{ form_textarea({
 		'name':'description',
 		'id':'description',
 		'value':item_info.description,
 		'rows':'5',
-		'cols':'17'}
+		'cols':'17',
+                'class':'form-control'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_allow_alt_desciption')~':', 'allow_alt_description',{'class':'wide'})}}
-        <div class='form_field'>
             {{ form_checkbox({
 		'name':'allow_alt_description',
 		'id':'allow_alt_description',
 		'value':1,
-		'checked':(item_info.allow_alt_description)? 1  :0}
+		'checked':(item_info.allow_alt_description)? 1  :0,
+                'class': 'checkbox-inline'}
 	)}}
-        </div>
     </div>
 
-    <div class="field_row clearfix">
+    <div class="form-group">
         {{ form_label(line('items_is_serialized')~':', 'is_serialized',{'class':'wide'})}}
-        <div class='form_field'>
+        
             {{ form_checkbox({
 		'name':'is_serialized',
 		'id':'is_serialized',
 		'value':1,
-		'checked':(item_info.is_serialized)? 1 : 0}
+		'checked':(item_info.is_serialized)? 1 : 0,
+                'class':'checkbox-inline'}
 	)}}
-        </div>
     </div>
 
     {{ form_submit({
@@ -187,7 +172,111 @@
     }}
 </fieldset>
 {{ form_close() }}
-
+  </div>
+  <div id="tabs-2">
+    <p>Ingrese la cantidad que tiene de cada Item.</p>
+    <form class="form-group">
+        {{ form_label('Marcas')}}
+        <div class="form-group form-group-sm">
+            <div class="row">
+                <div class="col-sm-7 col-xs-7 nopadding">
+                    {{ form_input({
+		'name':'marca_nombre_1',
+		'id':'marca_nombre_1',
+		'value':item_info.marca_nombre_1,
+                'class':'form-control col-sm-8 col-xs-8',
+                placeholder:"Marca"}
+	)}}
+                </div>
+                <div class="col-sm-3 col-xs-3 nopadding">
+                    {{ form_input({
+		'name':'marca_cantidad_1',
+		'id':'marca_cantidad_1',
+		'value':item_info.marca_cantidad_1,
+                'class':'form-control col-sm-2 col-xs-2',
+                'placeholder': 'Cantidad'}
+	)}}
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <button type="button" class="btn btn-default btn-xs" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+                
+        {{ form_label('Tallas')}}
+        <div class="form-group form-group-sm">
+            <div class="row">
+                <div class="col-sm-7 col-xs-7 nopadding">
+                    {{ form_input({
+		'name':'marca_nombre_1',
+		'id':'marca_nombre_1',
+		'value':item_info.marca_nombre_1,
+                'class':'form-control col-sm-8 col-xs-8',
+                placeholder:"Talla"}
+	)}}
+                </div>
+                <div class="col-sm-3 col-xs-3 nopadding">
+                    {{ form_input({
+		'name':'marca_cantidad_1',
+		'id':'marca_cantidad_1',
+		'value':item_info.marca_cantidad_1,
+                'class':'form-control col-sm-2 col-xs-2',
+                'placeholder': 'Cantidad'}
+	)}}
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <button type="button" class="btn btn-default btn-xs" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+                {{ form_label('Color')}}
+        <div class="form-group form-group-sm">
+            <div class="row">
+                <div class="col-sm-4 col-xs-4 nopadding">
+                    {{ form_input({
+		'name':'marca_nombre_1',
+		'id':'marca_nombre_1',
+		'value':item_info.marca_nombre_1,
+                'class':'form-control col-sm-8 col-xs-8',
+                placeholder:"Nombre Color"}
+	)}}
+                </div>
+                <div class="col-sm-3 col-xs-3 nopadding">
+                    {{ form_input({
+		'name':'marca_nombre_1',
+		'id':'marca_nombre_1',
+		'value':item_info.marca_nombre_1,
+                'class':'form-control col-sm-8 col-xs-8',
+                placeholder:"HEX #fff000"}
+	)}}
+                </div>
+                <div class="col-sm-3 col-xs-3 nopadding">
+                    {{ form_input({
+		'name':'marca_cantidad_1',
+		'id':'marca_cantidad_1',
+		'value':item_info.marca_cantidad_1,
+                'class':'form-control col-sm-2 col-xs-2',
+                'placeholder': 'Cantidad'}
+	)}}
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <button type="button" class="btn btn-default btn-xs" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+   </div>
+  <div id="tabs-3">
+    <p>Escoja una imágen.</p>
+    
+  </div>
+</div>
 <script>
     /*$("select").change(function () {
      var str = "";
@@ -208,14 +297,12 @@
 <script type='text/javascript'>
 
 //validation and submit handling
-    $(document).ready(function ()
-    {
-
+    $(document).ready(function (){
+        $( "#tabs" ).tabs();
         //Almacen Cantidad
         $("#almacen_id").change(function () {
             $.post("{{ site_url('items/cantidades_almacen')}}", {item_id: "{{ item_info.item_id }}", almacen_id: $(this).val()},
             function (data) {
-                //alert(cantidad);
                 $("#quantity").val(data.cantidad);
             }, 'json');
 
