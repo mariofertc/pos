@@ -84,4 +84,7 @@ $lang['items_change_all_to_allow_alt_desc'] = 'Permitir Alt Desc A Todos';
 $lang['items_change_all_to_not_allow_allow_desc'] = 'No Permitir Alt Desc A Todos';
 $lang['items_use_inventory_menu'] = 'Use Inv. Menu';
 $lang['items_manually_editing_of_quantity'] = 'Edición Manual de Cantidad';
-?>
+$lang['items_color'] = 'Color';
+$lang['items_size'] = 'Talla';
+$lang['items_size_number'] = 'Talla debe ser un número';
+$lang['items_color_valor'] = 'Cod Color';

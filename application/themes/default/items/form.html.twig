@@ -1,8 +1,8 @@
+<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css"/>
 <div id="tabs">
     <ul>
         <li><a href="#tabs-1">Básico</a></li>
-        <li><a href="#tabs-2">Clasifica</a></li>
-        <li><a href="#tabs-3">Imágenes</a></li>
+        <li><a href="#tabs-2">Imágenes</a></li>
     </ul>
     <div id="tabs-1">
         <ul id="error_message_box"></ul>
@@ -118,6 +118,37 @@
                 'class':'form-control'}
 	)}}
             </div>
+            
+            <div class="form-group">
+                {{ form_label(line('items_size')~':', 'size',{'class':'required wide'})}}
+                {{ form_input({
+		'name':'size',
+		'id':'size',
+		'value':item_info.size,
+                'class':'form-control'}
+	)}}
+            </div>
+            
+            
+            <div class="form-inline">
+                {{ form_label(line('items_color')~':', 'color',{'class':'small_wide'})}}
+                {{ form_input({
+		'name':'color',
+		'id':'color',
+		'size':'6',
+		'value': item_info.color}
+	)}}
+                <div class="input-group color_pick">{{ form_input({
+		'name':'color_value',
+		'id':'color_value',
+		'value': item_info.color_value}
+	)}}<span class="input-group-addon"><i></i></span></div>
+                HEX
+            </div>
+
+
+            
+            
 
             <div class="form-group">
                 {{ form_label(line('items_reorder_level')~':', 'reorder_level',{'class':'required wide'})}}
@@ -174,99 +205,20 @@
         {{ form_close() }}
     </div>
     <div id="tabs-2">
-        <p>Ingrese la cantidad que tiene de cada Item.</p>
-        {{ form_open('items/save_clasifica/'~item_info.item_id,{'id':'item_clasifica_form','class':'form-group'})}}    
-        {{ form_label('Tallas')}}
-        <div class="form-group form-group-sm">
-            {{ form_hidden({'id_color':id_color,'id_talla':id_talla}) }}
-            {% if tallas is not empty %}
-                {% for talla in tallas %}                    
-                    <div class="row">
-                        <div class="col-sm-7 col-xs-7 nopadding">
-                            {{ form_hidden({'talla_id[]':talla.item_category_id}) }}
-                            {{ form_input({
-                        'name':'talla_nombre[]',
-                        'value':talla.name,
-                        'class':'form-control col-sm-8 col-xs-8',
-                        placeholder:"Talla"}
-                )}}
-                        </div>
-                        <div class="col-sm-2 col-xs-2 nopadding">
-                            {{ form_input({
-                        'name':'talla_cantidad[]',
-                        'value':talla.quantity,
-                        'class':'form-control col-sm-2 col-xs-2',
-                        'placeholder': 'Cantidad'}
-                )}}
-                        </div>
-                        <div class="col-sm-3 col-xs-3">
-                            <button id="{{loop.first == 1 ? 'btn_talla_add' : 'btn_talla_remove'}}" type="button" class="btn btn-default btn-xs" aria-label="Left Align">
-                                <span class="{{loop.first == 1 ? 'glyphicon glyphicon-plus-sign' : 'glyphicon glyphicon-erase'}}" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                    </div>
-                {% endfor %}
-            {%else%}
-            <div class="row">
-                <div class="col-sm-7 col-xs-7 nopadding">
-                    {{ form_hidden({'talla_id[]':''}) }}
-                    {{ form_input({
-		'name':'talla_nombre[]',
-		'value':item_info.marca_nombre_1,
-                'class':'form-control col-sm-8 col-xs-8',
-                placeholder:"Talla"}
-	)}}
-                </div>
-                <div class="col-sm-2 col-xs-2 nopadding">
-                    {{ form_input({
-		'name':'talla_cantidad[]',
-		'value':item_info.marca_cantidad_1,
-                'class':'form-control col-sm-2 col-xs-2',
-                'placeholder': 'Cantidad'}
-	)}}
-                </div>
-                <div class="col-sm-3 col-xs-3">
-                    <button id="btn_talla_add" type="button" class="btn btn-default btn-xs" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                    </button>
-                </div>
-        {# form_label('Colores')#}
-                <div class="col-sm-7 col-xs-7 nopadding">
-                    {{ form_hidden({'color_id[]':''}) }}
-                    {{ form_input({
-		'name':'color_nombre[]',
-		'value':item_info.marca_nombre_1,
-                'class':'form-control col-sm-8 col-xs-8',
-                placeholder:"Nombre Color"}
-	)}}
-                </div>
-                <div class="col-sm-3 col-xs-3 nopadding">
-                    {{ form_input({
-		'name':'color_valor[]',
-		'value':item_info.marca_nombre_1,
-                'class':'form-control col-sm-8 col-xs-8',
-                placeholder:"HEX #fff000"}
-	)}}
-                </div>
-        </div>
-        {% endif %}
-        </div>
-       
-        {{ form_submit({
-	'name':'submit_clasifica',
-	'id':'submit_clasifica',
-	'value':line('common_submit'),
-	'class':'btn btn-success'})
-        }}
-        </form>
-    </div>
-    <div id="tabs-3">
         <p>Escoja una imágen.</p>
     </div>
 </div>
+        
+        <script src="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 <script type='text/javascript'>
 //validation and submit handling
     $(document).ready(function () {
+        
+$(function(){
+{#    $('#color_values').colorpicker();#}
+    $('.color_pick').colorpicker();
+});
+       
         $("#tabs").tabs();
 
         $(function () {
@@ -342,31 +294,28 @@
                 },
                 errorLabelContainer: "#error_message_box",
                 wrapper: "li",
-                rules:
-                        {
+                rules: {
                             name: "required",
                             category: "required",
-                            cost_price:
-                                    {
+                            cost_price:{
                                         required: true,
                                         number: true
                                     },
-                            unit_price:
-                                    {
+                            unit_price:{
                                         required: true,
                                         number: true
                                     },
-                            tax_percents:
-                                    {
+                            tax_percents:{
                                         number: true
                                     },
-                            quantity:
-                                    {
+                            quantity:{
                                         required: true,
                                         number: true
                                     },
-                            reorder_level:
-                                    {
+                            size:{
+                                number:true
+                            },
+                            reorder_level:{
                                         required: true,
                                         number: true
                                     }
@@ -375,27 +324,25 @@
                         {
                             name: "{{ line('items_name_required')}}",
                             category: "{{line('items_category_required')}}",
-                            cost_price:
-                                    {
+                            cost_price:{
                                         required: "{{ line('items_cost_price_required')}}",
                                         number: "{{ line('items_cost_price_number')}}"
                                     },
-                            unit_price:
-                                    {
+                            unit_price:{
                                         required: "{{ line('items_unit_price_required')}}",
                                         number: "{{ line('items_unit_price_number')}}"
                                     },
-                            tax_percents:
-                                    {
+                            tax_percents:{
                                         number: "{{ line('items_tax_percent_number')}}"
                                     },
-                            quantity:
-                                    {
+                            quantity:{
                                         required: "{{ line('items_quantity_required')}}",
                                         number: "{{ line('items_quantity_number')}}"
                                     },
-                            reorder_level:
-                                    {
+                            size:{
+                                        number: "{{ line('items_size_number')}}"
+                                    },
+                            reorder_level:{
                                         required: "{{ line('items_reorder_level_required')}}",
                                         number: "{{ line('items_reorder_level_number')}}"
                                     }

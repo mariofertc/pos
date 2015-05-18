@@ -362,9 +362,9 @@ function get_item_data_row($item,$controller)
 	$table_data_row.='<td width="9%">'.to_currency($item->unit_price).'</td>';
 	$table_data_row.='<td width="8%">'.$tax_percents.'</td>';
 	$almacenes = $CI->Almacen->get_all();
-	foreach($almacenes->result() as $almacen)
+	foreach($almacenes as $almacen)
 	{
-		$almacen_id = "id".$almacen->almacen_id;
+		$almacen_id = "id".$almacen['almacen_id'];
 		$table_data_row.='<td width="5%">'.$item->$almacen_id.'</td>';
 	}
 	
