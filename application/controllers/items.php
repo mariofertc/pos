@@ -178,7 +178,7 @@ class Items extends Secure_area implements iData_controller {
         $data['item_tax_info'] = $this->Item_taxes->get_info($item_id);
         $suppliers = array('' => $this->lang->line('items_none'));
         //$almacenes = array('' => $this->lang->line('items_none'));
-        foreach ($this->Supplier->get_all(100,0) as $row) {
+        foreach ($this->Supplier->get_all(100, 0) as $row) {
             $suppliers[$row['person_id']] = $row['company_name'] . ' (' . $row['first_name'] . ' ' . $row['last_name'] . ')';
         }
         $almacenes = array();
@@ -193,6 +193,9 @@ class Items extends Secure_area implements iData_controller {
         //$data['selected_almacen'] = $this->Almacen_stock->get_info($item_id)->almacen_id;
         //$data['selected_almacen'] = 2;
         //var_dump($data['selected_almacen']);
+        
+        $this->get_categories($item_id);
+
         $data['default_tax_1_rate'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_1_rate') : '';
         $data['default_tax_1_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_1_name') : '';
         $data['default_tax_2_rate'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_2_rate') : '';
@@ -200,8 +203,20 @@ class Items extends Secure_area implements iData_controller {
         // call_user_method(
 //        $this->load->view("items/form", $data);
         $this->twiggy->set($data);
-                $this->twiggy->display("items/form");
-        }
+        $this->twiggy->display("items/form");
+    }
+    
+    function get_categories($item_id){
+        $category = $this->Item->get_category();
+        $data['id_color'] = $category->first_row()->category_id;
+        $data['id_talla'] = $category->last_row()->category_id;
+        
+        $data['tallas'] = $this->Item_Clasifica->get_all(10,0,array('category.category_id'=>$data['id_talla'],'items.item_id'=>$item_id));
+        $data['colores'] = $this->Item_Clasifica->get_all(10,0,array('category.category_id'=>$data['id_color'],'items.item_id'=>$item_id));
+        //var_dump($data);
+        
+        $this->twiggy->set($data);
+    }
 
     //Ramel Inventory Tracking
     function inventory($item_id = -1) {
@@ -371,7 +386,73 @@ class Items extends Secure_area implements iData_controller {
         $this->load->view("items/form_bulk", $data);
     }
 
-    //function save($item_id=-1)
+    function save_clasifica($item_id = -1, $almacen_id = -1) {
+        if ($item_id == -1) {
+            echo json_encode(array('success' => false, 'messaje' => 'Debe guardar primero el item'));
+            return;
+        }
+
+        $id_talla = $this->input->post('id_talla');
+        $id_color = $this->input->post('id_color');
+
+        if ($id_color == "" || $id_talla == "") {
+            echo json_encode(array('success' => false, 'message' => 'Error de configuración, comuníquese con el Administrador'));
+            return;
+        }
+
+        $tallas_ids = $this->input->post('talla_id');
+        $tallas_nombres = $this->input->post('talla_nombre');
+        $tallas_cantidades = $this->input->post('talla_cantidad');
+
+        $colores_ids = $this->input->post('color_id');
+        $colores_nombres = $this->input->post('color_nombre');
+        $colores_valores = $this->input->post('color_valor');
+        $colores_cantidades = $this->input->post('color_cantidad');
+
+        //$total_cantidad = $this->Item->count($item_id);
+        $total_cantidad = $this->Item->get_item_stock($item_id);
+        $suma_talla = array_sum($tallas_cantidades);
+        //$suma_color = array_sum($colores_cantidades);
+
+        $cllItemTalla = array();
+        
+        $data['item_id'] = $item_id;
+        foreach ($tallas_nombres as $index => $nombre) {
+            if ($nombre == "")
+                continue;
+            if ($suma_talla > $total_cantidad) {
+                echo json_encode(array('success' => false, 'message' => "Las cantidades no coinciden con el stock. En el stock acumulado existen $total_cantidad items, por lo que la sumatoria de tallas ($suma_talla) ingresadas sobrepasa ese valor"));
+                return;
+            }
+
+            $id = $tallas_ids[$index];
+            $data['item_category_id'] = $id == "" ? "" : $id;
+            $data['category_id'] = $id_talla;
+            $data['name'] = $nombre;
+            $data['quantity'] = $tallas_cantidades[$index];
+
+            $result = $this->Item_Clasifica->Save($data, $id);
+            $cllItemTalla[] = $data['item_category_id'];
+        }
+        //var_dump($cllItemTalla);
+        $this->Item_Clasifica->delete_not($cllItemTalla);
+//        foreach ($colores_nombres as $index => $nombre) {
+//            if ($nombre == "")
+//                continue;
+//            if ($suma_color > $total_cantidad) {
+//                echo json_encode(array('success' => false, 'message' => "Las cantidades no coinciden con el stock. En el stock acumulado existen $total_cantidad items, por lo que la sumatoria de colores ($suma_color) ingresadas sobrepasa ese valor"));
+//                return;
+//            }
+//            $id = $colores_ids[$index];
+//            $data['category_id'] = $id_color;
+//            $data['name'] = $nombre;
+//            $data['extra'] = $colores_valores[$index];
+//            $data['quantity'] = $colores_cantidades[$index];
+//            $this->Item_Clasifica->Save($data);
+//        }
+        echo json_encode(array('success' => true,'message'=>'Se ha ingresado satisfactoriamente la sección'));
+    }
+
     function save($item_id = -1, $almacen_id = -1) {
         $item_data = array(
             'name' => $this->input->post('name'),
@@ -387,7 +468,6 @@ class Items extends Secure_area implements iData_controller {
             'is_serialized' => $this->input->post('is_serialized'),
                 // 'almacen_id'=>$this->input->post('almacen_id')=='' ? null:$this->input->post('almacen_id')
         );
-
         $employee_id = $this->Employee->get_logged_in_employee_info()->person_id;
         $cur_item_info = $this->Item->get_info($item_id);
 
@@ -585,7 +665,6 @@ class Items extends Secure_area implements iData_controller {
                 //echo 'Caught exception: ',  $e->getMessage(), "\n";
                 // echo json_encode( array('success'=>false,'message'=>$e->getMessage()) );
                 echo json_encode(array('success' => false, 'message' => 'vamos'));
-                break;
             }
         }
 
@@ -605,7 +684,7 @@ class Items extends Secure_area implements iData_controller {
      */
 
     function get_form_width() {
-        return 360;
+        return 460;
     }
 
     function get_form_height() {

@@ -191,10 +191,11 @@ class Item extends CI_Model {
         return $items;
     }
 
-    /*
-      Gets information about a particular item
+    /**
+     *  Gets information about a particular item
+     * @param type $item_id
+     * @return \stdClass
      */
-
     function get_info($item_id) {
         $this->db->from('items');
         $this->db->join('suppliers', 'suppliers.person_id=items.supplier_id', 'left');
@@ -228,6 +229,39 @@ class Item extends CI_Model {
 
             return $item_obj;
         }
+    }
+    
+    /**
+     *  Gets stock about a particular item
+     * @param type $item_id
+     * @return \stdClass
+     */
+    function get_item_stock($item_id) {
+        $this->db->from('items');
+        $this->db->where('item_id', $item_id);
+        $this->db->where('items.deleted', 0);
+
+        //Aumentar los stocks de las sucursales.
+        $items = $this->db->get();
+        $almacenes = $this->Almacen->get_all();
+        $stock = 0;
+
+        foreach ($items->result() as $item) {
+            foreach ($almacenes as $almacen) {
+                $stock += $this->Almacen_stock->get_cantidad($item->item_id, $almacen['almacen_id']);
+            }
+        }
+        return $stock;
+    }
+    
+    /**
+     *  Gets existens categories
+     * @return int
+     */
+    function get_category() {
+        $this->db->from('category');
+        $this->db->where('deleted', 0);
+        return $this->db->get();
     }
 
     /*
@@ -276,7 +310,7 @@ class Item extends CI_Model {
      */
 
     function save(&$item_data, $item_id = false) {
-        if (!$item_id or !$this->exists($item_id)) {
+        if (!$item_id or ! $this->exists($item_id)) {
             if ($this->db->insert('items', $item_data)) {
                 $item_data['item_id'] = $this->db->insert_id();
                 return true;
@@ -476,5 +510,3 @@ class Item extends CI_Model {
     }
 
 }
-
-?>
