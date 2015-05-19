@@ -145,18 +145,25 @@ class Items extends Secure_area implements iData_controller {
       Gives search suggestions based on what is being searched for
      */
 
-    function suggest() {
+    /*function suggest() {
         $suggestions = $this->Item->get_search_suggestions($this->input->post('q'), $this->input->post('limit'));
         echo implode("\n", $suggestions);
+    }*/
+    
+    function suggest() {
+        $suggestions = $this->Item->get_suggestions($this->input->post('q'),$this->input->post('by'));
+        echo json_encode($suggestions);
     }
-
-    /*
-      Gives search suggestions based on what is being searched for
-     */
-
-    function suggest_category() {
-        $suggestions = $this->Item->get_category_suggestions($this->input->post('q'));
-//        echo implode("\n", $suggestions);
+    function suggest_tags() {
+        $suggestions = $this->Item->get_suggestions("",'category');
+        $cll_tags = array();
+        foreach($suggestions as $suggest){
+            foreach(explode(",",$suggest) as $tag){
+                if(!array_search($suggest, $cll_tags)){
+                 $cll_tags[] = array('cityname'=>$tag);
+                }                  
+            }
+        }
         echo json_encode($suggestions);
     }
 
@@ -458,6 +465,7 @@ class Items extends Secure_area implements iData_controller {
             'name' => $this->input->post('name'),
             'description' => $this->input->post('description'),
             'category' => $this->input->post('category'),
+            'brand' => $this->input->post('brand'),
             'supplier_id' => $this->input->post('supplier_id') == '' ? null : $this->input->post('supplier_id'),
             'item_number' => $this->input->post('item_number') == '' ? null : $this->input->post('item_number'),
             'cost_price' => $this->input->post('cost_price'),

@@ -1,4 +1,5 @@
 <link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css"/>
+<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css"/>
 <div id="tabs">
     <ul>
         <li><a href="#tabs-1">Básico</a></li>
@@ -43,6 +44,29 @@
 		'name':'category',
 		'id':'category',
 		'value':item_info.category,
+                'class':'form-control'}
+	)}}
+            </div>
+            
+            <div class="form-group">
+                {{ form_label(line('items_tags')~':', 'tags',{'class':'required wide'})}}
+                {{ form_input({
+		'name':'tags',
+		'id':'tags',
+		'value':item_info.tags,
+                'class':'form-control',
+                'data-role':"tagsinput",
+                'type':'text' }
+	)}}
+            </div>
+            
+            
+            <div class="form-group">
+                {{ form_label(line('items_brand')~':', 'brand',{'class':'required wide'})}}
+                {{ form_input({
+		'name':'brand',
+		'id':'brand',
+		'value':item_info.brand,
                 'class':'form-control'}
 	)}}
             </div>
@@ -210,14 +234,57 @@
 </div>
         
         <script src="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+        <script src="{{base_url()}}assets/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+        <script src="{{base_url()}}assets/bower_components/typeahead.js/dist/typeahead.jquery.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+        <script src="{{base_url()}}assets/bower_components/typeahead.js/dist/bloodhound.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 <script type='text/javascript'>
 //validation and submit handling
     $(document).ready(function () {
         
 $(function(){
-{#    $('#color_values').colorpicker();#}
     $('.color_pick').colorpicker();
 });
+
+
+
+
+var citynames = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  prefetch: {
+    url:  "{{site_url('items/suggest_tags')}}",
+    filter: function(list) {
+      return $.map(list, function(cityname) {
+        return { name: cityname }; });
+    }
+  }
+});
+citynames.initialize();
+
+$('#tags').tagsinput({
+  typeaheadjs: {
+    name: 'citynames',
+    displayKey: 'name',
+    valueKey: 'name',
+    source: citynames.ttAdapter()
+   {# source: function (request, response) {
+                    $.ajax({
+                        url: "{{site_url('items/suggest_tags')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: request.term,by:'tags'
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                }#}
+  }
+});
+
+
+
        
         $("#tabs").tabs();
 
@@ -261,11 +328,37 @@ $(function(){
             }, 'json');
             $("#category").autocomplete({source: function (request, response) {
                     $.ajax({
-                        url: "{{site_url('items/suggest_category')}}",
+                        url: "{{site_url('items/suggest')}}",
                         dataType: "json",
                         type: "POST",
                         data: {
-                            q: request.term
+                            q: request.term,by:'brand'
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                }});
+            $("#brand").autocomplete({source: function (request, response) {
+                    $.ajax({
+                        url: "{{site_url('items/suggest')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: request.term,by:'brand'
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                }});
+            $("#name").autocomplete({source: function (request, response) {
+                    $.ajax({
+                        url: "{{site_url('items/suggest')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: request.term,by:'name'
                         },
                         success: function (data) {
                             response(data);
