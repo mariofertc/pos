@@ -155,16 +155,16 @@ class Items extends Secure_area implements iData_controller {
         echo json_encode($suggestions);
     }
     function suggest_tags() {
-        $suggestions = $this->Item->get_suggestions("",'category');
+        $suggestions = $this->Item->get_suggestions($this->input->post('q'),$this->input->post('by'));
         $cll_tags = array();
         foreach($suggestions as $suggest){
             foreach(explode(",",$suggest) as $tag){
                 if(!array_search($suggest, $cll_tags)){
-                 $cll_tags[] = array('cityname'=>$tag);
+                 $cll_tags[] = $tag;
                 }                  
             }
         }
-        echo json_encode($suggestions);
+        echo json_encode($cll_tags);
     }
 
     function cantidades_almacen() {
@@ -376,9 +376,10 @@ class Items extends Secure_area implements iData_controller {
 
     function bulk_edit() {
         $data = array();
+        
         $suppliers = array('' => $this->lang->line('items_none'));
-        foreach ($this->Supplier->get_all()->result_array() as $row) {
-            $suppliers[$row['person_id']] = $row['first_name'] . ' ' . $row['last_name'];
+        foreach ($this->Supplier->get_all(100,0) as $row) {
+            $suppliers[$row['person_id']] = $row['company_name'] . ' (' . $row['first_name'] . ' ' . $row['last_name'] . ')';
         }
         $data['suppliers'] = $suppliers;
         $data['allow_alt_desciption_choices'] = array(
@@ -390,7 +391,9 @@ class Items extends Secure_area implements iData_controller {
             '' => $this->lang->line('items_do_nothing'),
             1 => $this->lang->line('items_change_all_to_serialized'),
             0 => $this->lang->line('items_change_all_to_unserialized'));
-        $this->load->view("items/form_bulk", $data);
+        
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/form_bulk");
     }
 
     function save_clasifica($item_id = -1, $almacen_id = -1) {
@@ -477,6 +480,7 @@ class Items extends Secure_area implements iData_controller {
             'size' => $this->input->post('size'),
             'color' => $this->input->post('color'),
             'color_value' => $this->input->post('color_value'),
+            'tags' => $this->input->post('tags')
                 // 'almacen_id'=>$this->input->post('almacen_id')=='' ? null:$this->input->post('almacen_id')
         );
         $employee_id = $this->Employee->get_logged_in_employee_info()->person_id;

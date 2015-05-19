@@ -1,5 +1,5 @@
 <link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css"/>
-<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css"/>
+<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/tag-it/css/jquery.tagit.css"/>
 <div id="tabs">
     <ul>
         <li><a href="#tabs-1">Básico</a></li>
@@ -47,7 +47,7 @@
                 'class':'form-control'}
 	)}}
             </div>
-            
+
             <div class="form-group">
                 {{ form_label(line('items_tags')~':', 'tags',{'class':'required wide'})}}
                 {{ form_input({
@@ -59,8 +59,8 @@
                 'type':'text' }
 	)}}
             </div>
-            
-            
+
+
             <div class="form-group">
                 {{ form_label(line('items_brand')~':', 'brand',{'class':'required wide'})}}
                 {{ form_input({
@@ -104,13 +104,15 @@
 		'name':'tax_names[]',
 		'id':'tax_name_1',
 		'size':'6',
-                    'value': item_tax_info[0]['name'] is not empty ? item_tax_info[0]['name'] : default_tax_1_name })
+                    'value': item_tax_info[0]['name'] is not empty ? item_tax_info[0]['name'] : default_tax_1_name,
+                'class':'form-control' })
                 }}
                 {{ form_input({
 		'name':'tax_percents[]',
 		'id':'tax_percent_name_1',
 		'size':'3',
-		'value': item_tax_info[0]['percent'] is not empty ? item_tax_info[0]['percent'] : default_tax_1_rate}
+		'value': item_tax_info[0]['percent'] is not empty ? item_tax_info[0]['percent'] : default_tax_1_rate,
+                'class':'form-control'}
 	)}}
                 %
             </div>
@@ -121,13 +123,15 @@
 		'name':'tax_names[]',
 		'id':'tax_name_2',
 		'size':'6',
-		'value': item_tax_info[1]['name'] is not empty ? item_tax_info[1]['name'] : default_tax_2_name}
+		'value': item_tax_info[1]['name'] is not empty ? item_tax_info[1]['name'] : default_tax_2_name,
+                'class':'form-control'}
 	)}}
                 {{ form_input({
 		'name':'tax_percents[]',
 		'id':'tax_percent_name_2',
 		'size':'3',
-		'value': item_tax_info[1]['percent'] is not empty ? item_tax_info[1]['percent'] : default_tax_2_rate}
+		'value': item_tax_info[1]['percent'] is not empty ? item_tax_info[1]['percent'] : default_tax_2_rate,
+                'class':'form-control'}
 	)}}
                 %
             </div>
@@ -142,7 +146,7 @@
                 'class':'form-control'}
 	)}}
             </div>
-            
+
             <div class="form-group">
                 {{ form_label(line('items_size')~':', 'size',{'class':'required wide'})}}
                 {{ form_input({
@@ -152,8 +156,8 @@
                 'class':'form-control'}
 	)}}
             </div>
-            
-            
+
+
             <div class="form-inline">
                 {{ form_label(line('items_color')~':', 'color',{'class':'small_wide'})}}
                 {{ form_input({
@@ -171,8 +175,8 @@
             </div>
 
 
-            
-            
+
+
 
             <div class="form-group">
                 {{ form_label(line('items_reorder_level')~':', 'reorder_level',{'class':'required wide'})}}
@@ -232,60 +236,33 @@
         <p>Escoja una imágen.</p>
     </div>
 </div>
-        
-        <script src="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-        <script src="{{base_url()}}assets/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-        <script src="{{base_url()}}assets/bower_components/typeahead.js/dist/typeahead.jquery.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-        <script src="{{base_url()}}assets/bower_components/typeahead.js/dist/bloodhound.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+
+<script src="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script src="{{base_url()}}assets/bower_components/tag-it/js/tag-it.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 <script type='text/javascript'>
-//validation and submit handling
     $(document).ready(function () {
-        
-$(function(){
-    $('.color_pick').colorpicker();
-});
 
+        $(function () {
+            $('.color_pick').colorpicker();
+        });
 
-
-
-var citynames = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: {
-    url:  "{{site_url('items/suggest_tags')}}",
-    filter: function(list) {
-      return $.map(list, function(cityname) {
-        return { name: cityname }; });
-    }
-  }
-});
-citynames.initialize();
-
-$('#tags').tagsinput({
-  typeaheadjs: {
-    name: 'citynames',
-    displayKey: 'name',
-    valueKey: 'name',
-    source: citynames.ttAdapter()
-   {# source: function (request, response) {
+        $('#tags').tagit({
+            autocomplete: {
+                source: function (request, response) {
                     $.ajax({
                         url: "{{site_url('items/suggest_tags')}}",
                         dataType: "json",
                         type: "POST",
                         data: {
-                            q: request.term,by:'tags'
+                            q: request.term, by: 'tags'
                         },
                         success: function (data) {
                             response(data);
                         }
                     });
-                }#}
-  }
-});
-
-
-
-       
+                }
+            }
+        });
         $("#tabs").tabs();
 
         $(function () {
@@ -332,7 +309,7 @@ $('#tags').tagsinput({
                         dataType: "json",
                         type: "POST",
                         data: {
-                            q: request.term,by:'brand'
+                            q: request.term, by: 'category'
                         },
                         success: function (data) {
                             response(data);
@@ -345,7 +322,7 @@ $('#tags').tagsinput({
                         dataType: "json",
                         type: "POST",
                         data: {
-                            q: request.term,by:'brand'
+                            q: request.term, by: 'brand'
                         },
                         success: function (data) {
                             response(data);
@@ -358,7 +335,7 @@ $('#tags').tagsinput({
                         dataType: "json",
                         type: "POST",
                         data: {
-                            q: request.term,by:'name'
+                            q: request.term, by: 'name'
                         },
                         success: function (data) {
                             response(data);
@@ -388,57 +365,57 @@ $('#tags').tagsinput({
                 errorLabelContainer: "#error_message_box",
                 wrapper: "li",
                 rules: {
-                            name: "required",
-                            category: "required",
-                            cost_price:{
-                                        required: true,
-                                        number: true
-                                    },
-                            unit_price:{
-                                        required: true,
-                                        number: true
-                                    },
-                            tax_percents:{
-                                        number: true
-                                    },
-                            quantity:{
-                                        required: true,
-                                        number: true
-                                    },
-                            size:{
-                                number:true
-                            },
-                            reorder_level:{
-                                        required: true,
-                                        number: true
-                                    }
-                        },
+                    name: "required",
+                    category: "required",
+                    cost_price: {
+                        required: true,
+                        number: true
+                    },
+                    unit_price: {
+                        required: true,
+                        number: true
+                    },
+                    tax_percents: {
+                        number: true
+                    },
+                    quantity: {
+                        required: true,
+                        number: true
+                    },
+                    size: {
+                        number: true
+                    },
+                    reorder_level: {
+                        required: true,
+                        number: true
+                    }
+                },
                 messages:
                         {
                             name: "{{ line('items_name_required')}}",
                             category: "{{line('items_category_required')}}",
-                            cost_price:{
-                                        required: "{{ line('items_cost_price_required')}}",
-                                        number: "{{ line('items_cost_price_number')}}"
-                                    },
-                            unit_price:{
-                                        required: "{{ line('items_unit_price_required')}}",
-                                        number: "{{ line('items_unit_price_number')}}"
-                                    },
-                            tax_percents:{
-                                        number: "{{ line('items_tax_percent_number')}}"
-                                    },
-                            quantity:{
-                                        required: "{{ line('items_quantity_required')}}",
-                                        number: "{{ line('items_quantity_number')}}"
-                                    },
-                            size:{
-                                        number: "{{ line('items_size_number')}}"
-                                    },
-                            reorder_level:{
-                                        required: "{{ line('items_reorder_level_required')}}",
-                                        number: "{{ line('items_reorder_level_number')}}"
-                                    }
+                            cost_price: {
+                                required: "{{ line('items_cost_price_required')}}",
+                                number: "{{ line('items_cost_price_number')}}"
+                            },
+                            unit_price: {
+                                required: "{{ line('items_unit_price_required')}}",
+                                number: "{{ line('items_unit_price_number')}}"
+                            },
+                            tax_percents: {
+                                number: "{{ line('items_tax_percent_number')}}"
+                            },
+                            quantity: {
+                                required: "{{ line('items_quantity_required')}}",
+                                number: "{{ line('items_quantity_number')}}"
+                            },
+                            size: {
+                                number: "{{ line('items_size_number')}}"
+                            },
+                            reorder_level: {
+                                required: "{{ line('items_reorder_level_required')}}",
+                                number: "{{ line('items_reorder_level_number')}}"
+                            }
 
                         }
             });
@@ -454,7 +431,7 @@ $('#tags').tagsinput({
                             new PNotify({
                                 title: 'Mensaje',
                                 text: response.message,
-                                type: response.success==true?'success':'error'
+                                type: response.success == true ? 'success' : 'error'
                             });
                         },
                         dataType: 'json'
@@ -465,7 +442,7 @@ $('#tags').tagsinput({
                 wrapper: "li",
                 rules: {
                     "talla_nombre[]": "required",
-                    "talla_cantidad[]": {"required":true, number: true},
+                    "talla_cantidad[]": {"required": true, number: true},
                     "color_cantidad[]": {number: true}
                 },
                 messages: {

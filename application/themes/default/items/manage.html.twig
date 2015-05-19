@@ -18,9 +18,9 @@
                             {{ anchor(controller_name~"/view/-1?width="~form_width,line(controller_name~'_new'),
 		{'class':'btn btn-primary thickbox','title':line(controller_name~'_new')})}}
                             {{anchor(controller_name~"/bulk_edit?width="~form_width,line(controller_name~"_bulk_edit"),
-{'id':'bulk_edit','title':line(controller_name~'_edit_multiple_items')}) }}
+{'id':'bulk_edit','title':line(controller_name~'_edit_multiple_items'), 'class':'btn btn-default'}) }}
                             {{anchor("#",line(controller_name~"_generate_barcodes"),
-{'id':'generate_barcodes', 'target' :'_blank','title':line(controller_name~'_generate_barcodes')}) }}
+{'id':'generate_barcodes', 'target' :'_blank','title':line(controller_name~'_generate_barcodes'), 'class':'btn btn-default thickbox'}) }}
                             {{ anchor(controller_name~"/excel_import?width="~form_width,"Excel Import",
 		{'class':'btn btn-info thickbox','title':'Import '~ line('module_'~controller_name) ~' from Excel'})}}
                         </div>
@@ -176,10 +176,8 @@
          }
          }*/
 
-        function post_item_form_submit(response)
-        {
-            if (!response.success)
-            {
+        function post_item_form_submit(response) {
+            if (!response.success){
                 //set_feedback(response.message, 'error_message', true);
                 new PNotify({
                     title: 'Oh No!',
@@ -187,11 +185,9 @@
                     type: 'error'
                 });
             }
-            else
-            {
+            else{
                 //This is an update, just update one row
-                if (jQuery.inArray(response.item_id, get_visible_checkbox_ids()) != -1)
-                {
+                if (jQuery.inArray(response.item_id, get_visible_checkbox_ids()) != -1){
                     update_row(response.item_id, '{{ site_url(controller_name~"/get_row")}}');
                     //set_feedback(response.message, 'success_message', false);
                     new PNotify({
@@ -199,10 +195,9 @@
                         text: response.message,
                         type: 'success'
                     });
-
                 }
-                else //refresca toda la tabla.
-                {
+                else {
+                ////refresca toda la tabla.
                     //set_feedback(response.message,'error_message',true)
                     do_search(true, function ()
                     {

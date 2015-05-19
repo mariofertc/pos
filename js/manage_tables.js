@@ -155,10 +155,34 @@ function enable_bulk_edit(none_selected_message)
     $('#bulk_edit').click(function (event)
     {
         event.preventDefault();
-        if ($("#sortable_table tbody :checkbox:checked").length > 0)
-        {
-            tb_show($(this).attr('title'), $(this).attr('href'), false);
-            $(this).blur();
+//        if ($("#sortable_table tbody :checkbox:checked").length > 0)
+        if ($(".dataTable tbody :checkbox:checked").length > 0){
+            //tb_show($(this).attr('title'), $(this).attr('href'), false);
+            //$(this).blur();
+            
+            ref = $(this).attr('href');
+            $(function () {
+                //title = $.urlParam(ref,'title')===null?"":$.urlParam(ref,'title');
+                width = $.urlParam(ref, 'width') === null ? 400 : $.urlParam(ref, 'width');
+                height = $.urlParam(ref, 'height') === null ? 400 : $.urlParam(ref, 'height');
+                $('<div id="dialog">').dialog({
+                    modal: true,
+                    open: function () {
+                        $(this).load(ref, function () {
+                            $(this).dialog("option", "title", $(this).find("legend").text());
+                            $(this).find("legend").remove();
+                        });
+                    },
+                    height: height,
+                    width: width,
+                    maxWidth: 600,
+                    title: "Cargando...",
+                    close: function (event, ui) {
+                        $(this).dialog("destroy").remove();
+                    }
+                });
+            });
+            
         }
         else
         {

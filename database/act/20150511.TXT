@@ -14,4 +14,5 @@
 
 //Ahora si.
 alter table phppos_items add column size varchar(10), add column color varchar(20), add column color_value varchar(10);
-alter table phppos_items add column brand varchar(10);
+alter table phppos_items add column brand varchar(30);
+alter table phppos_items add column tags varchar(100);
