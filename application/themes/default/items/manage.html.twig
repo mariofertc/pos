@@ -70,6 +70,7 @@
     <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     
     <script type="text/javascript">
+        var oTable=null;
         $(document).ready(function () {
             var len = {{total_almacenes}};
             var sort = [];
@@ -80,9 +81,9 @@
             sort[indice++] = 0;
             sort[indice++] = 4;
             sort[indice++] = 7;
-            enable_select_all()
-            enable_checkboxes()
-            enable_row_selection()
+            //enable_select_all()
+            //enable_checkboxes()
+            //enable_row_selection()
             enable_delete('{{ line(controller_name~"_confirm_delete")}}', '{{ line(controller_name~"_none_selected")}}')
             enable_bulk_edit('{{ line(controller_name~"_none_selected")}}')
 
@@ -118,7 +119,7 @@
                     //tb_init('#sortable_table a.thickbox');
                     //imgLoader = new Image();// preload image
                     //imgLoader.src = tb_pathToImage;
-                    //enable_row_selection();
+                    enable_row_selection();
                 }
             });
             new $.fn.dataTable.FixedColumns(oTable, {
@@ -154,9 +155,8 @@
             {
                 $('#items_filter_form').submit();
             });
-
-        });
-
+            
+            });
         /*function init_table_sorting()
          {
          //Only init if there is more than one row
@@ -198,21 +198,19 @@
                 }
                 else {
                 ////refresca toda la tabla.
-                    //set_feedback(response.message,'error_message',true)
-                    do_search(true, function ()
-                    {
-                        //highlight new row
-                        hightlight_row(response.item_id);
-                        //set_feedback(response.message, 'success_message', false);
-                        new PNotify({
-                            title: 'Exito',
-                            text: response.message,
-                            type: 'success'
-                        });
-                    });
+                    oTable.api().ajax.reload(
+                            function ( json ) {
+                                hightlight_row(response.item_id);
+                                new PNotify({
+                                    title: 'Exito',
+                                    text: response.message,
+                                    type: 'success'
+                                });}
+                            );
                 }
             }
         }
+        
 
         function post_bulk_form_submit(response) {
             if (!response.success) {

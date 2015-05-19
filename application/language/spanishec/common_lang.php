@@ -47,4 +47,4 @@ $lang['common_det']='det';
 $lang['common_edit_ab']='edit';
 $lang['common_abono']='Abonar';
 $lang['common_almacen']='Almacén';
-?>
+$lang['common_download']='Descargar';

@@ -14,4 +14,3 @@ $lang['boxes_close_sale']='No se puede Vender, ya se ha cerrado la Caja del Día
 $lang['boxes_number']='b1';
 $lang['boxes_close_time']='Fecha/Hora Cierre';
 $lang['boxes_comment']='Comentarios';
-?>
