@@ -92,6 +92,16 @@ class Carts extends Secure_CI {
         }
     }
 
+    /**
+     * Obtiene los datos de la tarjeta del cliente mediante POST y realiza una petición a Paypal
+     * para generar un toque que sera utilizado en la transacción de compra
+     *  Credit_card
+     *  number
+     *  expire_month
+     *  expire_year
+     *  cvv2 
+     * @return array $creditCardId credit card parameters
+     */
     function _register_cc(){
         $cc =$this->input->post('card-number');
         if(trim($cc) != ""){
@@ -156,6 +166,10 @@ class Carts extends Secure_CI {
         }
     }
 
+    /**
+     * Vacia el carrito de compras del usuario logeado
+     * @return [array]       {error:true/false,ID:}
+     */
     function clear_cart(){
         $res = $this->cart->delete_by_user($this->user->user_id);
         if(!$res['error'])
@@ -164,6 +178,11 @@ class Carts extends Secure_CI {
             echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_carrito_limpiado_error').$res['msg'])); 
     }
 
+    /**
+     * Calcula y devuelve el total a pagar, sumando los precios de cada producto del carrito
+     * @param  [integer] $user_id Clave primaria del usuario
+     * @return [double]          Total del carrito
+     */
     private function _get_total($user_id){
         $this->data['productos'] = $this->cart->get_items_by_user($user_id);
         $subtotal =0;
@@ -173,6 +192,11 @@ class Carts extends Secure_CI {
         return $subtotal;
     }
 
+    /**
+     * Devuelve un string con los ids de los items de un usuario
+     * @param  [integer] $user_id Clave primaria del usuario
+     * @return [string]  id1,id2,id3...
+     */
     private function _get_id_items($user_id){
         $this->data['productos'] = $this->cart->get_items_by_user($user_id);
         $items =array();
@@ -182,6 +206,11 @@ class Carts extends Secure_CI {
         return implode(',',$items);
     }
 
+    /**
+     * Obtiene el ID del producto y la cantidad mediante POST, y toma el id del usuario logeado actualmente
+     * para añadir un producto al carrito
+     * @return [array]       {error:true/false,ID:}
+     */
     function add_to_cart(){
         $item_id = $this->input->post('producto');
         if(!is_null($item_id)){
@@ -199,6 +228,10 @@ class Carts extends Secure_CI {
         }
     }
 
+    /**
+     * Obtiene el ID del producto mediante POST y lo quita del carrito
+     * @return [array]       {error:true/false,ID:}
+     */
     function remove_from_cart(){
         $item_id = $this->input->post('producto');
 

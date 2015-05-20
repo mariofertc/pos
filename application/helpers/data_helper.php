@@ -101,7 +101,7 @@ function getData($model, $aColumns, $cllAccion = array(), $es_mas = false) {
     if (isset($search['value']) && $search['value'] !== '') {
         $sWhere = '(';
         for ($i = 1; $i < count($aColumns); $i++) {
-            if ($_GET['columns'][$i]['searchable'] == 'true'){
+            if ($_GET['columns'][$i]['searchable'] == 'true') {
                 $sWhere .= $aColumns[$i] . " LIKE '%" . ($search['value']) . "%' OR ";
             }
 //            $mWhere = array_merge($mWhere, array($aColumns[$i] => new MongoRegex('/' . $search['value'] . '/i')));
@@ -152,16 +152,25 @@ function getData($model, $aColumns, $cllAccion = array(), $es_mas = false) {
     return json_encode($output);
 }
 
-function getColumnAccion($cllAccion, $id) {
+function getColumnAccion($cllAccion, $id, $data = null) {
     $CI = & get_instance();
     $controller_name = strtolower($CI->uri->segment(1));
     if (count($cllAccion) == 0)
         return;
+
     $accion = "";
     foreach ($cllAccion as $acc) {
-        //$width = ;
-//	$height = ;
-        $accion.=anchor($controller_name . "/" . $acc['function'] . "/$id?width=" . (isset($acc['width']) ? $acc['width'] : 300) . "&height=" . (isset($acc['height']) ? $acc['height'] : 450), $CI->lang->line($acc['common_language']), array('class' => 'thickbox', 'title' => $CI->lang->line($controller_name . $acc['language']))) . nbs();
+        $funcion = $acc['function'];
+        if ($data !== null && strpos($funcion, "$") !== false) {
+            //$id = mb_strtolower(reset($data));
+            extract($data);
+            eval("\$funcion = \"$funcion\";");
+        } else {
+            $funcion .= "/$id";
+        }
+
+
+        $accion.=anchor($controller_name . "/" . $funcion . "?width=" . (isset($acc['width']) ? $acc['width'] : 300) . "&height=" . (isset($acc['height']) ? $acc['height'] : 450), $CI->lang->line($acc['common_language']), array('class' => 'thickbox', 'title' => $CI->lang->line($controller_name . $acc['language']))) . nbs();
     }
     return $accion;
 }
@@ -192,7 +201,8 @@ function get_data($rows, $aColumns, $cllAccion, $es_mas = false) {
             }
         }
 
-        $acciones = getColumnAccion($cllAccion, $id);
+        //$acciones = getColumnAccion($cllAccion, $id);
+        $acciones = getColumnAccion($cllAccion, $id, $aRow);
         if (count($cllAccion))
             $row[] = $acciones;
 
@@ -217,7 +227,7 @@ function get_value($row, $column_key, $id = null) {
                 return (string) $dato;
         }
 
-        return trim($dato)==''?'-':$dato;
+        return trim($dato) == '' ? '-' : $dato;
     } else
         return "-";
 }

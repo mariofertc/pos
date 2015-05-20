@@ -304,9 +304,9 @@ function get_items_manage_table()
 		{
 			$table.="<th>$header</th>";
 			$almacenes = $CI->Almacen->get_all();
-			foreach($almacenes->result() as $almacen)
+			foreach($almacenes as $almacen)
 			{
-				$table.="<th>".word_limiter($almacen->nombre,2)."</th>";
+				$table.="<th>".word_limiter($almacen['nombre'],2)."</th>";
 			}
 		}
 		else
@@ -362,9 +362,9 @@ function get_item_data_row($item,$controller)
 	$table_data_row.='<td width="9%">'.to_currency($item->unit_price).'</td>';
 	$table_data_row.='<td width="8%">'.$tax_percents.'</td>';
 	$almacenes = $CI->Almacen->get_all();
-	foreach($almacenes->result() as $almacen)
+	foreach($almacenes as $almacen)
 	{
-		$almacen_id = "id".$almacen->almacen_id;
+		$almacen_id = "id".$almacen['almacen_id'];
 		$table_data_row.='<td width="5%">'.$item->$almacen_id.'</td>';
 	}
 	
@@ -734,7 +734,7 @@ function get_inventory_summary_manage_table_data_rows($inventory,$controller)
 /*
 Gets the html table to manage payments.
 */
-function get_payment_manage_table($payments,$controller)
+function get_payment_manage_table()
 {
 	$CI =& get_instance();
 	$table='<table class="tablesorter" id="sortable_table">';
@@ -750,7 +750,6 @@ function get_payment_manage_table($payments,$controller)
 		$table.="<th>$header</th>";
 	}
 	$table.='</tr></thead><tbody>';
-	$table.=get_payment_manage_table_data_rows($payments,$controller);
 	$table.='</tbody></table>';
 	return $table;
 }
@@ -794,8 +793,8 @@ function get_payment_data_row($payment,$controller)
 }
 
 //Abonos Cuentas por Cobrar
-function get_abono_manage_table($por_cobrar_m,$controller)
-{
+//function get_abono_manage_table($por_cobrar_m,$controller){
+function get_abono_manage_table(){
 	$CI =& get_instance();
 	$table='<table class="tabledist" id="sortable_table">';
 	
@@ -814,13 +813,10 @@ function get_abono_manage_table($por_cobrar_m,$controller)
 	);
 	
 	$table.='<thead><tr>';
-	foreach($headers as $header)
-	{
+	foreach($headers as $header){
 		$table.="<th>$header</th>";
 	}
-	$table.='</tr></thead><tbody>';
-	$table.=get_abono_manage_table_data_rows($por_cobrar_m,$controller);
-	$table.='</tbody></table>';
+	$table.='</tr></thead><tbody></tbody></table>';
 	return $table;
 }
 
@@ -998,7 +994,7 @@ function get_porpagar_detail_data_row($abonos,$controller)
 }
 
 //Para registrar los pagos a proveedores
-function get_porpagar_manage_table($por_pagar_m,$controller)
+function get_porpagar_manage_table()
 {
 	$CI =& get_instance();
 	$table='<table class="tabledist" id="sortable_table">';
@@ -1023,7 +1019,7 @@ function get_porpagar_manage_table($por_pagar_m,$controller)
 		$table.="<th>$header</th>";
 	}
 	$table.='</tr></thead><tbody>';
-	$table.=get_porpagar_manage_table_data_rows($por_pagar_m,$controller);
+	//$table.=get_porpagar_manage_table_data_rows($por_pagar_m,$controller);
 	$table.='</tbody></table>';
 	return $table;
 }
@@ -1077,7 +1073,7 @@ function get_porpagar_data_row($por_pagar_m,$controller)
 
 
 //Almacenes
-function get_almacen_manage_table($almacen,$controller)
+function get_almacen_manage_table()
 {
 	$CI =& get_instance();
 	$table='<table class="tabledist" id="sortable_table">';
@@ -1094,7 +1090,7 @@ function get_almacen_manage_table($almacen,$controller)
 		$table.="<th>$header</th>";
 	}
 	$table.='</tr></thead><tbody>';
-	$table.=get_almacen_manage_table_data_rows($almacen,$controller);
+	//$table.=get_almacen_manage_table_data_rows($almacen,$controller);
 	$table.='</tbody></table>';
 	return $table;
 }
@@ -1122,14 +1118,15 @@ function get_almacen_data_row($almacen,$controller)
 	$CI =& get_instance();
 	$controller_name=$CI->uri->segment(1);
 	$width = $controller->get_form_width();
+	$height = $controller->get_form_height();
 
 	$table_data_row='<tr>';
-	$table_data_row.="<td width='1%'><input type='checkbox' id='almacen_$almacen->almacen_id' value='".$almacen->almacen_id."'/></td>";
+	$table_data_row.="<td width='5%'><input type='checkbox' id='almacen_$almacen->almacen_id' value='".$almacen->almacen_id."'/></td>";
 	// $table_data_row.='<td width="5%">'.anchor('almacenes/edit/'.$almacen->almacen_id, $almacen->almacen_id, array('target' => '_blank')).'</td>';
-	$table_data_row.='<td width="2%">'.character_limiter($almacen->nombre,13).'</td>';
-	$table_data_row.='<td width="9%">'.character_limiter($almacen->direccion,45).'</td>';
-	$table_data_row.='<td width="9%">'.to_currency_no_money($almacen->utilidad,7).'</td>';
-	$table_data_row.='<td width="2%">'.anchor($controller_name."/view/$almacen->almacen_id?width=$width&height=250", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update')));		
+	$table_data_row.='<td width="15%">'.character_limiter($almacen->nombre,13).'</td>';
+	$table_data_row.='<td width="15%">'.character_limiter($almacen->direccion,45).'</td>';
+	$table_data_row.='<td width="15%">'.to_currency_no_money($almacen->utilidad,7).'</td>';
+	$table_data_row.='<td width="10%">'.anchor($controller_name."/view/$almacen->almacen_id?width=$width&height=$height", $CI->lang->line('common_edit'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update')));		
 	
 	$table_data_row.='</tr>';
 	

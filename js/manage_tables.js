@@ -279,7 +279,8 @@ function hightlight_row(checkbox_id)
 function get_selected_values()
 {
     var selected_values = new Array();
-    $("#sortable_table tbody :checkbox:checked").each(function ()
+    //$("#sortable_table tbody :checkbox:checked").each(function ()
+    $(".dataTable tbody :checkbox:checked").each(function ()
     {
         selected_values.push($(this).val());
     });
