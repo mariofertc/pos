@@ -30,7 +30,7 @@ $('body').on('click', '.thickbox', function (e) {
             modal: true,
             open: function () {
                 $(this).load(ref, function () {
-                    $(this).dialog("option", "title", $(this).find("legend").text());
+                    $(this).dialog("option", "title", $(this).find("legend").first().text());
                     $(this).find("legend").remove();
                 });
             },

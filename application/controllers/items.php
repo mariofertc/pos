@@ -711,5 +711,14 @@ class Items extends Secure_area implements iData_controller {
     function get_form_height() {
         return 550;
     }
-
+    
+    function view_images($item_id = -1) {
+        $data['item_info'] = $this->Item->get_info($item_id);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/form_images");
+    }
+    
+    function do_upload($item_id=null){
+        $this->load->library("uploadcustom", array('item_id' => $item_id));
+    }
 }

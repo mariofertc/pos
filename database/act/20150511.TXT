@@ -16,3 +16,20 @@
 alter table phppos_items add column size varchar(10), add column color varchar(20), add column color_value varchar(10);
 alter table phppos_items add column brand varchar(30);
 alter table phppos_items add column tags varchar(100);
+
+//jquery file upload
+CREATE TABLE `phppos_files` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+//alter table phppos_files drop column item_id;
+alter table phppos_files add column item_id int(10) not null references phppos_items(item_id);
+
+//alter table phppos_files add constraint fk_items_images foreign key (item_id) references phppos_items(item_id);
