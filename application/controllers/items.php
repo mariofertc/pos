@@ -201,7 +201,7 @@ class Items extends Secure_area implements iData_controller {
         //$data['selected_almacen'] = 2;
         //var_dump($data['selected_almacen']);
         
-        $this->get_categories($item_id);
+        //$this->get_categories($item_id);
 
         $data['default_tax_1_rate'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_1_rate') : '';
         $data['default_tax_1_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_1_name') : '';
@@ -719,6 +719,6 @@ class Items extends Secure_area implements iData_controller {
     }
     
     function do_upload($item_id=null){
-        $this->load->library("UploadCustom", array('item_id' => $item_id));
+        $this->load->library("upload_Custom", array('item_id' => $item_id));
     }
 }
