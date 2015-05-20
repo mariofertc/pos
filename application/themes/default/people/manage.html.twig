@@ -45,7 +45,6 @@
         {#            init_table_sorting();#}
                 enable_select_all();
         {#		enable_checkboxes();#}
-        {#		enable_row_selection();#}
                 enable_delete('Esta seguro que desea eliminar el elemento seleccionado?', '');
                 enable_email('{{site_url(controller_name~"/mailto")}}');
         {#                enable_bulk_edit("Favor seleccione un usuario para editar","?width=580&height=450");#}
@@ -62,7 +61,7 @@
 {#                        tb_init('#sortable_table a.thickbox');#}
         {#                        imgLoader = new Image();// preload image#}
                         //imgLoader.src = tb_pathToImage;
-        {#				enable_row_selection();#}
+        				enable_row_selection();
                     }
                 });
             });

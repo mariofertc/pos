@@ -145,19 +145,26 @@ class Items extends Secure_area implements iData_controller {
       Gives search suggestions based on what is being searched for
      */
 
-    function suggest() {
+    /*function suggest() {
         $suggestions = $this->Item->get_search_suggestions($this->input->post('q'), $this->input->post('limit'));
         echo implode("\n", $suggestions);
-    }
-
-    /*
-      Gives search suggestions based on what is being searched for
-     */
-
-    function suggest_category() {
-        $suggestions = $this->Item->get_category_suggestions($this->input->post('q'));
-//        echo implode("\n", $suggestions);
+    }*/
+    
+    function suggest() {
+        $suggestions = $this->Item->get_suggestions($this->input->post('q'),$this->input->post('by'));
         echo json_encode($suggestions);
+    }
+    function suggest_tags() {
+        $suggestions = $this->Item->get_suggestions($this->input->post('q'),$this->input->post('by'));
+        $cll_tags = array();
+        foreach($suggestions as $suggest){
+            foreach(explode(",",$suggest) as $tag){
+                if(!array_search($suggest, $cll_tags)){
+                 $cll_tags[] = $tag;
+                }                  
+            }
+        }
+        echo json_encode($cll_tags);
     }
 
     function cantidades_almacen() {
@@ -369,9 +376,10 @@ class Items extends Secure_area implements iData_controller {
 
     function bulk_edit() {
         $data = array();
+        
         $suppliers = array('' => $this->lang->line('items_none'));
-        foreach ($this->Supplier->get_all()->result_array() as $row) {
-            $suppliers[$row['person_id']] = $row['first_name'] . ' ' . $row['last_name'];
+        foreach ($this->Supplier->get_all(100,0) as $row) {
+            $suppliers[$row['person_id']] = $row['company_name'] . ' (' . $row['first_name'] . ' ' . $row['last_name'] . ')';
         }
         $data['suppliers'] = $suppliers;
         $data['allow_alt_desciption_choices'] = array(
@@ -383,7 +391,9 @@ class Items extends Secure_area implements iData_controller {
             '' => $this->lang->line('items_do_nothing'),
             1 => $this->lang->line('items_change_all_to_serialized'),
             0 => $this->lang->line('items_change_all_to_unserialized'));
-        $this->load->view("items/form_bulk", $data);
+        
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/form_bulk");
     }
 
     function save_clasifica($item_id = -1, $almacen_id = -1) {
@@ -458,6 +468,7 @@ class Items extends Secure_area implements iData_controller {
             'name' => $this->input->post('name'),
             'description' => $this->input->post('description'),
             'category' => $this->input->post('category'),
+            'brand' => $this->input->post('brand'),
             'supplier_id' => $this->input->post('supplier_id') == '' ? null : $this->input->post('supplier_id'),
             'item_number' => $this->input->post('item_number') == '' ? null : $this->input->post('item_number'),
             'cost_price' => $this->input->post('cost_price'),
@@ -469,6 +480,7 @@ class Items extends Secure_area implements iData_controller {
             'size' => $this->input->post('size'),
             'color' => $this->input->post('color'),
             'color_value' => $this->input->post('color_value'),
+            'tags' => $this->input->post('tags')
                 // 'almacen_id'=>$this->input->post('almacen_id')=='' ? null:$this->input->post('almacen_id')
         );
         $employee_id = $this->Employee->get_logged_in_employee_info()->person_id;
@@ -580,7 +592,7 @@ class Items extends Secure_area implements iData_controller {
      * @since: 10.1
      */
     function excel_import() {
-        $this->load->view("items/excel_import", null);
+        $this->twiggy->display("items/excel_import");
     }
 
     /**
@@ -601,35 +613,39 @@ class Items extends Secure_area implements iData_controller {
                 $this->load->library('spreadsheetexcelreader');
                 $this->spreadsheetexcelreader->store_extended_info = false;
                 $success = $this->spreadsheetexcelreader->read($_FILES['file_path']['tmp_name']);
-
                 $rowCount = $this->spreadsheetexcelreader->rowcount(0);
                 if ($rowCount > 2) {
                     for ($i = 3; $i <= $rowCount; $i++) {
                         $item_code = $this->spreadsheetexcelreader->val($i, 'A');
-                        $item_id = $this->Item->get_item_id($item_code);
+                        $item_id = $this->Item->get_item_id($item_code);                        
                         $item_data = array(
-                            'name' => $this->spreadsheetexcelreader->val($i, 'B'),
-                            'description' => $this->spreadsheetexcelreader->val($i, 'K'),
-                            'category' => $this->spreadsheetexcelreader->val($i, 'C'),
-                            //'supplier_id'	=>	null,
                             'item_number' => $this->spreadsheetexcelreader->val($i, 'A'),
-                            'cost_price' => $this->spreadsheetexcelreader->val($i, 'E'),
-                            'unit_price' => $this->spreadsheetexcelreader->val($i, 'F'),
-                            'quantity' => $this->spreadsheetexcelreader->val($i, 'I'),
-                            'reorder_level' => $this->spreadsheetexcelreader->val($i, 'J')
+                            'name'        => $this->spreadsheetexcelreader->val($i, 'B'),
+                            'category'    => $this->spreadsheetexcelreader->val($i, 'C'),
+                            'brand'       => $this->spreadsheetexcelreader->val($i, 'D'),
+                            'tags'        => $this->spreadsheetexcelreader->val($i, 'E'),
+                            'color'       => $this->spreadsheetexcelreader->val($i, 'F'),
+                            'size'        => $this->spreadsheetexcelreader->val($i, 'G'),
+                            'supplier_id' => $this->spreadsheetexcelreader->val($i, 'H')==""?null:$this->spreadsheetexcelreader->val($i, 'H'),
+                            'cost_price'  => $this->spreadsheetexcelreader->val($i, 'I'),
+                            'unit_price'  => $this->spreadsheetexcelreader->val($i, 'J'),
+                            'quantity'    => $this->spreadsheetexcelreader->val($i, 'M'),
+                            'reorder_level' => $this->spreadsheetexcelreader->val($i, 'N'),
+                            'description' => $this->spreadsheetexcelreader->val($i, 'O')
                         );
-//die ($item_id);
+//                        var_dump($item_data);
+//                        die();
                         if ($this->Item->save($item_data, $item_id)) {
                             $items_taxes_data = null;
                             $item_id = $this->Item->get_item_id($item_code);
                             //tax 1
-                            if (is_numeric($this->spreadsheetexcelreader->val($i, 'G'))) {
-                                $items_taxes_data[] = array('name' => 'Sales Tax 1', 'percent' => $this->spreadsheetexcelreader->val($i, 'G'));
+                            if (is_numeric($this->spreadsheetexcelreader->val($i, 'K'))) {
+                                $items_taxes_data[] = array('name' => line('items_sales_tax_1'), 'percent' => $this->spreadsheetexcelreader->val($i, 'K'));
                             }
 
                             //taxt 2
-                            if (is_numeric($this->spreadsheetexcelreader->val($i, 'H'))) {
-                                $items_taxes_data[] = array('name' => 'Sales Tax 2', 'percent' => $this->spreadsheetexcelreader->val($i, 'H'));
+                            if (is_numeric($this->spreadsheetexcelreader->val($i, 'L'))) {
+                                $items_taxes_data[] = array('name' => line('items_sales_tax_2'), 'percent' => $this->spreadsheetexcelreader->val($i, 'L'));
                             }
 
                             // save tax values
@@ -644,7 +660,7 @@ class Items extends Secure_area implements iData_controller {
                             // $item_id = $this->Item->get_item_id($item_code);
                             $employee_id = $this->Employee->get_logged_in_employee_info()->person_id;
                             $emp_info = $this->Employee->get_info($employee_id);
-                            $comment = 'Qty Excel Imported: means BEGIN/RESET/ACTUAL count';
+                            $comment = line("inv_import_comment");
                             $excel_data = array
                                 (
                                 'trans_items' => $item_id,
@@ -656,27 +672,29 @@ class Items extends Secure_area implements iData_controller {
                             //------------------------------------------------Ramel
                         } else {//insert or update item failure
                             $failCodes[] = $item_code;
-                            //echo json_encode( array('success'=>true,'message'=>'Your upload file has no data or not in supported format.') );
                         }
                     }
                 } else {
                     // rowCount < 2
-                    echo json_encode(array('success' => true, 'message' => 'Your upload file has no data or not in supported format.'));
+                    echo json_encode(array('success' => true, 'message' => line("items_import_fail")));
                     return;
                 }
             } catch (Exception $e) {
                 //echo 'Caught exception: ',  $e->getMessage(), "\n";
                 // echo json_encode( array('success'=>false,'message'=>$e->getMessage()) );
-                echo json_encode(array('success' => false, 'message' => 'vamos'));
+                echo json_encode(array('success' => false, 'message' => line("error_unknown")));
             }
         }
 
         $success = true;
         if (count($failCodes) > 1) {
-            $msg = "Most items imported. But some were not, here is list of their CODE (" . count($failCodes) . "): " . implode(", ", $failCodes);
+            $error_msg = implode(", ", $failCodes);
+            $total_errors = count($failCodes);
+            $msg = line('items_import_errors');
+            //$msg = "Most items imported. But some were not, here is list of their CODE ( $total_errors ): $error_msg";
             $success = false;
         } else {
-            $msg = "Import items successful";
+            $msg = line('items_import_success');
         }
 
         echo json_encode(array('success' => $success, 'message' => $msg));
@@ -693,5 +711,14 @@ class Items extends Secure_area implements iData_controller {
     function get_form_height() {
         return 550;
     }
-
+    
+    function view_images($item_id = -1) {
+        $data['item_info'] = $this->Item->get_info($item_id);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/form_images");
+    }
+    
+    function do_upload($item_id=null){
+        $this->load->library("UploadCustom", array('item_id' => $item_id));
+    }
 }

@@ -20,4 +20,3 @@ $lang['config_return_policy_required']='Política de Devolución es un campo req
 $lang['config_printe_after_sale']='Imprimir recibo venta';
 $lang['config_language'] = 'Lenguaje';
 $lang['config_timezone'] = 'Huso Horario';
-?>

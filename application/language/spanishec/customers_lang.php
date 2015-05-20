@@ -13,4 +13,3 @@ $lang['customers_cannot_be_deleted']='No se pudo borrar a los clientes seleccion
 $lang['customers_basic_information']='Información de Clientes';
 $lang['customers_account_number']='Cuenta #';
 $lang['customers_taxable']='Grava Impuestos';
-?>

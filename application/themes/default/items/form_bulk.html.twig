@@ -1,0 +1,310 @@
+<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css"/>
+<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/tag-it/css/jquery.tagit.css"/>
+<div id="required_fields_message">{{line('items_edit_fields_you_want_to_update') }}</div>
+<ul id="error_message_box"></ul>
+{{ form_open('items/bulk_update/',{'id':'item_form'})}}
+<fieldset id="item_basic_info">
+    <legend>{{line("items_basic_information") }}</legend>
+
+    <div class="form-group">	
+        {{form_label(line('items_name')~':', 'name',{'class':'wide'}) }}
+        {{form_input({
+		'name':'name',
+		'id':'name',
+                'class':'form-control'}
+	) }}
+    </div>
+
+
+    <div class="form-group">	
+        {{form_label(line('items_category')~':', 'category',{'class':'wide'}) }}
+        {{form_input({
+		'name':'category',
+		'id':'category',
+                'class':'form-control'}
+	) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(line('items_tags')~':', 'tags',{'class':'required wide'})}}
+        {{ form_input({
+		'name':'tags',
+		'id':'tags',
+                'class':'form-control',
+                'data-role':"tagsinput",
+                'type':'text' }
+	)}}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(line('items_brand')~':', 'brand',{'class':'required wide'})}}
+        {{ form_input({
+		'name':'brand',
+		'id':'brand',
+                'class':'form-control'}
+	)}}
+    </div>
+
+    <div class="form-group">	
+        {{form_label(line('items_supplier')~':', 'supplier',{'class':'small_wide'}) }}
+        {{form_dropdown('supplier_id', suppliers, '',"class='form-control'") }}
+    </div>
+
+
+    <div class="form-group">	
+        {{form_label(line('items_cost_price')~':', 'cost_price',{'class':'wide'}) }}
+        {{form_input({
+		'name':'cost_price',
+		'size':'8',
+		'id':'cost_price',
+                'class':'form-control'}
+	) }}
+    </div>
+
+    <div class="form-group">	
+        {{form_label(line('items_unit_price')~':', 'unit_price',{'class':'wide'}) }}
+        {{form_input({
+		'name':'unit_price',
+		'size':'8',
+		'id':'unit_price',
+                'class':'form-control'}
+	) }}
+    </div>
+
+    <div class="form-inline">	
+        {{form_label(line('items_tax_1')~':', 'tax_percent_1',{'class':'wide'}) }}
+        {{form_input({
+		'name':'tax_names[]',
+		'id':'tax_name_1',
+		'size':'7',
+		'value': item_tax_info[0]['name'] is not empty ? item_tax_info[0]['name'] : default_tax_1_name,
+                'class':'form-control' }
+	) }}
+        {{form_input({
+		'name':'tax_percents[]',
+		'id':'tax_percent_name_1',
+		'size':'3',
+		'value': item_tax_info[0]['percent'] is not empty ? item_tax_info[0]['percent'] : default_tax_1_rate,
+                'class':'form-control'}
+	) }}
+        %
+    </div>
+
+    <div class="form-inline">	
+        {{form_label(line('items_tax_2')~':', 'tax_percent_2',{'class':'wide'}) }}
+        {{form_input({
+		'name':'tax_names[]',
+		'id':'tax_name_2',
+		'size':'7',
+		'value': item_tax_info[1]['name'] is not empty ? item_tax_info[1]['name'] : default_tax_2_name,
+                'class':'form-control'}
+	) }}
+        {{form_input({
+		'name':'tax_percents[]',
+		'id':'tax_percent_name_2',
+		'size':'3',
+		'value': item_tax_info[1]['percent'] is not empty ? item_tax_info[1]['percent'] : default_tax_2_rate,
+                'class':'form-control'}
+	) }}
+        %
+    </div>
+
+    <div class="form-group">
+        {{ form_label(line('items_size')~':', 'size',{'class':'required wide'})}}
+        {{ form_input({
+		'name':'size',
+		'id':'size',
+                'class':'form-control'}
+	)}}
+    </div>
+
+
+    <div class="form-inline">
+        {{ form_label(line('items_color')~':', 'color',{'class':'small_wide'})}}
+        {{ form_input({
+		'name':'color',
+		'id':'color',
+		'size':'6'}
+	)}}
+        <div class="input-group color_pick">{{ form_input({
+		'name':'color_value',
+		'id':'color_value'}
+	)}}<span class="input-group-addon"><i></i></span></div>
+        HEX
+    </div>
+
+
+    <div class="form-group">	
+        {{form_label(line('items_reorder_level')~':', 'reorder_level',{'class':'wide'}) }}
+        {{form_input({
+		'name':'reorder_level',
+		'id':'reorder_level',
+                'class':'form-control'}
+	) }}
+    </div>
+
+    <div class="form-group">	
+        {{form_label(line('items_description')~':', 'description',{'class':'wide'}) }}
+        {{form_textarea({
+		'name':'description',
+		'id':'description',
+		'rows':'5',
+		'cols':'17',
+                'class':'form-control'}	
+	) }}
+    </div>
+
+    <div class="form-group">
+        {{form_label(line('items_allow_alt_desciption')~':', 'allow_alt_description',{'class':'wide'}) }}
+        {{form_dropdown('allow_alt_description', allow_alt_desciption_choices,"","class='form-control'") }}
+    </div>
+
+
+
+    <div class="form-group">
+
+        {{form_label(line('items_is_serialized')~':', 'is_serialized',{'class':'wide'}) }}
+        {{form_dropdown('is_serialized', serialization_choices,"","class='form-control'") }}
+
+    </div>
+
+    {{ form_submit({
+	'id':'submit',
+	'value':line('common_submit'),
+	'class':'btn btn-success'} ) }}
+</fieldset>
+{{ form_close()}}
+<script src="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+        <script src="{{base_url()}}assets/bower_components/tag-it/js/tag-it.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $(function () {
+            $('.color_pick').colorpicker();
+        });
+
+        $('#tags').tagit({
+            autocomplete: {
+                source: function (request, response) {
+                    $.ajax({
+                        url: "{{site_url('items/suggest_tags')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: request.term, by: 'tags'
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                }
+            }
+        });
+        $("#brand").autocomplete({source: function (request, response) {
+                $.ajax({
+                    url: "{{site_url('items/suggest')}}",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        q: request.term, by: 'brand'
+                    },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            }});
+        $("#name").autocomplete({source: function (request, response) {
+                $.ajax({
+                    url: "{{site_url('items/suggest')}}",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        q: request.term, by: 'name'
+                    },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            }});
+
+        $("#category").autocomplete({source: function (request, response) {
+                $.ajax({
+                    url: "{{site_url('items/suggest')}}",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        q: request.term, by: 'category'
+                    },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            }});
+        $('#item_form').validate({
+            submitHandler: function (form)
+            {
+                if (confirm("{{line('items_confirm_bulk_edit') }}"))
+                {
+                    //Get the selected ids and create hidden fields to send with ajax submit.
+                    var selected_item_ids = get_selected_values();
+                    for (k = 0; k < selected_item_ids.length; k++)
+                    {
+                        $(form).append("<input type='hidden' name='item_ids[]' value='" + selected_item_ids[k] + "' />");
+                    }
+
+                    $.ajax({
+                        type: $(form).attr('method'),
+                        url: $(form).attr('action'),
+                        data: $(form).serialize(),
+                        success: function (response) {
+                            tb_remove();
+                            post_bulk_form_submit(response);
+                        },
+                        dataType: 'json'
+                    });
+                }
+
+            },
+            errorLabelContainer: "#error_message_box",
+            wrapper: "li",
+            rules:
+                    {
+                        unit_price:
+                                {
+                                    number: true
+                                },
+                        tax_percents:
+                                {
+                                    number: true
+                                },
+                        quantity:
+                                {
+                                    number: true
+                                },
+                        reorder_level:
+                                {
+                                    number: true
+                                }
+                    },
+            messages:
+                    {
+                        unit_price:
+                                {
+                                    number: "{{line('items_unit_price_number') }}"
+                                },
+                        tax_percents:
+                                {
+                                    number: "{{line('items_tax_percent_number') }}"
+                                },
+                        quantity:
+                                {
+                                    number: "{{line('items_quantity_number') }}"
+                                },
+                        reorder_level:
+                                {
+                                    number: "{{line('items_reorder_level_number') }}"
+                                }
+
+                    }
+        });
+    });
+</script>

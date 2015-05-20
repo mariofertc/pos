@@ -38,8 +38,7 @@ function enable_search(suggest_url, confirm_search_message)
     });
 }
 enable_search.enabled = false;
-        function do_search(show_feedback, on_complete, attr = 0)
-        {
+        function do_search(show_feedback, on_complete, attr = 0){
         //If search is not enabled, don't do anything
         if (!enable_search.enabled)
                 return;
@@ -87,40 +86,35 @@ function do_email(url)
 
 function enable_checkboxes()
 {
-    $('#sortable_table tbody :checkbox').click(checkbox_click);
+    //$('.dataTable tbody :checkbox').click(checkbox_click);
+    $('#sortable_table tbody :checkbox').toggle();
 }
 
-function enable_delete(confirm_message, none_selected_message)
-{
+function enable_delete(confirm_message, none_selected_message){
     //Keep track of enable_delete has been called
     if (!enable_delete.enabled)
         enable_delete.enabled = true;
-    $('#delete').click(function (event)
-    {
+    $('#delete').click(function (event){
         event.preventDefault();
-        if ($("#sortable_table tbody :checkbox:checked").length > 0)
-        {
-            if (confirm(confirm_message))
-            {
+        //if ($("#sortable_table tbody :checkbox:checked").length > 0){
+        if ($(".dataTable tbody :checkbox:checked").length > 0){
+            if (confirm(confirm_message)){
                 do_delete($("#delete").attr('href'));
             }
         }
-        else
-        {
+        else{
             alert(none_selected_message);
         }
     });
 }
 enable_delete.enabled = false;
-function do_delete(url)
-{
+function do_delete(url){
     //If delete is not enabled, don't do anything
     if (!enable_delete.enabled)
         return;
     var row_ids = get_selected_values();
     var selected_rows = get_selected_rows();
-    $.post(url, {'ids[]': row_ids}, function (response)
-    {
+    $.post(url, {'ids[]': row_ids}, function (response){
         //delete was successful, remove checkbox rows
         if (response.success)
         {
@@ -155,10 +149,34 @@ function enable_bulk_edit(none_selected_message)
     $('#bulk_edit').click(function (event)
     {
         event.preventDefault();
-        if ($("#sortable_table tbody :checkbox:checked").length > 0)
-        {
-            tb_show($(this).attr('title'), $(this).attr('href'), false);
-            $(this).blur();
+//        if ($("#sortable_table tbody :checkbox:checked").length > 0)
+        if ($(".dataTable tbody :checkbox:checked").length > 0){
+            //tb_show($(this).attr('title'), $(this).attr('href'), false);
+            //$(this).blur();
+            
+            ref = $(this).attr('href');
+            $(function () {
+                //title = $.urlParam(ref,'title')===null?"":$.urlParam(ref,'title');
+                width = $.urlParam(ref, 'width') === null ? 400 : $.urlParam(ref, 'width');
+                height = $.urlParam(ref, 'height') === null ? 400 : $.urlParam(ref, 'height');
+                $('<div id="dialog">').dialog({
+                    modal: true,
+                    open: function () {
+                        $(this).load(ref, function () {
+                            $(this).dialog("option", "title", $(this).find("legend").text());
+                            $(this).find("legend").remove();
+                        });
+                    },
+                    height: height,
+                    width: width,
+                    maxWidth: 600,
+                    title: "Cargando...",
+                    close: function (event, ui) {
+                        $(this).dialog("destroy").remove();
+                    }
+                });
+            });
+            
         }
         else
         {
@@ -193,29 +211,25 @@ function enable_select_all()
     });
 }
 enable_select_all.enabled = false;
-function enable_row_selection(rows)
-{
+function enable_row_selection(rows){
     //Keep track of enable_row_selection has been called
     if (!enable_row_selection.enabled)
         enable_row_selection.enabled = true;
     if (typeof rows == "undefined")
         rows = $("#sortable_table tbody tr");
     rows.hover(
-            function row_over()
-            {
+            function row_over() {
                 $(this).find("td").addClass('over').css("backgroundColor", "");
                 $(this).css("cursor", "pointer");
             },
-            function row_out()
-            {
+            function row_out(){
                 if (!$(this).find("td").hasClass("selected"))
                 {
                     $(this).find("td").removeClass();
                 }
             }
     );
-    rows.click(function row_click(event)
-    {
+    rows.click(function row_click(event){
         var checkbox = $(this).find(":checkbox");
 //        checkbox.attr('checked', !checkbox.attr('checked'));
          checkbox.prop("checked", !checkbox.prop("checked"));
@@ -232,8 +246,7 @@ function enable_row_selection(rows)
     });
 }
 enable_row_selection.enabled = false;
-function update_sortable_table()
-{
+function update_sortable_table(){
     //let tablesorter know we changed <tbody> and then triger a resort
     $("#sortable_table").trigger("update");
     if (typeof $("#sortable_table")[0].config != "undefined")
@@ -276,12 +289,10 @@ function hightlight_row(checkbox_id)
             .animate({backgroundColor: "#ffffff"}, "slow", "linear");
 }
 
-function get_selected_values()
-{
+function get_selected_values(){
     var selected_values = new Array();
-    //$("#sortable_table tbody :checkbox:checked").each(function ()
-    $(".dataTable tbody :checkbox:checked").each(function ()
-    {
+//    $("#sortable_table tbody :checkbox:checked").each(function (){
+    $(".dataTable tbody :checkbox:checked").each(function (){
         selected_values.push($(this).val());
     });
     return selected_values;
@@ -290,8 +301,8 @@ function get_selected_values()
 function get_selected_rows()
 {
     var selected_rows = new Array();
-    $("#sortable_table tbody :checkbox:checked").each(function ()
-    {
+//    $("#sortable_table tbody :checkbox:checked").each(function ()
+    $(".dataTable tbody :checkbox:checked").each(function (){
         selected_rows.push($(this).parent().parent());
     });
     return selected_rows;

@@ -347,7 +347,8 @@ class Spreadsheetexcelreader {
 	function val($row,$col,$sheet=0) {
 		$col = $this->getCol($col);
 		if (array_key_exists($row,$this->sheets[$sheet]['cells']) && array_key_exists($col,$this->sheets[$sheet]['cells'][$row])) {
-			return $this->sheets[$sheet]['cells'][$row][$col];
+//			return $this->sheets[$sheet]['cells'][$row][$col];
+			return utf8_encode($this->sheets[$sheet]['cells'][$row][$col]);
 		}
 		return "";
 	}

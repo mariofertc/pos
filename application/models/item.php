@@ -446,6 +446,21 @@ class Item extends CI_Model {
 
         return $suggestions;
     }
+    
+    function get_suggestions($search,$by) {
+        $suggestions = array();
+        $this->db->distinct();
+        $this->db->select($by);
+        $this->db->from('items');
+        $this->db->like($by, $search);
+        $this->db->where('deleted', 0);
+        $this->db->order_by($by, "asc");
+        $by_category = $this->db->get();
+        foreach ($by_category->result() as $row) {
+            $suggestions[] = $row->$by;
+        }
+        return $suggestions;
+    }
 
     /*
       Preform a search on items

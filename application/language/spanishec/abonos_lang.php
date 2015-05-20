@@ -11,5 +11,3 @@ $lang['abonos_abonar'] = 'Realizar Abono';
 $lang['abonos_view'] = 'Ver los Abonos realizados';
 $lang['abonos_none_selected'] = 'Seleccione almenos una Cuenta por Cobrar';
 $lang['abonos_confirm_delete'] = '¿Esta seguro de eliminar las Cuentas seleccionadas?';
-
-?>

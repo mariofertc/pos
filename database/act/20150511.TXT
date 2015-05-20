@@ -1,13 +1,35 @@
 //Categorias
-create table phppos_category (category_id int(10) not null auto_increment, name varchar(255), guide varchar(10), deleted int(1),
-constraint pk_category primary key (category_id));
-create table phppos_items_category (item_category_id int(10) not null auto_increment, category_id int(10), item_id int(10) unsigned not null references phppos_items(item_id), name varchar(255) not null, quantity int(11) not null, extra varchar(255),deleted int(1) default 0,
-constraint pk_category primary key (item_category_id),
-constraint fk_category_inter_items foreign key (category_id) references phppos_category(category_id));
+//create table phppos_category (category_id int(10) not null auto_increment, name varchar(255), guide varchar(10), deleted int(1),
+//constraint pk_category primary key (category_id));
+//create table phppos_items_category (item_category_id int(10) not null auto_increment, category_id int(10), item_id int(10) unsigned //not null references phppos_items(item_id), name varchar(255) not null, quantity int(11) not null, extra varchar(255),deleted int(1) //default 0,
+//constraint pk_category primary key (item_category_id),
+//constraint fk_category_inter_items foreign key (category_id) references phppos_category(category_id));
 
-insert into phppos_category values(1,'Talla','',0);
-insert into phppos_category values(2,'Color','HEX',0);
+//insert into phppos_category values(1,'Talla','',0);
+//insert into phppos_category values(2,'Color','HEX',0);
 	
 //alter table 'phppos_category_item' add FOREIGN KEY ('item_id') REFERENCES 'phppos_items'('item_id');
-//alter table `phppos_category_item` add constraint `fk_items_inter_items` foreign key (`item_id`) references `phppos_items` (`item_id`);
+//alter table `phppos_category_item` add constraint `fk_items_inter_items` foreign key (`item_id`) references `phppos_items` //(`item_id`);
 //alter table phppos_category_item add constraint fk_items_inter_items foreign key (item_id) references phppos_items(item_id);
+
+//Ahora si.
+alter table phppos_items add column size varchar(10), add column color varchar(20), add column color_value varchar(10);
+alter table phppos_items add column brand varchar(30);
+alter table phppos_items add column tags varchar(100);
+
+//jquery file upload
+CREATE TABLE `phppos_files` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+//alter table phppos_files drop column item_id;
+alter table phppos_files add column item_id int(10) not null references phppos_items(item_id);
+
+//alter table phppos_files add constraint fk_items_images foreign key (item_id) references phppos_items(item_id);

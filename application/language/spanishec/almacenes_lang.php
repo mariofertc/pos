@@ -25,4 +25,3 @@ $lang['almacenes_destino'] = 'Almacén Dest';
 $lang['almacenes_utilidad'] = 'Utilidad(%)';
 $lang['almacenes_utilidad_range'] = 'Utilidad(%) debe tener un valor entre 0 y 100 %';
 $lang['almacenes_utilidad_number'] = 'Utilidad(%) debe ser un número';
-?>
