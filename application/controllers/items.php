@@ -619,7 +619,7 @@ class Items extends Secure_area implements iData_controller {
                         $item_code = $this->spreadsheetexcelreader->val($i, 'A');
                         $item_id = $this->Item->get_item_id($item_code);                        
                         $item_data = array(
-                            'item_number' => $this->spreadsheetexcelreader->val($i, 'A'),
+                            'item_number' => $item_code,
                             'name'        => $this->spreadsheetexcelreader->val($i, 'B'),
                             'category'    => $this->spreadsheetexcelreader->val($i, 'C'),
                             'brand'       => $this->spreadsheetexcelreader->val($i, 'D'),

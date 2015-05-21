@@ -131,7 +131,8 @@ class Receivings extends Secure_area {
         $data['total'] = $this->receiving_lib->get_total();
 
         //Almacen
-        $data['almacen_id'] = $this->receiving_lib->get_almacen() != -1 ? $this->receiving_lib->get_almacen() : $this->Almacen->get_first()->almacen_id;
+        $selected_almacen = $this->Almacen->get_first();
+        $data['almacen_id'] = $this->receiving_lib->get_almacen() != -1 ? $this->receiving_lib->get_almacen() : $selected_almacen['almacen_id'];
 
         $data['receipt_title'] = $this->lang->line('recvs_receipt');
         $data['transaction_time'] = date('m/d/Y h:i:s a');

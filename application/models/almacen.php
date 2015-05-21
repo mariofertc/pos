@@ -74,7 +74,7 @@ class Almacen extends CI_Model {
     }
 
     function get_first() {
-        foreach ($this->get_all()->result() as $almacen) {
+        foreach ($this->get_all() as $almacen) {
             return $almacen;
         }
         return null;
