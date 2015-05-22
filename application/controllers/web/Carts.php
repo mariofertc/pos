@@ -47,22 +47,23 @@ class Carts extends Secure_CI {
      * @return [HTML] [pago.html.twig]
      */
     function pago(){
-       echo  strlen($this->_descripcion_items($this->user->user_id));
         $this->twiggy->display('carrito/pago');
     }
 
     function finalizar(){
+
         $this->twiggy->display('carrito/finalizar');
     }
+
     /**
-     * [pago_paypal description]
+     * Guardar los datos de la orden de pago e invoca al formulario de paypal
      * @return [type] [description]
      */
     function pago_paypal(){
         try {
             $monto = $this->_get_total($this->user->user_id);
-            $description = $this->_resumen_items($this->user->user_id);
-
+            $description = $this->_get_id_items($this->user->user_id);
+            $item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->user_id));
             $orden_data=array('user_id'=>$this->user->user_id,
                               'valor'=>$monto,
                               'descripcion'=>$description,
@@ -73,7 +74,7 @@ class Carts extends Secure_CI {
             if(!$res['error']){
                 $orderId = $res['ID'];
                 $baseUrl = site_url('web/market/procesar_compra') . "?orderId=$orderId";
-                $payment = $this->paypalrest->makePaymentUsingPayPal($monto, 'USD', $description,
+                $payment = $this->paypalrest->makePaymentUsingPayPal($monto, 'USD', $description, $item_list,
                         "$baseUrl", site_url('web/Carts/pago'));
                 $tran_data = array('payment_id'=>$payment->getId(),
                                     'estado'=>$payment->getState()
@@ -124,7 +125,7 @@ class Carts extends Secure_CI {
          try {
             
             $description = $this->_get_id_items($this->user->user_id);
-
+            $item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->user_id));
             $monto = $this->_get_total($this->user->user_id);
             
             if($monto<=0){
@@ -134,7 +135,7 @@ class Carts extends Secure_CI {
 
             $cc_id = $this->_register_cc();
 
-            $payment = $this->paypalrest->makePaymentUsingCC($cc_id, $monto, 'USD', $description);
+            $payment = $this->paypalrest->makePaymentUsingCC($cc_id, $monto, 'USD', $description,$item_list);
 
             $orden_data=array('user_id'=>$this->user->user_id,
                               'payment_id'=>$payment->getId(),
@@ -144,8 +145,10 @@ class Carts extends Secure_CI {
                               'fecha_creacion'=>date('Y-m-d H:i:s'));
 
             $res = $this->orden->save($orden_data);
-            if(!$res['error'])
+            if(!$res['error']){
+                $this->cart->delete_by_user($this->user->user_id);
                 echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('market_orden_cc_ok'))); 
+            }
             else
                 echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_orden_cc_error'))); 
 
@@ -199,7 +202,6 @@ class Carts extends Secure_CI {
      */
     private function _get_id_items($user_id){
         $this->data['productos'] = $this->cart->get_items_by_user($user_id);
-        print_r($this->data['productos']);
         $items =array();
         foreach ($this->data['productos'] as $key => $producto) {
             $items[]=$producto->item_id;

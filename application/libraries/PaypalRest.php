@@ -9,11 +9,16 @@ use PayPal\Api\AmountDetails;
 use PayPal\Api\CreditCard;
 use PayPal\Api\CreditCardToken;
 use PayPal\Api\Payer;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\FundingInstrument;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
+use PayPal\Api\Presentation;
+use PayPal\Api\InputFields;
+use PayPal\Api\WebProfile;
 use PayPal\Rest\ApiContext;
 use PayPal\Api\OpenIdUserinfo;
 
@@ -111,7 +116,7 @@ class PaypalRest {
      * @param string $currency 3 letter ISO code for currency
      * @param string $paymentDesc
      */
-    function makePaymentUsingCC($creditCardId, $total, $currency, $paymentDesc) {
+    function makePaymentUsingCC($creditCardId, $total, $currency, $paymentDesc,$itemList) {
             
         $ccToken = new CreditCardToken();
         $ccToken->setCreditCardId($creditCardId);   
@@ -135,6 +140,7 @@ class PaypalRest {
         $transaction = new Transaction();
         $transaction->setAmount($amount);
         $transaction->setDescription($paymentDesc);
+        $transaction->setItemList($itemList);
         
         $payment = new Payment();
         $payment->setIntent("sale");
@@ -156,6 +162,7 @@ class PaypalRest {
      * @param string $total payment amount in DDD.DD format
      * @param string $currency  3 letter ISO currency code such as 'USD'
      * @param string $paymentDesc   A description about the payment
+     * @param ItemList $itemList Items of cart
      * @param string $returnUrl The url to which the buyer must be redirected
      *              to on successful completion of payment
      * @param string $cancelUrl The url to which the buyer must be redirected
@@ -163,7 +170,7 @@ class PaypalRest {
      * @return \PayPal\Api\Payment
      */
 
-    function makePaymentUsingPayPal($total, $currency, $paymentDesc, $returnUrl, $cancelUrl) {
+    function makePaymentUsingPayPal($total, $currency, $paymentDesc, $itemList, $returnUrl, $cancelUrl) {
         
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
@@ -181,6 +188,7 @@ class PaypalRest {
         $transaction = new Transaction();
         $transaction->setAmount($amount);
         $transaction->setDescription($paymentDesc);
+        $transaction->setItemList($itemList);
         
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl($returnUrl);
@@ -190,6 +198,8 @@ class PaypalRest {
         $payment->setRedirectUrls($redirectUrls);
         $payment->setIntent("sale");
         $payment->setPayer($payer);
+        $payment->setExperienceProfileId($this->createOrGetProfileExperienceId());
+
         $payment->setTransactions(array($transaction));
         
         $payment->create($this->apiContext);
@@ -273,5 +283,55 @@ class PaypalRest {
         return $msg;
     }
 
+    function  createOrGetProfileExperienceId(){
+        $webProfile = new WebProfile();
+
+        $profiles = $webProfile->get_list($this->apiContext);
+
+        //Si ya existen perfiles creador previamente, tomo el ID del primero
+        if(count($profiles)>0){
+            $prof = $profiles[0];
+            return $prof->id;
+        }
+        $presentation = new Presentation();
+        $presentation->setLogoImage(site_url('images/home').'/logo.png');
+        $presentation->setBrandName(config('company'));
+        //valores posibles para Ecuador es_XC,en_US,fr_XC
+        //$presentation->setLocaleCode('es_XC');
+
+        $inputFields = new InputFields();
+        $inputFields->setAllowNote(true);
+        $inputFields->setNoShipping(2);
+        $inputFields->setAddressOverride(1);
+
+        $webProfile->setName(config('company'). uniqid());
+        $webProfile->setPresentation($presentation);
+        $webProfile->setInputFields($inputFields);
+
+        $profile= $webProfile->create($this->apiContext);
+        return $profile->id;
+    }
+    /**
+     * Creates a list of items to send them as details of payment
+     * @param  array  $items Items cart
+     * @return ItemList        Item list
+     */
+    function createItemsList($items = array()){
+        $list = new ItemList();
+        if(!is_null($items))
+            foreach ($items as $key => $item) {
+                $ppItem = new Item();
+                $ppItem->setName($item->name);
+                $ppItem->setQuantity($item->cantidad);
+                $ppItem->setDescription($item->description);
+                $ppItem->setPrice($item->unit_price);
+                $ppItem->setSku($item->item_id);
+                $ppItem->setCurrency("USD");
+               // $ppItem->setUrl(site_url('web/market/producto/'.$item->item_id));
+                //$ppItem->setWeight();
+                $list->addItem($ppItem);
+            }
+        return $list;
+    }
 }
 

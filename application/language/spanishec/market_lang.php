@@ -135,7 +135,11 @@ $lang['market_usuario']='Usuario';
 $lang['market_detalle']='Detalle';
 $lang['market_estado']='Estado';
 $lang['market_monto']='Monto';
+$lang['market_acciones']='Acciones';
+$lang['market_enviar_pedido']='Enviar pedido';
 $lang['market_transaccion_id']='Transacción';
+$lang['market_entrega_info']='Información de envio';
+$lang['market_despachar']='Despachar pedido';
 
 $lang['ecommerce_new']='Nuevo';
 
