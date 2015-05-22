@@ -388,3 +388,49 @@
 [25-04-2015 06:23:48] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
 [25-04-2015 06:23:48] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
 [25-04-2015 06:23:49] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[22-05-2015 07:31:39] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:31:42] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:31:42] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:31:43] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[22-05-2015 07:34:15] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:34:16] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:34:16] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:34:17] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[22-05-2015 07:40:47] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:40:48] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:40:48] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:40:49] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
+[22-05-2015 07:40:49] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"transactions[0].description","issue":"Value too long (max length 127)"}],"message":"Invalid request - see details","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"1351ec54499b2"}
+[22-05-2015 07:42:40] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:42:41] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:42:41] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:42:42] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
+[22-05-2015 07:42:42] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"transactions[0].description","issue":"Value too long (max length 127)"}],"message":"Invalid request - see details","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"4f0d915573498"}
+[22-05-2015 07:43:34] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:43:40] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:43:40] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:43:41] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
+[22-05-2015 07:43:41] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"transactions[0].description","issue":"Value too long (max length 127)"}],"message":"Invalid request - see details","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"77fd44d063f2d"}
+[22-05-2015 07:44:25] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:44:26] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:44:26] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:44:27] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
+[22-05-2015 07:44:27] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"transactions[0].description","issue":"Value too long (max length 127)"}],"message":"Invalid request - see details","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"65109ee615a5d"}
+[22-05-2015 07:44:33] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:44:34] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:44:34] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:44:35] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
+[22-05-2015 07:44:35] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"transactions[0].description","issue":"Value too long (max length 127)"}],"message":"Invalid request - see details","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"1dd44eb3163fd"}
+[22-05-2015 07:45:09] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:45:11] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:45:11] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:45:12] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[22-05-2015 07:48:45] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:51:01] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:51:02] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:51:02] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:51:03] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[22-05-2015 07:52:49] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[22-05-2015 07:52:53] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[22-05-2015 07:52:53] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[22-05-2015 07:52:54] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201

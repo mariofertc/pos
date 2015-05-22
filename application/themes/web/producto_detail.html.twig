@@ -18,31 +18,32 @@
 
 						<div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
-							<div class="view-product">
-								<img src="{{site_url()}}/images/product-details/1.jpg" alt="" />
+							<div class="view-product" id="main-imagen-producto"
+							>
+							{% for imagen in producto.imagenes|slice(0,1) %}
+								<img src="{{imagen.url}}" alt="{{producto.name}}" />
+							{% else %}
+								<img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" />
+							{% endfor %}
 								<h3>ZOOM</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner">
-
-										<div class="item active">
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar3.jpg" alt=""></a>
-										</div>
-										<div class="item">
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar3.jpg" alt=""></a>
-										</div>
-										<div class="item">
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="{{site_url()}}/images/product-details/similar3.jpg" alt=""></a>
-										</div>
-										
+								    	{% for imagen in producto.imagenes %}
+								    		{% if loop.index%3 == 1 %}
+								    			<div class="item active">
+								    		{% endif %}
+												<a href="#" class="imagen-producto"><img src="{{imagen.url}}" alt="{{producto.name}}" />
+								    		{% if loop.index%3 == 2 or loop.last %}
+								    			</div>
+								    		{% endif %}
+										{% else %}
+											<div class="item active">
+												<a href="#" class="imagen-producto"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
+											</div>
+										{% endfor %}
 									</div>
 
 								  <!-- Controls -->
@@ -60,7 +61,6 @@
 								<img src="{{site_url()}}/images/product-details/new.jpg" class="newarrival" alt="" />
 								<h2>{{producto.name}}</h2>
 								<p>Web ID: {{producto.item_id}}</p>
-								<img src="{{site_url()}}/images/product-details/rating.png" alt="" />
 								<span>
 									<span>${{producto.unit_price}}</span>
 									<label>{{line('market_cantidad')}}:</label>
@@ -72,6 +72,8 @@
 								</span>
 								<p><b>{{line('market_disponibilidad')}}:</b> In Stock</p>
 								<p><b>	{{line('market_marca')}}:</b>{{producto.marca}}</p>
+								<p><b>	{{line('market_talla')}}:</b>{{producto.size}}</p>
+								<p><b>	{{line('market_color')}}:</b>{{producto.color}}<small class="color-producto" color="{{producto.color_value}}"></small></p>
 								<div class="btn-group">
 									<a href="https://twitter.com/share" data-text="{{producto.name}}" data-url="{{ site_url('web/market/producto')}}/{{producto.item_id}}" class="twitter-share-button" >Tweet</a> 
 									<div class="fb-share-button" data-href="{{ site_url('web/market/producto')}}/{{producto.item_id}}" data-layout="button_count"></div>

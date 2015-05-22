@@ -1133,4 +1133,79 @@ function get_almacen_data_row($almacen,$controller)
 	return $table_data_row;
 }
 
+
+//***************************************************************//
+//******************  ECOMMERCE *********************************//
+//***************************************************************//
+
+/*
+Gets the html table to manage ecommerce transactions.
+*/
+function get_ecommerce_manage_table()
+{
+	$CI =& get_instance();	
+	
+	$table='<table class="stripe row-border order-column dataTable no-footer DTFC_Cloned" id="sortable_table">';
+	$headers = array('<input type="checkbox" id="select_all" />', 
+	$CI->lang->line('market_fecha'),
+	$CI->lang->line('market_usuario'),
+	$CI->lang->line('market_detalle'),
+	$CI->lang->line('market_monto'),
+	$CI->lang->line('market_transaccion_id'),
+	$CI->lang->line('market_estado'),
+	);
+	$table.='<thead><tr>';
+	foreach($headers as $header)
+	{
+		$table.="<th>$header</th>";
+	}
+	$table.='</tr></thead><tbody>';
+	$table.='</tbody></table>';
+	return $table;
+}
+
+/*
+Gets the html data rows for the ecommerce.
+*/
+function get_ecommerce_manage_table_data_rows($transactions,$controller)
+{
+	$CI =& get_instance();
+	$table_data_rows='';
+	
+	foreach($transactions->result() as $transaction)
+	{
+		$table_data_rows.=get_ecommerce_data_row($transaction,$controller);
+	}
+	
+	if($transactions->num_rows()==0)
+	{
+		$table_data_rows.="<tr><td colspan='11'><div class='warning_message' style='padding:7px;'>".$CI->lang->line('items_no_items_to_display')."</div></tr></tr>";
+	}
+	
+	return $table_data_rows;
+}
+
+function get_ecommerce_data_row($item,$controller)
+{
+	$CI =& get_instance();
+	$controller_name=$CI->uri->segment(1);
+	$width = $controller->get_form_width();
+	$table_data_row='<tr>';
+	$table_data_row.="<td width='1%'><input type='checkbox' id='item_$item->order_id' value='".$item->item_id."'/></td>";
+	$table_data_row.='<td width="10%">'.$item->fecha_creacion.'</td>';
+	$table_data_row.='<td width="20%">'.$item->usuario.'</td>';
+	$table_data_row.='<td width="34%">'.$item->descripcion.'</td>';
+	$table_data_row.='<td width="10%">'.to_currency($item->valor).'</td>';
+	$table_data_row.='<td width="20%">'.$item->payment_id.'</td>';
+	$table_data_row.='<td width="15%">'.$item->estado.'</td>';
+	
+	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$item->item_id?width=$width", $CI->lang->line('common_edit_ab'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	//Ramel Inventory Tracking
+	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory/$item->item_id?width=300", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count'))).'</td>';//inventory count
+	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory_mov/$item->item_id?width=300", $CI->lang->line('common_mov'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_move'))).'</td>';
+	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/count_details/$item->item_id?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
+	
+	$table_data_row.='</tr>';
+	return $table_data_row;
+}
 ?>

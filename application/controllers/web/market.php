@@ -8,7 +8,6 @@ class Market extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->controller_name = strtolower($this->uri->segment(1));
-        $this->load->model('orden');
         $this->load->model('cart');
         $this->load->model('product_review');
         $this->load->library('PaypalRest');
@@ -126,11 +125,17 @@ class Market extends CI_Controller {
         $this->twiggy->display('tienda');
     }
 
+    /**
+     * Muestra la vista de detalle del producto 
+     * @param  [type] $pro [description]
+     * @return [type]      [description]
+     */
     function producto($pro) {
         $this->data['title'] = 'Market - Producto ';
         $this->data['producto']=$this->Item->get_info($pro);
         $opiniones=$this->product_review->get_by_item($pro);
         $this->data['producto']->opiniones=$this->product_review->get_by_item($pro);
+        $this->data['producto']->imagenes=$this->file_model->get_all_by_item($pro)->result();
         $this->twiggy->set($this->data);
         $this->twiggy->display('producto_detail');
     }
@@ -175,6 +180,7 @@ class Market extends CI_Controller {
         $this->twiggy->set($this->data);
         $this->twiggy->display('elementos/catalogo');
     }
+
     /**
      * Bloque HTML con 9 productos paginados que cumplan con 
      * los parametros obtenidos por GET

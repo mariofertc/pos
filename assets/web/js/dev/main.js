@@ -62,6 +62,15 @@ $(document).on('click','.cart_quantity_up, .cart_quantity_down, .add-to-cart2',f
 	
 });
 
+$(document).on('click','#main-imagen-producto h3',function(e){
+	e.preventDefault();
+	catalogo.handle_zoom_imagen($(this));    
+});
+
+$(document).on('click','.imagen-producto',function(e){
+	e.preventDefault();
+	catalogo.handle_replace_imagen($(this));    
+});
 
 //on scroll gets when bottom of the page is reached and calls the function do load more content
 $(window).scroll(function(e){

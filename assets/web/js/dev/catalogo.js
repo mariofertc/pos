@@ -134,6 +134,22 @@ module.exports={
 			}
 		},'json');
 	},
+	handle_zoom_imagen: function(item){
+		$this=this;
+		$producto = $(item);
+		Custombox.open({
+                target: '#main-imagen-producto',
+                effect: 'fadein'
+            });
+	},
+	handle_replace_imagen: function(item){
+		$this=this;
+		$producto = $(item);
+		$contenedor = $('#main-imagen-producto');
+		$imagen = $producto.find('img');
+		//$contenedor.find('img')=$imagen;
+
+	},
 	clear_cart:function(){
 		$this=this;
 		$.post(utils.getBasePath()+'/web/Carts/clear_cart',{},function(data){

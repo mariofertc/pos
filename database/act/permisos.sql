@@ -13,6 +13,7 @@ insert into phppos_modules values('module_reports','module_reports_desc',12,'rep
 insert into phppos_modules values('module_sales','module_sales_desc',13,'sales');
 insert into phppos_modules values('module_suppliers','module_suppliers_desc',14,'suppliers');
 insert into phppos_modules values('module_web_store','module_web_store_desc',15,'web/web_store');
+insert into phppos_modules values('module_ecommerce','module_ecommerce_desc',16,'ecommerce');
 
 insert into phppos_permissions VALUES('abonos',1);
 insert into phppos_permissions values('almacenes',1);
@@ -29,3 +30,4 @@ insert into phppos_permissions values('reports',1);
 insert into phppos_permissions values('sales',1);
 insert into phppos_permissions values('suppliers',1);
 insert into phppos_permissions values('web/web_store',1);
+insert into phppos_permissions values('ecommerce',1);

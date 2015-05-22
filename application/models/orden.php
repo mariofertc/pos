@@ -2,6 +2,40 @@
 class Orden extends CI_Model 
 {	
 
+    /**
+     * Retorna un listado de ordenes de compra enviadas a paypal
+     * @param  integer $num    [description]
+     * @param  integer $offset [description]
+     * @param  string  $where  [description]
+     * @param  [type]  $order  [description]
+     * @return [array]          Array de ordenes
+     */
+    function get_all($num = 10, $offset = 0, $where = "", $order = null) {
+        if ($order == null)
+            $order = "P.fecha_creacion";
+        $this->db->select('order_id , C.first_name as usuario , payment_id , estado , valor , descripcion, P.fecha_creacion');
+        $this->db->from('paypal P');
+        $this->db->join('webusers W', 'P.user_id=W.user_id');
+        $this->db->join('people C', 'W.customer_id=C.person_id');
+        if ($where != "")
+            $this->db->where($where);
+        $this->db->order_by($order);
+        $this->db->limit($num, $offset);
+
+        return $this->db->get()->result_array();
+    }
+    
+    /**
+     * Retorna el numero total de ordenes de compra
+     * @param  string $where Filtros
+     * @return [integer]        [Total de ordenes]
+     */
+    function get_total($where='') {
+        $this->db->from('paypal');
+        if ($where != "")
+            $this->db->where($where);
+        return $this->db->count_all_results();
+    }
 
 	function get_items_by_user($user_id){
 		$this->db->where('user_id',$user_id);

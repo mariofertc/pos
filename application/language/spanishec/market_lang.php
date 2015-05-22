@@ -127,4 +127,16 @@ $lang['market_monto_cero']='El precio no puede ser cero, Debe añadir almenos 1 
 $lang['market_procesar_compra_ok']='Transacción realizada correctamente';
 $lang['market_procesar_compra_error']='Error al realizar transacción';
 
+$lang['market_talla']='Talla';
+$lang['market_color']='Color';
+
+$lang['market_fecha']='Fecha';
+$lang['market_usuario']='Usuario';
+$lang['market_detalle']='Detalle';
+$lang['market_estado']='Estado';
+$lang['market_monto']='Monto';
+$lang['market_transaccion_id']='Transacción';
+
+$lang['ecommerce_new']='Nuevo';
+
 ?>

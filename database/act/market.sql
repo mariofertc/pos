@@ -46,3 +46,4 @@ CREATE TABLE phppos_product_reviews(
  rating INT,
  item INT REFERENCES phppos_items (item_id)
 );
+

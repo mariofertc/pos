@@ -9,7 +9,6 @@ class Carts extends Secure_CI {
         parent::__construct();
         $this->controller_name = strtolower($this->uri->segment(1));
         $this->load->model('cart');
-        $this->load->model('orden');
         $this->load->library('PaypalRest');
         $this->data['controller_name'] = $this->controller_name;
         $this->twiggy->theme('web');
@@ -48,6 +47,7 @@ class Carts extends Secure_CI {
      * @return [HTML] [pago.html.twig]
      */
     function pago(){
+       echo  strlen($this->_descripcion_items($this->user->user_id));
         $this->twiggy->display('carrito/pago');
     }
 
@@ -61,7 +61,7 @@ class Carts extends Secure_CI {
     function pago_paypal(){
         try {
             $monto = $this->_get_total($this->user->user_id);
-            $description = $this->_get_id_items($this->user->user_id);
+            $description = $this->_resumen_items($this->user->user_id);
 
             $orden_data=array('user_id'=>$this->user->user_id,
                               'valor'=>$monto,
@@ -87,7 +87,7 @@ class Carts extends Secure_CI {
             else
                 echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_orden_cc_error')));          
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
-            $message = parseApiError($ex->getData());
+            $message = $this->paypalrest->parseApiError($ex->getData());
             echo json_encode(array('error'=>TRUE,'msg'=>$message));
         }
     }
@@ -199,11 +199,49 @@ class Carts extends Secure_CI {
      */
     private function _get_id_items($user_id){
         $this->data['productos'] = $this->cart->get_items_by_user($user_id);
+        print_r($this->data['productos']);
         $items =array();
         foreach ($this->data['productos'] as $key => $producto) {
             $items[]=$producto->item_id;
         }
         return implode(',',$items);
+    }
+
+    /**
+     * Devuelve un string con una pequeña info de la compra
+     * @param  [integer] $user_id Clave primaria del usuario
+     * @return [string]  id1,id2,id3...
+     */
+    private function _resumen_items($user_id){
+        $this->data['productos'] = $this->cart->get_items_by_user($user_id);
+        $descripcion = '';
+
+        foreach ($this->data['productos'] as $key => $producto) {
+            $descripcion.=''.$producto->name.'('.$producto->cantidad.' u), ';
+        }
+        $descripcion=substr($descripcion, 0,strlen($descripcion)-2);
+        $descripcion.='    Total: '.$this->_get_total($user_id);
+        return $descripcion;
+    }
+
+    /**
+     * Devuelve un string con una pequeña info de la compra
+     * @param  [integer] $user_id Clave primaria del usuario
+     * @return [string]  id1,id2,id3...
+     */
+    private function _descripcion_items($user_id){
+        $this->data['productos'] = $this->cart->get_items_by_user($user_id);
+        $descripcion = '<table>';
+
+        foreach ($this->data['productos'] as $key => $producto) {
+            $descripcion.='<tr>';
+            $descripcion.='<td>'.$producto->name.'('.$producto->cantidad.')</td>';
+            $descripcion.='<td>'.$producto->unit_price*$producto->cantidad.'</td>';
+            $descripcion.='</tr>';
+        }
+        $descripcion.='<tr><td>Total</td><td>'.$this->_get_total($user_id).'</td></tr>';
+        $descripcion.='</table>';
+        return $descripcion;
     }
 
     /**

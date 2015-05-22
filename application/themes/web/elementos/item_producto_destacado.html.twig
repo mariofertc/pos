@@ -2,14 +2,22 @@
 	<div class="product-image-wrapper">
 		<div class="single-products">
 				<div class="productinfo text-center">
-					<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
+					{% for imagen in producto.imagenes|slice(0,1) %}
+						<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{imagen.url}}" alt="{{producto.name}}" /></a>
+					{% else %}
+						<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
+					{% endfor %}
 					<h2>${{producto.unit_price}}</h2>
 					<p>{{producto.name}}</p>
 					<a href="{{producto.item_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{line('market_agregar_a_carrito')}}</a>
 				</div>
 				<div class="product-overlay">
 					<div class="overlay-content">
-						<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
+						{% for imagen in producto.imagenes|slice(0,1) %}
+							<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{imagen.url}}" alt="{{producto.name}}" /></a>
+						{% else %}
+							<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
+						{% endfor %}
 						<h2>${{producto.unit_price}}</h2>
 						<p>{{producto.name}}</p>
 						<a href="{{producto.item_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{line('market_agregar_a_carrito')}}</a>

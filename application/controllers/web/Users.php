@@ -19,7 +19,12 @@ class Users extends Secure_CI {
         $this->twiggy->display('perfil');
     }
 
-
+    /**
+     * Toma los datos del formulario de entrega y añade o 
+     * actualiza la información en las tablas custommer y people
+     * @param  integer $customer_id [description]
+     * @return [type]               [description]
+     */
    function agregar($customer_id = -1){
         $person_data = array(
             'first_name' => $this->input->post('first_name'),
@@ -43,6 +48,7 @@ class Users extends Secure_CI {
 
             $res= $this->webuser->save(array('customer_id'=>$customer_data['person_id']),$this->user->user_id);
             if(!$res['error']){
+                $this->user->customer_id=$customer_data['person_id'];
                 $msg = $this->lang->line('market_webuser_updated');
             }
             //New customer

@@ -49,6 +49,7 @@ class Item extends CI_Model {
                 $tax_percents.=$tax_info['percent'] . '%, ';
             }
             $item['tax_percents'] = substr($tax_percents, 0, -2);
+            $item['imagenes']=$this->file_model->get_all_by_item($item['item_id'])->result();
         }
         return $items;
     }
