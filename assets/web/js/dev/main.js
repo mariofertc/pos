@@ -72,13 +72,16 @@ $(document).on('click','.imagen-producto',function(e){
 	catalogo.handle_replace_imagen($(this));    
 });
 
+utils.setEstaCargando(false);
 //on scroll gets when bottom of the page is reached and calls the function do load more content
 $(window).scroll(function(e){
 	//Not always the pos == h statement is verified, expecially on mobile devices, that's why a 300px of margin are assumed.
 	if($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
 		utils.log("Final de página alcanzado");
-		if($('#market-catalogo').length)
+		if($('#market-catalogo').length && (!utils.estaCargando())){
 			catalogo.refresh_catalogo();
+		}
+		utils.setEstaCargando(true);
 	}
 });
 
@@ -90,6 +93,10 @@ function main(){
 	frms.handle_entrega_submit();
 	frms.handle_product_review_submit();
 	catalogo.load_destacados();
+
+	$('#search_input').keyup(function(e) {
+		catalogo.reload_catalogo();
+	});
 }
 
 $(document).ready(main);

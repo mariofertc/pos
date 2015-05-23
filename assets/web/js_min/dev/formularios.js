@@ -108,7 +108,6 @@ module.exports={
 			            },
 			            success : function(data){
 			              if(!data.error){
-			              	ctlg.clear_cart();
 			               window.open(utils.getBasePath()+'/web/Carts/finalizar','_self');
 			              
 			              }else{
@@ -151,7 +150,7 @@ module.exports={
 			              $('#submit').val('Procesando...');
 			            },
 			            success : function(data){
-			            	
+
 			              if(!data.error){
 			              	new PNotify({
 			                    title: 'Información actualizada!',

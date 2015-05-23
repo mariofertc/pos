@@ -489,18 +489,47 @@ class Item extends CI_Model {
     }
 
     /**
-     * Retorna el nombre de la categoria y el numero de productos
-     * @return [StdClass] [{category,total}]
+     * Retorna el nombre y el numero de elementos agrupados por la columna requerida
+     * @param  string  $columna       Nombre de la columna a agrupar
+     * @param  integer $num           Numero de elementos
+     * @param  integer $offset        Saltarse cuantos
+     * @param  string  $columna_orden Ordena por esta columna
+     * @return array                 [description]
      */
-    function get_count_categories($num=0,$offset=0) {
-        $this->db->select('category, count(*) as total');
+    function get_count_column($columna="category",$num=10,$offset=0,$columna_orden="total") {
+        $this->db->select($columna.' as filtro, count(*) as total');
         $this->db->from('items');
         $this->db->where('deleted', 0);
         $this->db->limit($num,$offset);
-        $this->db->group_by('category');
-        $this->db->order_by("total", "desc");
+        $this->db->group_by($columna);
+        $this->db->order_by($columna_orden, "desc");
 
         return $this->db->get();
+    }
+
+    /**
+     * [get_tags description]
+     * @return [type] [description]
+     */
+    function get_tags(){
+        $this->db->select('tags');
+        $this->db->from('items');
+        $this->db->where('deleted',0);
+        $this->db->group_by('tags');
+        $this->db->order_by('tags',"desc");
+
+        $resultado = $this->db->get()->result_array();
+        $tags=array();
+        foreach ($resultado as $key => $value) {
+            $tag=explode(",", trim($value['tags']));
+            if(!empty($tag))
+                if(!isset($tags[$tag[0]]))
+                    $tags[$tag[0]]=array();
+                if(isset($tag[1]))
+                    array_push($tags[$tag[0]],$tag[1] );
+            
+        }
+        return $tags;
     }
 
     function get_categories() {

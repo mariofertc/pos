@@ -128,7 +128,15 @@ $lang['market_procesar_compra_ok']='Transacción realizada correctamente';
 $lang['market_procesar_compra_error']='Error al realizar transacción';
 
 $lang['market_talla']='Talla';
+$lang['market_tallas']='Tallas';
 $lang['market_color']='Color';
+$lang['market_colores']='Colores';
+$lang['market_tags']='Tags';
+$lang['market_tags_destacados']='Tags Destacados';
+$lang['market_suscribirse']='Suscribirse';
+$lang['market_acerca_de']='Acerca de ';
+$lang['market_suscribirse_desc']='Obtenga las mejores ofertas y promociones de la temporada';
+$lang['market_politicas']='Politicas';
 
 $lang['market_fecha']='Fecha';
 $lang['market_usuario']='Usuario';

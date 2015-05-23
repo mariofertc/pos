@@ -13,8 +13,10 @@ class Market extends CI_Controller {
         $this->load->library('PaypalRest');
 
         $this->data['controller_name'] = $this->controller_name;
-        $this->data['categorias']=$this->Item->get_count_categories(10)->result();
-
+        $this->data['categorias']=$this->Item->get_count_column("category",10,0,"total")->result();
+        $this->data['tallas']=$this->Item->get_count_column("size",10,0,"size")->result();
+        $this->data['colores']=$this->Item->get_count_column("color_value",10,0,"color_value")->result();
+        $this->data['tags']=$this->Item->get_tags();
         $userdata = $this->session->userdata('webuser_data');
         if(isset($userdata)){
             $this->data['webuser_data']=$userdata;
@@ -189,15 +191,39 @@ class Market extends CI_Controller {
     function catalogo(){
         $filtros = array();
         $where = array();
+        //Procesar filtro Categorias
         $categorias = $this->input->get('categoria');
         if(!empty($categorias)){
             $filtros['category']= $categorias;
         }
+        //Procesar filtro Precios
         $precios = $this->input->get('precios');
         if(!empty($precios)){
             $precios=explode(',', $precios);
             $where['unit_price >= ']=$precios[0];
             $where['unit_price <= ']=$precios[1];
+        }
+        //Procesar filtro Nombre
+        $nombre=$this->input->get('nombre');
+        if(trim($nombre)!=""){
+            $where['name like ']='%'.$nombre.'%';
+        }
+        //Procesar filtro Tallas
+        $tallas=$this->input->get('talla');
+        if(!empty($tallas)){
+            $filtros['size']= $tallas;
+        }
+        //Procesar filtro Colores
+        $colores=$this->input->get('color');
+        if(!empty($colores)){
+            $filtros['color_value']= $colores;
+        }
+         //Procesar filtro Tags
+        $tags = $this->input->get('tag');
+        if(!empty($tags)){
+            foreach ($tags as $key => $value) {
+                $where['tags like ']='%'.$value.'%';
+            }
         }
         $ultimo=$this->input->get('ultimo');
         $ultimo=(int)$ultimo+1;
