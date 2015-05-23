@@ -1,0 +1,86 @@
+{{ form_open('ecommerce/save/' ~ item_info.order_id, {'id' : 'ecommerce_form'}) }}
+<ul id="error_message_box"></ul>
+<fieldset id="employee_basic_info">
+    <legend>{{ line("market_entrega_info") }}</legend>
+    <div class="panel">
+        <div class="panel-header">
+            <div class="row">
+                <div class="col-lg-9">
+                    <h2>{{item_info.usuario.first_name}} {{item_info.usuario.last_name}} </h2>
+                    <small><em></em>{{item_info.usuario.address_1}}, {{item_info.usuario.address_2}}</small>
+                </div>
+                <div class="col-lg-3">
+                    {{item_info.fecha_creacion}}
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="description"></td>
+                        <td class="price">{{line('market_precio')}}</td>
+                        <td class="quantity">{{line('market_cantidad')}}</td>
+                        <td class="total">{{line('market_total')}}</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody id="items-carrito">
+                    {% for producto in item_info.productos %}
+                        <tr>
+                            <td class="cart_description">
+                                <h4><a href="">{{producto.name}}</a></h4>
+                            </td>
+                            <td class="cart_price">
+                                <p>$ <span>{{producto.price}}</span></p>
+                            </td>
+                            <td class="cart_quantity">
+                                {{producto.quantity}}
+                            </td>
+                            <td class="cart_total">
+                            {% set total = producto.price * producto.quantity %}   
+                                <p class="cart_total_price">$ <span>{{total}}</span></p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Total</td>
+                        <td>{{transaccion.amount.total}}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    {{ form_submit({'name':'submit','id':'submit','value':line('market_despachar'),'class':'btn btn-success'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+{{ form_close() }}
+{% block javascript %}
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $('#ecommerce_form').validate({
+            submitHandler:function(form){
+                $.ajax({
+                    type: $(form).attr('method'),
+                            url: $(form).attr('action'),
+                            data: $(form).serialize(),
+                            success: function (response)
+                            {
+                                tb_remove();
+                                post_person_form_submit(response);
+                            },
+                            dataType: 'json'
+                    });
+                },
+                errorLabelContainer: "#error_message_box",
+                wrapper: "li"
+        });
+    });
+</script>
+{% endblock %}

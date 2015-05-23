@@ -25,9 +25,9 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a href="#" class="market-filter" filter="{{categoria.category}}" tipo="categoria">
+							<a href="#" class="market-filter" filter="{{categoria.filtro}}" tipo="categoria">
 								<span class="badge pull-right"><i class="fa">{{categoria.total}}</i></span>
-								{{categoria.category}}
+								{{categoria.filtro}}
 							</a>
 						</h4>
 					</div>
@@ -37,7 +37,64 @@
 				<ul class="market-applied-filters"></ul>
 			</div>
 		</div><!--/category-products-->
-	
+		
+		<h2>{{line('market_tags')}}</h2>
+		<div class="panel-group category-products" id="accordian"><!--tags-->
+			{% for key,tag in tags %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordian" href="#sportswear{{loop.index}}" class="market-filter" filter="{{key}}" tipo="tag">
+							{% if tag|length>0 %}<span class="badge pull-right"><i class="fa fa-plus"></i></span>{% endif %}
+							{{key}}
+						</a>
+					</h4>
+				</div>
+				{% if tag|length>0 %}
+				<div id="sportswear{{loop.index}}" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							{% for tagsillo in tag %}
+								<li><a href="#" class="market-filter" filter="{{tagsillo}}" tipo="tag">{{tagsillo}}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		</div><!--/tags-->
+
+		<h2>{{line('market_tallas')}}</h2>
+		<div class="panel-group category-products" id="accordian">
+			{% for talla in tallas %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a href="#" class="market-filter" filter="{{talla.filtro}}" tipo="talla">
+								{{talla.filtro}}
+							</a>
+						</h4>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		<h2>{{line('market_colores')}}</h2>
+		<div class="panel-group category-products" id="accordian">
+			{% for color in colores %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a href="#" class="market-filter" filter="{{color.filtro}}" tipo="color">
+								{{color.filtro}}
+							</a>
+						</h4>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
 		<!--brands_products<div class="brands_products">
 			<h2>{{line('market_marcas')}}</h2>
 			<div class="brands-name">

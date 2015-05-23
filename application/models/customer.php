@@ -82,6 +82,37 @@ class Customer extends Person {
         }
     }
 
+    /**
+     * Devuelve un objeto con la info de un customer con el id de un webuser
+     * @param  [type] $webuser_id [description]
+     * @return [type]             [description]
+     */
+    function get_info_by_webuserId($webuser_id) {
+        $this->db->from('customers C');
+        $this->db->join('people P', 'P.person_id = C.person_id');
+        $this->db->join('webusers W', 'W.customer_id = P.person_id');
+        $this->db->where('C.deleted', 0);
+        $this->db->where('W.user_id', $webuser_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 1) {
+            return $query->row();
+        } else {
+            //Get empty base parent object, as $customer_id is NOT an customer
+            $person_obj = parent::get_info(-1);
+
+            //Get all the fields from customer table
+            $fields = $this->db->list_fields('customers');
+
+            //append those fields to base parent object, we we have a complete empty object
+            foreach ($fields as $field) {
+                $person_obj->$field = '';
+            }
+
+            return $person_obj;
+        }
+    }
+
     /*
       Gets information about multiple customers
      */

@@ -8,6 +8,7 @@ class Ecommerce extends Secure_area {
     function __construct() {
         parent::__construct('ecommerce');
         $this->data['controller_name'] = 'ecommerce';
+        $this->load->library('PaypalRest');
     }
 
     function index() {
@@ -26,28 +27,10 @@ class Ecommerce extends Secure_area {
         $cllAccion = array(
             '1' => array(
                 'function' => "view",
-                'common_language' => "common_edit",
-                'language' => "_update",
+                'common_language' => "market_enviar_pedido",
+                'language' => "market_enviar_pedido",
                 'width' => $this->get_form_width(),
                 'height' => $this->get_form_height()),
-            '2' => array(
-                'function' => "inventory",
-                'common_language' => "common_inv",
-                'language' => "_update",
-                'width' => $this->get_form_width(),
-                'height' => $this->get_form_height()),
-            '3' => array(
-                'function' => "inventory_mov",
-                'common_language' => "common_mov",
-                'language' => "_update",
-                'width' => $this->get_form_width(),
-                'height' => $this->get_form_height()),
-            '4' => array(
-                'function' => "count_details",
-                'common_language' => "common_det",
-                'language' => "_update",
-                'width' => $this->get_form_width(),
-                'height' => $this->get_form_height())
         );
         echo getData($this->orden, $aColumns, $cllAccion);
     }
@@ -59,39 +42,19 @@ class Ecommerce extends Secure_area {
     }
 
     function view($item_id = -1) {
-        $data['item_info'] = $this->Item->get_info($item_id);
-        $data['item_tax_info'] = $this->Item_taxes->get_info($item_id);
-        $suppliers = array('' => $this->lang->line('items_none'));
-        //$almacenes = array('' => $this->lang->line('items_none'));
-        foreach ($this->Supplier->get_all(100, 0) as $row) {
-            $suppliers[$row['person_id']] = $row['company_name'] . ' (' . $row['first_name'] . ' ' . $row['last_name'] . ')';
-        }
-        $almacenes = array();
-        foreach ($this->Almacen->get_all() as $row) {
-            $almacenes[$row['almacen_id']] = $row['nombre'];
-            $data['selected_almacen'] = $row['almacen_id'];
-        }
-        $data['almacenes'] = $almacenes;
-        $data['suppliers'] = $suppliers;
-        $data['selected_supplier'] = $this->Item->get_info($item_id)->supplier_id;
-        //$data['selected_almacen'] = $this->Item->get_info($item_id)->almacen_id;
-        //$data['selected_almacen'] = $this->Almacen_stock->get_info($item_id)->almacen_id;
-        //$data['selected_almacen'] = 2;
-        //var_dump($data['selected_almacen']);
-        
-        //$this->get_categories($item_id);
+        $item = $this->orden->get_info($item_id);
+        $item->usuario=$this->Customer->get_info_by_webuserId($item->user_id);
 
-        $data['default_tax_1_rate'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_1_rate') : '';
-        $data['default_tax_1_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_1_name') : '';
-        $data['default_tax_2_rate'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_2_rate') : '';
-        $data['default_tax_2_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_2_name') : '';
-        // call_user_method(
-//        $this->load->view("items/form", $data);
+        $payment = $this->paypalrest->getPaymentDetails($item->payment_id);
+        $transaccion = $payment->transactions[0];
+        $item->productos=$transaccion->item_list->items;
+        $data['transaccion']=$transaccion;
+        $data['item_info']=$item;
         $this->twiggy->set($data);
-        $this->twiggy->display("items/form");
+        $this->twiggy->display("ecommerce/form");
     }
 
-     function save($item_id = -1, $almacen_id = -1) {
+     function save($order_id = -1) {
         $item_data = array(
             'name' => $this->input->post('name'),
             'description' => $this->input->post('description'),
@@ -181,6 +144,6 @@ class Ecommerce extends Secure_area {
     }
 
     function get_form_height() {
-        return 550;
+        return 500;
     }
 }

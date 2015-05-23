@@ -1,3 +1,4 @@
+var esta_cargando=false;
 module.exports={
 	log: function(string){
 		if(console) console.log(string);
@@ -14,5 +15,11 @@ module.exports={
 			return window.location.protocol + "//" + window.location.host + "/" + applicacion;
 		else
 			return window.location.origin + "/" + applicacion;
+	},
+	estaCargando:function(){
+		return esta_cargando;
+	},
+	setEstaCargando:function(valor){
+		esta_cargando=valor;
 	}
 }

@@ -1153,6 +1153,7 @@ function get_ecommerce_manage_table()
 	$CI->lang->line('market_monto'),
 	$CI->lang->line('market_transaccion_id'),
 	$CI->lang->line('market_estado'),
+	$CI->lang->line('market_acciones'),
 	);
 	$table.='<thead><tr>';
 	foreach($headers as $header)
@@ -1192,18 +1193,14 @@ function get_ecommerce_data_row($item,$controller)
 	$width = $controller->get_form_width();
 	$table_data_row='<tr>';
 	$table_data_row.="<td width='1%'><input type='checkbox' id='item_$item->order_id' value='".$item->item_id."'/></td>";
-	$table_data_row.='<td width="10%">'.$item->fecha_creacion.'</td>';
-	$table_data_row.='<td width="20%">'.$item->usuario.'</td>';
-	$table_data_row.='<td width="34%">'.$item->descripcion.'</td>';
+	$table_data_row.='<td width="5%">'.$item->fecha_creacion.'</td>';
+	$table_data_row.='<td width="25%">'.$item->usuario.'</td>';
+	$table_data_row.='<td width="44%">'.$item->descripcion.'</td>';
 	$table_data_row.='<td width="10%">'.to_currency($item->valor).'</td>';
-	$table_data_row.='<td width="20%">'.$item->payment_id.'</td>';
+	$table_data_row.='<td width="10%">'.$item->payment_id.'</td>';
 	$table_data_row.='<td width="15%">'.$item->estado.'</td>';
 	
-	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$item->item_id?width=$width", $CI->lang->line('common_edit_ab'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
-	//Ramel Inventory Tracking
-	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory/$item->item_id?width=300", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count'))).'</td>';//inventory count
-	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory_mov/$item->item_id?width=300", $CI->lang->line('common_mov'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_move'))).'</td>';
-	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/count_details/$item->item_id?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
+	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$item->payment_id?width=$width", $CI->lang->line('market_enviar_pedido'),array('class'=>'thickbox','title'=>$CI->lang->line('market_enviar_pedido'))).'</td>';		
 	
 	$table_data_row.='</tr>';
 	return $table_data_row;

@@ -19,14 +19,16 @@ module.exports={
 		$filtros.append($li);*/
 	},
 	get_filters :function (){
-		var filters={'categoria':[],'precios':[]};
+		var filters={'categoria':[],'precios':[],'talla':[],'color':[],'tag':[]};
 		$.each($('.market-filter'),function(index, el) {
-			if($(el).hasClass('active'))
+			if($(el).hasClass('active')){
 				filters[$(el).attr('tipo')].push($(el).attr('filter'));
+			}
 		});
 		filters.precios=$('#sl2').val();
 		var ult = $('.features_items .product-image-wrapper:last');
 		filters.ultimo = ult.index('.product-image-wrapper');
+		filters.nombre = $('#search_input').val();
 		console.log(filters.toSource());
 		return filters;
 	},
@@ -40,6 +42,7 @@ module.exports={
 			if(data!=""){
 				$('#market-catalogo').html(data).animate({opaccity:0.8}, 500);
 			}
+			utils.setEstaCargando(false);
 		});
 	},
 	refresh_catalogo :function (){
@@ -49,9 +52,10 @@ module.exports={
 				if(filtros.ultimo == -1){
 					$('#market-catalogo').html(data).animate({opaccity:0.8}, 500);
 				}else{
-					$('#market-catalogo').append(data).animate({opaccity:0.8}, 500);
+					$('#market-catalogo').animate({opacity:0.6}, 500).append(data).animate({opacity:1}, 200);
 				}
 			}
+			utils.setEstaCargando(false);
 		});
 	},
 	handle_add_to_wlist: function(item){

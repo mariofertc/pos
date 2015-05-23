@@ -108,7 +108,6 @@ module.exports={
 			            },
 			            success : function(data){
 			              if(!data.error){
-			              	ctlg.clear_cart();
 			               window.open(utils.getBasePath()+'/web/Carts/finalizar','_self');
 			              
 			              }else{
@@ -151,16 +150,17 @@ module.exports={
 			              $('#submit').val('Procesando...');
 			            },
 			            success : function(data){
+
 			              if(!data.error){
 			              	new PNotify({
 			                    title: 'Información actualizada!',
-			                    text: data.msg,
+			                    text: data.message,
 			                    type: 'info'
 			                });
 			               window.open(utils.getBasePath()+'/web/Carts/pago','_self');
 			              
 			              }else{
-			                $('#form-entrega').find('.errors').fadeIn('slow').html(data.msg); 
+			                $('#form-entrega').find('.errors').fadeIn('slow').html(data.message); 
 			                $('#submit').val('Guardar');
 			                $('#submit').removeClass('disabled');
 			              }
