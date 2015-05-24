@@ -1,0 +1,143 @@
+SET foreign_key_checks = 0;
+
+ truncate table phppos_items_taxes;
+  truncate table  phppos_receivings_items;
+  truncate table  phppos_receivings_payments;
+   truncate table phppos_receivings;
+   truncate table phppos_inventory;
+   truncate table phppos_sales_items_taxes;
+   truncate table phppos_sales_payments;  
+   truncate table phppos_sales_items;
+   truncate table phppos_sales;
+   truncate table phppos_items;
+   truncate table phppos_suppliers;
+   truncate table phppos_sessions;
+   
+   
+   SET foreign_key_checks = 1;
+--borrar venta
+aLTER TABLE phppos_sales_items_taxes DROP FOREIGN KEY phppos_sales_items_taxes_ibfk_2;
+ALTER TABLE `phppos_sales_items_taxes` ADD CONSTRAINT `phppos_sales_items_taxes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`);
+
+--tipos pagos
+alter table phppos_receivings modify column payment_type varchar(400);
+
+CREATE TABLE `phppos_sales_suspended` (
+  `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `customer_id` int(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `sale_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`sale_id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `employee_id` (`employee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE `phppos_sales_suspended_items` (
+  `sale_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `description` varchar(30) DEFAULT NULL,
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `quantity_purchased` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `discount_percent` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`sale_id`,`item_id`,`line`),
+  KEY `item_id` (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `phppos_sales_suspended_items_taxes` (
+  `sale_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `percent` double(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`item_id`,`line`,`name`,`percent`),
+  KEY `item_id` (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `phppos_sales_suspended_payments` (
+  `sale_id` int(10) NOT NULL,
+  `payment_id` int(10) NOT NULL,
+  `payment_amount` decimal(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`payment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE `phppos_sales_suspended`
+  ADD CONSTRAINT `phppos_sales_suspended_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`),
+  ADD CONSTRAINT `phppos_sales_suspended_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `phppos_customers` (`person_id`);
+
+ALTER TABLE `phppos_sales_suspended_items`
+  ADD CONSTRAINT `phppos_sales_suspended_items_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
+  ADD CONSTRAINT `phppos_sales_suspended_items_ibfk_2` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_suspended` (`sale_id`);
+
+ALTER TABLE `phppos_sales_suspended_items_taxes`
+  ADD CONSTRAINT `phppos_sales_suspended_items_taxes_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_suspended_items` (`sale_id`),
+  ADD CONSTRAINT `phppos_sales_suspended_items_taxes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`);
+
+ALTER TABLE `phppos_sales_suspended_payments`
+  ADD CONSTRAINT `phppos_sales_suspended_payments_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_suspended` (`sale_id`),
+  ADD CONSTRAINT `phppos_sales_suspended_payments_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `phppos_payments` (`payment_id`);
+
+//Para controlar las ventas.
+CREATE TABLE `phppos_receivings_payments`(
+  `receiving_id` int(10) NOT NULL,
+  `payment_id` int(10) NOT NULL,
+  `payment_amount` double(15,2) NOT NULL,
+  PRIMARY KEY (`receiving_id`,`payment_id`),
+  CONSTRAINT `phppos_receivings_payments_ibfk_1` FOREIGN KEY (`receiving_id`) REFERENCES `phppos_receivings` (`receiving_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+//Para gravar descuento en d'olares
+alter table phppos_sales_items modify column discount_percent double(15,2) not null default 0;
+alter table phppos_sales_suspended_items modify column discount_percent double(15,2) not null default 0;
+
+//Para deudas
+ alter table phppos_payments add column have_plazo int(1) null default 0, add column payment_days int(11) null default 0, add column payment_months int(11) null default 0;
+ 
+ create table phppos_abonos(
+ abono_id int(10) not null auto_increment,
+ abono_amount double(15,2) not null,
+ abono_type varchar(50) not null,
+ abono_comment varchar(200) null,
+ payment_id int(10) not null,
+ sale_id int(10) not null,
+ constraint pk_abono primary key(abono_id),
+ constraint fk_sale_in_abono foreign key(sale_id) references phppos_sales(sale_id),
+ constraint fk_payment_in_abono foreign key(payment_id) references phppos_payments(payment_id));
+ 
+ alter table phppos_abonos add column abono_time timestamp not null default current_timestamp;
+ insert into phppos_modules values('module_abonos','module_abonos_desc',10,'abonos');
+ 
+ create table phppos_abonos(
+ abono_id int(10) not null auto_increment,
+ abono_time timestamp not null default current_timestamp,
+ abono_amount double(15,2) not null,
+ abono_type varchar(50) not null,
+ abono_comment varchar(200) null,
+ payment_id int(10) not null,
+ sale_id int(10) not null,
+ constraint pk_abono primary key(abono_id),
+ constraint fk_sale_in_abono foreign key(sale_id) references phppos_sales(sale_id),
+ constraint fk_payment_in_abono foreign key(payment_id) references phppos_payments(payment_id));
+ 
+ insert into phppos_modules values('module_abonos','module_abonos_desc',10,'abonos');
+ 
+ create table phppos_porpagar(
+ porpagar_id int(10) not null auto_increment,
+ time timestamp not null default current_timestamp,
+ amount double(15,2) not null,
+ type varchar(50) not null,
+ comment varchar(200) null,
+ payment_id int(10) not null,
+ receiving_id int(10) not null,
+ constraint pk_abono_recv primary key(porpagar_id),
+ constraint fk_recv_in_abono_recv foreign key(receiving_id) references phppos_receivings(receiving_id),
+ constraint fk_payment_in_abono_recv foreign key(payment_id) references phppos_payments(payment_id));
+ 
+ insert into phppos_modules values('module_porpagar','module_porpagar_desc',11,'porpagar');

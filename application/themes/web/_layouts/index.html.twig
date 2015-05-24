@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block css %}
+            <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <link rel="stylesheet" href="{{base_url()}}assets/bower_components/bootstrap/dist/css/bootstrap.css"/>
+            <link href="{{base_url()}}assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+            <!-- Eshopper CSS -->
+            <link href="{{base_url()}}assets/web/css/prettyPhoto.css" rel="stylesheet">
+            <link href="{{base_url()}}assets/web/css/price-range.css" rel="stylesheet">
+            <link href="{{base_url()}}assets/web/css/animate.css" rel="stylesheet">
+            <link href="{{base_url()}}assets/web/css/main.css" rel="stylesheet">
+            <link href="{{base_url()}}assets/web/css/responsive.css" rel="stylesheet">
+            <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+            <!--[if lt IE 9]>
+            <script src="{{base_url()}}assets/web/js/html5shiv.js"></script>
+            <script src="{{base_url()}}assets/web/js/respond.min.js"></script>
+            <![endif]-->      
+
+            <title>Punto de Venta PHP | {{line(title)}}</title>
+        {% endblock %}
+    </head>
+    <body>
+        {% block header %}
+        
+        {% endblock %}
+        
+        {% block content %}
+
+        {% endblock %}
+
+        {% block footer %}
+        
+        {% endblock %}
+        
+
+        {% block javascript %}
+            <script src="{{base_url()}}assets/bower_components/jquery/dist/jquery.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+            <script src="{{base_url()}}assets/bower_components/jquery-validation/dist/jquery.validate.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+            <script src="{{base_url()}}assets/bower_components/bootstrap/dist/js/bootstrap.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+            <script src="{{base_url()}}assets/web/js/jquery.scrollUp.min.js"></script>
+            <script src="{{base_url()}}assets/web/js/price-range.js"></script>
+            <script src="{{base_url()}}assets/web/js/jquery.prettyPhoto.js"></script>
+            <script src="{{base_url()}}assets/web/js/main.js"></script>
+        {%endblock%}        
+    </body>
+</html>

@@ -1,0 +1,114 @@
+{% extends _layout %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+{% endblock %}
+{%block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">{{ line('sales_edit_sale')~ " POS " ~ sale_info['sale_id']}}
+                    </div>
+                    <div class="panel-body">
+                        {{ form_open("sales/save/"~sale_info['sale_id'],{'id':'sales_edit_form', 'role':'form'})}}
+                        <ul id="error_message_box"></ul>
+                        <div class="form-group">
+                            {{ form_label( line('sales_receipt')~':', 'sale_id') }}
+                                {{ anchor('sales/receipt/'~sale_info['sale_id'], 'POS '~sale_info['sale_id'], {'target' : '_blank', 'id':'sale_id', 'class': ''})}}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label( line('sales_date')~':', 'date')}}
+                                {{ form_input({'name':'date','value':sale_info['sale_time']|date("m/d/Y"), 'id':'date', 'class': 'form-control'})}}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label( line('sales_customer')~':', 'customer')}}
+                                {{ form_dropdown('customer_id', customers, sale_info['customer_id'], 'id="customer_id", class="form-control"')}}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label( line('sales_employee')~':', 'employee')}}
+                                {{ form_dropdown('employee_id', employees, sale_info['employee_id'], 'id="employee_id", class="form-control"')}}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label( line('sales_comment')~':', 'comment')}}
+                                {{ form_textarea({'name':'comment','value':sale_info['comment'],'rows':'4','cols':'23', 'id':'comment', 'class': 'form-control'})}}
+                        </div>
+
+                        {{ form_submit({
+		'name':'submit',
+		'id':'submit',
+		'value': line('common_submit'),
+		'class':'btn btn-default'
+	})
+                        }}
+                        </form>
+                        {{ form_open("sales/delete/"~sale_info['sale_id'],{'id':'sales_delete_form'})}}
+                        {{ form_submit({
+			'name':'submit',
+			'id':'submit',
+			'value': line('sales_delete_entire_sale'),
+			'class':'btn btn-warning'}
+		)
+                        }}
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    {{parent()}}
+
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $('#date').datepicker({startDate: '01/01/1970'});
+            $("#sales_delete_form").submit(function () {
+                if (!confirm('{{ line("sales_delete_confirmation")}}')) {
+                    return false;
+                }
+            });
+
+            $('#sales_edit_form').validate({
+                submitHandler: function (forma) {
+                    $.ajax({
+                        type: $(forma).attr('method'),
+                        url: $(forma).attr('action'),
+                        data: $(forma).serialize(), // serializes the form's elements.
+                        success: function (response) {
+                            if (response.success)
+                                new PNotify({
+                                    title: 'Exito',
+                                    text: response.message,
+                                    type: 'success'
+                                });
+                            else
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: response.message,
+                                    type: 'error'
+                                });
+                        },
+                        error: function () {
+                            alert("Hubo un error en la petición.");
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+                    });
+                },
+                errorLabelContainer: "#error_message_box",
+                wrapper: "li",
+                rules: {
+                    date: 'required'
+                },
+                messages: {
+                    date: "Favor ingrese una fecha de venta"
+                }
+            });
+        });
+    </script>
+{% endblock %}

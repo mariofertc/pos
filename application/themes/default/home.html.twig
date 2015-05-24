@@ -1,0 +1,24 @@
+{% extends _layout %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+{% endblock %}
+{% block content %}
+    <div id="page-wrapper">
+        {{data}}
+        <h3>{{line('common_welcome_message')}}</h3>
+        {% for module in allowed_modules.result %}
+            {{ loop.index%4==0 ? '<div class = "row">':''}}
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <a href="{{site_url(module.module_id)}}">
+                        <img src="{{base_url() ~ 'images/menubar/' ~ module.module_id ~ '.png'}}" border="0" alt="Menubar Image" /></a>
+                    <div class="caption">
+                        <h3><a href="{{site_url(module.module_id)}}">{{line("module_" ~ module.module_id)}}</a></h3>
+                        <p>{{line('module_' ~ module.module_id ~ '_desc')}}</p>
+                    </div>
+                </div>
+            </div>
+            {{ loop.index%4==0 ? '</div>':'' }}
+        {%endfor%}
+    </div>
+{% endblock %}

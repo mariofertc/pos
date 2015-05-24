@@ -1,0 +1,118 @@
+{% extends _layout %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+{% endblock %}
+{% block content %}
+<div id="page-wrapper" style="min-height: 514px;">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{ line('reports_reports') }}</h1>
+            <p>{{ line('reports_welcome_message') }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">{{ line('reports_graphical_reports') }} </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a class="list-group-item" href="{{ site_url('reports/graphical_summary_sales')}}"><!--<span class="badge">resúmen</span>-->
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-bar-chart-o"></i>{{ line('reports_sales') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/graphical_summary_categories')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-sitemap"></i>{{ line('reports_categories') }}</a>
+                        <a class="list-group-item " href="{{ site_url('reports/graphical_summary_customers')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-group"></i>{{ line('reports_customers') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/graphical_summary_suppliers')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-truck"></i>{{ line('reports_suppliers') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/graphical_summary_items')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-shopping-cart"></i>{{ line('reports_items') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/graphical_summary_employees')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-male"></i>{{ line('reports_employees') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/graphical_summary_taxes')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-list-alt"></i>{{ line('reports_taxes') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/graphical_summary_discounts')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-toggle-down"></i>{{ line('reports_discounts') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/graphical_summary_payments')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-money"></i>{{ line('reports_payments') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">{{ line('reports_summary_reports') }}</div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a class="list-group-item" href="{{ site_url('reports/summary_sales')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-bar-chart-o"></i>{{ line('reports_sales') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/summary_categories')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-sitemap"></i>{{ line('reports_categories') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/summary_customers')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-group"></i>{{ line('reports_customers') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/summary_suppliers')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-truck"></i>{{ line('reports_suppliers') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/summary_items')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-shopping-cart"></i>{{ line('reports_items') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/summary_employees')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-male"></i>{{ line('reports_employees') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/summary_taxes')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-list-alt"></i>{{ line('reports_taxes') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/summary_discounts')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-toggle-down"></i>{{ line('reports_discounts') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/summary_payments')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-money"></i>{{ line('reports_payments') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">{{ line('reports_detailed_reports') }}</div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a class="list-group-item" href="{{ site_url('reports/detailed_sales')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-bar-chart-o"></i>{{ line('reports_sales') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/detailed_receivings')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-truck"></i>{{ line('reports_receivings') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/specific_customer')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-group"></i>{{ line('reports_customer') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/specific_employee')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-male"></i>{{ line('reports_employee') }}</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">{{ line('reports_inventory_reports') }}</div>
+                <div class="panel-body">		
+                    <div class="list-group">
+                        <a class="list-group-item" href="{{ site_url('reports/inventory_low_almacen')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-exclamation-circle"></i>{{ line('reports_low_inventory') }}</a>
+                        <a class="list-group-item" href="{{ site_url('reports/inventory_summary_almacen')}}"><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+<i class="fa fa-fw fa-building-o"></i>{{ line('reports_inventory_summary_almacen') }}</a>
+                    </div>
+                </div>
+            </div>
+            <!--<li><h3>{{ line('reports_cuentas') }}</h3>
+                    <ul>
+                            <li><a href="{{ site_url('reports/detailed_por_cobrar')}}">{{ line('reports_por_cobrar') }}</a></li>
+                            <li><a href="{{ site_url('reports/detailed_porpagar')}}">{{ line('reports_por_pagar') }}</a></li>
+                    </ul>
+            </li>-->
+        </div>
+    </div>
+</div>
+
+    {% if(error is not empty) %}
+<div class='error_message'>".error."</div>
+    {%endif%}
+
+{% endblock %}
