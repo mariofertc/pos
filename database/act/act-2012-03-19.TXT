@@ -1,7 +1,0 @@
---Aumento almacenes
-alter table phppos_almacenes add column utilidad int(3) default 0;
-alter table phppos_almacenes add column almacen_id int(10) not null,
-alter table phppos_sales add column almacen_id int(10) not null,
-add constraint fk_almacen_en_sale foreign key (almacen_id) references phppos_almacenes(almacen_id);
-
-alter table phppos_sales_items modify discount_percent double(15,3) null;
