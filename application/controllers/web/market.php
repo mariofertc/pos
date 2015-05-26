@@ -26,9 +26,17 @@ class Market extends CI_Controller {
 
     function index() {
         $this->data['title'] = 'Marketsillo';
+        $this->data['lanzamientos']=$this->lanzamiento->get_ultimos();
+        $this->twiggy->set($this->data);
+        $this->twiggy->display('inicio');
+    }
+
+    function tienda() {
+        $this->data['title'] = 'Market - Tienda ';
         $this->twiggy->set($this->data);
         $this->twiggy->display('tienda');
     }
+
     /**
      * Procesa la compra final con el token del payment(transaccion) y el payerID(comprador) 
      * parametros devueltos desde paypal: 
@@ -119,12 +127,6 @@ class Market extends CI_Controller {
         }else{
             echo json_encode(array('error'=>TRUE,'msg'=>validation_errors()));
         }   
-    }
-
-    function tienda() {
-        $this->data['title'] = 'Market - Tienda ';
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('tienda');
     }
 
     /**

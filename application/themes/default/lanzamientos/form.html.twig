@@ -1,0 +1,142 @@
+<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css"/>
+<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/tag-it/css/jquery.tagit.css"/>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Básico</a></li>
+        <li><a href="#tabs-2">Imágenes</a></li>
+    </ul>
+    <div id="tabs-1">
+        <ul id="error_message_box"></ul>
+        {{ form_open('lanzamientos/save/'~lanzamiento_info.lanzamiento_id,{'id':'item_form'})}}
+        <fieldset id="item_basic_info">
+            <legend>{{ line("items_basic_information")}}</legend>
+            <div class="form-group">
+                {{ form_label(line('lanzamientos_titulo')~':', 'for',{'class':'required wide'})}}
+                {{ form_input({
+                    'name':'titulo',
+                    'id':'titulo',
+                    'value':lanzamiento_info.titulo,
+                    'class':'form-control'}
+                )}}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(line('lanzamientos_producto')~':', 'item_id',{'class':'required wide'})}}
+                {{ form_input({
+                    'name':'item_id',
+                    'id':'item_id',
+                    'value':lanzamiento_info.item_id,
+                    'class':'form-control'}
+                )}}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(line('lanzamientos_estado')~':', 'estado',{'class':'required wide'})}}
+                {{ form_input({
+                    'type':'checkbox',
+                    'name':'estado',
+                    'id':'estado',
+                    'value':1,
+                    'checked':lanzamiento_info.activo,
+                    'class':'form-control'}
+                )}}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(line('items_description')~':', 'descripcion',{'class':'wide'})}}
+                {{ form_textarea({
+                    'name':'descripcion',
+                    'id':'descripcion',
+                    'value':lanzamiento_info.detalle,
+                    'rows':'5',
+                    'cols':'17',
+                    'class':'form-control'}
+                )}}
+            </div>
+
+           <!-- <div class="form-inline">
+                {{ form_label(line('items_color')~':', 'color',{'class':'small_wide'})}}
+                <div class="input-group color_pick">
+                    {{ form_input({
+                        'name':'color_value',
+                        'id':'color_value',
+                        'value': lanzamiento_info.color_value}
+                    )}}
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+                HEX
+            </div>-->
+             <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                {{ form_submit({
+                    'name':'submit',
+                    'id':'submit',
+                    'value':line('common_submit'),
+                    'class':'btn btn-success'})
+                }}
+                </div>
+            </div>
+        </fieldset>
+        {{ form_close() }}
+    </div>
+    <div id="tabs-2">
+        {% include 'items/form_images.html.twig' %}
+    </div>
+</div>
+
+<script src="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script src="{{base_url()}}assets/bower_components/tag-it/js/tag-it.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $("#tabs").tabs();
+
+        $(function () {
+
+            $("#item_id").autocomplete({source: function (request, response) {
+                    $.ajax({
+                        url: "{{site_url('items/suggest')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: request.term, by: 'name'
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                }});
+            $('#item_form').validate({
+                submitHandler: function (form) {
+                    /*
+                     make sure the hidden field #item_number gets set
+                     to the visible scan_item_number value
+                     */
+                    //$('#item_number').val($('#scan_item_number').val());
+                    //alert($('#item_number').val($('#scan_item_number').val()));
+                    $.ajax({
+                        type: $(form).attr('method'),
+                        url: $(form).attr('action'),
+                        data: $(form).serialize(),
+                        success: function (response) {
+                            tb_remove();
+                            post_lanzamiento_form_submit(response);
+                        },
+                        dataType: 'json'
+                    });
+
+                },
+                errorLabelContainer: "#error_message_box",
+                wrapper: "li",
+                rules: {
+                    name: "required",
+                    item_id: "required",
+                },
+                messages:
+                        {
+                            titulo: "{{ line('items_name_required')}}",
+                            item_id: "{{line('items_category_required')}}",
+                        }
+            });
+        });
+  });
+</script>

@@ -47,3 +47,12 @@ CREATE TABLE phppos_product_reviews(
  item INT REFERENCES phppos_items (item_id)
 );
 
+CREATE TABLE phppos_lanzamientos(
+	lanzamiento_id    INT PRIMARY KEY AUTO_INCREMENT,
+	titulo    VARCHAR(250) NOT NULL,
+	detalle    TEXT,
+	fecha     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	item_id    INT,
+	activo     INT DEFAULT 1,
+	deleted	  INT DEFAULT 0
+);

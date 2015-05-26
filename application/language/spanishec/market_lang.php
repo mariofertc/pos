@@ -148,7 +148,12 @@ $lang['market_enviar_pedido']='Enviar pedido';
 $lang['market_transaccion_id']='Transacción';
 $lang['market_entrega_info']='Información de envio';
 $lang['market_despachar']='Despachar pedido';
+$lang['market_mas_informacion']='Mas información!';
 
 $lang['ecommerce_new']='Nuevo';
+$lang['lanzamientos_new']='Nuevo';
+$lang['lanzamientos_titulo']='Título lanzamiento';
+$lang['lanzamientos_producto']='Producto';
+$lang['lanzamientos_estado']='Estado';
 
 ?>

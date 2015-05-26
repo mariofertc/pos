@@ -1205,4 +1205,75 @@ function get_ecommerce_data_row($item,$controller)
 	$table_data_row.='</tr>';
 	return $table_data_row;
 }
+
+
+//***************************************************************//
+//******************  LANZMIENTOS *******************************//
+//***************************************************************//
+
+/*
+Gets the html table to manage lanzamientos.
+*/
+function get_lanzamientos_manage_table()
+{
+	$CI =& get_instance();	
+	
+	$table='<table class="stripe row-border order-column dataTable no-footer DTFC_Cloned" id="sortable_table">';
+	$headers = array('<input type="checkbox" id="select_all" />', 
+	$CI->lang->line('market_titulo'),
+	$CI->lang->line('market_detalle'),
+	$CI->lang->line('market_fecha'),
+	$CI->lang->line('market_producto'),
+	$CI->lang->line('market_estado'),
+	$CI->lang->line('market_acciones'),
+	);
+	$table.='<thead><tr>';
+	foreach($headers as $header)
+	{
+		$table.="<th>$header</th>";
+	}
+	$table.='</tr></thead><tbody>';
+	$table.='</tbody></table>';
+	return $table;
+}
+
+/*
+Gets the html data rows for the lanzamiento.
+*/
+function get_lanzamiento_manage_table_data_rows($lanzamientos,$controller)
+{
+	$CI =& get_instance();
+	$table_data_rows='';
+	
+	foreach($lanzamientos->result() as $lanzamiento)
+	{
+		$table_data_rows.=get_lanzamiento_data_row($lanzamiento,$controller);
+	}
+	
+	if($lanzamientos->num_rows()==0)
+	{
+		$table_data_rows.="<tr><td colspan='11'><div class='warning_message' style='padding:7px;'>".$CI->lang->line('items_no_items_to_display')."</div></tr></tr>";
+	}
+	
+	return $table_data_rows;
+}
+
+function get_lanzamiento_data_row($lanzamiento,$controller)
+{
+	$CI =& get_instance();
+	$controller_name=$CI->uri->segment(1);
+	$width = $controller->get_form_width();
+	$table_data_row='<tr>';
+	$table_data_row.="<td><input type='checkbox' id='lanzamiento_$lanzamiento->lanzamiento_id' value='".$lanzamiento->lanzamiento_id."'/></td>";
+	$table_data_row.='<td>'.$lanzamiento->titulo.'</td>';
+	$table_data_row.='<td>'.$lanzamiento->detalle.'</td>';
+	$table_data_row.='<td>'.$lanzamiento->fecha.'</td>';
+	$table_data_row.='<td>'.$lanzamiento->producto.'</td>';
+	$table_data_row.='<td>'.$lanzamiento->activo.'</td>';
+	
+	$table_data_row.='<td style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$lanzamiento->lanzamiento_id?width=$width", $CI->lang->line('market_editar_lanzamiento'),array('class'=>'thickbox','title'=>$CI->lang->line('market_editar_lanzamiento'))).'</td>';		
+	
+	$table_data_row.='</tr>';
+	return $table_data_row;
+}
 ?>
