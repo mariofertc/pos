@@ -1,0 +1,1 @@
+insert into phppos_stock_almacenes(almacen_id, item_id,cantidad,fecha_actualiza) (SELECT 23,item_id, quantity, now() FROM `phppos_items` where item_number > 10000 and item_number < 11861)
