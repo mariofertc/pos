@@ -80,7 +80,7 @@
         {{ form_close() }}
     </div>
     <div id="tabs-2">
-        {% include 'items/form_images.html.twig' %}
+        {% include 'lanzamientos/form_images.html.twig' %}
     </div>
 </div>
 
@@ -92,19 +92,30 @@
 
         $(function () {
 
-            $("#item_id").autocomplete({source: function (request, response) {
-                    $.ajax({
-                        url: "{{site_url('items/suggest')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: request.term, by: 'name'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
+           $("#item_id").autocomplete({source: function (request, response) {
+                        $.ajax({
+                            url: "{{site_url('receivings/item_search')}}",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                q: request.term,
+                                limit: 25
+                            },
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    }, select: function (e, ui) {
+                        valor = ui.item.value;
+                        $(this).val(valor.split("|")[0]);
+                       
+                        //alert("User selected: " + ui.item.value);
+                    }}
+                );
+             $('#item').blur(function ()
+                    {
+                        $(this).attr('value', "{{ line('sales_start_typing_item_name')}}");
                     });
-                }});
             $('#item_form').validate({
                 submitHandler: function (form) {
                     /*

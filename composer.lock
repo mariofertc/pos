@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "paypal/rest-api-sdk-php",
-            "version": "v1.3.2",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
-                "reference": "0a32a6323c829e0e424e9f4d15e7b346c8472c08"
+                "reference": "47fdacd929b55ec9b5ef5281168dbe9460c19777"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/0a32a6323c829e0e424e9f4d15e7b346c8472c08",
-                "reference": "0a32a6323c829e0e424e9f4d15e7b346c8472c08",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/47fdacd929b55ec9b5ef5281168dbe9460c19777",
+                "reference": "47fdacd929b55ec9b5ef5281168dbe9460c19777",
                 "shasum": ""
             },
             "require": {
@@ -52,50 +52,7 @@
                 "rest",
                 "sdk"
             ],
-            "time": "2015-03-18 20:40:42"
-        },
-        {
-            "name": "paypal/sdk-core-php",
-            "version": "V1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paypal/sdk-core-php.git",
-                "reference": "06588e5017a6c983168a3bd8e7093d7068974cd0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paypal/sdk-core-php/zipball/06588e5017a6c983168a3bd8e7093d7068974cd0",
-                "reference": "06588e5017a6c983168a3bd8e7093d7068974cd0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "lib"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache2"
-            ],
-            "authors": [
-                {
-                    "name": "PayPal",
-                    "homepage": "https://github.com/paypal/sdk-core-php/contributors"
-                }
-            ],
-            "description": "PayPal Core SDK for PHP",
-            "homepage": "https://github.com/paypal/sdk-core-php",
-            "keywords": [
-                "paypal",
-                "php",
-                "sdk"
-            ],
-            "time": "2013-03-06 13:21:44"
+            "time": "2015-06-08 18:35:46"
         }
     ],
     "packages-dev": [],
