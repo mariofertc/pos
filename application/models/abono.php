@@ -89,24 +89,22 @@ class Abono extends CI_Model {
     }
 
     function get_total($where = '') {
-        $this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
+        /*$this->db->select('sp.payment_id,sales_items_temp.sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
         $this->db->from('sales_items_temp');
         $this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
         $this->db->join('people as customer', 'sales_items_temp.customer_id = customer.person_id', 'left');
-        $this->db->join('sales_payments as sp', 'sp.sale_id = phppos_sales_items_temp.sale_id', 'left outer');
+        $this->db->join('sales_payments as sp', 'sp.sale_id = phppos_sales_items_temp.sale_id', 'left outer');*/
         //$this->db->join('payments as p1', 'sp.payment_id = p1.payment_id', 'left outer');
-        $this->db->join('payments as p', 'p.payment_id = sp.payment_id');
-        $this->db->join('sales_payments as sp2', 'sp2.sale_id = phppos_sales_items_temp.sale_id', 'left outer');
+        /*$this->db->join('payments as p', 'p.payment_id = sp.payment_id');
+        $this->db->join('sales_payments as sp2', 'sp2.sale_id = phppos_sales_items_temp.sale_id', 'left outer');*/
 
         //$this->db->join('abonos as abono_sale', 'sp.sale_id = abono_sale.sale_id', 'left outer');
         //$this->db->join('abonos as abono_payment', 'sp.payment_id = abono_payment.payment_id', 'left outer');
 
-        $this->db->where('p.por_cobrar = 1');
-        $this->db->group_by('sales_items_temp.sale_id');
-        $this->db->order_by('sales_items_temp.sale_id');
+		$this->db->from('phppos_sales_abonos_temp');
+        $this->db->order_by('sale_id');
         if ($where != "")
             $this->db->where($where);
-        $this->db->where('deleted', 0);
         //$this->db->get();
         return count($this->db->get()->result_array());
         //no sé por qué no vale.
@@ -122,21 +120,23 @@ class Abono extends CI_Model {
      * @return type
      */
     function get_all($num = 10, $offset = 0, $where, $order = null) {
-        $this->db->select('sp.payment_id,sales_items_temp.sale_id, concat(phppos_sales_items_temp.sale_id,"/",sp.payment_id) as abono_id, concat("POS-",phppos_sales_items_temp.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
-        $this->db->from('sales_items_temp');
+        //$this->db->select('sp.payment_id,sales_items_temp.sale_id, concat(phppos_sales_items_temp.sale_id,"/",sp.payment_id) as abono_id, concat("POS-",phppos_sales_items_temp.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(total) as total, sales_items_temp.payment_type, comment, 0 as debe, customer.person_id', false);
+        $this->db->from('phppos_sales_abonos_temp');
+		/*$this->db->from('phppos_sales_abonos_temp');
         $this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
         $this->db->join('people as customer', 'sales_items_temp.customer_id = customer.person_id', 'left');
         $this->db->join('sales_payments as sp', 'sp.sale_id = phppos_sales_items_temp.sale_id', 'left outer');
-        //$this->db->join('payments as p1', 'sp.payment_id = p1.payment_id', 'left outer');
         $this->db->join('payments as p', 'p.payment_id = sp.payment_id');
-        $this->db->join('sales_payments as sp2', 'sp2.sale_id = phppos_sales_items_temp.sale_id', 'left outer');
+        $this->db->join('sales_payments as sp2', 'sp2.sale_id = phppos_sales_items_temp.sale_id', 'left outer');*/
 
         //$this->db->join('abonos as abono_sale', 'sp.sale_id = abono_sale.sale_id', 'left outer');
         //$this->db->join('abonos as abono_payment', 'sp.payment_id = abono_payment.payment_id', 'left outer');
 
-        $this->db->where('p.por_cobrar = 1');
-        $this->db->group_by('phppos_sales_items_temp.sale_id');
-        $this->db->order_by('phppos_sales_items_temp.sale_id');
+        //$this->db->where('p.por_cobrar = 1');
+		if ($where != "")
+            $this->db->where($where);
+        //$this->db->group_by('phppos_sales_items_temp.sale_id');
+        //$this->db->order_by('sale_id');
 
         $this->db->order_by($order);
         $this->db->limit($num, $offset);
@@ -188,8 +188,6 @@ class Abono extends CI_Model {
 			trim(customer.last_name) LIKE '%" . $this->db->escape_like_str($search) . "%' or 
 			CONCAT(trim(customer.first_name),' ',trim(customer.last_name)) LIKE '%" . $this->db->escape_like_str($search) . "%')");
         }
-
-        $this->db->group_by('sales_items_temp.sale_id');
         $this->db->order_by("customer.last_name", "asc");
 
         $data = array();
@@ -362,5 +360,23 @@ class Abono extends CI_Model {
         }
         return $data;
     }
+	
+	public function create_sales_abonos_temp_table()
+	{
+		if($this->db->table_exists('phppos_sales_abonos_temp'))
+		{
+			//Borra datos previos
+			$this->db->query("drop table ".$this->db->dbprefix('sales_abonos_temp'));
+		}
+		$this->db->query("CREATE TABLE if not exists ".$this->db->dbprefix('sales_abonos_temp')."
+		(SELECT sp.payment_id,sit.sale_id as sale_id, concat(sit.sale_id,'/',sp.payment_id) as abono_id, concat('POS-',sit.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name,' ',employee.last_name) as employee_name, CONCAT(customer.first_name,' ',customer.last_name) as customer_name, sum(total) as total, sit.payment_type, comment, 0 as debe, customer.person_id
+		FROM ".$this->db->dbprefix('sales_items_temp')." as sit
+		INNER JOIN ".$this->db->dbprefix('people'). " as employee ON  sit.employee_id=employee.person_id
+		LEFT JOIN ".$this->db->dbprefix('people')." as customer ON  sit.customer_id=customer.person_id
+		LEFT OUTER JOIN ".$this->db->dbprefix('sales_payments')." as sp ON  sp.sale_id=sit.sale_id
+		INNER JOIN ".$this->db->dbprefix('payments')." as p ON  p.payment_id=sp.payment_id
+		LEFT OUTER JOIN ".$this->db->dbprefix('sales_payments')." as sp2 ON sp2.sale_id = sit.sale_id
+		GROUP BY sit.sale_id)");
+	}
 
 }
