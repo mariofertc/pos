@@ -9,7 +9,7 @@ class Lanzamientos extends Secure_area {
         parent::__construct('lanzamientos');
         $this->data['controller_name'] = 'lanzamientos';
     }
-
+    
     /**
      * Vista para crear, editar y eliminar los elementos del banner inicial del market 
      * @return [type] [description]

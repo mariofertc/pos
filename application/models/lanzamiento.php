@@ -47,7 +47,7 @@ class Lanzamiento extends Person {
         $this->db->limit($num);
         $resultado = $this->db->get()->result_array();
         foreach ($resultado as $key => $lanzamiento) {
-            $resultado[$key]['imagenes']=$this->file_model->get_all_by_item($lanzamiento['item_id'])->result();
+            $resultado[$key]['imagenes']=$this->file_model->get_all_by_item($lanzamiento['lanzamiento_id'])->result();
             $resultado[$key]['producto']=$this->Item->get_info($lanzamiento['item_id']);
         }
         return $resultado;
