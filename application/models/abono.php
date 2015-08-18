@@ -226,7 +226,7 @@ class Abono extends CI_Model {
                 //var_dump($abonos);
                 $data['abonos'][$key] = $abonos;
                 $esDia = false;
-                $cuotas = 0;
+                $cuotas = 1;
                 //Si tiene Plazo, comparar con la fecha de pago.
                 if (!$pvalue['have_plazo']) { //Si tiene Plazo fijo.
                     if ($pvalue['payment_days'] > 0) {
@@ -376,6 +376,7 @@ class Abono extends CI_Model {
 		LEFT OUTER JOIN ".$this->db->dbprefix('sales_payments')." as sp ON  sp.sale_id=sit.sale_id
 		INNER JOIN ".$this->db->dbprefix('payments')." as p ON  p.payment_id=sp.payment_id
 		LEFT OUTER JOIN ".$this->db->dbprefix('sales_payments')." as sp2 ON sp2.sale_id = sit.sale_id
+		where p.por_cobrar = 1
 		GROUP BY sit.sale_id)");
 	}
 
