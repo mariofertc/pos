@@ -38,7 +38,7 @@ function enable_search(suggest_url, confirm_search_message)
     });
 }
 enable_search.enabled = false;
-        function do_search(show_feedback, on_complete, attr = 0){
+        function do_search(show_feedback, on_complete, attr){
         //If search is not enabled, don't do anything
         if (!enable_search.enabled)
                 return;
