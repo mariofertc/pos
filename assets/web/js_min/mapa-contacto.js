@@ -5,8 +5,8 @@
 
 	map = new GMaps({
 		el: '#gmap',
-		lat: -1.2456378775892684,
-		lng: -78.6251845694802,
+		lat: -1.4756378775892684,
+		lng: -78.0051845694802,
 		scrollwheel:true,
 		zoom: 15,
 		zoomControl : false,
@@ -19,8 +19,8 @@
 
 	var image = 'images/map-icon.png';
 	map.addMarker({
-		lat: -1.23947 ,
-		lng: -78.629 ,
+		lat: -1.475850 ,
+		lng: -78.001546 ,
 		// icon: image,
 		animation: google.maps.Animation.DROP,
 		verticalAlign: 'bottom',

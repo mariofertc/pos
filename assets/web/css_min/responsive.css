@@ -1,6 +1,14 @@
 /* lg */ 
 @media (min-width: 1200px) {
+#similar-product .carousel-inner .item img{
+	width: 70px;
+	margin-left: 15px;
+}
 
+#cart_items .cart_info .cart_description h4, 
+#cart_items .cart_info .cart_description p{
+	text-align: center;
+} 
 }
 
 /* md */

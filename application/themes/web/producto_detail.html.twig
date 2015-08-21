@@ -25,24 +25,22 @@
 							{% else %}
 								<img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" />
 							{% endfor %}
-								<h3>ZOOM</h3>
+								<h3 class="btn">ZOOM</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner">
 								    	{% for imagen in producto.imagenes %}
-								    		{% if loop.index%3 == 1 %}
-								    			<div class="item active">
+								    		{% if loop.index0%3 == 0 %}
+								    			<div class="item {% if loop.index0 == 0 %} active {% endif %}">
 								    		{% endif %}
-												<a href="#" class="imagen-producto"><img src="{{imagen.url}}" alt="{{producto.name}}" />
-								    		{% if loop.index%3 == 2 or loop.last %}
+												<a href="#" class="imagen-producto">
+													<img src="{{imagen.url}}" alt="{{producto.name}}" />
+												</a>
+								    		{% if loop.index0%3 == 2 or loop.last %}
 								    			</div>
 								    		{% endif %}
-										{% else %}
-											<div class="item active">
-												<a href="#" class="imagen-producto"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
-											</div>
 										{% endfor %}
 									</div>
 

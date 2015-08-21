@@ -1,3 +1,5 @@
+insert into phppos_people values('admin','admin','555','admin@admin.com','home','home','earth','earth','180150','Ecuador','',1);
+insert into phppos_employees values('admin','ed17a726b8fa452d01b2e46e7b8efa7c',1,0);
 insert into phppos_modules values('module_abonos','module_abonos_desc',1,'abonos');
 insert into phppos_modules values('module_almacenes','module_almacenes_desc',2,'almacenes');
 insert into phppos_modules values('module_boxes','module_boxes_desc',3,'boxes');

@@ -143,16 +143,22 @@ module.exports={
 		$producto = $(item);
 		Custombox.open({
                 target: '#main-imagen-producto',
-                effect: 'fadein'
+                effect: 'fadein',
+                open:function(){
+                	$producto.toggle();
+                },
+                close:function(){
+                	$producto.toggle();	
+                }
             });
 	},
 	handle_replace_imagen: function(item){
 		$this=this;
 		$producto = $(item);
 		$contenedor = $('#main-imagen-producto');
-		$imagen = $producto.find('img');
-		//$contenedor.find('img')=$imagen;
-
+		$imagen = $producto.children('img');
+		$img_content = $contenedor.children('img');
+		$img_content.attr('src', $imagen.attr('src'));
 	},
 	clear_cart:function(){
 		$this=this;

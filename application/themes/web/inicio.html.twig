@@ -21,41 +21,28 @@
 					<div class="category-tab"><!--category-tab-->
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#categoria1" data-toggle="tab">{{line('market_categoria')}}</a></li>
-								<li><a href="#categoria2" data-toggle="tab">{{line('market_categoria')}}</a></li>
+								{% for categoria in categorias|slice(0,5) %}
+									<li class="{% if loop.index == 1 %} active {% endif %}"><a href="#cat{{categoria.id}}" data-toggle="tab">{{categoria.filtro}}</a></li>
+								{% endfor %}
 							</ul>
 						</div>
 						<div class="tab-content">
-							<div class="tab-pane fade active in" id="categoria1" >
-								<div class="col-sm-3">
-									{% include 'elementos/item_producto.html.twig' %}
+							{% for categoria in categorias|slice(0,5) %}
+								<div class="tab-pane fade {% if loop.index == 1 %} active in {% endif %}" id="cat{{categoria.id}}" >
+									<div class="col-sm-3">
+										{% include 'elementos/item_producto.html.twig' %}
+									</div>
+									<div class="col-sm-3">
+										{% include 'elementos/item_producto.html.twig' %}
+									</div>
+									<div class="col-sm-3">
+										{% include 'elementos/item_producto.html.twig' %}
+									</div>
+									<div class="col-sm-3">
+										{% include 'elementos/item_producto.html.twig' %}
+									</div>
 								</div>
-								<div class="col-sm-3">
-									{% include 'elementos/item_producto.html.twig' %}
-								</div>
-								<div class="col-sm-3">
-									{% include 'elementos/item_producto.html.twig' %}
-								</div>
-								<div class="col-sm-3">
-									{% include 'elementos/item_producto.html.twig' %}
-								</div>
-							</div>
-							
-							<div class="tab-pane fade" id="categoria2" >
-								<div class="col-sm-3">
-									{% include 'elementos/item_producto.html.twig' %}
-								</div>
-								<div class="col-sm-3">
-									{% include 'elementos/item_producto.html.twig' %}
-								</div>
-								<div class="col-sm-3">
-									{% include 'elementos/item_producto.html.twig' %}
-								</div>
-								<div class="col-sm-3">
-									{% include 'elementos/item_producto.html.twig' %}
-								</div>
-							</div>
-							
+							{% endfor %}
 						</div>
 					</div><!--/category-tab-->
 				{% include 'items_recomendados.html.twig' %}

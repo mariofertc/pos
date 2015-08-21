@@ -902,6 +902,9 @@ h2.title {
   opacity:;
 }
 
+.product-overlay img{
+  width:100%;
+}
 .single-products:hover .product-overlay {
   display:block;
   height:100%;

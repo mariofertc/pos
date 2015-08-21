@@ -1,10 +1,17 @@
 <?php
 
+/**
+ * Permite acceder y administrar secciones del market
+ */
 class Market extends CI_Controller {
 
     protected $controller_name;
     var $data;
 
+    /**
+     * Inicializa categorias, tallas, colores, tags y los datos del usuario
+     * una sola vez para evitar redundancia
+     */
     function __construct() {
         parent::__construct();
         $this->controller_name = strtolower($this->uri->segment(1));
@@ -172,11 +179,17 @@ class Market extends CI_Controller {
         }  
     }
 
-    function get_review(){
+    function get_review($categoria=1){
         $review_id=$this->input->post('ID');
         $this->data['review'] = $this->product_review->get_info($review_id);
         $this->twiggy->set($this->data);
         $this->twiggy->display('elementos/product_review');
+    }
+
+    function destacados(){
+        $this->data['productos'] = $this->Item->get_all(6,0,null,null,null);
+        $this->twiggy->set($this->data);
+        $this->twiggy->display('elementos/catalogo');
     }
 
     function destacados(){
@@ -242,7 +255,8 @@ class Market extends CI_Controller {
      */
     function bloque_producto() {
         $product_id = $this->input->get('id');
-        $destacado = empty($this->input->get('destacado')) ? FALSE : TRUE;
+        $destacad = $this->input->get('destacado');
+        $destacado = empty($destacad) ? FALSE : TRUE;
         $this->data['producto'] = $this->Item->get_info($product_id);
         $this->twiggy->set($this->data);
         if(!$destacado)
