@@ -82,7 +82,7 @@ class ItemTest extends CIUnit_TestCase
 	}
 
 	public function testGetCountCategories(){
-		$res = $this->_pcm->get_count_categories();
+		$res = $this->_pcm->get_count_column();
 		$this->assertNotNull($res->result());	
 	}
 
@@ -90,5 +90,12 @@ class ItemTest extends CIUnit_TestCase
 		$res = $this->_pcm->get_all(2,0,array());
 		$this->assertNotNull($res);	
 		$this->assertCount(2,$res);	
+	}
+
+	public function testGetLimitesPrecios(){
+		$res = $this->_pcm->get_limites_precios();
+		$this->assertNotNull($res);	
+		$this->assertEquals(10,$res->minimo);
+		$this->assertEquals(100,$res->maximo);
 	}
 }

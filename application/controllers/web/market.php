@@ -24,6 +24,7 @@ class Market extends CI_Controller {
         $this->data['tallas']=$this->Item->get_count_column("size",10,0,"size")->result();
         $this->data['colores']=$this->Item->get_count_column("color_value",10,0,"color_value")->result();
         $this->data['tags']=$this->Item->get_tags();
+        $this->data['precios']=$this->Item->get_limites_precios();
         $userdata = $this->session->userdata('webuser_data');
         if(isset($userdata)){
             $this->data['webuser_data']=$userdata;
@@ -192,10 +193,10 @@ class Market extends CI_Controller {
         $this->twiggy->display('elementos/catalogo');
     }
 
-    function destacados(){
-        $this->data['productos'] = $this->Item->get_all(6,0,null,null,null);
+    function productos($categoria){
+        $this->data['productos'] = $this->Item->get_all(4,0,array('category'=>$categoria),null,null);
         $this->twiggy->set($this->data);
-        $this->twiggy->display('elementos/catalogo');
+        $this->twiggy->display('elementos/productos');
     }
 
     /**

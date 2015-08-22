@@ -93,6 +93,7 @@ function main(){
 	frms.handle_entrega_submit();
 	frms.handle_product_review_submit();
 	catalogo.load_destacados();
+	utils.initAjaxTabs();
 
 	$('#search_input').keyup(function(e) {
 		catalogo.reload_catalogo();

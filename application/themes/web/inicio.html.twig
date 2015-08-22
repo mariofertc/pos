@@ -22,30 +22,21 @@
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs">
 								{% for categoria in categorias|slice(0,5) %}
-									<li class="{% if loop.index == 1 %} active {% endif %}"><a href="#cat{{categoria.id}}" data-toggle="tab">{{categoria.filtro}}</a></li>
+									<li class="{% if loop.index == 1 %} active {% endif %}">
+										<a data-target="#cat{{loop.index}}" data-toggle="tabajax" href="{{site_url('web/market/productos')}}/{{categoria.filtro}}">{{categoria.filtro}}</a>
+									</li>
 								{% endfor %}
 							</ul>
 						</div>
 						<div class="tab-content">
 							{% for categoria in categorias|slice(0,5) %}
-								<div class="tab-pane fade {% if loop.index == 1 %} active in {% endif %}" id="cat{{categoria.id}}" >
-									<div class="col-sm-3">
-										{% include 'elementos/item_producto.html.twig' %}
-									</div>
-									<div class="col-sm-3">
-										{% include 'elementos/item_producto.html.twig' %}
-									</div>
-									<div class="col-sm-3">
-										{% include 'elementos/item_producto.html.twig' %}
-									</div>
-									<div class="col-sm-3">
-										{% include 'elementos/item_producto.html.twig' %}
-									</div>
+								<div class="tab-pane fade {% if loop.index == 1 %} active in {% endif %}" id="cat{{loop.index}}" >
+
 								</div>
 							{% endfor %}
 						</div>
 					</div><!--/category-tab-->
-				{% include 'items_recomendados.html.twig' %}
+				{# include 'items_recomendados.html.twig' #}
 				</div>
 			</div>
 		</div>

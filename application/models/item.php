@@ -574,4 +574,24 @@ class Item extends CI_Model {
         }
     }
 
+    /**
+     * Devuelve un array con el precio minimo y maximo de todos los productos
+     * @return [type] [description]
+     */
+    function get_limites_precios(){
+        $this->db->select('min(unit_price) as minimo,max(unit_price) as maximo');
+        $this->db->from('items');
+        $this->db->where('deleted', 0);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 1) {
+            $query->row()->maximo=round($query->row()->maximo,0);
+            $query->row()->minimo=round($query->row()->minimo,0);
+            return $query->row();
+        } else {
+            return null;
+        }
+
+    }
 }

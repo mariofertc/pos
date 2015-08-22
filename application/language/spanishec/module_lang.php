@@ -42,4 +42,7 @@ $lang['module_almacenes_desc']='Agregar y Actualizar Almacenes';
 
 $lang['module_ecommerce']='Compas online';
 $lang['module_ecommerce_desc']='Ver y gestionar compras realizadas desde internet';
+
+$lang['module_lanzamientos']='Lanzamiento productos';
+$lang['module_lanzamientos_desc']='Ver y gestionar los lanzamientos de productos en market';
 ?>

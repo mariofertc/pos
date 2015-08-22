@@ -21,5 +21,20 @@ module.exports={
 	},
 	setEstaCargando:function(valor){
 		esta_cargando=valor;
+	},
+	initAjaxTabs:function(){
+		$('[data-toggle="tabajax"]').click(function(e) {
+		    var $this = $(this),
+		        loadurl = $this.attr('href'),
+		        targ = $this.attr('data-target');
+
+		    $.get(loadurl, function(data) {
+		        $(targ).html(data);
+		    });
+
+		    $this.tab('show');
+		    return false;
+		});
+		$('[data-toggle="tabajax"]:first').click();
 	}
 }
