@@ -17,6 +17,7 @@ insert into phppos_modules values('module_suppliers','module_suppliers_desc',14,
 insert into phppos_modules values('module_web_store','module_web_store_desc',15,'web/web_store');
 insert into phppos_modules values('module_ecommerce','module_ecommerce_desc',16,'ecommerce');
 insert into phppos_modules values('module_lanzamientos','module_lanzamientos_desc',17,'lanzamientos');
+insert into phppos_modules values('module_blog','module_blog_desc',18,'blog');
 
 insert into phppos_permissions VALUES('abonos',1);
 insert into phppos_permissions values('almacenes',1);
@@ -34,3 +35,4 @@ insert into phppos_permissions values('sales',1);
 insert into phppos_permissions values('suppliers',1);
 insert into phppos_permissions values('web/web_store',1);
 insert into phppos_permissions values('lanzamientos',1);
+insert into phppos_permissions values('blog',1);

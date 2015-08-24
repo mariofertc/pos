@@ -56,3 +56,22 @@ CREATE TABLE phppos_lanzamientos(
 	activo     INT DEFAULT 1,
 	deleted	  INT DEFAULT 0
 );
+
+CREATE TABLE phppos_articulo_blog(
+	articulo_id    INT PRIMARY KEY AUTO_INCREMENT,
+	titulo    VARCHAR(250) NOT NULL,
+	detalle    TEXT,
+	fecha     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	employee_id    INT,
+	deleted	  INT DEFAULT 0
+);
+
+CREATE TABLE phppos_blog_reviews(
+ review_id INT PRIMARY KEY AUTO_INCREMENT,
+ nombre	VARCHAR(250),
+ email	VARCHAR(250),
+ fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ detalle TEXT, 
+ rating INT,
+ articulo INT REFERENCES phppos_articulo_blog (articulo_id)
+);

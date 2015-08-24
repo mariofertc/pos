@@ -593,6 +593,7 @@ ul.sub-menu {
 
 .girl {
   margin-left: 0;
+  height: 450px;
 }
 
 .item h1 {
@@ -2010,7 +2011,8 @@ h2.title {
 .single-blog-post a img {
   border: 1px solid #F7F7F0;
   width: 100%;
-  margin-bottom: 30px
+  margin-bottom: 30px;
+  height: 400px;
 }
 
 .blog-post-area  
@@ -2113,7 +2115,6 @@ h2.title {
   background:#FE980F;
   color: #fff
 }
-
 
 
 /*************************

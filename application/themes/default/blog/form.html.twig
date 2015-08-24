@@ -1,0 +1,106 @@
+<link rel="stylesheet" rev="stylesheet" href="{{base_url()}}assets/bower_components/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css"/>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Básico</a></li>
+        <li><a href="#tabs-2">Imágenes</a></li>
+    </ul>
+    <div id="tabs-1">
+        <ul id="error_message_box"></ul>
+        {{ form_open('blog/save/'~articulo_info.lanzamiento_id,{'id':'item_form'})}}
+        <fieldset id="item_basic_info">
+            <legend>{{ line("items_basic_information")}}</legend>
+            <div class="form-group">
+                {{ form_label(line('articulos_titulo')~':', 'for',{'class':'required wide'})}}
+                {{ form_input({
+                    'name':'titulo',
+                    'id':'titulo',
+                    'value':articulo_info.titulo,
+                    'class':'form-control'}
+                )}}
+            </div>
+            <div class="form-group">
+                {{ form_label(line('items_description')~':', 'descripcion',{'class':'wide'})}}
+                {{ form_textarea({
+                    'name':'descripcion',
+                    'id':'descripcion',
+                    'value':articulo_info.detalle,
+                    'rows':'5',
+                    'cols':'17',
+                    'class':'form-control'}
+                )}}
+            </div>
+             <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                {{ form_submit({
+                    'name':'submit',
+                    'id':'submit',
+                    'value':line('common_submit'),
+                    'class':'btn btn-success'})
+                }}
+                </div>
+            </div>
+        </fieldset>
+        {{ form_close() }}
+    </div>
+    <div id="tabs-2">
+        {% include 'blog/form_images.html.twig' %}
+    </div>
+</div>
+
+<script src="{{base_url()}}assets/bower_components/tag-it/js/tag-it.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script src="{{base_url()}}assets/bower_components/wysihtml5/dist/wysihtml5-0.3.0.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script src="{{base_url()}}assets/bower_components/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $("#tabs").tabs();
+
+        $(function () {
+             
+            $('#item_form').validate({
+                submitHandler: function (form) {
+                    /*
+                     make sure the hidden field #item_number gets set
+                     to the visible scan_item_number value
+                     */
+                    //$('#item_number').val($('#scan_item_number').val());
+                    //alert($('#item_number').val($('#scan_item_number').val()));
+                    $.ajax({
+                        type: $(form).attr('method'),
+                        url: $(form).attr('action'),
+                        data: $(form).serialize(),
+                        success: function (response) {
+                            tb_remove();
+                            post_lanzamiento_form_submit(response);
+                        },
+                        dataType: 'json'
+                    });
+
+                },
+                errorLabelContainer: "#error_message_box",
+                wrapper: "li",
+                rules: {
+                    name: "required",
+                    item_id: "required",
+                },
+                messages:
+                        {
+                            titulo: "{{ line('items_name_required')}}",
+                            item_id: "{{line('items_category_required')}}",
+                        }
+            });
+        
+        $('#descripcion').wysihtml5({
+            "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
+            "emphasis": true, //Italics, bold, etc. Default true
+            "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+            "html": true, //Button which allows you to edit the generated HTML. Default false
+            "link": false, //Button to insert a link. Default true
+            "image": true, //Button to insert an image. Default true,
+            "color": true, //Button to change color of font  
+            "icon_white": true
+         //   "locale": "es-ES"
+        });
+
+        });
+  });
+</script>

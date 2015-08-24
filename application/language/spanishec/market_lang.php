@@ -156,4 +156,17 @@ $lang['lanzamientos_titulo']='Título lanzamiento';
 $lang['lanzamientos_producto']='Producto';
 $lang['lanzamientos_estado']='Estado';
 
+$lang['blog_new']='Nuevo articulo';
+$lang['blog_novedades']='Novedades de nuestro Blog';
+$lang['articulos_titulo']='Título';
+$lang['articulos_leer_mas']='Leer mas';
+$lang['articulos_confirm_delete']='Estás seguro(a) de querer borrar a los Almacénes seleccionados?';
+$lang['articulos_none_selected']='No has seleccionado Almacénes para borrar';
+$lang['articulos_error_adding_updating'] = 'Error agregando/actualizando articulo';
+$lang['articulos_successful_adding']='Has agregado el articulo satisfactoriamente';
+$lang['articulos_successful_updating']='Has actualizado el articulo satisfactoriamente';
+$lang['articulos_successful_deleted']='Has borrado satisfactoriamente';
+$lang['articulos_one_or_multiple']='Articulo(s) eliminados correctamente';
+$lang['articulos_cannot_be_deleted']='No se pudo borrar a los articulos seleccionados. Uno o más de los seleccionados tienen comentarios.';
+
 ?>

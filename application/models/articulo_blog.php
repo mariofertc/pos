@@ -1,23 +1,23 @@
 <?php
 
-class Lanzamiento extends CI_Model {
+class Articulo_blog extends CI_Model {
 
     /**
-     * Verifica si un lanzamiento ya existe
-     * @param  [type] $lanzamiento_id [description]
+     * Verifica si un articulo ya existe
+     * @param  [type] $articulo_id [description]
      * @return [type]                 [description]
      */
-    function exists($lanzamiento_id) {
-        $this->db->from('lanzamientos');
+    function exists($articulo_id) {
+        $this->db->from('articulo_blog');
         $this->db->where('deleted', 0);
-        $this->db->where('lanzamiento_id', $lanzamiento_id);
+        $this->db->where('articulo_id', $articulo_id);
         $query = $this->db->get();
 
         return ($query->num_rows() == 1);
     }
 
     /**
-     * Devuelve un array de lanzamientos
+     * Devuelve un array de articulos
      * @param  integer $num    [description]
      * @param  integer $offset [description]
      * @param  string  $where  [description]
@@ -27,7 +27,7 @@ class Lanzamiento extends CI_Model {
     function get_all($num = 10, $offset = 0, $where= "", $order = null) {
         if ($order == null)
             $order = "fecha";
-        $this->db->from('lanzamientos');
+        $this->db->from('articulo_blog');
         if ($where != "")
             $this->db->where($where);
         $this->db->where('deleted', 0);
@@ -37,28 +37,27 @@ class Lanzamiento extends CI_Model {
     }
 
     /**
-     * Devuelve los ultimos lanzamientos 
+     * Devuelve los ultimos articulos 
      * @param  integer $num número de lanzmientos
      * @return array      [description]
      */
     function get_ultimos($num=5){
-        $this->db->from('lanzamientos');
+        $this->db->from('articulo_blog');
         $this->db->order_by('fecha','desc');
         $this->db->limit($num);
         $resultado = $this->db->get()->result_array();
-        foreach ($resultado as $key => $lanzamiento) {
-            $resultado[$key]['imagenes']=$this->file_model->get_all_by_item($lanzamiento['lanzamiento_id'])->result();
-            $resultado[$key]['producto']=$this->Item->get_info($lanzamiento['item_id']);
+        foreach ($resultado as $key => $articulo) {
+            $resultado[$key]['imagenes']=$this->file_model->get_all_by_item($articulo['articulo_id'])->result();
         }
         return $resultado;
     }
     /**
-     * Devuelve el total de lanzamientos
+     * Devuelve el total de articulos
      * @param  string $where [description]
      * @return [type]        [description]
      */
     function get_total($where='') {
-        $this->db->from('lanzamientos');
+        $this->db->from('articulo_blog');
         if ($where != "")
             $this->db->where($where);
         $this->db->where('deleted', 0);
@@ -66,21 +65,21 @@ class Lanzamiento extends CI_Model {
     }
 
     /**
-     * Devuelve información de un lanzamiento
-     * @param  [type] $lanzamiento_id [description]
+     * Devuelve información de un articulo
+     * @param  [type] $articulo_id [description]
      * @return [type]              [description]
      */
-    function get_info($lanzamiento_id) {
-        $this->db->from('lanzamientos');
+    function get_info($articulo_id) {
+        $this->db->from('articulo_blog');
         $this->db->where('deleted', 0);
-        $this->db->where('lanzamiento_id', $lanzamiento_id);
+        $this->db->where('articulo_id', $articulo_id);
         $query = $this->db->get();
 
         if ($query->num_rows() == 1) {
             return $query->row();
         } else {
             $person_obj = new StdClass();
-            $fields = $this->db->list_fields('lanzamientos');
+            $fields = $this->db->list_fields('articulo_blog');
             foreach ($fields as $field) {
                 $person_obj->$field = '';
             }
@@ -89,45 +88,45 @@ class Lanzamiento extends CI_Model {
     }
 
     /**
-     * Ingresa un lanzamiento
-     * @param  [type]  &$lanzamiento_data [description]
-     * @param  boolean $lanzamiento_id    [description]
+     * Ingresa un articulo
+     * @param  [type]  &$articulo_data [description]
+     * @param  boolean $articulo_id    [description]
      * @return [type]              [description]
      */
-    function save(&$lanzamiento_data, $lanzamiento_id = false) {
-        if (!$lanzamiento_id or ! $this->exists($lanzamiento_id)) {
-            if ($this->db->insert('lanzamientos', $lanzamiento_data)) {
-                $lanzamiento_data['lanzamiento_id'] = $this->db->insert_id();
+    function save(&$articulo_data, $articulo_id = false) {
+        if (!$articulo_id or ! $this->exists($articulo_id)) {
+            if ($this->db->insert('articulo_blog', $articulo_data)) {
+                $articulo_data['articulo_id'] = $this->db->insert_id();
                 return true;
             }
             return false;
         }
 
-        $this->db->where('lanzamiento_id', $lanzamiento_id);
-        if ($this->db->update('lanzamientos', $lanzamiento_data)) {
+        $this->db->where('articulo_id', $articulo_id);
+        if ($this->db->update('articulo_blog', $articulo_data)) {
             return true;
         }
         return false;
     }
 
     /**
-     * Borrado lógico de un lanzamiento
-     * @param  [type] $lanzamiento_id [description]
+     * Borrado lógico de un articulo
+     * @param  [type] $articulo_id [description]
      * @return [type]              [description]
      */
-    function delete($lanzamiento_id) {
-        $this->db->where('lanzamiento_id', $lanzamiento_id);
-        return $this->db->update('lanzamientos', array('deleted' => 1));
+    function delete($articulo_id) {
+        $this->db->where('articulo_id', $articulo_id);
+        return $this->db->update('articulo_blog', array('deleted' => 1));
     }
 
     /**
-     * Borrado lógico de varios lanzamiento
-     * @param  [type] $lanzamientos_ids [description]
+     * Borrado lógico de varios articulo
+     * @param  [type] $articulos_ids [description]
      * @return [type]               [description]
      */
-    function delete_list($lanzamientos_ids) {
-        $this->db->where_in('lanzamiento_id', $lanzamientos_ids);
-        return $this->db->update('lanzamientos', array('deleted' => 1));
+    function delete_list($articulos_ids) {
+        $this->db->where_in('articulo_id', $articulos_ids);
+        return $this->db->update('articulo_blog', array('deleted' => 1));
     }
 
 }

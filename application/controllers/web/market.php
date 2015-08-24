@@ -180,7 +180,11 @@ class Market extends CI_Controller {
         }  
     }
 
-    function get_review($categoria=1){
+    /**
+     * [get_review description]
+     * @return [type]             [description]
+     */
+    function get_review(){
         $review_id=$this->input->post('ID');
         $this->data['review'] = $this->product_review->get_info($review_id);
         $this->twiggy->set($this->data);
@@ -194,7 +198,7 @@ class Market extends CI_Controller {
     }
 
     function productos($categoria){
-        $this->data['productos'] = $this->Item->get_all(4,0,array('category'=>$categoria),null,null);
+        $this->data['productos'] = $this->Item->get_all(4,0,array('category'=>urldecode($categoria)),null,null);
         $this->twiggy->set($this->data);
         $this->twiggy->display('elementos/productos');
     }
@@ -284,14 +288,25 @@ class Market extends CI_Controller {
         $this->twiggy->display('loger');
     }   
 
+    /**
+     * Muestra el listado de articulos del blog 
+     * @return [type] [description]
+     */
     function blog() {
         $this->data['title'] = 'Market - Blog ';
+        $this->data['articulos_blog']=$this->articulo_blog->get_ultimos(5);
         $this->twiggy->set($this->data);
         $this->twiggy->display('blog');
     }
 
-    function blog_item() {
+    /**
+     * Muestra la vista detallada del blog
+     * @param  int $articulo_id [<description>]
+     * @return [type] [description]
+     */
+    function blog_item($articulo_id) {
         $this->data['title'] = 'Market - Blog item ';
+        $this->data['articulo']=$this->articulo_blog->get_info($articulo_id);
         $this->twiggy->set($this->data);
         $this->twiggy->display('blog_item');
     }  

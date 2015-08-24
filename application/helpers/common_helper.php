@@ -23,5 +23,9 @@ function config($var){
     return $CI->config->item($var);
 }
 
+function retirar_etiquetas_html($text){
+  return strip_tags($text);
+}
+
 /* End of file common.php */
 /* Location: ./helpers/common.php */
