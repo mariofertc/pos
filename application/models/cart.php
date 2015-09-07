@@ -1,7 +1,18 @@
 <?php
 class Cart extends CI_Model 
 {	
-
+	function get_items_by_session($session_id){
+		$this->db->where('session_id',$session_id);
+		$res = $this->db->get('cart')->result();
+		$productos = array();
+		foreach ($res as $key => $item) {
+			$producto = $this->Item->get_info($item->item_id);
+			$producto->cart_id=$item->cart_id;
+			$producto->cantidad=$item->cantidad;
+			$productos[]=$producto;
+		}
+		return $productos;
+	}
 
 	function get_items_by_user($user_id){
 		$this->db->where('user_id',$user_id);
@@ -22,8 +33,10 @@ class Cart extends CI_Model
 	 * @return [type]       [description]
 	 */
 	function exists($data){
-		$this->db->where('user_id',$data['user_id']);
 		$this->db->where('item_id',$data['item_id']);
+		$this->db->where('session_id',$data['session_id']);
+		if (isset($data['user_id']))
+			$this->db->where('user_id',$data['user_id']);
 		$res = $this->db->get('cart');
 
 		return ($res->num_rows()==1);
@@ -42,8 +55,10 @@ class Cart extends CI_Model
 			else
 				return array('error'=>TRUE,'msg'=>$this->db->_error_message(),'code'=>$this->db->_error_number());
 		}else{
-			$this->db->where('user_id',$data['user_id']);
+			$this->db->where('session_id',$data['session_id']);
 			$this->db->where('item_id',$data['item_id']);
+			if (isset($data['user_id']))
+					$this->db->where('user_id',$data['user_id']);
 			if($this->db->update('cart',$data))
 				return array('error'=>FALSE,'ID'=>$data['item_id']);
 			else

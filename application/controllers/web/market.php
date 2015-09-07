@@ -17,6 +17,7 @@ class Market extends CI_Controller {
         $this->controller_name = strtolower($this->uri->segment(1));
         $this->load->model('cart');
         $this->load->model('product_review');
+        $this->load->model('blog_review');
         $this->load->library('PaypalRest');
 
         $this->data['controller_name'] = $this->controller_name;
@@ -44,6 +45,8 @@ class Market extends CI_Controller {
         $this->twiggy->set($this->data);
         $this->twiggy->display('tienda');
     }
+
+   
 
     /**
      * Procesa la compra final con el token del payment(transaccion) y el payerID(comprador) 
@@ -90,7 +93,7 @@ class Market extends CI_Controller {
     function login(){
         $username = $this->input->post('username');
         $password = $this->input->post('password');
-      
+
         if (!$this->webuser->login($username, $password)) {               
             echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('login_invalid_username_and_password')));
         } else {
@@ -107,26 +110,39 @@ class Market extends CI_Controller {
         $this->session->sess_destroy();
         redirect('web/market');
     }
+
+    function email_check($email)
+    {
+        $this->form_validation->set_message(__FUNCTION__, $this->lang->line('market_email_existente'));
+        return !$this->webuser->check_email($email);
+    }
+
     /**
      * Registra un nuevo Webuser en el sistema solo con los datos básicos,
      * para que no le de pereza llevar el formulario y abandone
      * @return [json] {error:TRUE/FALSE,'msg':''}
      */
     function register(){
-        $this->form_validation->set_rules('first_name', 'lang:common_first_name', 'required');
-        $this->form_validation->set_rules('email', 'lang:common_email', 'required|valid_email|is_unique[customers.username]');
-        $this->form_validation->set_rules('password', 'lang:market_password', 'required');
+        $this->form_validation->set_rules('first_name', $this->lang->line('common_first_name'), 'required');
+        $this->form_validation->set_rules('email', $this->lang->line('common_email'), 'required|valid_email|xss_clean|callback_email_check');
+        $this->form_validation->set_rules('password', $this->lang->line('market_password'), 'required|matches[repassword]');
+        $this->form_validation->set_rules('repassword', $this->lang->line('market_confirm_password'), 'required') ;      
+
         if($this->form_validation->run()==TRUE){
             $person_data=array(
                 'nombre'=>$this->input->post('first_name'),
                 'apellido'=>$this->input->post('last_name'),
                 'email'=>$this->input->post('email'),
+                'telefono'=>$this->input->post('telefono'),
                 'password'=>md5($this->input->post('password'))
                 );
             $res= $this->webuser->save($person_data);
                 if(!$res['error']){
                     $msg = $this->lang->line('market_new_user_registered');
-                    if($this->webuser->login($username, $password))
+                    //Envio mail con datos de registro
+                    $this->bienvenida($person_data,$this->input->post('password'));
+                    
+                    if($this->webuser->login($this->input->post('email'), $this->input->post('password')))
                         $msg .=  $this->lang->line('market_new_user_logged');
                   echo json_encode(array('error'=>FALSE,'msg'=>$msg));   
                 }else{
@@ -137,6 +153,31 @@ class Market extends CI_Controller {
         }   
     }
 
+    private function bienvenida($person_data,$password){
+        $mensaje = "<HTML><HEAD></HEAD><BODY>";
+        $mensaje .= $this->lang->line('market_bienvenida_mensaje1');
+        $mensaje .= $this->config->item('company');
+        $mensaje .= '<br/>';
+        $mensaje .= $this->lang->line('market_bienvenido').' '.$person_data['nombre'].' '.$person_data['apellido'].',';
+        $mensaje .= $this->lang->line('market_bienvenida_mensaje2');
+        $mensaje .= $this->lang->line('market_usuario').': '.$person_data['email'];
+        $mensaje .= '<br/>';
+        $mensaje .= $this->lang->line('market_password').': '.$password;
+        $mensaje .= '<br/>';
+        $mensaje .= '<br/>';
+        $mensaje .= '<br/>';
+        $mensaje .= $this->config->item('company');
+        $mensaje .= '<br/>';
+        $mensaje .= $this->config->item('address');
+        $mensaje .= '<br/>';
+        $mensaje .= $this->config->item('phone').','.$this->config->item('fax');        
+        $mensaje .= '<br/>';
+        $mensaje .= $this->config->item('email');
+        $mensaje .= "</BODY></HTML>";
+        $headers = "From: ".$person_data['email']."\r\n";
+        $headers .= "Reply-To: ".$this->config->item('email')."\r\n";
+        mail($person_data['email'],$this->lang->line('market_bienvenida_asunto'),$mensaje,$headers);
+    }
     /**
      * Muestra la vista de detalle del producto 
      * @param  [type] $pro [description]
@@ -145,7 +186,6 @@ class Market extends CI_Controller {
     function producto($pro) {
         $this->data['title'] = 'Market - Producto ';
         $this->data['producto']=$this->Item->get_info($pro);
-        $opiniones=$this->product_review->get_by_item($pro);
         $this->data['producto']->opiniones=$this->product_review->get_by_item($pro);
         $this->data['producto']->imagenes=$this->file_model->get_all_by_item($pro)->result();
         $this->twiggy->set($this->data);
@@ -181,6 +221,34 @@ class Market extends CI_Controller {
     }
 
     /**
+     * Registra una opinión de un articulo del blog
+     * @return [json] {error:TRUE/FALSE,'msg':''}
+     */
+    function add_blog_review(){
+        $this->form_validation->set_rules('nombre', 'lang:market_your_name', 'required');
+        $this->form_validation->set_rules('email', 'lang:market_email', 'required|valid_email');
+        $this->form_validation->set_rules('detalle', 'lang:market_detalle', 'required');
+        if($this->form_validation->run()==TRUE){
+
+            $review_data = array(
+                'nombre'=>$this->input->post('nombre'),
+                'email'=>$this->input->post('email'),
+                //'rating'=>$this->input->post('rating'),
+                'detalle'=>$this->input->post('detalle'),
+                'articulo'=>$this->input->post('articulo')
+                );
+             $res= $this->blog_review->save($review_data);
+                if(!$res['error']){
+                  echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('market_review_added'),'ID'=>$res['ID']));   
+                }else{
+                  echo json_encode(array('error'=>TRUE,'msg'=>$res['msg']));
+                }
+         }else{
+            echo json_encode(array('error'=>TRUE,'msg'=>validation_errors()));
+        }  
+    }
+
+    /**
      * [get_review description]
      * @return [type]             [description]
      */
@@ -189,6 +257,17 @@ class Market extends CI_Controller {
         $this->data['review'] = $this->product_review->get_info($review_id);
         $this->twiggy->set($this->data);
         $this->twiggy->display('elementos/product_review');
+    }
+
+    /**
+     * [get_review description]
+     * @return [type]             [description]
+     */
+    function get_blog_review(){
+        $articulo_id=$this->input->post('ID');
+        $this->data['review'] = $this->blog_review->get_info($articulo_id);
+        $this->twiggy->set($this->data);
+        $this->twiggy->display('elementos/blog_review');
     }
 
     function destacados(){
@@ -275,7 +354,25 @@ class Market extends CI_Controller {
         $this->twiggy->set($this->data);
         $this->twiggy->display('compra');
     }   
+    
+    /**
+     * Página o bloque html con los formularios de Registro y Logeo
+     * @param  boolean $ajax default FALSE
+     * @return [HTML]        [description]
+     */
+    function autenticacion() {
+        $this->data['title'] = 'Market - Login ';
+        
+        if(!$this->webuser->is_logged()){
+            $this->data['comprando']=TRUE;
+            $this->twiggy->set($this->data);
+            $this->twiggy->display('carrito/autenticacion'); 
+        }else{
+            redirect(site_url('web/Store/entrega'));
+        }
+    }  
 
+   
     /**
      * Página o bloque html con los formularios de Registro y Logeo
      * @param  boolean $ajax default FALSE
@@ -307,6 +404,8 @@ class Market extends CI_Controller {
     function blog_item($articulo_id) {
         $this->data['title'] = 'Market - Blog item ';
         $this->data['articulo']=$this->articulo_blog->get_info($articulo_id);
+        $this->data['articulo']->opiniones=$this->blog_review->get_by_articulo($articulo_id);
+        $this->data['articulo']->imagenes=$this->file_model->get_all_by_item($articulo_id)->result();
         $this->twiggy->set($this->data);
         $this->twiggy->display('blog_item');
     }  

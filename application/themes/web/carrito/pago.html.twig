@@ -1,31 +1,44 @@
 {% block header %}
     {% include 'partials/heading.html.twig' %}
-    {% include 'partials/heade.html.twig' %}
 {% endblock %}
 {% block content %}
 
-<section id="cart_items">
-	<div class="container">
-		<div class="breadcrumbs">
-			<ol class="breadcrumb">
-			  <li><a href="#">{{line('market_home')}}</a></li>
-			  <li class="active">{{line('market_compra')}}</li>
-			</ol>
-		</div><!--/breadcrums-->
-
-		<div class="step-one">
-			<h2 class="heading"><a href="{{site_url('web/Carts/entrega')}}">{{line('market_paso1')}}</a><span class="fa fa-chevron-right"></span>{{line('market_paso2')}}</h2>
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a class="btn btn-default btn-bg" href="{{site_url('web/market/tienda')}}">
+				<i class="fa fa-mail-reply"></i>
+				{{line("market_volver_a_tienda")}}
+			</a>
+			<div id="header-logo-container">
+				<a class="logo-center" href="{{site_url('web/market/tienda')}}"><img src="images/home/logo.png" alt="{{config('company')}}" /></a>
+			</div>
 		</div>
+		<div class="panel-body">
+			<div class="step-one">
+				<h2 class="heading">
+				<a href="#">{{line('market_conexion_segura')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				<a href="{{site_url('web/Store/entrega')}}">{{line('market_paso1')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				<a href="{{site_url('web/Store/pago')}}">{{line('market_paso2')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				{{line('market_paso4')}}
+				</h2>
+			</div>
 
 			<div class="shopper-informations">
 				<div class="row">
-				
-							<div class="form-one">
-								<form class="form-horizontal" id="form-pago-cc" role="form" action="{{site_url('web/Carts/pago_cc')}}" >
+					<div class="col-sm-6 clearfix">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_pagar_con_tarjeta')}}
+							</div>
+							<div class="panel-body">
+								<form class="form-horizontal" id="form-pago-cc" role="form" action="{{site_url('web/Store/pago_cc')}}" >
 								    	<div class="alert alert-info errors">
 		     							</div>
 								    <fieldset>
-								      <legend>{{line('market_pagar_con_tarjeta')}}</legend>
 								      <div class="form-group">
 								        <label class="col-sm-3 control-label" for="card-holder-name">{{line('market_tipo')}}</label>
 								        <div class="col-sm-9">
@@ -88,11 +101,24 @@
 								      </div>
 								    </fieldset>
 								  </form>
+								
+							</div><!--/panel-body-->
+							<div class="panel-footer">
+								<p class="alert alert-info">
+									{{line('market_pago_cc_detalle')}}
+								</p>
 							</div>
-							<div class="form-two">
-								<form class="form-horizontal" id="form-pago-paypal" role="form" action="{{site_url('web/Carts/pago_paypal')}}">
+						</div>
+					</div>
+					<div class="col-sm-6 clearfix">
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_pagar_con_paypal')}}
+							</div>
+							<div class="panel-body">
+								<form class="form-horizontal" id="form-pago-paypal" role="form" action="{{site_url('web/Store/pago_paypal')}}">
 									<fieldset>
-								    	<legend>{{line('market_pagar_con_paypal')}}</legend>
 										<div class="btn-group btn-group-justified">
 											<div class="btn-group">
 												<button type="submit" class="btn btn-success" href="{{site_url('web/Carts/confirmacion')}}">{{line('market_continuar')}}</button>
@@ -100,12 +126,33 @@
 										</div>
 									</fieldset>
 								</form>
+							</div><!--/panel-body-->
+							<div class="panel-footer">
+								<p class="alert alert-info">
+									{{line('market_pago_paypal_detalle')}}
+								</p>
 							</div>
+						</div>
+					</div>
 				
 				</div>
 			</div>
+		</div><!--/panel-body-->
+		<div class="panel-footer">
+			<div class="row">
+			<div class="col-sm-12">
+				<div class="total_area">
+					<ul>
+						<li id="cart-subtotal">{{line('market_subtotal')}}$<span>{{subtotal}}</span></li>
+						<li>{{line('market_costos_envio')}}<span>{{line('market_gratis')}}</span></li>
+						<li id="cart-total">{{line('market_total')}}$<span>{{total}}</span></li>
+					</ul>
+				</div>
+			</div>
+			</div>
+		</div>
 	</div>
-</section>
+</div><!--/container-->
 {% endblock %}
 
 {% block footer %}

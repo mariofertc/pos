@@ -1,87 +1,148 @@
 {% block header %}
     {% include 'partials/heading.html.twig' %}
-    {% include 'partials/heade.html.twig' %}
 {% endblock %}
 {% block content %}
 
-<section id="cart_items">
-	<div class="container">
-		<div class="breadcrumbs">
-			<ol class="breadcrumb">
-			  <li><a href="#">{{line('market_home')}}</a></li>
-			  <li class="active">{{line('market_compra')}}</li>
-			</ol>
-		</div><!--/breadcrums-->
-
-		<div class="step-one">
-			<h2 class="heading">{{line('market_paso1')}}</h2>
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a class="btn btn-default btn-bg" href="{{site_url('web/market/tienda')}}">
+				<i class="fa fa-mail-reply"></i>
+				{{line("market_volver_a_tienda")}}
+			</a>
+			<div id="header-logo-container">
+				<a class="logo-center" href="{{site_url('web/market/tienda')}}"><img src="images/home/logo.png" alt="{{config('company')}}" /></a>
+			</div>
 		</div>
+		<div class="panel-body">
 
+			<div class="step-one">
+				<h2 class="heading">
+				<a href="#">{{line('market_conexion_segura')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				<a href="{{site_url('web/Store/entrega')}}">{{line('market_paso1')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				{{line('market_paso2')}}
+				<span class="fa fa-chevron-right"></span>
+				{{line('market_paso4')}}
+				</h2>
+			</div>
+			<div class="panel-heading">
+				<h4>{{line('market_direccion_facturacion_envio')}}</h2>
+			</div>
 			<div class="shopper-informations">
 				<div class="row">
-					<div class="col-sm-7 clearfix">
-						<div class="bill-to">
-							<p>{{line('market_facturar_a')}}</p>
-							<form action="{{site_url('web/Users/agregar/'~webuser_data.id_customer)}}" id="form-entrega">
-								<div class="row">
-									<div class="alert alert-info errors"></div>
-									<div class="col-sm-6">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="{{line('common_first_name')}}*" name="first_name" id="first_name" value="{{webuser_data.nombre}}">
+					<div class="col-sm-6 clearfix">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_direccion_facturacion')}}
+							</div>
+							<div class="panel-body">
+								<form action="{{site_url('web/Users/save_direccion/'~direccionF.direccion_id)}}" id="form-entrega">
+									<div class="row">
+										<div class="alert alert-info errors"></div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="{{line('common_first_name')}}*" name="first_name" id="first_name" value="{{direccionF.nombre}}">
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="{{line('common_last_name')}}*" name="last_name" id="last_name" value="{{direccionF.apellido}}">
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="{{line('market_direccion')}}*" name="address_1" id="address_1" value="{{direccionF.direccion}}">
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control"placeholder="{{line('market_direccion2')}}" name="address_2" id="address_2" value="{{direccionF.detalles}}">
+											</div>
 										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="{{line('common_last_name')}}*" name="last_name" id="last_name" value="{{webuser_data.apellido}}">
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="{{line('common_address_1')}}*" name="address_1" id="address_1" value="{{webuser_data.address_1}}">
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control"placeholder="{{line('common_address_2')}}" name="address_2" id="address_2" value="{{webuser_data.address_2}}">
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Zip / {{line('market_codigo_zip')}}" name="zip" id="zip" value="{{webuser_data.zip}}">
-										</div>
-										<div class="form-group">
-											<select class="form-control" name="country" id="country">
-												<option>-- {{line('market_pais')}} --</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<select class="form-control" name="contry" id="country">
-												<option>-- {{line('market_estado_provincia_region')}}--</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<input type="text"class="form-control"  placeholder="{{line('common_phone_number')}} *" name="phone_number" id="phone_number" value="{{webuser_data.phone_number}}">
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control"  placeholder="{{line('market_email')}}*" name="email" id="email" value="{{webuser_data.email}}">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="Zip / {{line('market_codigo_postal')}}" name="zip" id="zip" value="{{direccionF.zip}}">
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control" name="pais" placeholder="{{line('common_country')}}" value="{{direccionF.pais}}"/>
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control"name="provincia" placeholder="{{line('common_state')}}" value="{{direccionF.provincia}}"/>
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control"name="ciudad" placeholder="{{line('common_city')}}" value="{{direccionF.ciudad}}"/>
+											</div>
 										</div>
 									</div>
-								</div>
-								
-								<div class="btn-group btn-group-justified">
-									<div class="btn-group">
-										<button type="submit" id="submit" class="btn btn-primary">{{line('market_continuar')}}</button>
+									
+									<div class="btn-group btn-group-justified">
+										<div class="btn-group">
+											<input type="hidden" name="tipo" value="FACTURA"/>
+											<button type="submit" id="submit" class="btn btn-primary">{{line('market_guardar')}}</button>
+										</div>
 									</div>
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
-					<div class="col-sm-5">
-						<div class="order-message">
-							<p>{{line('market_orden_de_envio')}}</p>
-							<textarea name="message"  placeholder="{{line('market_notas_de_envio')}}" rows="16"></textarea>
-							<label><input type="checkbox">{{line('market_enviar_a_direccion_factura')}}</label>
+					<div class="col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_direccion_envio')}}
+							</div>
+							<div class="panel-body">
+								<label><input type="checkbox" checked="checked" id="toggle_direccion_de_envio">{{line('market_enviar_a_direccion_factura')}}</label>
+								<form action="{{site_url('web/Users/save_direccion/'~direccionE.direccion_id)}}" id="form-envio" style="display:none">
+									<div class="row">
+										<div class="alert alert-info errors"></div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="{{line('common_first_name')}}*" name="first_name" id="first_name" value="{{direccionE.nombre}}">
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="{{line('common_last_name')}}*" name="last_name" id="last_name" value="{{direccionE.apellido}}">
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="{{line('market_direccion')}}*" name="address_1" id="address_1" value="{{direccionE.address_1}}">
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control"placeholder="{{line('market_direccion2')}}" name="address_2" id="address_2" value="{{direccionE.address_2}}">
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="Zip / {{line('market_codigo_postal')}}" name="zip" id="zip" value="{{direccionE.zip}}">
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control" name="pais" placeholder="{{line('common_country')}}" value="{{direccionE.pais}}"/>
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control"name="provincia" placeholder="{{line('common_state')}}" value="{{direccionE.provincia}}"/>
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control"name="ciudad" placeholder="{{line('common_city')}}" value="{{direccionE.ciudad}}"/>
+											</div>
+										</div>
+									</div>
+									
+									<div class="btn-group btn-group-justified">
+										<div class="btn-group">
+											<input type="hidden" name="tipo" value="ENVIO"/>
+											<button type="submit" id="submit" class="btn btn-primary">{{line('market_guardar')}}</button>
+										</div>
+									</div>
+								</form>
+							</div>
 						</div>	
-					</div>					
+					</div><!--/col-sm-6-->					
+				</div><!--/row-->					
+			</div>
+		</div><!--/panel-body-->					
+		<div class="panel-footer">
+			<div class="btn-group btn-group-justified">
+				<div class="btn-group">
+					<a href="{{site_url('web/Store/pago')}}" class="btn btn-primary">{{line('market_continuar')}}</a>
 				</div>
 			</div>
 		</div>
-	</section>
-	
+	</div>
+</div>	
 {% endblock %}
 {% block footer %}
     {% include 'partials/foote.html.twig' %}

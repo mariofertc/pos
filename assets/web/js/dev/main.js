@@ -72,6 +72,14 @@ $(document).on('click','.imagen-producto',function(e){
 	catalogo.handle_replace_imagen($(this));    
 });
 
+$(document).on('click','.olvido_pass',function(e){
+	e.preventDefault();
+	$('#panel-olvida-pass').toggle('slow');    
+});
+$(document).on('change','#toggle_direccion_de_envio',function(e){
+	$('#form-envio').toggle('slow');
+});
+
 utils.setEstaCargando(false);
 //on scroll gets when bottom of the page is reached and calls the function do load more content
 $(window).scroll(function(e){
@@ -91,7 +99,9 @@ function main(){
 	frms.handle_register_submit();
 	frms.handle_pago_cc();
 	frms.handle_entrega_submit();
+	frms.handle_envio_submit();
 	frms.handle_product_review_submit();
+	frms.handle_blog_review_submit();
 	catalogo.load_destacados();
 	utils.initAjaxTabs();
 

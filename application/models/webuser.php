@@ -5,6 +5,12 @@
  */
 class Webuser extends CI_Model{
 
+    function check_email($email){
+        $this->db->where('email',$email);
+        $res = $this->db->get('webusers');
+        return ($res->num_rows()==1);
+    }
+
 	function exists($user_id){
 		$this->db->where('user_id',$user_id);
 		$res = $this->db->get('webusers');

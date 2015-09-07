@@ -8,7 +8,7 @@
         <ul id="error_message_box"></ul>
         {{ form_open('blog/save/'~articulo_info.lanzamiento_id,{'id':'item_form'})}}
         <fieldset id="item_basic_info">
-            <legend>{{ line("items_basic_information")}}</legend>
+            <legend>{{ line("articulos_basic_info")}}</legend>
             <div class="form-group">
                 {{ form_label(line('articulos_titulo')~':', 'for',{'class':'required wide'})}}
                 {{ form_input({

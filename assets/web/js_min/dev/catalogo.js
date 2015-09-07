@@ -70,14 +70,12 @@ module.exports={
 		            delay: 200
                 });
 			}else{
-				 Custombox.open({
-	                target: data.msg,
-	                effect: 'fadein',
-	                complete: function(){
-					 frms.handle_login_submit();
-					 frms.handle_register_submit();
-	                }
-	            });
+				 new PNotify({
+                    title: 'Error al agregar producto!',
+                    text: data.msg,
+                    type: 'error',
+		            delay: 200
+                });
 			}
 		},'json');
 	},
@@ -109,14 +107,12 @@ module.exports={
 		            delay: 200
                 });
 			}else{
-				 Custombox.open({
-	                target: data.msg,
-	                effect: 'fadein',
-	                complete: function(){
-					 frms.handle_login_submit();
-					 frms.handle_register_submit();
-	                }
-	            });
+				  new PNotify({
+                    title: 'Error al agregar producto!',
+                    text: data.msg,
+                    type: 'error',
+		            delay: 200
+                });
 			}
 
 		},'json');
@@ -162,7 +158,7 @@ module.exports={
 	},
 	clear_cart:function(){
 		$this=this;
-		$.post(utils.getBasePath()+'/web/Carts/clear_cart',{},function(data){
+		$.post(utils.getBasePath()+'/web/market/clear_cart',{},function(data){
 			if(!data.error){
 				$this.subtotal_cart();
 			}
@@ -204,7 +200,7 @@ module.exports={
 			if(!data.error){
 				if(cantidad==0){
 					new PNotify({
-		                title: 'Producto agregado!',
+		                title: 'Cantidad actualizada!',
 		                text: data.msg,
 		                type: 'info',
 			            delay: 200
@@ -215,14 +211,12 @@ module.exports={
 					$this.subtotal_cart();
 				}
 			}else{
-				 Custombox.open({
-	                target: data.msg,
-	                effect: 'fadein',
-	                complete: function(){
-					 frms.handle_login_submit();
-					 frms.handle_register_submit();
-	                }
-	            });
+				  new PNotify({
+                    title: 'Error al actualizar cantidad!',
+                    text: data.msg,
+                    type: 'error',
+		            delay: 200
+                });
 			}
 		},'json');
 	}

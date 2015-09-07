@@ -8,6 +8,7 @@ class Blog extends Secure_area {
     function __construct() {
         parent::__construct('blog');
         $this->data['controller_name'] = 'blog';
+        $this->load->model('blog_review');
     }
     
     /**
@@ -32,6 +33,12 @@ class Blog extends Secure_area {
             '1' => array(
                 'function' => "view",
                 'common_language' => "common_edit",
+                'language' => "_update",
+                'width' => $this->get_form_width(),
+                'height' => $this->get_form_height()),
+            '2' => array(
+                'function' => "comentarios",
+                'common_language' => "common_comments",
                 'language' => "_update",
                 'width' => $this->get_form_width(),
                 'height' => $this->get_form_height()),
@@ -68,7 +75,6 @@ class Blog extends Secure_area {
             'employee_id'=>$employee_id,
         );
 
-
         if ($this->articulo_blog->save($articulo_data, $articulo_id)) {
             //New item
             if ($articulo_id == -1) {
@@ -99,5 +105,12 @@ class Blog extends Secure_area {
      */
     function get_form_height() {
         return 600;
+    }
+
+    function comentarios($articulo_id){
+        $this->data['articulo']=new stdClass;
+        $this->data['articulo']->opiniones=$this->blog_review->get_by_articulo($articulo_id);
+        $this->twiggy->set($this->data);
+        $this->twiggy->display('blog/comentarios');
     }
 }

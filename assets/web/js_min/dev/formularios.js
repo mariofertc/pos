@@ -86,7 +86,15 @@ module.exports={
 	                {
 	                    first_name: "required",
 	                    email: "required",
-	                    password: "required",
+	                    password: {
+	                    	"required":true,
+	                    	"minlength":5
+	                    },
+	                    repassword:{
+	                    	"required":true,
+	                    	"minlength":5,
+	                    	equalTo: "#password"
+	                    }
 	                }
 	    });
 	},
@@ -108,7 +116,7 @@ module.exports={
 			            },
 			            success : function(data){
 			              if(!data.error){
-			               window.open(utils.getBasePath()+'/web/Carts/finalizar','_self');
+			               window.open(utils.getBasePath()+'/web/Store/finalizar','_self');
 			              
 			              }else{
 			                $('#form-pago-cc').find('.errors').fadeIn('slow').html(data.msg); 
@@ -153,12 +161,11 @@ module.exports={
 
 			              if(!data.error){
 			              	new PNotify({
-			                    title: 'Información actualizada!',
+			                    title: 'Dirección de facturación actualizada!',
 			                    text: data.message,
 			                    type: 'info'
 			                });
-			               window.open(utils.getBasePath()+'/web/Carts/pago','_self');
-			              
+
 			              }else{
 			                $('#form-entrega').find('.errors').fadeIn('slow').html(data.message); 
 			                $('#submit').val('Guardar');
@@ -177,9 +184,54 @@ module.exports={
 	                    first_name: "required",
 	                    last_name: "required",
 	                    address_1: "required",
-	                    phone_number: "required",
-	                    email: "required",
-	                    password: "required",
+	                    ciudad: "required",
+	                    pais: "required",
+	                }
+	    });
+	},
+	handle_envio_submit :function (){
+		 $('#form-envio').find('.errors').hide();
+		 $('#form-envio').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-envio').attr( "action" ),
+	                    data:  $( '#form-envio' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+
+			              if(!data.error){
+			              	new PNotify({
+			                    title: 'Dirección de envío actualizada!',
+			                    text: data.message,
+			                    type: 'info'
+			                });
+			                
+			              }else{
+			                $('#form-envio').find('.errors').fadeIn('slow').html(data.message); 
+			                $('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-envio').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    first_name: "required",
+	                    last_name: "required",
+	                    address_1: "required",
+	                    ciudad: "required",
+	                    pais: "required",
 	                }
 	    });
 	},
@@ -209,7 +261,51 @@ module.exports={
 			              }
 			            },
 			            error:function(jqXHR,textStatus,errorThrown){
-			               $('#form-entrega').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			               $('#form-productreview').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            },
+			            complete:function(){
+			            	$('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    nombre: "required",
+	                    email: "required",
+	                    detalle: "required",
+	                }
+	    });
+	},
+	handle_blog_review_submit :function (){
+		 $('#form-blogreview').find('.errors').hide();
+		 $('#form-blogreview').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-blogreview').attr( "action" ),
+	                    data:  $( '#form-blogreview' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+			              if(!data.error){
+			              	$contenedor = $('#blogreviews');
+							$.post(utils.getBasePath()+'/web/market/get_blog_review',{'ID':data.ID},function(data){
+									$contenedor.prepend(data);
+							},'text');
+							$('#form-blogreview').trigger('reset');
+			              }else{
+			                $('#form-blogreview').find('.errors').fadeIn('slow').html(data.msg); 
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-blogreview').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
 			            },
 			            complete:function(){
 			            	$('#submit').val('Guardar');

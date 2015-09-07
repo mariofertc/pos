@@ -1,24 +1,54 @@
 {% block login %}
-	<div class="login-form"><!--login form-->
-		<h2>{{line('market_login_to_account')}}</h2>
-		<form action="{{site_url('web/market/login')}}" id="form-loginmarket">
-			<div class="alert alert-info errors">
-		     </div>
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="{{line('market_username')}}" name="username"/>
-			</div>
-			<div class="form-group">
-				<input type="password" class="form-control" placeholder="{{line('market_password')}}" name="password"/>
-			</div>
-			<span class="form-group">
-				<label for="remember">{{line('market_mantener_logeado')}}</label>
-				<input type="checkbox" class="form-control" name="remember" id="remember"> 
-			</span>
-			<div class="btn-group btn-group-justified">
-				<div class="btn-group">
-					<button type="submit" id="submit" class="btn btn-default">{{line('market_ingresar')}}</button>
+	<div class="panel panel-default login-form"><!--login form-->
+		<div class="panel-heading">
+			{{line('market_login_to_account')}}
+		</div>
+		<div class="panel-body">
+			<form action="{{site_url('web/market/login')}}" id="form-loginmarket">
+				<div class="alert alert-info errors">
+			     </div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="{{line('market_username')}}" name="username" required="required"/>
 				</div>
-			</div>
-		</form>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="{{line('market_password')}}" name="password" required="required"/>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+	      				<div class="checkbox">
+							<label for="remember" >
+								<input type="checkbox" name="remember" id="remember"> 
+								{{line('market_mantener_logeado')}}
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<a href="#" class="olvido_pass">{{line('market_olvido_contrasena')}}</a>
+				</div>
+				<div class="btn-group btn-group-justified">
+					<div class="btn-group">
+						<input type="hidden" name="comprando" value="{{comprando}}">
+						<button type="submit" id="submit" class="btn btn-default">{{line('market_ingresar')}}</button>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div><!--/login form-->
+	<div class="panel panel-default" id="panel-olvida-pass" style="display:none;">
+		<div class="panel-heading">
+			{{line('market_olvido_contrasena')}}
+		</div>
+		<div class="panel-body">
+			<p class="text-justify">{{line('market_olvido_contrasena_desc')}}</p>
+			<form action="{{site_url('web/market/olvido_pass')}}" id="form-olvidopass">
+				<input type="email" class="form-control" placeholder="{{line('market_email')}}" name="email" required="required" />
+				<div class="btn-group btn-group-justified">
+					<div class="btn-group">
+						<button type="submit" id="submit" class="btn btn-default">{{line('market_enviar')}}</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 {% endblock %}

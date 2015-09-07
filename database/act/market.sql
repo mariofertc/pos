@@ -75,3 +75,21 @@ CREATE TABLE phppos_blog_reviews(
  rating INT,
  articulo INT REFERENCES phppos_articulo_blog (articulo_id)
 );
+
+ALTER TABLE phppos_cart ADD COLUMN session_id VARCHAR(256);
+ALTER TABLE phppos_webusers ADD COLUMN telefono VARCHAR(256);
+
+CREATE TABLE phppos_direcciones
+(
+direccion_id INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(250),
+apellido VARCHAR(250),
+direccion VARCHAR(250),
+detalles TEXT,
+zip VARCHAR(8),
+ciudad VARCHAR(100),
+provincia VARCHAR(100),
+pais VARCHAR(100),
+tipo VARCHAR(20),
+user_id INT REFERENCES phppos_webusers(user_id)
+);

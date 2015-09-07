@@ -1431,8 +1431,6 @@ h2.title {
 
 #form {
   display: block;
-  margin-bottom: 185px;
-  margin-top: 185px;
   overflow: hidden;
   background-color: #FFFFFF;
 }
@@ -2399,7 +2397,6 @@ h2.title {
   background:#FE980F;
   border: 0 none;
   border-radius: 0;
-  margin-top: 16px;
 }
 
 .blank-arrow {
@@ -2571,4 +2568,12 @@ h2.title {
   text-align: left;
   opacity: .8;
   background-color: #FFFFFF;
+}
+
+#header-logo-container{
+  display: inline;
+  margin: 10px 0;
+  position: static;
+  text-align: center;
+  margin-left: 25%;
 }
