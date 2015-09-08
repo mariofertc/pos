@@ -5,6 +5,18 @@
  */
 class Webuser extends CI_Model{
 
+    /**
+     * Retorna una opinión de un producto
+     * @param  [type] $user_id [description]
+     * @return [type]           [description]
+     */
+    public function get_info($user_id)
+    {
+        $this->db->from('webusers');
+        $this->db->where('user_id',$user_id);
+        return $this->db->get()->row();
+    }
+
     function check_email($email){
         $this->db->where('email',$email);
         $res = $this->db->get('webusers');

@@ -9,6 +9,7 @@ class Ecommerce extends Secure_area {
         parent::__construct('ecommerce');
         $this->data['controller_name'] = 'ecommerce';
         $this->load->library('PaypalRest');
+        $this->load->model('webuser_direccion');
     }
 
     function index() {
@@ -41,9 +42,22 @@ class Ecommerce extends Secure_area {
         echo $data_row;
     }
 
-    function view($item_id = -1) {
-        $item = $this->orden->get_info($item_id);
-        $item->usuario=$this->Customer->get_info_by_webuserId($item->user_id);
+    function sobre_envio($orden_id = -1) {
+        $item = $this->orden->get_info($orden_id);
+        $item->usuario=$this->webuser->get_info($item->user_id);
+        
+        $item->direccionE=$this->webuser_direccion->get_by_user($item->user_id,'ENVIO');
+        $data['item_info']=$item;
+        print_r($item);
+        $this->twiggy->set($data);
+        $this->twiggy->display("ecommerce/sobre_envio");
+    }
+
+    function view($orden_id = -1) {
+        $item = $this->orden->get_info($orden_id);
+        $item->usuario=$this->webuser->get_info($item->user_id);
+        $item->direccionE=$this->webuser_direccion->get_by_user($item->user_id,'ENVIO');
+        $item->direccionF=$this->webuser_direccion->get_by_user($item->user_id);
 
         $payment = $this->paypalrest->getPaymentDetails($item->payment_id);
         $transaccion = $payment->transactions[0];

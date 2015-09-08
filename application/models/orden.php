@@ -13,10 +13,9 @@ class Orden extends CI_Model
     function get_all($num = 10, $offset = 0, $where = "", $order = null) {
         if ($order == null)
             $order = "P.fecha_creacion";
-        $this->db->select('order_id , C.first_name as usuario , payment_id , estado , valor , descripcion, P.fecha_creacion');
+        $this->db->select('order_id , W.nombre as usuario , payment_id , estado , valor , descripcion, P.fecha_creacion');
         $this->db->from('paypal P');
         $this->db->join('webusers W', 'P.user_id=W.user_id');
-        $this->db->join('people C', 'W.customer_id=C.person_id');
         if ($where != "")
             $this->db->where($where);
         $this->db->order_by($order);

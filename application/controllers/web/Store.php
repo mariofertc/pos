@@ -23,6 +23,7 @@ class Store extends Secure_CI {
     function entrega(){
         $this->data['direccionE']=$this->webuser_direccion->get_by_user($this->user->user_id,'ENVIO');
         $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->user_id);
+        $this->data['misma_direccion']=(bool)$this->user->misma_direccion;
         $this->twiggy->set($this->data);
         $this->twiggy->display('carrito/entrega');
     }

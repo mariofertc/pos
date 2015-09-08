@@ -4,15 +4,12 @@
     <legend>{{ line("market_entrega_info") }}</legend>
     <div class="panel">
         <div class="panel-header">
-            <div class="row">
                 <div class="col-lg-9">
-                    <h2>{{item_info.usuario.first_name}} {{item_info.usuario.last_name}} </h2>
-                    <small><em></em>{{item_info.usuario.address_1}}, {{item_info.usuario.address_2}}</small>
+                    <h2>{{item_info.usuario.nombre}} {{item_info.usuario.apellido}} </h2>
                 </div>
                 <div class="col-lg-3">
                     {{item_info.fecha_creacion}}
                 </div>
-            </div>
         </div>
         <div class="panel-body">
             <table class="table table-condensed">
@@ -54,6 +51,99 @@
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
                     {{ form_submit({'name':'submit','id':'submit','value':line('market_despachar'),'class':'btn btn-success'}) }}
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{line('market_direccion_facturacion')}}
+                            </div>
+                            <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                {{item_info.direccionF.nombre}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.apellido}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.direccion}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.detalles}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                    {{item_info.direccionF.zip}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.pais}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.provincia}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.ciudad}}
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div><!--/panel-->
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{line('market_direccion_envio')}}
+                            </div>
+                            <div class="panel-body">
+                                {% if not item_info.direccionE %}
+                                    <p>{{line('market_enviar_a_direccion_factura')}}</p>
+                                {% else %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{item_info.direccionE.nombre}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.apellido}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.direccion}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.detalles}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                                {{item_info.direccionE.zip}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.pais}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.provincia}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item.direccionE.ciudad}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="panel-footer">
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                       <a class="btn btn-primary" target="_blanck" href="{{site_url('ecommerce')}}/sobre_envio/{{item_info.order_id}}">{{line('market_sobre_envio') }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--/panel-->
                 </div>
             </div>
         </div>

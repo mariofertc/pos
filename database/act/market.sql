@@ -78,6 +78,7 @@ CREATE TABLE phppos_blog_reviews(
 
 ALTER TABLE phppos_cart ADD COLUMN session_id VARCHAR(256);
 ALTER TABLE phppos_webusers ADD COLUMN telefono VARCHAR(256);
+ALTER TABLE phppos_webusers ADD COLUMN misma_direccion BOOLEAN DEFAULT TRUE;
 
 CREATE TABLE phppos_direcciones
 (

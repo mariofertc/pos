@@ -854,3 +854,69 @@
 [07-09-2015 06:16:52] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
 [07-09-2015 06:16:52] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
 [07-09-2015 06:16:56] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[07-09-2015 06:52:03] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 06:52:05] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 06:52:05] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-8WH09506VD242873CKXWSVQQ
+[07-09-2015 06:52:06] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
+[07-09-2015 06:52:07] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment/PAY-8WH09506VD242873CKXWSVQQ. {"name":"PAYMENT_APPROVAL_EXPIRED","message":"Payment approval has expired","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYMENT_APPROVAL_EXPIRED","debug_id":"1d2baa3458eef"}
+[07-09-2015 06:52:55] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 06:52:56] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 06:52:56] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 06:52:58] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 06:54:04] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 06:54:05] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 06:54:05] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-8WH09506VD242873CKXWSVQQ
+[07-09-2015 06:54:06] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
+[07-09-2015 06:54:06] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment/PAY-8WH09506VD242873CKXWSVQQ. {"name":"PAYMENT_APPROVAL_EXPIRED","message":"Payment approval has expired","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYMENT_APPROVAL_EXPIRED","debug_id":"ba7dc2fa3e4c7"}
+[07-09-2015 06:55:20] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 06:55:22] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 06:55:22] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 06:55:23] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:02:39] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:02:40] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:02:40] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:02:42] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:03:12] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:03:13] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:03:13] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:03:14] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:04:15] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:04:16] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:04:16] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:04:18] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:05:27] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:05:28] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:05:28] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:05:29] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:06:21] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:06:22] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:06:22] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:06:23] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:07:56] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:07:57] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:07:57] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:07:59] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:08:37] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:08:38] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:08:38] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:08:39] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:10:18] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:10:20] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:10:20] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:10:21] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:40:32] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:40:33] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:40:33] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:40:35] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:41:54] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:41:55] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:41:55] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:41:56] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:42:56] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:42:57] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:42:57] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:42:58] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:43:37] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[07-09-2015 07:43:38] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[07-09-2015 07:43:38] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
+[07-09-2015 07:43:39] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200

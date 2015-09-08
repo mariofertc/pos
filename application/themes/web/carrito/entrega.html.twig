@@ -84,11 +84,12 @@
 					<div class="col-sm-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								{{line('market_direccion_envio')}}
+								{{line('market_direccion_envio')}} {{misma_direccion}}
 							</div>
 							<div class="panel-body">
-								<label><input type="checkbox" checked="checked" id="toggle_direccion_de_envio">{{line('market_enviar_a_direccion_factura')}}</label>
-								<form action="{{site_url('web/Users/save_direccion/'~direccionE.direccion_id)}}" id="form-envio" style="display:none">
+								<label><input type="checkbox" {% if misma_direccion %} checked="checked" {% endif %} id="toggle_direccion_de_envio">{{line('market_enviar_a_direccion_factura')}}</label>
+								<hr />
+								<form action="{{site_url('web/Users/save_direccion/'~direccionE.direccion_id)}}" id="form-envio" {% if misma_direccion %} style="display:none" {% endif %} >
 									<div class="row">
 										<div class="alert alert-info errors"></div>
 										<div class="col-sm-6">
@@ -99,10 +100,10 @@
 												<input type="text" class="form-control" placeholder="{{line('common_last_name')}}*" name="last_name" id="last_name" value="{{direccionE.apellido}}">
 											</div>
 											<div class="form-group">
-												<input type="text" class="form-control" placeholder="{{line('market_direccion')}}*" name="address_1" id="address_1" value="{{direccionE.address_1}}">
+												<input type="text" class="form-control" placeholder="{{line('market_direccion')}}*" name="address_1" id="address_1" value="{{direccionE.direccion}}">
 											</div>
 											<div class="form-group">
-												<input type="text" class="form-control"placeholder="{{line('market_direccion2')}}" name="address_2" id="address_2" value="{{direccionE.address_2}}">
+												<input type="text" class="form-control"placeholder="{{line('market_direccion2')}}" name="address_2" id="address_2" value="{{direccionE.detalles}}">
 											</div>
 										</div>
 										<div class="col-sm-6">
@@ -124,6 +125,7 @@
 									<div class="btn-group btn-group-justified">
 										<div class="btn-group">
 											<input type="hidden" name="tipo" value="ENVIO"/>
+											<input type="hidden" id="misma_direccion" name="misma_direccion" value="{{misma_direccion}}"/>
 											<button type="submit" id="submit" class="btn btn-primary">{{line('market_guardar')}}</button>
 										</div>
 									</div>

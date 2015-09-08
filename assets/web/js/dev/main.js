@@ -77,6 +77,8 @@ $(document).on('click','.olvido_pass',function(e){
 	$('#panel-olvida-pass').toggle('slow');    
 });
 $(document).on('change','#toggle_direccion_de_envio',function(e){
+
+	$('#misma_direccion').val($(this).is(':checked')?1:0);
 	$('#form-envio').toggle('slow');
 });
 

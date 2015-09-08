@@ -1,0 +1,57 @@
+{% extends _layout %}
+{% block css %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{base_url()}}css/phppos_print.css"/>
+    <link rel="stylesheet" href="{{base_url()}}css/receipt.css"/>
+{% endblock %}
+{% block content %}
+    <div id="receipt_wrapper">
+        <!--<div id="receipt_header">
+            <div id="company_name">{{ company }}</div>
+            <div id="company_address">{{ address|nl2br }}</div>
+            <div id="company_phone">{{ phone }}</div>
+            <div id="sale_receipt">{{ receipt_title }}</div>
+            <div id="sale_time">{{ transaction_time }}</div>
+        </div>-->
+        <div id="receipt_general_info">                
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        {{item_info.direccionE.nombre}} {{item_info.direccionE.apellido}}
+                    </div>
+                    <div class="form-group">
+                        {{item_info.direccionE.direccion}}
+                    </div>
+                    <div class="form-group">
+                        {{item_info.direccionE.detalles}}
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        {{item_info.direccionE.zip}}
+                    </div>
+                    <div class="form-group">
+                        {{item_info.direccionE.pais}}
+                    </div>
+                    <div class="form-group">
+                        {{item_info.direccionE.provincia}}
+                    </div>
+                    <div class="form-group">
+                        {{item_info.direccionE.ciudad}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(window).load(function () {
+        {% if print_after_sale %}                   
+            window.print();
+        {% endif %}
+            });
+    </script>
+{% endblock %}
