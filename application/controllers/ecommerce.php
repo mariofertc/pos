@@ -42,13 +42,18 @@ class Ecommerce extends Secure_area {
         echo $data_row;
     }
 
+    /**
+     * Muestra la vista previa de impresion para el sobre de envio
+     * con los datos de entrega del pedido
+     * @param  integer $orden_id Orden de compra
+     * @return HTML            Vista previa de sobre de impresion
+     */
     function sobre_envio($orden_id = -1) {
         $item = $this->orden->get_info($orden_id);
         $item->usuario=$this->webuser->get_info($item->user_id);
-        
-        $item->direccionE=$this->webuser_direccion->get_by_user($item->user_id,'ENVIO');
+        $tipo_direccion = ($item->usuario->misma_direccion)?'FACTURA':'ENVIO';
+        $item->direccionE=$this->webuser_direccion->get_by_user($item->user_id,$tipo_direccion);
         $data['item_info']=$item;
-        print_r($item);
         $this->twiggy->set($data);
         $this->twiggy->display("ecommerce/sobre_envio");
     }
