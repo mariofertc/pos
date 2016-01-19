@@ -1,0 +1,22 @@
+truncate table phppos_sales;
+truncate table phppos_receivings_items;
+truncate table phppos_receivings_items_temp;
+truncate table phppos_receivings_payments;
+update phppos_items set quantity = 0;
+truncate table phppos_sales_abonos_temp;
+truncate table phppos_sales_items;
+truncate table phppos_sales_items_taxes;
+truncate table phppos_sales_items_temp;
+truncate table phppos_sales_payments;
+TRUNCATE TABLE `phppos_sales_suspended`
+TRUNCATE TABLE `phppos_sales_suspended_items`
+TRUNCATE TABLE `phppos_sales_suspended_items_taxes`
+TRUNCATE TABLE `phppos_sales_suspended_payments`
+TRUNCATE TABLE `phppos_inventory`
+TRUNCATE TABLE `phppos_porpagar`
+TRUNCATE TABLE `phppos_receivings`
+
+--Borra los items que ya no estan en los alamacenes seleccionados.
+delete FROM `phppos_stock_almacenes` WHERE almacen_id not in(24,25,26,27)
+--Encera cantidades
+update `phppos_stock_almacenes` set cantidad = 0;
