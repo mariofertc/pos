@@ -73,4 +73,4 @@ $lang['items_change_all_to_unserialized'] = 'Cambiar Todo a Decodificado';
 $lang['items_change_all_to_allow_alt_desc'] = 'Permitir Alt Desc A Todos';
 $lang['items_change_all_to_not_allow_allow_desc'] = 'No Permitir Alt Desc A Todos';
 $lang['items_use_inventory_menu'] = 'Use Inv. Menu';
-?>
+$lang['items_sku'] = 'SKU';

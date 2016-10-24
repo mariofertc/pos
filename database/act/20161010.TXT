@@ -1,0 +1,1 @@
+ alter table phppos_items add column sku varchar(50);

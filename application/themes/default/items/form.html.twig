@@ -17,6 +17,16 @@
                 {{ form_label(line('items_almacen')~':', 'almacen',{'class':'required small_wide'})}}
                 {{ form_dropdown('almacen_id', almacenes, selected_almacen,"id = 'almacen_id' class='form-control'")}}
             </div>
+            
+            <div class="form-group">
+                {{ form_label(line('items_sku')~':', 'sku',{'class':'required small_wide'})}}
+                {{ form_input({
+                    'name':'sku',
+                    'id':'sku',
+                    'value':item_info.sku,
+                    'class':'form-control'}
+                )}}
+            </div>
 
             <div class="form-group">
                 {{ form_label(line('items_item_number')~':', 'name',{'class':'wide'})}}
@@ -237,32 +247,27 @@
     </div>
 </div>
 
-<script src="{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-<script src="{{base_url()}}assets/bower_components/tag-it/js/tag-it.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<!--<script src=" type="text/javascript" language="javascript" charset="UTF-8"></script>-->
+<!--<script src="{{base_url()}}assets/bower_components/tag-it/js/tag-it.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>-->
 <script type='text/javascript'>
+   if (typeof window.jQuery.fn.colorpicker === 'function') {
+    inicializa_form();
+    console.log("Carga cache");
+ } else {
+console.log("Primera Carga");
+     var script = document.createElement("script");
+     script.type = "text/javascript";
+     script.src = "{{base_url()}}assets/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js";
+     //document.head.appendChild(my_awesome_script);     
+     $.getScript("{{base_url()}}assets/bower_components/tag-it/js/tag-it.min.js"); 
+     $.getScript(script.src, function(){ 
+    inicializa_form();
+});
+}
+    
     $(document).ready(function () {
 
-        $(function () {
-            $('.color_pick').colorpicker();
-        });
-
-        $('#tags').tagit({
-            autocomplete: {
-                source: function (request, response) {
-                    $.ajax({
-                        url: "{{site_url('items/suggest_tags')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: request.term, by: 'tags'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                }
-            }
-        });
+        
         $("#tabs").tabs();
 
         $(function () {
@@ -303,6 +308,51 @@
             function (data) {
                 $("#quantity").val(data.cantidad);
             }, 'json');
+            $("#sku").autocomplete({source: function (request, response) {
+                    $.ajax({
+                        url: "{{site_url('items/suggest')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: request.term, by: 'sku'
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    var label = ui.item.label;
+                    $.ajax({
+                        url: "{{site_url('items/fill_form')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: label, by: 'sku'
+                        },
+                        success: function (data) {
+                            alert('Llenado por SKU')
+
+                            //$('#tags').tagit("3","FF");
+                            $("#name").val(data.name)
+                            $("#brand").val(data.brand)
+                            $("#category").val(data.category)
+                            $("[name=supplier_id]").val(data.supplier_id)
+                            $("#cost_price").val(data.cost_price)
+                            $("#unit_price").val(data.unit_price)
+                            $("#reorder_level").val(data.reorder_level)
+                            $("#description").val(data.description)
+                            $("#allow_alt_description").val(data.allow_alt_description)
+                            $("#is_serialized").val(data.is_serialized)
+                            
+                            $('#tags').tagit("destroy");
+                            $("#tags").val(data.tags);
+                            $('#tags').tagit()
+                             //$('#tags').tagit("fill", {label: 'tag', value: 12})
+                        }
+                    });
+}
+                });
             $("#category").autocomplete({source: function (request, response) {
                     $.ajax({
                         url: "{{site_url('items/suggest')}}",
@@ -451,4 +501,28 @@
                 }
             });
         });
+        
+        function add_tags(){
+        $('#tags').tagit({
+            autocomplete: {
+                source: function (request, response) {
+                    $.ajax({
+                        url: "{{site_url('items/suggest_tags')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: request.term, by: 'tags'
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                }
+            }
+        });
+        }
+        function inicializa_form(){
+            $('.color_pick').colorpicker();
+            add_tags();
+        }
 </script>

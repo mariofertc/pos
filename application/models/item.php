@@ -201,6 +201,7 @@ class Item extends CI_Model {
         $this->db->join('suppliers', 'suppliers.person_id=items.supplier_id', 'left');
         $this->db->where('item_id', $item_id);
         $this->db->where('items.deleted', 0);
+        //$this->db->where('suppliers.deleted', 0);
 
         //Aumentar los stocks de las sucursales.
         $items = $this->db->get();
@@ -277,6 +278,20 @@ class Item extends CI_Model {
 
         if ($query->num_rows() == 1) {
             return $query->row()->item_id;
+        }
+
+        return false;
+    }
+    
+    function get_item_by($column, $item_value) {
+        $this->db->from('items');
+        $this->db->where($column, $item_value);
+        $this->db->where('deleted', 0);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 1) {
+            return $query->row();
         }
 
         return false;

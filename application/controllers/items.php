@@ -154,6 +154,10 @@ class Items extends Secure_area implements iData_controller {
         $suggestions = $this->Item->get_suggestions($this->input->post('q'),$this->input->post('by'));
         echo json_encode($suggestions);
     }
+    function fill_form() {
+        $suggestions = $this->Item->get_item_by($this->input->post('by'), $this->input->post('q'));
+        echo json_encode($suggestions);
+    }
     function suggest_tags() {
         $suggestions = $this->Item->get_suggestions($this->input->post('q'),$this->input->post('by'));
         $cll_tags = array();
@@ -181,7 +185,7 @@ class Items extends Secure_area implements iData_controller {
     }
 
     function view($item_id = -1) {
-        $data['item_info'] = $this->Item->get_info($item_id);
+        $data['item_info'] = $this->Item->get_info((int)$item_id);
         $data['item_tax_info'] = $this->Item_taxes->get_info($item_id);
         $suppliers = array('' => $this->lang->line('items_none'));
         //$almacenes = array('' => $this->lang->line('items_none'));
@@ -209,6 +213,7 @@ class Items extends Secure_area implements iData_controller {
         $data['default_tax_2_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_2_name') : '';
         // call_user_method(
 //        $this->load->view("items/form", $data);
+        var_dump($data["item_info"]);
         $this->twiggy->set($data);
         $this->twiggy->display("items/form");
     }
