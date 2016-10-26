@@ -485,7 +485,8 @@ class Items extends Secure_area implements iData_controller {
             'size' => $this->input->post('size'),
             'color' => $this->input->post('color'),
             'color_value' => $this->input->post('color_value'),
-            'tags' => $this->input->post('tags')
+            'tags' => $this->input->post('tags'),
+            'sku' => $this->input->post('sku')
                 // 'almacen_id'=>$this->input->post('almacen_id')=='' ? null:$this->input->post('almacen_id')
         );
         $employee_id = $this->Employee->get_logged_in_employee_info()->person_id;
