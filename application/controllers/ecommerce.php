@@ -46,7 +46,7 @@ class Ecommerce extends Secure_area {
      * Muestra la vista previa de impresion para el sobre de envio
      * con los datos de entrega del pedido
      * @param  integer $orden_id Orden de compra
-     * @return HTML            Vista previa de sobre de impresion
+     * @return HTMLv            Vista previa de sobre de impresion
      */
     function sobre_envio($orden_id = -1) {
         $item = $this->orden->get_info($orden_id);

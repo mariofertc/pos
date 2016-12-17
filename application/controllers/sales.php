@@ -139,6 +139,11 @@ class Sales extends Secure_area {
         $this->_reload();
     }
 
+    /**
+     * Toma los datos del carrito de compra, completa la compra 
+     * y genera la vista de impresion del comprobante de venta
+     * @return 'sales/receipt.html.twig' Vista del comprobante de venta
+     */
     function complete() {
         $data['cart'] = $this->sale_lib->get_cart();
         $data['subtotal'] = $this->sale_lib->get_subtotal();

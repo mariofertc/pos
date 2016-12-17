@@ -10,6 +10,8 @@ var env=process.env.NODE_ENV || 'development';
 var host = "192.168.1.8";
 var puerto = 6666;
 
+var url_actual = '/pos/web/Carts';
+
 gulp.task('js',function(){
 	return gulp.src(['assets/web/js/**/*.js','!assets/web/js/dev/main.js'])
 		.pipe(gulpif(env === "production",uglify()))
@@ -36,7 +38,7 @@ gulp.task('connect-sync',function(){
 	connect.server({host:host},function(){
 		browserSync({
 			proxy:{
-				target: host+'/pos/web/market/login'
+				target: host+url_actual
 			}
 		});
 	})

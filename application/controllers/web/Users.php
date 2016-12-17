@@ -9,15 +9,15 @@ class Users extends Secure_CI {
         parent::__construct();
         $this->controller_name = strtolower($this->uri->segment(1));
         $this->data['controller_name'] = $this->controller_name;
-         $this->load->model('wishlist');
-          $this->load->model('webuser_direccion');
+        $this->load->model('wishlist');
+        $this->load->model('webuser_direccion');
         $this->twiggy->theme('web');
     }
 
     function perfil(){
-        $this->data['productos'] = $this->wishlist->get_items_by_user($this->user->user_id);
-        $this->data['direccionE']=$this->webuser_direccion->get_by_user($this->user->user_id,'ENVIO');
-        $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->user_id);
+        $this->data['productos'] = $this->wishlist->get_items_by_user($this->user->person_id);
+        $this->data['direccionE']=$this->webuser_direccion->get_by_user($this->user->person_id,'ENVIO');
+        $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->person_id);
         $this->twiggy->set($this->data);
         $this->twiggy->display('perfil');
     }
@@ -39,14 +39,14 @@ class Users extends Secure_CI {
             'zip' => $this->input->post('zip'),
             'pais' => $this->input->post('pais'),
             'tipo' => $this->input->post('tipo'),
-            'user_id'=>$this->user->user_id
+            'user_id'=>$this->user->person_id
         );
         $misma_direccion = $this->input->post('misma_direccion');
         if(isset($misma_direccion)){
             $person_data=array(
                 'misma_direccion'=>$misma_direccion
                 );
-            $this->webuser->save($person_data,$this->user->user_id);
+            $this->webuser->save($person_data,$this->user->person_id);
         }
         $msg="";
         $res = $this->webuser_direccion->save($direccion_data, $direccion_id);

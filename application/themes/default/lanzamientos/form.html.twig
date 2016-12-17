@@ -108,7 +108,6 @@
                     }, select: function (e, ui) {
                         valor = ui.item.value;
                         $(this).val(valor.split("|")[0]);
-                       
                         //alert("User selected: " + ui.item.value);
                     }}
                 );
@@ -124,6 +123,7 @@
                      */
                     //$('#item_number').val($('#scan_item_number').val());
                     //alert($('#item_number').val($('#scan_item_number').val()));
+                    $("#item_id").val($("#item_id").val().split("|")[0])
                     $.ajax({
                         type: $(form).attr('method'),
                         url: $(form).attr('action'),

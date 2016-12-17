@@ -14,6 +14,17 @@ class Customer extends Person {
         return ($query->num_rows() == 1);
     }
 
+    /**
+     * Verifica si un username ya esta registrado con algun usuario
+     * @param  string $username username a verificar
+     * @return boolean        TRUE/FALSE
+     */
+    function check_username($username){
+        $this->db->where('username',$username);
+        $res = $this->db->get('customers');
+        return ($res->num_rows()==1);
+    }
+
     /*
       Returns all the customers
      */
@@ -278,7 +289,6 @@ class Customer extends Person {
     /*
       Preform a search on customers
      */
-
     function search($search) {
         $this->db->from('customers');
         $this->db->join('people', 'customers.person_id=people.person_id');
@@ -292,7 +302,46 @@ class Customer extends Person {
 
         return $this->db->get();
     }
-    
-}
+
+    /*
+      Attempts to login customer and set session. Returns boolean based on outcome.
+     */
+    function login($username, $password) {
+        $query = $this->db->get_where('customers', array('username' => $username, 'password' => md5($password), 'deleted' => 0), 1);
+        if ($query->num_rows() == 1) {
+            $row = $query->row();
+            $this->session->set_userdata('customer_id', $row->person_id);
+            //echo $row->person_id;
+            return true;
+        }
+        return false;
+    }
+
+    /*
+      Logs out a user by destorying all session data and redirect to market
+     */
+    function logout() {
+        $this->session->sess_destroy();
+        redirect('/web/market');
+    }
+
+    /*
+      Determins if a customer is logged in
+     */
+    function is_logged_in() {
+        return $this->session->userdata('customer_id') != false;
+    }
+
+    /*
+      Gets information about the currently logged in customer.
+     */
+    function get_logged_in_customer_info() {
+        if ($this->is_logged_in()) {
+            return $this->get_info($this->session->userdata('customer_id'));
+        }
+
+        return false;
+    }
+}  
 
 ?>

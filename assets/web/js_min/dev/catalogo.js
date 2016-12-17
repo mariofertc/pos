@@ -113,6 +113,12 @@ module.exports={
                     type: 'error',
 		            delay: 200
                 });
+				new PNotify({
+                    title: 'Advertencia!',
+                    text: data.warning,
+                    type: 'error',
+		            delay: 200
+                });
 			}
 
 		},'json');
@@ -120,8 +126,8 @@ module.exports={
 	handle_remove_from_cart: function(item){
 		$this=this;
 		$producto = $(item);
-		var id_producto = $producto.attr('href');
-		$.post(utils.getBasePath()+'/web/Carts/remove_from_cart',{'producto':id_producto},function(data){
+		var indice_producto = $producto.attr('indice');
+		$.post(utils.getBasePath()+'/web/Carts/remove_from_cart',{'producto':indice_producto},function(data){
 			if(!data.error){
 				$producto.parents('tr').fadeOut('slow').remove();
 				$this.subtotal_cart();
@@ -189,14 +195,14 @@ module.exports={
 	update_cantidad_item: function(item){
 		$this=this;
 		$producto = $(item);
-		var id_producto = $producto.attr('href');
+		var id_producto = $producto.attr('indice');
 		var cantidad = parseInt($producto.attr('val'));
 
 		$input = $producto.siblings('.cart_quantity_input');
 		var valor = parseInt($input.val());
 		var total = valor+cantidad;
 		if(total>0)
-		$.post(utils.getBasePath()+'/web/Carts/add_to_cart',{'producto':id_producto,'cantidad':total},function(data){
+		$.post(utils.getBasePath()+'/web/Carts/update_cart',{'producto':id_producto,'cantidad':total},function(data){
 			if(!data.error){
 				if(cantidad==0){
 					new PNotify({

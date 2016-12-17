@@ -28,8 +28,6 @@ $(document).ready(function(){
 	});
 });
 
-
-
 $(document).on('click','.market-filter',function(e){
 	e.preventDefault();
 	catalogo.add_filter_to_marked($(this));    

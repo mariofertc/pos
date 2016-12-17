@@ -41,8 +41,8 @@
 								</tr>
 							</thead>
 							<tbody id="items-carrito">
-								{% for producto in productos %}
-									{% include 'carrito/item_carrito.html.twig' with {'producto':producto} %}
+								{% for indice, producto in productos %}
+									{% include 'carrito/item_carrito.html.twig' with {'producto':producto,'indice':indice} %}
 								{% endfor %}
 							</tbody>
 						</table>

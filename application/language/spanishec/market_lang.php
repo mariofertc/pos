@@ -41,7 +41,7 @@ $lang['market_lista_deseos']='Lista de Deseos';
 $lang['market_agregar_para_comparar']='Añadir para comparar';
 $lang['market_login_to_account']='Ingresar a su cuenta';
 $lang['market_register_new_user']='Soy nuevo';
-$lang['market_new_user_registered']='Usuario registrado correctamente';
+$lang['market_new_user_registered']='Usuario registrado correctamente, a continuación se le enviara un correo electrónico con sus datos de registro.';
 $lang['market_email_existente']='Esta dirección de correo ya esta registrada';
 $lang['market_username']='Usuario/Email';
 $lang['market_perfil']='Perfil';
@@ -56,6 +56,7 @@ $lang['market_error_registrando_user']='Error al registrar nuevo usuario';
 $lang['market_item_added_to_cart']='Producto agregado a carrito correctamente';
 $lang['market_item_add_to_cart_error']='Error al agregar producto al carrito';
 $lang['market_item_remove_from_cart']='Producto removido del carrito correctamente';
+$lang['market_item_update_cart']='Producto actualizado correctamente';
 $lang['market_item_remove_from_cart_error']='Error al remover producto del carrito';
 
 $lang['market_item_added_to_wishlist']='Producto agregado a la lista de deseos correctamente';

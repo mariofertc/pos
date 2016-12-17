@@ -66,7 +66,6 @@ class Lanzamientos extends Secure_area {
             'item_id' => $this->input->post('item_id'),
             'activo' => $this->input->post('estado'),
         );
-
         if ($this->lanzamiento->save($lanzamiento_data, $lanzamiento_id)) {
             //New item
             if ($lanzamiento_id == -1) {

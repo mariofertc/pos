@@ -73,9 +73,13 @@ class Almacen extends CI_Model {
         }
     }
 
+    /**
+     * Devuelve el primer almacen registrado
+     * @return StdClass Almacen
+     */
     function get_first() {
-        foreach ($this->get_all()->result() as $almacen) {
-            return $almacen;
+        foreach ($this->get_all() as $almacen) {
+            return (object)$almacen;
         }
         return null;
     }

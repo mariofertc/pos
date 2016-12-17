@@ -26,9 +26,9 @@ class Market extends CI_Controller {
         $this->data['colores']=$this->Item->get_count_column("color_value",10,0,"color_value")->result();
         $this->data['tags']=$this->Item->get_tags();
         $this->data['precios']=$this->Item->get_limites_precios();
-        $userdata = $this->session->userdata('webuser_data');
+        $userdata = $this->session->userdata('customer_id');
         if(isset($userdata)){
-            $this->data['webuser_data']=$userdata;
+            $this->data['webuser_data']=$this->Customer->get_logged_in_customer_info();
         }
         $this->twiggy->theme('web');
     }
@@ -94,7 +94,7 @@ class Market extends CI_Controller {
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        if (!$this->webuser->login($username, $password)) {               
+        if (!$this->Customer->login($username, $password)) {               
             echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('login_invalid_username_and_password')));
         } else {
             echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('login_validated')));
@@ -114,7 +114,7 @@ class Market extends CI_Controller {
     function email_check($email)
     {
         $this->form_validation->set_message(__FUNCTION__, $this->lang->line('market_email_existente'));
-        return !$this->webuser->check_email($email);
+        return !$this->Customer->check_username($email);
     }
 
     /**
@@ -130,19 +130,26 @@ class Market extends CI_Controller {
 
         if($this->form_validation->run()==TRUE){
             $person_data=array(
-                'nombre'=>$this->input->post('first_name'),
-                'apellido'=>$this->input->post('last_name'),
+                'first_name'=>$this->input->post('first_name'),
+                'last_name'=>$this->input->post('last_name'),
                 'email'=>$this->input->post('email'),
-                'telefono'=>$this->input->post('telefono'),
-                'password'=>md5($this->input->post('password'))
+                'phone_number'=>$this->input->post('telefono'),
+                'country'=>$this->input->post('pais'),
                 );
-            $res= $this->webuser->save($person_data);
-                if(!$res['error']){
+
+            $customer_data = array(
+                'account_number' => $this->input->post('account_number') == '' ? null : $this->input->post('account_number'),
+                'taxable' => $this->input->post('taxable') == '' ? 0 : 1,
+                'password'=>md5($this->input->post('password')),
+                'username'=>$this->input->post('email')
+            );
+            $res= $this->Customer->save($person_data,$customer_data,-1);
+                if($res){
                     $msg = $this->lang->line('market_new_user_registered');
                     //Envio mail con datos de registro
                     $this->bienvenida($person_data,$this->input->post('password'));
                     
-                    if($this->webuser->login($this->input->post('email'), $this->input->post('password')))
+                    if($this->Customer->login($this->input->post('email'), $this->input->post('password')))
                         $msg .=  $this->lang->line('market_new_user_logged');
                   echo json_encode(array('error'=>FALSE,'msg'=>$msg));   
                 }else{
@@ -154,28 +161,30 @@ class Market extends CI_Controller {
     }
 
     private function bienvenida($person_data,$password){
-        $mensaje = "<HTML><HEAD></HEAD><BODY>";
+        $mensaje = "<!doctype html><HTML><HEAD><title>".$this->config->item('company')."</title></HEAD><BODY>";
+        $mensaje .= "<table><thead><tr><td coldspan='2'>";
         $mensaje .= $this->lang->line('market_bienvenida_mensaje1');
-        $mensaje .= $this->config->item('company');
-        $mensaje .= '<br/>';
-        $mensaje .= $this->lang->line('market_bienvenido').' '.$person_data['nombre'].' '.$person_data['apellido'].',';
+        $mensaje .= $this->config->item('company').'.';
+        $mensaje .= '</td></tr><tr><td colspan="2">';
+        $mensaje .= $this->lang->line('market_bienvenida_mensaje').' '.$person_data['first_name'].' '.$person_data['last_name'].', ';
         $mensaje .= $this->lang->line('market_bienvenida_mensaje2');
-        $mensaje .= $this->lang->line('market_usuario').': '.$person_data['email'];
-        $mensaje .= '<br/>';
-        $mensaje .= $this->lang->line('market_password').': '.$password;
-        $mensaje .= '<br/>';
-        $mensaje .= '<br/>';
-        $mensaje .= '<br/>';
+        $mensaje .= '</td></tr></thead><tbody><tr><td>';
+        $mensaje .= $this->lang->line('market_usuario').':</td><td> '.$person_data['email'];
+        $mensaje .= '<td/></tr><tr><td>';
+        $mensaje .= $this->lang->line('market_password').':</td><td> '.$password;
+        $mensaje .= '<td/></tr></tbody>';
+        $mensaje .= '<tfoot/><tr><td colspan="2">';
         $mensaje .= $this->config->item('company');
-        $mensaje .= '<br/>';
+        $mensaje .= '<td/></tr><tr><td colspan="2">';
         $mensaje .= $this->config->item('address');
-        $mensaje .= '<br/>';
+        $mensaje .= '<td/></tr><tr><td colspan="2">';
         $mensaje .= $this->config->item('phone').','.$this->config->item('fax');        
-        $mensaje .= '<br/>';
+        $mensaje .= '<td/></tr><tr><td colspan="2">';
         $mensaje .= $this->config->item('email');
-        $mensaje .= "</BODY></HTML>";
+        $mensaje .= "</td></tr><tr><td></td></tr></tfoot></table></body></html>";
         $headers = "From: ".$person_data['email']."\r\n";
         $headers .= "Reply-To: ".$this->config->item('email')."\r\n";
+        $headers .= "Content-type: text/html"."\r\n";
         mail($person_data['email'],$this->lang->line('market_bienvenida_asunto'),$mensaje,$headers);
     }
     /**

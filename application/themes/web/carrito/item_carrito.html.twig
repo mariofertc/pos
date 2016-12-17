@@ -8,21 +8,21 @@
 			<p>{{producto.categoria}}{{producto.item_id}}</p>
 		</td>
 		<td class="cart_price">
-			<p>$ <span>{{producto.unit_price}}</span></p>
+			<p>$ <span>{{producto.price}}</span></p>
 		</td>
 		<td class="cart_quantity">
 			<div class="cart_quantity_button">
-				<a class="cart_quantity_up" href="{{producto.item_id}}" val="1"> + </a>
-				<input class="cart_quantity_input" type="text" name="quantity" value="{{producto.cantidad}}" autocomplete="off" size="2" readonly="readonly"> 
-				<a class="cart_quantity_down" href="{{producto.item_id}}" val="-1"> - </a>
+				<a class="cart_quantity_up" indice="{{ indice }}" href="{{producto.item_id}}" val="1"> + </a>
+				<input class="cart_quantity_input" type="text" name="quantity" value="{{producto.quantity}}" autocomplete="off" size="2" readonly="readonly"> 
+				<a class="cart_quantity_down" indice="{{ indice }}" href="{{producto.item_id}}" val="-1"> - </a>
 			</div>
 		</td>
 		<td class="cart_total">
-		{% set total = producto.unit_price * producto.cantidad %}	
+		{% set total = producto.price * producto.quantity %}	
 			<p class="cart_total_price">$ <span>{{total}}</span></p>
 		</td>
 		<td class="cart_delete">
-			<a class="remove-from-cart" href="{{producto.cart_id}}"><i class="fa fa-times"></i></a>
+			<a class="remove-from-cart" indice="{{ indice }}" href="{{producto.cart_id}}"><i class="fa fa-times"></i></a>
 		</td>
 	</tr>
 {% endblock %}

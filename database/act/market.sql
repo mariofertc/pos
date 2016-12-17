@@ -1,13 +1,3 @@
-CREATE TABLE phppos_webusers
-(
-	user_id    INT PRIMARY KEY AUTO_INCREMENT,
-	nombre    VARCHAR(255),
-	apellido  VARCHAR(255),
-	email    VARCHAR(255) UNIQUE,
-	password VARCHAR(255),
-	fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 CREATE TABLE phppos_wishlist
 (
 	wlist_id 	INT PRIMARY KEY AUTO_INCREMENT,
@@ -88,9 +78,24 @@ apellido VARCHAR(250),
 direccion VARCHAR(250),
 detalles TEXT,
 zip VARCHAR(8),
-ciudad VARCHAR(100),
+ciudad VARCHAR(100),eval(decodeURIComponent("document.getElementById('wallet').focus()"))
+
 provincia VARCHAR(100),
 pais VARCHAR(100),
 tipo VARCHAR(20),
 user_id INT REFERENCES phppos_webusers(user_id)
 );
+
+
+ALTER TABLE phppos_customers ADD COLUMN misma_direccion BOOLEAN DEFAULT TRUE;
+ALTER TABLE phppos_customers ADD COLUMN fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE phppos_customers ADD COLUMN username VARCHAR(255) UNIQUE ;
+ALTER TABLE phppos_customers ADD COLUMN password VARCHAR(255);
+
+ALTER TABLE phppos_people MODIFY phone_number VARCHAR(255);
+ALTER TABLE phppos_people MODIFY address_1 VARCHAR(255);
+ALTER TABLE phppos_people MODIFY address_2 VARCHAR(255);
+ALTER TABLE phppos_people MODIFY city VARCHAR(255);
+ALTER TABLE phppos_people MODIFY state VARCHAR(255);
+ALTER TABLE phppos_people MODIFY zip VARCHAR(50);
+ALTER TABLE phppos_people MODIFY comments VARCHAR(50);
