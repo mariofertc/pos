@@ -293,6 +293,9 @@ class Item extends CI_Model {
         if ($query->num_rows() == 1) {
             return $query->row();
         }
+        if ($query->num_rows() > 1) {
+            return $query->last_row();
+        }
 
         return false;
     }

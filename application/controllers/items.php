@@ -213,7 +213,7 @@ class Items extends Secure_area implements iData_controller {
         $data['default_tax_2_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_2_name') : '';
         // call_user_method(
 //        $this->load->view("items/form", $data);
-        var_dump($data["item_info"]);
+        //var_dump($data["item_info"]);
         $this->twiggy->set($data);
         $this->twiggy->display("items/form");
     }
