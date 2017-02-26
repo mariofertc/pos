@@ -4,6 +4,7 @@ $lang['items_item_number']='UPC/EAN/ISBN';
 $lang['items_item_number_ab']='Cod.';
 $lang['items_retrive_item_info']='Recuperar información del producto';
 $lang['items_description']='Descripción';
+$lang['items_location']='Ubicación';
 $lang['items_amazon']='Amazon';
 $lang['items_upc_database']='UPC Database';
 $lang['items_cannot_find_item']='No se puede encontrar información del producto';
