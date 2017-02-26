@@ -23,6 +23,9 @@ class Item extends CI_Model {
         $this->db->select('items.*,suppliers.company_name');
         $this->db->from('items');
         $this->db->join('suppliers', 'suppliers.person_id=items.supplier_id', 'left');
+        //TODO: No se puede ya que devuelve una fila por cada ocurrencia en el almacen_item
+        //$this->db->join('stock_almacenes', 'stock_almacenes.item_id=items.item_id', 'left');
+        
 //        $this->db->join('items_taxes', 'items_taxes.item_id=items.item_id', 'left');
         if ($where != "")
             $this->db->where($where);

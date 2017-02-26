@@ -22,14 +22,7 @@ class Items extends Secure_area implements iData_controller {
         $data['manage_table'] = get_items_manage_table();
         $data['title'] = 'customer_customer';
 
-        //Para busqueda almacenes.
-        $almacenes = array('' => $this->lang->line('items_none'));
-        foreach ($this->Almacen->get_all() as $row) {
-            $almacenes[$row['almacen_id']] = $row['nombre'];
-            $data['selected_almacen'] = $row['almacen_id'];
-        }
-        $data['almacenes'] = $almacenes;
-        $data['total_almacenes'] = count($almacenes);
+        $data = array_merge($data,$this->get_almacenes());
         $this->twiggy->set($data);
         return $this->twiggy->display('items/manage');
 
@@ -60,7 +53,9 @@ class Items extends Secure_area implements iData_controller {
             $data['selected_almacen'] = $row['almacen_id'];
         }
         $data['almacenes'] = $almacenes;
-        $this->load->view('items/manage', $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/manage");
+        //$this->load->view('items/manage', $data);
     }
 
     function mis_datos() {
@@ -69,7 +64,7 @@ class Items extends Secure_area implements iData_controller {
 //            $almacen[] = $row->nombre;
             $almacen[] = "id" . $row['almacen_id'];
         }
-        $aColumns = array('item_id', 'item_number', 'name', 'category', 'company_name', 'cost_price', 'unit_price', 'tax_percents');
+        $aColumns = array('item_id', 'item_number', 'name', 'category', 'size', 'company_name', 'cost_price', 'unit_price', 'tax_percents');
 
         $aColumns = array_merge($aColumns, $almacen);
         $aColumns = array_merge($aColumns, array('quantity'));
@@ -119,15 +114,19 @@ class Items extends Secure_area implements iData_controller {
         $data['form_width'] = $this->get_form_width();
         $data['manage_table'] = get_items_manage_table($this->Item->get_all_filtered($low_inventory, $is_serialized, $no_description, $almacen_id), $this);
 
-        $almacenes = array('' => $this->lang->line('almacenes_todos'));
+        $data = array_merge($data,$this->get_almacenes());
+
+        /*$almacenes = array('' => $this->lang->line('almacenes_todos'));
         foreach ($this->Almacen->get_all() as $row) {
             $almacenes[$row['almacen_id']] = $row['nombre'];
-        }
+        }*/
         $data['selected_almacen'] = $almacen_id;
-        $data['almacenes'] = $almacenes;
+        //$data['almacenes'] = $almacenes;
 
         //$this->output->enable_profiler(TRUE);
-        $this->load->view('items/manage', $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/manage");
+        //$this->load->view('items/manage', $data);
     }
 
     function find_item_info() {
@@ -711,7 +710,7 @@ class Items extends Secure_area implements iData_controller {
      */
 
     function get_form_width() {
-        return 460;
+        return 560;
     }
 
     function get_form_height() {
@@ -726,5 +725,17 @@ class Items extends Secure_area implements iData_controller {
     
     function do_upload($item_id=null){
         $this->load->library("upload_Custom", array('item_id' => $item_id));
+    }
+
+    function get_almacenes(){
+        //Para busqueda almacenes.
+        $almacenes = array('' => $this->lang->line('almacenes_todos'));
+        foreach ($this->Almacen->get_all() as $row) {
+            $almacenes[$row['almacen_id']] = $row['nombre'];
+            $data['selected_almacen'] = $row['almacen_id'];
+        }
+        $data['almacenes'] = $almacenes;
+        $data['total_almacenes'] = count($almacenes);
+        return $data;
     }
 }

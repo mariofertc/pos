@@ -19,3 +19,4 @@ truncate table phppos_receivings_items_temp;
 truncate table phppos_receivings_payments;
 truncate table phppos_stock_almacenes;
 truncate table phppos_suppliers;
+truncate table phppos_stock_almacenes;

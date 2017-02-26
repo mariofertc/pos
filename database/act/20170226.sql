@@ -1,0 +1,1 @@
+alter table phppos_almacenes add column short_name varchar(3);
