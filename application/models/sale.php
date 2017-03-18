@@ -81,7 +81,7 @@ class Sale extends CI_Model
 				'quantity_purchased'=>to_currency_no_money($item['quantity']),
 				'discount_percent'=>to_currency_no_money($item['discount']),
 				'item_cost_price' => $cur_item_info->cost_price,
-				'item_unit_price'=>$item['price']
+				'item_unit_price'=>str_replace(",",".",$item['price'])
 			);
 
 			$this->db->insert('sales_items',$sales_items_data);
