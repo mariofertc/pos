@@ -240,7 +240,9 @@ class Items extends Secure_area implements iData_controller {
             $data['selected_almacen'] = $row['almacen_id'];
         }
         $data['almacenes'] = $almacenes;
-        $this->load->view("items/inventory", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/inventory");
+        //$this->load->view("items/inventory", $data);
     }
 
     //Para mover entre almacenes
@@ -257,7 +259,9 @@ class Items extends Secure_area implements iData_controller {
         }
         $data['almacenes_det'] = $almacenes_det;
         $data['almacenes'] = $almacenes;
-        $this->load->view("items/move_inventory", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/move_inventory");
+        //$this->load->view("items/move_inventory", $data);
     }
 
     //Ramel Inventory Tracking
