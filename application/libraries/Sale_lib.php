@@ -213,7 +213,7 @@ class Sale_lib
 			'is_serialized'=>$this->CI->Item->get_info($item_id)->is_serialized,
 			'quantity'=>$quantity,
             'discount'=>$discount==null?0:$discount,
-			'price'=>$price!=null ? $price: round($item->unit_price+(($almacen->utilidad/100)*$item->unit_price),0)
+			'price'=>$price!=null ? $price: round($item->unit_price+(($almacen->utilidad/100)*$item->unit_price),2)
 			//'stock'=>$this->CI->Item->get_info($item_id)->quantity
 			)
 		);
@@ -323,6 +323,24 @@ class Sale_lib
 		return false;
 	}
 
+	/**
+	 * Actualiza la cantidad de un producto
+	 * @param  integer $line     Posicion del producto en el carrito
+	 * @param  integer $quantity Numero de productos
+	 * @return boolean           [description]
+	 */
+	function edit_quantity_item($line,$quantity)
+	{
+		$items = $this->get_cart();
+		if(isset($items[$line]))
+		{
+			$items[$line]['quantity'] = $quantity;
+			$this->set_cart($items);
+			return true;
+		}
+		return false;
+	}
+
 	function is_valid_receipt($receipt_sale_id)
 	{
 		//POS #
@@ -391,8 +409,13 @@ class Sale_lib
 	function delete_item($line)
 	{
 		$items=$this->get_cart();
-		unset($items[$line]);
-		$this->set_cart($items);
+		try{
+			unset($items[$line]);
+			$this->set_cart($items);
+		}catch(Exception $er){
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	function empty_cart()

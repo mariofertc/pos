@@ -1,0 +1,144 @@
+{% block header %}
+    {% include 'partials/heading.html.twig' %}
+{% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a class="btn btn-default btn-bg" href="{{site_url('web/market/tienda')}}">
+				<i class="fa fa-mail-reply"></i>
+				{{line("market_volver_a_tienda")}}
+			</a>
+			<div id="header-logo-container">
+				<a class="logo-center" href="{{site_url('web/market/tienda')}}"><img src="images/home/logo.png" alt="{{config('company')}}" /></a>
+			</div>
+		</div>
+		<div class="panel-body">
+
+			<div class="step-one">
+				<h2 class="heading">
+				<a href="#">{{line('market_conexion_segura')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				<a href="{{site_url('web/Store/entrega')}}">{{line('market_paso1')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				<a href="{{site_url('web/Store/pago')}}">{{line('market_paso2')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				<a href="{{site_url('web/Store/finalizar')}}">{{line('market_paso4')}}</a>
+				</h2>
+			</div>
+
+			<div class="shopper-informations">
+				<div class="row">
+					<div class="col-sm-6 clearfix">
+						<div class="alert alert-info">{{line('market_gracias_por_comprar')}}</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_total_compra')}}
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="total_area">
+											<ul>
+												<li id="cart-subtotal">{{line('market_subtotal')}}$<span>{{subtotal}}</span></li>
+												<li>{{line('market_costos_envio')}}<span>{{line('market_gratis')}}</span></li>
+												<li id="cart-total">{{line('market_total')}}$<span>{{total}}</span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_direccion_facturacion')}}
+							</div>
+							<div class="panel-body">
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												{{direccionF.nombre}}
+											</div>
+											<div class="form-group">
+												{{direccionF.apellido}}
+											</div>
+											<div class="form-group">
+												{{direccionF.direccion}}
+											</div>
+											<div class="form-group">
+												{{direccionF.detalles}}
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+													{{direccionF.zip}}
+											</div>
+											<div class="form-group">
+												{{direccionF.pais}}
+											</div>
+											<div class="form-group">
+												{{direccionF.provincia}}
+											</div>
+											<div class="form-group">
+												{{direccionF.ciudad}}
+											</div>
+										</div>
+									</div>
+							</div>
+						</div><!--/panel-->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_direccion_envio')}}
+							</div>
+							<div class="panel-body">
+								{% if not direccionE %}
+									<p>{{line('market_enviar_a_direccion_factura')}}</p>
+								{% else %}
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											{{direccionE.nombre}}
+										</div>
+										<div class="form-group">
+											{{direccionE.apellido}}
+										</div>
+										<div class="form-group">
+											{{direccionE.direccion}}
+										</div>
+										<div class="form-group">
+											{{direccionE.detalles}}
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+												{{direccionE.zip}}
+										</div>
+										<div class="form-group">
+											{{direccionE.pais}}
+										</div>
+										<div class="form-group">
+											{{direccionE.provincia}}
+										</div>
+										<div class="form-group">
+											{{direccionE.ciudad}}
+										</div>
+									</div>
+								</div>
+								{% endif %}
+							</div>
+						</div><!--/panel-->
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+{% endblock %}
+{% block footer %}
+    {% include 'partials/foote.html.twig' %}
+    {% include 'partials/footing.html.twig' %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% block comentarios %}
+<legend>{{ line("articulos_comentarios")}}</legend>
+<div class="response-area">
+	<ul class="media-list" id="blogreviews">
+		{% for review in articulo.opiniones %}
+			{% include 'blog/blog_review.html.twig' with {'indice':loop.index,'review':review} %}
+		{% endfor %}
+	</ul>					
+</div><!--/Response-area-->
+{% endblock %}

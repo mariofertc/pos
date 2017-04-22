@@ -39,4 +39,13 @@ $lang['module_porpagar_desc']='Agregar, Actualizar y Buscar cuentas por pagar';
 
 $lang['module_almacenes']='Almacenes';
 $lang['module_almacenes_desc']='Agregar y Actualizar Almacenes';
+
+$lang['module_ecommerce']='Compas online';
+$lang['module_ecommerce_desc']='Ver y gestionar compras realizadas desde internet';
+
+$lang['module_lanzamientos']='Lanzamiento productos';
+$lang['module_lanzamientos_desc']='Ver y gestionar los lanzamientos de productos en market';
+
+$lang['module_blog']='Blog market';
+$lang['module_blog_desc']='Ver y gestionar los articulos del blog';
 ?>

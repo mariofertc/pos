@@ -110,7 +110,9 @@ $autoload['language'] = array('common', 'config', 'customers', 'employees', 'err
 */
 
 //$autoload['model'] = array('Appconfig');
-$autoload['model'] = array('Almacen','Appconfig','Person','Customer','Employee','Module','Item', 'Item_taxes','Item_Clasifica', 'Sale', 'Sale_suspended','Supplier','Inventory','Receiving', 'Payment', 'Box', 'Abono', 'Porpagarm', 'Almacen', 'Almacen_stock');
+
+$autoload['model'] = array('Almacen','Appconfig','Person','Customer','Employee','Module','Item', 'Item_taxes','Item_Clasifica', 'Sale', 'Sale_suspended','Supplier','Inventory','Receiving', 'Payment', 'Box', 'Abono', 'Porpagarm', 'Almacen', 'Almacen_stock','webuser','orden','file_model','lanzamiento','articulo_blog');
+
 
 $autoload['sparks'] = array('Twiggy/0.8.5');
 /* End of file autoload.php */

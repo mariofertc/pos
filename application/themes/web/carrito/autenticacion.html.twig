@@ -1,0 +1,56 @@
+{% block header %}
+    {% include 'partials/heading.html.twig' %}
+{% endblock %}
+{% block content %}
+{% block main_banner %}
+	{# include 'main_banner.html.twig' #}
+{% endblock %}
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a class="btn btn-default btn-bg" href="{{site_url('web/market/tienda')}}">
+				<i class="fa fa-mail-reply"></i>
+				{{line("market_volver_a_tienda")}}
+			</a>
+			<div id="header-logo-container">
+				<a class="logo-center" href="{{site_url('web/market/tienda')}}"><img src="images/home/logo.png" alt="{{config('company')}}" /></a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="step-one">
+				<h2 class="heading">
+					<a href="{{site_url('web/market/autenticacion')}}">{{line('market_conexion_segura')}}</a>
+					<span class="fa fa-chevron-right"></span>
+					{{line('market_paso1')}}
+					<span class="fa fa-chevron-right"></span>
+					{{line('market_paso2')}}
+					<span class="fa fa-chevron-right"></span>
+					{{line('market_paso4')}}
+				</h2>
+			</div>
+			<section id="form"><!--form-->
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-4 col-sm-offset-1">
+							{% include 'elementos/login.html.twig' %}
+						</div>
+						<div class="col-sm-1">
+							<h2 class="or">{{line('common_or')}}</h2>
+						</div>
+						<div class="col-sm-4">
+							{% include 'elementos/register.html.twig' %}
+						</div>
+					</div>
+				</div>
+			</section><!--/form-->
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+	{% if ajax_request == false %}
+    	{% include 'partials/foote.html.twig' %}
+    {% endif %}
+    {% include 'partials/footing.html.twig' %}
+{% endblock %}

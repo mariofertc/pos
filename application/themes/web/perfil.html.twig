@@ -1,0 +1,172 @@
+{% block header %}
+    {% include 'partials/heading.html.twig' %}
+    {% include 'partials/heade.html.twig' %}
+{% endblock %}
+{% block content %}
+
+<section>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{line('market_mi_perfil')}}
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{line('market_informacion_basica')}}
+
+                                <a class="pull-right" href="#"><span class="fa fa-edit"></span>{{line('market_editar')}}</a>
+                            </div>
+                            <div class="panel-body">
+                                 <div class="row">
+                                    <div class="col-sm-4" >
+                                        {# <img src="https://secure.gravatar.com/avatar/e5418dc1c03927ca3be8729866384bbc?s=140&r=g&d=mm" class="img-circle"> #}
+                                        <img src="https://secure.gravatar.com/avatar/{{email_md5}}?s=140&r=g" class="img-circle">
+                                    </div>
+                                    
+                                    <div class="col-sm-8">
+                                        <h3>{{webuser_data.nombre}} {{webuser_data.apellido}}</h3>
+                                        <h6>{{line('market_telefono')}}: {{webuser_data.telefono}}</h6>
+                                        <h6>{{line('market_email')}}: {{webuser_data.email}}</h6>
+                                        <h6>{{line('market_fecha_registro')}}:{{webuser_data.fecha_registro}}</h6>
+                                        <div class="rom" id="user_data">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--/panel-->
+                    </div><!--/col-sm-6-->
+                    <div class="col-sm-6">
+                        <!--PANEL DIRECION FACTURACION -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{line('market_direccion_facturacion')}}
+                                <a class="pull-right" href="#"><span class="fa fa-edit"></span>{{line('market_editar')}}</a>
+                            </div>
+                            <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                {{direccionF.nombre}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{direccionF.apellido}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{direccionF.direccion}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{direccionF.detalles}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                    {{direccionF.zip}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{direccionF.pais}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{direccionF.provincia}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{direccionF.ciudad}}
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div><!--/PANEL DIRECION FACTURACION -->
+                        <!--PANEL DIRECION ENVIO -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{line('market_direccion_envio')}}
+                                <a class="pull-right" href="#"><span class="fa fa-edit"></span>{{line('market_editar')}}</a>
+                            </div>
+                            <div class="panel-body">
+                                {% if not direccionE %}
+                                    <p>{{line('market_enviar_a_direccion_factura')}}</p>
+                                {% else %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{direccionE.nombre}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{direccionE.apellido}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{direccionE.direccion}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{direccionE.detalles}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                                {{direccionE.zip}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{direccionE.pais}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{direccionE.provincia}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{direccionE.ciudad}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div><!--/PANEL DIRECION ENVIO -->
+                    </div><!--/col-sm-6-->
+                </div><!--/row-->
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{line('market_lista_deseos')}}
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive cart_info">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr class="cart_menu">
+                                            <td class="image">{{line('market_producto')}}</td>
+                                            <td class="description"></td>
+                                            <td class="price">{{line('market_precio')}}</td>
+                                            <td class="quantity">{{line('market_stock')}}</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="items-carrito">
+                                        {% for producto in productos %}
+                                            {% include 'wlist/item_wlist.html.twig' with {'producto':producto} %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div><!--/panel-->
+                </div><!--/row-->
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{line('market_mis_compras')}}
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div><!--/panel-body-->
+        </div><!--/panel-->
+       
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/foote.html.twig' %}
+    {% include 'partials/footing.html.twig' %}
+{% endblock %}

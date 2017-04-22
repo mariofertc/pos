@@ -14,6 +14,17 @@ class Customer extends Person {
         return ($query->num_rows() == 1);
     }
 
+    /**
+     * Verifica si un username ya esta registrado con algun usuario
+     * @param  string $username username a verificar
+     * @return boolean        TRUE/FALSE
+     */
+    function check_username($username){
+        $this->db->where('username',$username);
+        $res = $this->db->get('customers');
+        return ($res->num_rows()==1);
+    }
+
     /*
       Returns all the customers
      */
@@ -62,6 +73,37 @@ class Customer extends Person {
         $this->db->join('people', 'people.person_id = customers.person_id');
         $this->db->where('deleted', 0);
         $this->db->where('customers.person_id', $customer_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 1) {
+            return $query->row();
+        } else {
+            //Get empty base parent object, as $customer_id is NOT an customer
+            $person_obj = parent::get_info(-1);
+
+            //Get all the fields from customer table
+            $fields = $this->db->list_fields('customers');
+
+            //append those fields to base parent object, we we have a complete empty object
+            foreach ($fields as $field) {
+                $person_obj->$field = '';
+            }
+
+            return $person_obj;
+        }
+    }
+
+    /**
+     * Devuelve un objeto con la info de un customer con el id de un webuser
+     * @param  [type] $webuser_id [description]
+     * @return [type]             [description]
+     */
+    function get_info_by_webuserId($webuser_id) {
+        $this->db->from('customers C');
+        $this->db->join('people P', 'P.person_id = C.person_id');
+        $this->db->join('webusers W', 'W.customer_id = P.person_id');
+        $this->db->where('C.deleted', 0);
+        $this->db->where('W.user_id', $webuser_id);
         $query = $this->db->get();
 
         if ($query->num_rows() == 1) {
@@ -247,7 +289,6 @@ class Customer extends Person {
     /*
       Preform a search on customers
      */
-
     function search($search) {
         $this->db->from('customers');
         $this->db->join('people', 'customers.person_id=people.person_id');
@@ -262,6 +303,45 @@ class Customer extends Person {
         return $this->db->get();
     }
 
-}
+    /*
+      Attempts to login customer and set session. Returns boolean based on outcome.
+     */
+    function login($username, $password) {
+        $query = $this->db->get_where('customers', array('username' => $username, 'password' => md5($password), 'deleted' => 0), 1);
+        if ($query->num_rows() == 1) {
+            $row = $query->row();
+            $this->session->set_userdata('customer_id', $row->person_id);
+            //echo $row->person_id;
+            return true;
+        }
+        return false;
+    }
+
+    /*
+      Logs out a user by destorying all session data and redirect to market
+     */
+    function logout() {
+        $this->session->sess_destroy();
+        redirect('/web/market');
+    }
+
+    /*
+      Determins if a customer is logged in
+     */
+    function is_logged_in() {
+        return $this->session->userdata('customer_id') != false;
+    }
+
+    /*
+      Gets information about the currently logged in customer.
+     */
+    function get_logged_in_customer_info() {
+        if ($this->is_logged_in()) {
+            return $this->get_info($this->session->userdata('customer_id'));
+        }
+
+        return false;
+    }
+}  
 
 ?>

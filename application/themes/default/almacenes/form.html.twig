@@ -1,11 +1,17 @@
 {{ form_open('almacenes/save/'~ almacen_info.almacen_id,{'id':'almacen_form', 'role':'form'})}}
-<ul id="error_message_box"></ul>
+{# <ul id="error_message_box"></ul> #}
 <fieldset id="supplier_basic_info">
     <legend>{{line("almacenes_basic_information") }}</legend>
 
-    <div class="form-group">	
+    <div class="form-group">    
         {{form_label(line('almacenes_nombre')~':', 'nombre', {'class':'required'}) }}
         {{form_input({'name':'nombre','id':'company_name_input','value':almacen_info.nombre,'class':'form-control'}) }}
+    </div>
+
+{% set field = "short_name" %}
+    <div class="form-group">	
+        {{form_label(line('almacenes_'~ field)~':', field, {'class':'required'}) }}
+        {{form_input({'name':field,'id':field,'value':attribute(almacen_info,field),'class':'form-control'}) }}
     </div>
 
     <div class="form-group">
@@ -41,6 +47,10 @@
             wrapper: "li",
             rules: {
                 nombre: "required",
+                short_name:{
+                    required: true,
+                    maxlength: 3
+                },
                 utilidad: {
                     range: [0, 100],
                     number: true
@@ -48,6 +58,10 @@
             },
             messages: {
                 nombre: "{{line('almacenes_name_required') }}",
+                short_name:{
+                    required:"{{line('almacenes_short_name_required') }}",
+                    maxlength:"{{line('almacenes_short_name_max_length') }}"
+                },
                 utilidad: {
                     range: "{{line('almacenes_utilidad_range') }}",
                     number: "{{line('almacenes_utilidad_number') }}"

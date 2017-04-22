@@ -43,6 +43,7 @@ protected $controller_name = "";
     function save($almacen_id) {
         $almacen_data = array(
             'nombre' => $this->input->post('nombre'),
+            'short_name' => $this->input->post('short_name'),
             'direccion' => $this->input->post('direccion'),
             'utilidad' => $this->input->post('utilidad')
         );

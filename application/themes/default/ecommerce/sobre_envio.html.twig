@@ -1,0 +1,27 @@
+{% extends _layout %}
+{% block css %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{base_url()}}css/phppos_print.css"/>
+    <link rel="stylesheet" href="{{base_url('assets')}}/web/css/sobre_envio.css"/>
+{% endblock %}
+{% block content %}
+    <div id="sobre_wrapper">
+        <div id="sobre_header">
+            <div id="envio_name">{{item_info.direccionE.nombre}} {{item_info.direccionE.apellido}}</div>
+            <div id="envio_address">{{item_info.direccionE.direccion|nl2br }}</div>
+            <div id="envio_address_2"> {{item_info.direccionE.detalles}} {% if item_info.usuario.telefono %} <span> Tlf: {{ item_info.usuario.telefono }}</span> {% endif %} </div>
+            <div id="envio_ciudad">{{item_info.direccionE.ciudad}} / {{item_info.direccionE.provincia}} / {{item_info.direccionE.pais}}</div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(window).load(function () {
+                 
+            window.print();
+
+            });
+    </script>
+{% endblock %}

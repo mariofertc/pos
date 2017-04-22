@@ -29,6 +29,13 @@
  * By default development will show errors but testing and live will hide them.
  */
 
+if( ! ini_get('date.timezone') )
+{
+    date_default_timezone_set('America/Guayaquil');
+}
+
+//ini_set('date.timezone', 'America/Guayaquil');
+
 if (defined('ENVIRONMENT'))
 {
 	switch (ENVIRONMENT)
@@ -200,6 +207,7 @@ if (defined('ENVIRONMENT'))
  *
  */
 require_once BASEPATH.'core/CodeIgniter'.EXT;
+
 
 /* End of file index.php */
 /* Location: ./index.php */

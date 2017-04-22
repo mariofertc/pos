@@ -1,0 +1,41 @@
+{% block register %}
+	<div class="panel panel-default signup-form"><!--sign up form-->
+		<div class="panel-heading">
+			{{line('market_register_new_user')}}
+		</div>
+		<div class="panel-body">
+			<form action="{{site_url('web/market/register')}}" id="form-registermarket">
+				<div class="alert alert-info errors">
+			     </div>
+				<div class="row">
+					<div class="col-md-6">
+						<input type="text" class="form-control" name="first_name" placeholder="{{line('common_first_name')}}"/>
+					</div>
+					<div class="col-md-6">
+						<input type="text" class="form-control"name="last_name" placeholder="{{line('common_last_name')}}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="tel" class="form-control" name="telefono" placeholder="{{line('market_telefono_movil')}}"/>
+				</div>
+				<div class="form-group">
+					<input type="email" class="form-control" name="email" placeholder="{{line('common_email')}}"/>
+				</div>
+				<div class="form-group">
+					<input type="password" id="password" class="form-control" name="password" placeholder="{{line('market_password')}}"/>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" name="repassword" placeholder="{{line('market_confirm_password')}}"/>
+				</div>
+				<div class="form-group">
+					<input type="hidden" class="form-control" name="country" value="Ecuador"/>
+				</div>
+				<div class="btn-group btn-group-justified">
+					<div class="btn-group">
+						<button type="submit" class="btn btn-default">{{line('market_signup')}}</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div><!--/sign up form-->
+{% endblock %}

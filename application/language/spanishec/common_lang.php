@@ -44,11 +44,16 @@ $lang['common_welcome_message']= 'Bienvenido(a) a Punto de Venta PHP. ¡Haz clic
 $lang['common_inv']='inv';
 $lang['common_mov']='mov';
 $lang['common_det']='det';
-$lang['common_edit_ab']='edit';
+$lang['common_edit_ab']='Editar';
 $lang['common_abono']='Abonar';
 $lang['common_almacen']='Almacén';
+$lang['common_asunto']='Asunto';
+$lang['common_su_mensaje_aqui']='Su mensaje aquí';
 $lang['common_download']='Descargar';
 $lang['common_images']='Imagenes';
 $lang['common_images_save_first']='Favor primero guarde el Artículo, para poder ingresar las imágenes';
 $lang['common_error']='Error';
 $lang['common_warning']='Advertencia';
+$lang['common_fax']='Fax';
+
+?>

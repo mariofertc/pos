@@ -281,6 +281,7 @@ function get_items_manage_table()
 	$CI->lang->line('items_item_number_ab'),
 	$CI->lang->line('items_name'),
 	$CI->lang->line('items_category'),
+	$CI->lang->line('items_size'),
 	$CI->lang->line('suppliers_supplier'),
 	$CI->lang->line('items_cost_price_ab'),
 	$CI->lang->line('items_unit_price_ab'),
@@ -306,7 +307,8 @@ function get_items_manage_table()
 			$almacenes = $CI->Almacen->get_all();
 			foreach($almacenes as $almacen)
 			{
-				$table.="<th>".word_limiter($almacen['nombre'],2)."</th>";
+				//$table.="<th>".word_limiter($almacen['nombre'],2)."</th>";
+				$table.="<th>".word_limiter($almacen['short_name'],2)."</th>";
 			}
 		}
 		else
@@ -353,14 +355,15 @@ function get_item_data_row($item,$controller)
 	$width = $controller->get_form_width();
 
 	$table_data_row='<tr>';
-	$table_data_row.="<td width='1%'><input type='checkbox' id='item_$item->item_id' value='".$item->item_id."'/></td>";
-	$table_data_row.='<td width="5%">'.$item->item_number.'</td>';
-	$table_data_row.='<td width="20%">'.$item->name.'</td>';
-	$table_data_row.='<td width="13%">'.$item->category.'</td>';
-	$table_data_row.='<td width="13%">'.$item->company_name.'</td>';
-	$table_data_row.='<td width="9%">'.to_currency($item->cost_price).'</td>';
-	$table_data_row.='<td width="9%">'.to_currency($item->unit_price).'</td>';
-	$table_data_row.='<td width="8%">'.$tax_percents.'</td>';
+	$table_data_row.="<td ><input type='checkbox' id='item_$item->item_id' value='".$item->item_id."'/></td>";
+	$table_data_row.='<td>'.$item->item_number.'</td>';
+	$table_data_row.='<td >'.$item->name.'</td>';
+	$table_data_row.='<td >'.$item->category.'</td>';
+	$table_data_row.='<td >'.$item->size.'</td>';
+	$table_data_row.='<td >'.$item->company_name.'</td>';
+	$table_data_row.='<td >'.to_currency($item->cost_price).'</td>';
+	$table_data_row.='<td >'.to_currency($item->unit_price).'</td>';
+	$table_data_row.='<td >'.$tax_percents.'</td>';
 	$almacenes = $CI->Almacen->get_all();
 	foreach($almacenes as $almacen)
 	{
@@ -370,13 +373,13 @@ function get_item_data_row($item,$controller)
 	
 	// $table_data_row.='<td width="5%">'.$item->quantity.'</td>';
 	// $table_data_row.='<td width="5%">'.$item->quantity.'</td>';
-	$table_data_row.='<td width="5%">'.$item->quantity.'</td>';
+	$table_data_row.='<td>'.$item->quantity.'</td>';
 	
-	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$item->item_id?width=$width", $CI->lang->line('common_edit_ab'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))).'</td>';		
+	$table_data_row.='<td>'.anchor($controller_name."/view/$item->item_id?width=$width", $CI->lang->line('common_edit_ab'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_update'))). nbs();		
 	//Ramel Inventory Tracking
-	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory/$item->item_id?width=300", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count'))).'</td>';//inventory count
-	$table_data_row.='<td  width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/inventory_mov/$item->item_id?width=300", $CI->lang->line('common_mov'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_move'))).'</td>';
-	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/count_details/$item->item_id?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
+	$table_data_row.=anchor($controller_name."/inventory/$item->item_id?width=300", $CI->lang->line('common_inv'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_count'))). nbs();//inventory count
+	$table_data_row.=anchor($controller_name."/inventory_mov/$item->item_id?width=300", $CI->lang->line('common_mov'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_move'))). nbs();
+	$table_data_row.=anchor($controller_name."/count_details/$item->item_id?width=$width", $CI->lang->line('common_det'),array('class'=>'thickbox','title'=>$CI->lang->line($controller_name.'_details_count'))).'</td>';//inventory details	
 	
 	$table_data_row.='</tr>';
 	return $table_data_row;
@@ -1133,4 +1136,215 @@ function get_almacen_data_row($almacen,$controller)
 	return $table_data_row;
 }
 
+
+//***************************************************************//
+//******************  ECOMMERCE *********************************//
+//***************************************************************//
+
+/*
+Gets the html table to manage ecommerce transactions.
+*/
+function get_ecommerce_manage_table()
+{
+	$CI =& get_instance();	
+	
+	$table='<table class="stripe row-border order-column dataTable no-footer DTFC_Cloned" id="sortable_table">';
+	$headers = array('<input type="checkbox" id="select_all" />', 
+	$CI->lang->line('market_fecha'),
+	$CI->lang->line('market_usuario'),
+	$CI->lang->line('market_detalle'),
+	$CI->lang->line('market_monto'),
+	$CI->lang->line('market_transaccion_id'),
+	$CI->lang->line('market_estado'),
+	$CI->lang->line('market_acciones'),
+	);
+	$table.='<thead><tr>';
+	foreach($headers as $header)
+	{
+		$table.="<th>$header</th>";
+	}
+	$table.='</tr></thead><tbody>';
+	$table.='</tbody></table>';
+	return $table;
+}
+
+/*
+Gets the html data rows for the ecommerce.
+*/
+function get_ecommerce_manage_table_data_rows($transactions,$controller)
+{
+	$CI =& get_instance();
+	$table_data_rows='';
+	
+	foreach($transactions->result() as $transaction)
+	{
+		$table_data_rows.=get_ecommerce_data_row($transaction,$controller);
+	}
+	
+	if($transactions->num_rows()==0)
+	{
+		$table_data_rows.="<tr><td colspan='11'><div class='warning_message' style='padding:7px;'>".$CI->lang->line('items_no_items_to_display')."</div></tr></tr>";
+	}
+	
+	return $table_data_rows;
+}
+
+function get_ecommerce_data_row($item,$controller)
+{
+	$CI =& get_instance();
+	$controller_name=$CI->uri->segment(1);
+	$width = $controller->get_form_width();
+	$table_data_row='<tr>';
+	$table_data_row.="<td width='1%'><input type='checkbox' id='item_$item->order_id' value='".$item->item_id."'/></td>";
+	$table_data_row.='<td width="5%">'.$item->fecha_creacion.'</td>';
+	$table_data_row.='<td width="25%">'.$item->usuario.'</td>';
+	$table_data_row.='<td width="44%">'.$item->descripcion.'</td>';
+	$table_data_row.='<td width="10%">'.to_currency($item->valor).'</td>';
+	$table_data_row.='<td width="10%">'.$item->payment_id.'</td>';
+	$table_data_row.='<td width="15%">'.$item->estado.'</td>';
+	
+	$table_data_row.='<td width="1" style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$item->payment_id?width=$width", $CI->lang->line('market_enviar_pedido'),array('class'=>'thickbox','title'=>$CI->lang->line('market_enviar_pedido'))).'</td>';		
+	
+	$table_data_row.='</tr>';
+	return $table_data_row;
+}
+
+
+//***************************************************************//
+//******************  LANZMIENTOS *******************************//
+//***************************************************************//
+
+/*
+Gets the html table to manage lanzamientos.
+*/
+function get_lanzamientos_manage_table()
+{
+	$CI =& get_instance();	
+	
+	$table='<table class="stripe row-border order-column dataTable no-footer DTFC_Cloned" id="sortable_table">';
+	$headers = array('<input type="checkbox" id="select_all" />', 
+	$CI->lang->line('market_titulo'),
+	$CI->lang->line('market_detalle'),
+	$CI->lang->line('market_fecha'),
+	$CI->lang->line('market_producto'),
+	$CI->lang->line('market_estado'),
+	$CI->lang->line('market_acciones'),
+	);
+	$table.='<thead><tr>';
+	foreach($headers as $header)
+	{
+		$table.="<th>$header</th>";
+	}
+	$table.='</tr></thead><tbody>';
+	$table.='</tbody></table>';
+	return $table;
+}
+
+/*
+Gets the html data rows for the lanzamiento.
+*/
+function get_lanzamiento_manage_table_data_rows($lanzamientos,$controller)
+{
+	$CI =& get_instance();
+	$table_data_rows='';
+	
+	foreach($lanzamientos->result() as $lanzamiento)
+	{
+		$table_data_rows.=get_lanzamiento_data_row($lanzamiento,$controller);
+	}
+	
+	if($lanzamientos->num_rows()==0)
+	{
+		$table_data_rows.="<tr><td colspan='11'><div class='warning_message' style='padding:7px;'>".$CI->lang->line('items_no_items_to_display')."</div></tr></tr>";
+	}
+	
+	return $table_data_rows;
+}
+
+function get_lanzamiento_data_row($lanzamiento,$controller)
+{
+	$CI =& get_instance();
+	$controller_name=$CI->uri->segment(1);
+	$width = $controller->get_form_width();
+	$table_data_row='<tr>';
+	$table_data_row.="<td><input type='checkbox' id='lanzamiento_$lanzamiento->lanzamiento_id' value='".$lanzamiento->lanzamiento_id."'/></td>";
+	$table_data_row.='<td>'.$lanzamiento->titulo.'</td>';
+	$table_data_row.='<td>'.$lanzamiento->detalle.'</td>';
+	$table_data_row.='<td>'.$lanzamiento->fecha.'</td>';
+	$table_data_row.='<td>'.$lanzamiento->producto.'</td>';
+	$table_data_row.='<td>'.$lanzamiento->activo.'</td>';
+	
+	$table_data_row.='<td style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$lanzamiento->lanzamiento_id?width=$width", $CI->lang->line('market_editar_lanzamiento'),array('class'=>'thickbox','title'=>$CI->lang->line('market_editar_lanzamiento'))).'</td>';		
+	
+	$table_data_row.='</tr>';
+	return $table_data_row;
+}
+
+//***************************************************************//
+//******************  BLOG *******************************//
+//***************************************************************//
+
+/*
+Gets the html table to manage blog.
+*/
+function get_blog_manage_table()
+{
+	$CI =& get_instance();	
+	
+	$table='<table class="stripe row-border order-column dataTable no-footer DTFC_Cloned" id="sortable_table">';
+	$headers = array('<input type="checkbox" id="select_all" />', 
+	$CI->lang->line('articulos_titulo'),
+	$CI->lang->line('market_usuario'),
+	$CI->lang->line('market_fecha'),
+	$CI->lang->line('market_acciones'),
+	);
+	$table.='<thead><tr>';
+	foreach($headers as $header)
+	{
+		$table.="<th>$header</th>";
+	}
+	$table.='</tr></thead><tbody>';
+	$table.='</tbody></table>';
+	return $table;
+}
+
+/*
+Gets the html data rows for the blog.
+*/
+function get_blog_manage_table_data_rows($blog,$controller)
+{
+	$CI =& get_instance();
+	$table_data_rows='';
+	
+	foreach($blog->result() as $blg)
+	{
+		$table_data_rows.=get_blog_data_row($blg,$controller);
+	}
+	
+	if($blog->num_rows()==0)
+	{
+		$table_data_rows.="<tr><td colspan='11'><div class='warning_message' style='padding:7px;'>".$CI->lang->line('items_no_items_to_display')."</div></tr></tr>";
+	}
+	
+	return $table_data_rows;
+}
+
+function get_blog_data_row($articulo,$controller)
+{
+	$CI =& get_instance();
+	$controller_name=$CI->uri->segment(1);
+	$width = $controller->get_form_width();
+	$table_data_row='<tr>';
+	$table_data_row.="<td><input type='checkbox' id='articulo_$articulo->articulo_id' value='".$articulo->articulo_id."'/></td>";
+	$table_data_row.='<td>'.$articulo->titulo.'</td>';
+	$table_data_row.='<td>'.$articulo->detalle.'</td>';
+	$table_data_row.='<td>'.$articulo->fecha.'</td>';
+	$table_data_row.='<td>'.$articulo->producto.'</td>';
+	$table_data_row.='<td>'.$articulo->activo.'</td>';
+	
+	$table_data_row.='<td style=" padding-left: 0;padding-right: 2;">'.anchor($controller_name."/view/$articulo->articulo_id?width=$width", $CI->lang->line('market_editar_articulo'),array('class'=>'thickbox','title'=>$CI->lang->line('market_editar_articulo'))).'</td>';		
+	
+	$table_data_row.='</tr>';
+	return $table_data_row;
+}
 ?>

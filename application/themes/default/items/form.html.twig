@@ -127,7 +127,7 @@
                 %
             </div>
 
-            <div class="form-inline">
+            <div class="form-inline form-group">
                 {{ form_label(line('items_tax_2')~':', 'tax_percent_2',{'class':'small_wide'})}}
                 {{ form_input({
 		'name':'tax_names[]',
@@ -144,6 +144,12 @@
                 'class':'form-control'}
 	)}}
                 %
+            </div>
+{% set field = 'final_price'%}
+            <div class="form-group">
+                {{ form_label(line('items_'~field)~':', field,{'class':'required wide'})}}
+                {{ form_input({'name':field,'size':'8','id':field,'value':0,'class':'form-control'}
+    )}}
             </div>
 
 
@@ -210,6 +216,12 @@
 	)}}
             </div>
 
+        {% set field = 'location' %}
+        <div class="form-group">
+            {{ form_label(line('items_'~field)~':', field,{'class':'required wide'})}}
+            {{ form_input({'name':field,'id':field,'value':attribute(item_info,field),'class':'form-control'})}}
+        </div>
+
             <div class="form-group">
                 {{ form_label(line('items_allow_alt_desciption')~':', 'allow_alt_description',{'class':'wide'})}}
                 {{ form_checkbox({
@@ -225,10 +237,22 @@
                 {{ form_label(line('items_is_serialized')~':', 'is_serialized',{'class':'wide'})}}
 
                 {{ form_checkbox({
-		'name':'is_serialized',
-		'id':'is_serialized',
+        'name':'is_serialized',
+        'id':'is_serialized',
+        'value':1,
+        'checked':(item_info.is_serialized)? 1 : 0,
+                'class':'checkbox-inline'}
+    )}}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(line('items_on_web')~':', 'on_web',{'class':'wide'})}}
+
+                {{ form_checkbox({
+		'name':'on_web',
+		'id':'on_web',
 		'value':1,
-		'checked':(item_info.is_serialized)? 1 : 0,
+		'checked':(item_info.on_web)? 1 : 0,
                 'class':'checkbox-inline'}
 	)}}
             </div>
@@ -267,7 +291,32 @@ console.log("Primera Carga");
     
     $(document).ready(function () {
 
-        
+        $('#unit_price').on('change',function(){
+            interest = get_interest();
+            precio = parseFloat($(this).val());
+            $('#final_price').val((precio * interest + precio).toFixed(2));
+        })
+        $('#final_price').on('change',function(){
+            interest = get_interest() + 1;
+            precio = parseFloat($(this).val());
+            $('#unit_price').val((precio / interest).toFixed(2));
+        })
+        $('#tax_percent_name_1').on('change',function(){
+            interest = get_interest();
+            precio = parseFloat($('#unit_price').val());
+            $('#final_price').val((precio * interest + precio).toFixed(2));
+        })
+        $('#tax_percent_name_2').on('change',function(){
+            interest = get_interest();
+            precio = parseFloat($('#unit_price').val());
+            $('#final_price').val((precio * interest + precio).toFixed(2));
+        })
+        function calculate_price(){
+
+        }
+        function get_interest(){
+            return (parseFloat($('#tax_percent_name_1').val()) + ($('#tax_percent_name_2').val() != '' ? parseFloat($('#tax_percent_name_2').val()) : 0))/100;
+        }
         $("#tabs").tabs();
 
         $(function () {
@@ -360,6 +409,19 @@ console.log("Primera Carga");
                         type: "POST",
                         data: {
                             q: request.term, by: 'category'
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                }});
+            $("#location").autocomplete({source: function (request, response) {
+                    $.ajax({
+                        url: "{{site_url('items/suggest')}}",
+                        dataType: "json",
+                        type: "POST",
+                        data: {
+                            q: request.term, by: 'location'
                         },
                         success: function (data) {
                             response(data);

@@ -1,0 +1,145 @@
+{% extends _layout %}
+{% block css %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css"/>
+    {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
+{% endblock %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+{% endblock %}
+{% block content %}
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{line('common_list_of')~' '~line('module_'~controller_name) }}
+                        <div class="btn-group" role="group">
+                            {{ anchor(controller_name~"/view/-1?width="~form_width,line(controller_name~'_new'),
+		                      {'class':'btn btn-primary thickbox','title':line(controller_name~'_new')})}}
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            {{  manage_table }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}assets/bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            //init_table_sorting();
+            enable_select_all();
+            //enable_row_selection();
+            //enable_search('<?php echo site_url("$controller_name/suggest")?>', '<?php echo $this->lang->line("common_confirm_search")?>');
+            enable_delete('{{line(controller_name~"_confirm_delete")}}', '{{line(controller_name~"_none_selected")}}');
+        });
+
+        var sort = [0, 6];
+
+        var oTable = $('#sortable_table').dataTable({
+            //scrollY: "450px",
+            scrollX: true,
+            scrollCollapse: true,
+            "processing": true,
+            "serverSide": true,
+            //"bJQueryUI": true,
+            "iDisplayLength": 10,
+            //"sPaginationType": "full_numbers",
+            //"sAjaxSource": 'customers/mis_datos',
+            "ajax": '{{controller_name}}/mis_datos',
+            /*       "aoColumnDefs": [
+             {'bSortable': false, 'aTargets': [0]},
+             {'bSortable': false, 'aTargets': [4]},
+             {'bSortable': false, 'aTargets': [7]},
+             {'bSortable': false, 'aTargets': [8]},
+             {'bSortable': false, 'aTargets': [9]},
+             {'bSortable': false, 'aTargets': [10]},
+             {'bSortable': false, 'aTargets': [11]},
+             {'bSortable': false, 'aTargets': [13]}
+             
+             ],*/
+            "columnDefs": [
+                {'sortable': false, 'targets': sort},
+                {"searchable": false, 'targets': sort}
+            ],
+            "order": [[2, "asc"]],
+            "fnDrawCallback": function () {
+                //alert("{{total_almacenes}}");
+                //tb_init('#sortable_table a.thickbox');
+                //imgLoader = new Image();// preload image
+                //imgLoader.src = tb_pathToImage;
+                enable_row_selection();
+            }
+        });
+
+
+        function init_table_sorting()
+        {
+            //Only init if there is more than one row
+            if ($('.tablesorter tbody tr').length > 1)
+            {
+                $("#sortable_table").tablesorter(
+                        {
+                            sortList: [[1, 0]],
+                            headers:
+                                    {
+                                        0: {sorter: false},
+                                        6: {sorter: false}
+                                    }
+
+                        });
+            }
+        }
+
+        function post_lanzamiento_form_submit(response) {
+            if (!response.success) {
+                new PNotify({
+                    title: 'Oh No!',
+                    text: response.message,
+                    type: 'error'
+                });
+            }
+            else
+            {
+                //This is an update, just update one row
+                if (jQuery.inArray(response.person_id, get_visible_checkbox_ids()) != -1)
+                {
+                    update_row(response.person_id, '{{ site_url(controller_name~"/get_row")}}');
+                    new PNotify({
+                        title: 'Actualización Exitosa',
+                        text: response.message,
+                        type: 'success'
+                    });
+                }
+                else //refresh entire table
+                {
+                    oTable.api().ajax.reload();
+                    //do_search(true, function ()
+                    
+                        //highlight new row
+                        hightlight_row(response.person_id);
+                        new PNotify({
+                            title: 'Ingreso Exitoso',
+                            text: response.message,
+                            type: 'success'
+                        });
+                    
+                }
+            }
+        }
+    </script>
+{% endblock %}

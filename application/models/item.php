@@ -16,17 +16,25 @@ class Item extends CI_Model {
         return ($query->num_rows() == 1);
     }
 
-    function get_all($num = 10, $offset = 0, $where, $order = null) {
+    function get_all($num = 0, $offset = 0, $where, $order = null,$where_in=null) {
+
         if ($order == null)
             $order = "name";
         //$this->db->select('id','nombre');
         $this->db->select('items.*,suppliers.company_name');
         $this->db->from('items');
         $this->db->join('suppliers', 'suppliers.person_id=items.supplier_id', 'left');
+        //TODO: No se puede ya que devuelve una fila por cada ocurrencia en el almacen_item
+        //$this->db->join('stock_almacenes', 'stock_almacenes.item_id=items.item_id', 'left');
+        
 //        $this->db->join('items_taxes', 'items_taxes.item_id=items.item_id', 'left');
         if ($where != "")
             $this->db->where($where);
         $this->db->where('items.deleted', 0);
+        if(!is_null($where_in))
+            foreach ($where_in as $key => $value) {
+                $this->db->where_in($key,$value);
+            }
         $this->db->order_by($order);
         $this->db->limit($num, $offset);
         //Aumentar los stocks de las sucursales.
@@ -44,6 +52,7 @@ class Item extends CI_Model {
                 $tax_percents.=$tax_info['percent'] . '%, ';
             }
             $item['tax_percents'] = substr($tax_percents, 0, -2);
+            $item['imagenes']=$this->file_model->get_all_by_item($item['item_id'])->result();
         }
         return $items;
     }
@@ -500,6 +509,50 @@ class Item extends CI_Model {
         return $items;
     }
 
+    /**
+     * Retorna el nombre y el numero de elementos agrupados por la columna requerida
+     * @param  string  $columna       Nombre de la columna a agrupar
+     * @param  integer $num           Numero de elementos
+     * @param  integer $offset        Saltarse cuantos
+     * @param  string  $columna_orden Ordena por esta columna
+     * @return array                 [description]
+     */
+    function get_count_column($columna="category",$num=10,$offset=0,$columna_orden="total") {
+        $this->db->select($columna.' as filtro, count(*) as total');
+        $this->db->from('items');
+        $this->db->where('deleted', 0);
+        $this->db->limit($num,$offset);
+        $this->db->group_by($columna);
+        $this->db->order_by($columna_orden, "desc");
+
+        return $this->db->get();
+    }
+
+    /**
+     * [get_tags description]
+     * @return [type] [description]
+     */
+    function get_tags(){
+        $this->db->select('tags');
+        $this->db->from('items');
+        $this->db->where('deleted',0);
+        $this->db->group_by('tags');
+        $this->db->order_by('tags',"desc");
+
+        $resultado = $this->db->get()->result_array();
+        $tags=array();
+        foreach ($resultado as $key => $value) {
+            $tag=explode(",", trim($value['tags']));
+            if(!empty($tag))
+                if(!isset($tags[$tag[0]]))
+                    $tags[$tag[0]]=array();
+                if(isset($tag[1]))
+                    array_push($tags[$tag[0]],$tag[1] );
+            
+        }
+        return $tags;
+    }
+
     function get_categories() {
         $this->db->select('category');
         $this->db->from('items');
@@ -542,4 +595,24 @@ class Item extends CI_Model {
         }
     }
 
+    /**
+     * Devuelve un array con el precio minimo y maximo de todos los productos
+     * @return [type] [description]
+     */
+    function get_limites_precios(){
+        $this->db->select('min(unit_price) as minimo,max(unit_price) as maximo');
+        $this->db->from('items');
+        $this->db->where('deleted', 0);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 1) {
+            $query->row()->maximo=round($query->row()->maximo,0);
+            $query->row()->minimo=round($query->row()->minimo,0);
+            return $query->row();
+        } else {
+            return null;
+        }
+
+    }
 }

@@ -1,0 +1,34 @@
+{% block item_producto_destacado %}
+	<div class="product-image-wrapper">
+		<div class="single-products">
+				<div class="productinfo text-center">
+					{% for imagen in producto.imagenes|slice(0,1) %}
+						<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{imagen.url}}" alt="{{producto.name}}" /></a>
+					{% else %}
+						<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
+					{% endfor %}
+					<h2>${{producto.unit_price}}</h2>
+					<p>{{producto.name}}</p>
+					<a href="{{producto.item_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{line('market_agregar_a_carrito')}}</a>
+				</div>
+				<div class="product-overlay">
+					<div class="overlay-content">
+						{% for imagen in producto.imagenes|slice(0,1) %}
+							<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{imagen.url}}" alt="{{producto.name}}" /></a>
+						{% else %}
+							<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
+						{% endfor %}
+						<h2>${{producto.unit_price}}</h2>
+						<p>{{producto.name}}</p>
+						<a href="{{producto.item_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{line('market_agregar_a_carrito')}}</a>
+					</div>
+				</div>
+		</div>
+		<div class="choose">
+			<ul class="nav nav-pills nav-justified">
+				<li><a href="{{producto.item_id}}" class="add-to-wlist"><i class="fa fa-plus-square"></i>{{line('market_agregar_a_lista_deseos')}}</a></li>
+				<li><a href="{{producto.item_id}}"><i class="fa fa-plus-square"></i>{{line('market_agregar_para_comparar')}}</a></li>
+			</ul>
+		</div>
+	</div>
+{% endblock %}

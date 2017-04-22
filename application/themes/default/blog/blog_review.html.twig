@@ -1,0 +1,15 @@
+{% block blog_review %}
+	<li class="media {% if indice%2==0 %} second-media {% endif %}">
+		<a class="pull-left" href="#">
+			<img class="media-object" src="images/blog/man-two.jpg" alt="">
+		</a>
+		<div class="media-body">
+			<ul class="sinlge-post-meta">
+				<li><a href=""><i class="fa fa-user"></i>{{review.nombre}}</a></li>
+				<li><i class="fa fa-clock-o"></i>{{review.fecha|date('H:i:s')}}</li>
+				<li><i class="fa fa-calendar-o"></i>{{review.fecha|date('Y-m-d')}}</li>
+			</ul>
+			<p>{{review.detalle}}</p>
+		</div>
+	</li>
+{% endblock %}
