@@ -80,6 +80,7 @@ class Almacen extends CI_Model {
     function get_first() {
         foreach ($this->get_all() as $almacen) {
             return (object)$almacen;
+        }
             //return $almacen;
         return null;
     }
@@ -190,7 +191,4 @@ class Almacen extends CI_Model {
         }
         return $suggestions;
     }
-
 }
-
-?>
