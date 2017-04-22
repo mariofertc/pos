@@ -1,10 +1,11 @@
 ﻿
 /*************************
 *******Typography******
-**************************/
+**************************
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,300,400italic,500,700,100);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700);
-@import url(http://fonts.googleapis.com/css?family=Abel);
+@import url(http://fonts.googleapis.com/css?family=Abel);*/
+
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -263,7 +264,11 @@ a#scrollUp i{
   outline: medium none;
   padding-left: 10px;
   width: 155px;
+<<<<<<< HEAD
+  background-image: url(../../../images/home/searchicon.png);
+=======
   background-image: url(../images/home/searchicon.png);
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
   background-repeat: no-repeat;
   background-position: 130px;
 }
@@ -593,6 +598,10 @@ ul.sub-menu {
 
 .girl {
   margin-left: 0;
+<<<<<<< HEAD
+  height: 450px;
+=======
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .item h1 {
@@ -902,6 +911,12 @@ h2.title {
   opacity:;
 }
 
+<<<<<<< HEAD
+.product-overlay img{
+  width:100%;
+}
+=======
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 .single-products:hover .product-overlay {
   display:block;
   height:100%;
@@ -1427,9 +1442,14 @@ h2.title {
 
 #form {
   display: block;
+<<<<<<< HEAD
+  overflow: hidden;
+  background-color: #FFFFFF;
+=======
   margin-bottom: 185px;
   margin-top: 185px;
   overflow: hidden;
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .login-form {
@@ -1461,7 +1481,10 @@ h2.title {
   margin-bottom: 10px;
   outline: medium none;
   padding-left: 10px;
+<<<<<<< HEAD
+=======
   width: 100%;
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .login-form form span{
@@ -1532,7 +1555,11 @@ h2.title {
 
 .breadcrumbs .breadcrumb {
   background:transparent;
+<<<<<<< HEAD
+  /*margin-bottom: 75px;*/
+=======
   margin-bottom: 75px;
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
   padding-left: 0;
 }
 
@@ -2007,7 +2034,12 @@ h2.title {
 .single-blog-post a img {
   border: 1px solid #F7F7F0;
   width: 100%;
+<<<<<<< HEAD
+  margin-bottom: 30px;
+  height: 400px;
+=======
   margin-bottom: 30px
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .blog-post-area  
@@ -2112,7 +2144,10 @@ h2.title {
 }
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 /*************************
 *******Blog Single CSS******
 **************************/
@@ -2395,7 +2430,10 @@ h2.title {
   background:#FE980F;
   border: 0 none;
   border-radius: 0;
+<<<<<<< HEAD
+=======
   margin-top: 16px;
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .blank-arrow {
@@ -2520,4 +2558,63 @@ h2.title {
   color: #FE980F;
 }
 
+<<<<<<< HEAD
+.bg-yellow-gradient {
+  background: #f39c12 !important;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f39c12), color-stop(1, #f7bc60)) !important;
+  background: -ms-linear-gradient(bottom, #f39c12, #f7bc60) !important;
+  background: -moz-linear-gradient(center bottom, #f39c12 0%, #f7bc60 100%) !important;
+  background: -o-linear-gradient(#f7bc60, #f39c12) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7bc60', endColorstr='#f39c12', GradientType=0) !important;
+  color: #fff;
+}
 
+.bg-green-gradient {
+  background: #00a65a !important;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00a65a), color-stop(1, #00ca6d)) !important;
+  background: -ms-linear-gradient(bottom, #00a65a, #00ca6d) !important;
+  background: -moz-linear-gradient(center bottom, #00a65a 0%, #00ca6d 100%) !important;
+  background: -o-linear-gradient(#00ca6d, #00a65a) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ca6d', endColorstr='#00a65a', GradientType=0) !important;
+  color: #fff;
+}
+.bg-red-gradient {
+  background: #f56954 !important;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f56954), color-stop(1, #f89384)) !important;
+  background: -ms-linear-gradient(bottom, #f56954, #f89384) !important;
+  background: -moz-linear-gradient(center bottom, #f56954 0%, #f89384 100%) !important;
+  background: -o-linear-gradient(#f89384, #f56954) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f89384', endColorstr='#f56954', GradientType=0) !important;
+  color: #fff;
+}
+.bg-black-gradient {
+  background: #222222 !important;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #222222), color-stop(1, #3c3c3c)) !important;
+  background: -ms-linear-gradient(bottom, #222222, #3c3c3c) !important;
+  background: -moz-linear-gradient(center bottom, #222222 0%, #3c3c3c 100%) !important;
+  background: -o-linear-gradient(#3c3c3c, #222222) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c3c3c', endColorstr='#222222', GradientType=0) !important;
+  color: #fff;
+}
+#loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  opacity: .8;
+  background-color: #FFFFFF;
+}
+
+#header-logo-container{
+  display: inline;
+  margin: 10px 0;
+  position: static;
+  text-align: center;
+  margin-left: 25%;
+}
+=======
+
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274

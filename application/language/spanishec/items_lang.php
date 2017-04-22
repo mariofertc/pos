@@ -99,3 +99,4 @@ $lang['items_import_fail'] = 'El archivo subido, no tiene datos o no esta en el 
 $lang['items_import_fail'] = 'El archivo subido, no tiene datos o no esta en el formato soportado, favor descarga la plantilla.';
 $lang['items_import_errors'] = 'Most items imported. But some were not, here is list of their CODE ( %total_errors ): %error_msg';
 $lang['items_sku'] = 'SKU';
+$lang['items_on_web'] = 'Publicado';

@@ -27,7 +27,7 @@ class Carts extends CI_Controller {
     	$this->data['title'] = 'Market - Carrito ';
         
         $this->data['productos'] = $this->sale_lib->get_cart();
-        print_r($this->data['productos']);
+        //print_r($this->data['productos']);
         $subtotal =0;
         foreach ($this->data['productos'] as $key => $producto) {
             $subtotal+=( $producto['quantity']*$producto['price']);

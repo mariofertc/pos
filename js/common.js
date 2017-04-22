@@ -24,8 +24,8 @@ $('body').on('click', '.thickbox', function (e) {
     ref = this.href;
     $(function () {
         //title = $.urlParam(ref,'title')===null?"":$.urlParam(ref,'title');
-        width = $.urlParam(ref, 'width') === null ? 400 : $.urlParam(ref, 'width');
-        height = $.urlParam(ref, 'height') === null ? 400 : $.urlParam(ref, 'height');
+        width = $.urlParam(ref, 'width') === null ? $(window).width()-50 : $.urlParam(ref, 'width');
+        height = $.urlParam(ref, 'height') === null ? $(window).height()-150 : $.urlParam(ref, 'height');
         $('<div id="dialog">').dialog({
             modal: true,
             open: function () {

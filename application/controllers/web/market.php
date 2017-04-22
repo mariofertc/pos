@@ -280,13 +280,13 @@ class Market extends CI_Controller {
     }
 
     function destacados(){
-        $this->data['productos'] = $this->Item->get_all(6,0,null,null,null);
+        $this->data['productos'] = $this->Item->get_all(6,0,array('on_web'=>1),null,null);
         $this->twiggy->set($this->data);
         $this->twiggy->display('elementos/catalogo');
     }
 
     function productos($categoria){
-        $this->data['productos'] = $this->Item->get_all(4,0,array('category'=>urldecode($categoria)),null,null);
+        $this->data['productos'] = $this->Item->get_all(4,0,array('category'=>urldecode($categoria),'on_web'=>1),null,null);
         $this->twiggy->set($this->data);
         $this->twiggy->display('elementos/productos');
     }

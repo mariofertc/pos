@@ -2,5 +2,11 @@ application/config/database.php
 .htaccess
 application/logs/*
 /nbproject/private/
-/assets/bower_components/
-/node_modules/
+pos.sublime-project
+pos.sublime-workspace
+node_modules/
+vendor/
+assets/bower_components/*
+credenciales_paypal
+files
+

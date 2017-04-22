@@ -9,6 +9,7 @@
         <div class="row">
             {# {% for module in allowed_modules.result if module.grupo=='admin' %} #}
             {% for module in allowed_modules.result %}
+
                 {{ loop.index%4==0 ? '<div class = "row">':''}}
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">

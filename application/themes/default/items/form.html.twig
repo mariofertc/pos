@@ -237,10 +237,22 @@
                 {{ form_label(line('items_is_serialized')~':', 'is_serialized',{'class':'wide'})}}
 
                 {{ form_checkbox({
-		'name':'is_serialized',
-		'id':'is_serialized',
+        'name':'is_serialized',
+        'id':'is_serialized',
+        'value':1,
+        'checked':(item_info.is_serialized)? 1 : 0,
+                'class':'checkbox-inline'}
+    )}}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(line('items_on_web')~':', 'on_web',{'class':'wide'})}}
+
+                {{ form_checkbox({
+		'name':'on_web',
+		'id':'on_web',
 		'value':1,
-		'checked':(item_info.is_serialized)? 1 : 0,
+		'checked':(item_info.on_web)? 1 : 0,
                 'class':'checkbox-inline'}
 	)}}
             </div>

@@ -18,6 +18,8 @@ class Users extends Secure_CI {
         $this->data['productos'] = $this->wishlist->get_items_by_user($this->user->person_id);
         $this->data['direccionE']=$this->webuser_direccion->get_by_user($this->user->person_id,'ENVIO');
         $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->person_id);
+        //var_dump($this->user);
+        $this->data['email_md5'] = md5(trim($this->user->email));
         $this->twiggy->set($this->data);
         $this->twiggy->display('perfil');
     }
