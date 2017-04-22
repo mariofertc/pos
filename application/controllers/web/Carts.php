@@ -135,7 +135,10 @@ class Carts extends CI_Controller {
     function add_to_cart(){
         $mode = $this->sale_lib->get_mode();
         $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $this->Almacen->get_first()->almacen_id);
-        $quantity = $mode == "sale" ? 1 : -1;
+        $quantity = $this->input->post("cantidad");
+        if(!$quantity){
+            $quantity = $mode == "sale" ? 1 : -1;
+        }
         $item_id = $this->input->post('producto');
         $error=FALSE;
         $tipo_error='OK';
@@ -183,6 +186,8 @@ class Carts extends CI_Controller {
                 echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('market_item_update_cart'))); 
             else
                 echo json_encode(array('error'=>TRUE,'msg'=>$msg_error)); 
+        }else{
+            echo json_encode(array('error'=> TRUE, 'msg'=>"Favor ingrese la cantidad"));
         }
     }
 

@@ -98,7 +98,15 @@ module.exports={
 	handle_add_to_cart: function(item){
 		$producto = $(item);
 		var id_producto = $producto.attr('href');
-		$.post(utils.getBasePath()+'/web/Carts/add_to_cart',{'producto':id_producto},function(data){
+//		$producto.attr('href')
+
+		//var cantidad = parseInt($producto.attr('val'));
+
+		$input = $producto.siblings('.cart_quantity_input');
+		var cantidad = parseInt($input.val())?parseInt($input.val()):1;
+
+
+		$.post(utils.getBasePath()+'/web/Carts/add_to_cart',{'producto':id_producto, 'cantidad': cantidad},function(data){
 			if(!data.error){
 			 new PNotify({
                     title: 'Producto agregado!',
@@ -196,6 +204,7 @@ module.exports={
 		$this=this;
 		$producto = $(item);
 		var id_producto = $producto.attr('indice');
+		//var id_producto = $producto.attr('indice')?$producto.attr('indice'):$producto.attr('href');
 		var cantidad = parseInt($producto.attr('val'));
 
 		$input = $producto.siblings('.cart_quantity_input');

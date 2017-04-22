@@ -83,7 +83,7 @@ class Sales extends Secure_area {
         $mode = $this->sale_lib->get_mode();
         // $almacen = $this->sale_lib->get_almacen();
         $selected_almacen = $this->Almacen->get_first();
-        $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen['almacen_id']);
+        $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen->almacen_id);
 
         $item_id_or_number_or_receipt = $this->input->post("item");
         $quantity = $mode == "sale" ? 1 : -1;
@@ -121,7 +121,7 @@ class Sales extends Secure_area {
             $data['error'] = $this->lang->line('sales_error_editing_item');
         }
         $selected_almacen = $this->Almacen->get_first();
-        $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen['almacen_id']);
+        $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen->almacen_id);
         if ($this->sale_lib->out_of_stock($this->sale_lib->get_item_id($line), $almacen)) {
             $data['warning'] = $this->lang->line('sales_quantity_less_than_zero');
         }
@@ -153,7 +153,7 @@ class Sales extends Secure_area {
 
         $selected_almacen = $this->Almacen->get_first();
         //Almacen
-        $data['almacen_id'] = $this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen['almacen_id'];
+        $data['almacen_id'] = $this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen->almacen_id;
         // var_dump($data['almacen_id']);
         // ECHO $data['almacen_id'];DIE;
 

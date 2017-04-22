@@ -336,8 +336,10 @@ class Market extends CI_Controller {
         $ultimo=$this->input->get('ultimo');
         $ultimo=(int)$ultimo+1;
         $this->data['productos'] = $this->Item->get_all(9,$ultimo,$where,null,$filtros);
+        $this->twiggy->set($this->data);
         if(count($this->data['productos'])>0){
-            $this->twiggy->set($this->data);
+            $this->twiggy->display('elementos/catalogo');
+        }else{
             $this->twiggy->display('elementos/catalogo');
         }
     }
