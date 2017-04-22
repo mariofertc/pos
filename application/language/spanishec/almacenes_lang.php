@@ -17,8 +17,11 @@ $lang['almacenes_company_name_required'] = 'Nombre de la Empresa es un campo req
 
 $lang['almacenes_id'] = 'Id';
 $lang['almacenes_nombre'] = 'Nombre';
+$lang['almacenes_short_name'] = 'Nombre Corto';
 $lang['almacenes_direccion'] = 'Dirección';
 $lang['almacenes_name_required'] = 'El nombre del Almacén es requerido';
+$lang['almacenes_short_name_required'] = 'El nombre corto del Almacén es requerido';
+$lang['almacenes_short_name_max_length'] = 'Ingrese máximo 3 caracteres';
 $lang['almacenes_todos'] = 'Todos';
 $lang['almacenes_origen'] = 'Almacén Orig';
 $lang['almacenes_destino'] = 'Almacén Dest';

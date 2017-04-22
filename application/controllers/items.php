@@ -22,14 +22,7 @@ class Items extends Secure_area implements iData_controller {
         $data['manage_table'] = get_items_manage_table();
         $data['title'] = 'customer_customer';
 
-        //Para busqueda almacenes.
-        $almacenes = array('' => $this->lang->line('items_none'));
-        foreach ($this->Almacen->get_all() as $row) {
-            $almacenes[$row['almacen_id']] = $row['nombre'];
-            $data['selected_almacen'] = $row['almacen_id'];
-        }
-        $data['almacenes'] = $almacenes;
-        $data['total_almacenes'] = count($almacenes);
+        $data = array_merge($data,$this->get_almacenes());
         $this->twiggy->set($data);
         return $this->twiggy->display('items/manage');
 
@@ -60,7 +53,9 @@ class Items extends Secure_area implements iData_controller {
             $data['selected_almacen'] = $row['almacen_id'];
         }
         $data['almacenes'] = $almacenes;
-        $this->load->view('items/manage', $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/manage");
+        //$this->load->view('items/manage', $data);
     }
 
     function mis_datos() {
@@ -69,7 +64,7 @@ class Items extends Secure_area implements iData_controller {
 //            $almacen[] = $row->nombre;
             $almacen[] = "id" . $row['almacen_id'];
         }
-        $aColumns = array('item_id', 'item_number', 'name', 'category', 'company_name', 'cost_price', 'unit_price', 'tax_percents');
+        $aColumns = array('item_id', 'item_number', 'name', 'category', 'size', 'company_name', 'cost_price', 'unit_price', 'tax_percents');
 
         $aColumns = array_merge($aColumns, $almacen);
         $aColumns = array_merge($aColumns, array('quantity'));
@@ -119,15 +114,19 @@ class Items extends Secure_area implements iData_controller {
         $data['form_width'] = $this->get_form_width();
         $data['manage_table'] = get_items_manage_table($this->Item->get_all_filtered($low_inventory, $is_serialized, $no_description, $almacen_id), $this);
 
-        $almacenes = array('' => $this->lang->line('almacenes_todos'));
+        $data = array_merge($data,$this->get_almacenes());
+
+        /*$almacenes = array('' => $this->lang->line('almacenes_todos'));
         foreach ($this->Almacen->get_all() as $row) {
             $almacenes[$row['almacen_id']] = $row['nombre'];
-        }
+        }*/
         $data['selected_almacen'] = $almacen_id;
-        $data['almacenes'] = $almacenes;
+        //$data['almacenes'] = $almacenes;
 
         //$this->output->enable_profiler(TRUE);
-        $this->load->view('items/manage', $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/manage");
+        //$this->load->view('items/manage', $data);
     }
 
     function find_item_info() {
@@ -152,6 +151,10 @@ class Items extends Secure_area implements iData_controller {
     
     function suggest() {
         $suggestions = $this->Item->get_suggestions($this->input->post('q'),$this->input->post('by'));
+        echo json_encode($suggestions);
+    }
+    function fill_form() {
+        $suggestions = $this->Item->get_item_by($this->input->post('by'), $this->input->post('q'));
         echo json_encode($suggestions);
     }
     function suggest_tags() {
@@ -181,7 +184,7 @@ class Items extends Secure_area implements iData_controller {
     }
 
     function view($item_id = -1) {
-        $data['item_info'] = $this->Item->get_info($item_id);
+        $data['item_info'] = $this->Item->get_info((int)$item_id);
         $data['item_tax_info'] = $this->Item_taxes->get_info($item_id);
         $suppliers = array('' => $this->lang->line('items_none'));
         //$almacenes = array('' => $this->lang->line('items_none'));
@@ -209,6 +212,7 @@ class Items extends Secure_area implements iData_controller {
         $data['default_tax_2_name'] = ($item_id == -1) ? $this->Appconfig->get('default_tax_2_name') : '';
         // call_user_method(
 //        $this->load->view("items/form", $data);
+        //var_dump($data["item_info"]);
         $this->twiggy->set($data);
         $this->twiggy->display("items/form");
     }
@@ -236,7 +240,9 @@ class Items extends Secure_area implements iData_controller {
             $data['selected_almacen'] = $row['almacen_id'];
         }
         $data['almacenes'] = $almacenes;
-        $this->load->view("items/inventory", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/inventory");
+        //$this->load->view("items/inventory", $data);
     }
 
     //Para mover entre almacenes
@@ -253,7 +259,9 @@ class Items extends Secure_area implements iData_controller {
         }
         $data['almacenes_det'] = $almacenes_det;
         $data['almacenes'] = $almacenes;
-        $this->load->view("items/move_inventory", $data);
+        $this->twiggy->set($data);
+        $this->twiggy->display("items/move_inventory");
+        //$this->load->view("items/move_inventory", $data);
     }
 
     //Ramel Inventory Tracking
@@ -467,6 +475,7 @@ class Items extends Secure_area implements iData_controller {
         $item_data = array(
             'name' => $this->input->post('name'),
             'description' => $this->input->post('description'),
+            'location' => $this->input->post('location'),
             'category' => $this->input->post('category'),
             'brand' => $this->input->post('brand'),
             'supplier_id' => $this->input->post('supplier_id') == '' ? null : $this->input->post('supplier_id'),
@@ -480,7 +489,8 @@ class Items extends Secure_area implements iData_controller {
             'size' => $this->input->post('size'),
             'color' => $this->input->post('color'),
             'color_value' => $this->input->post('color_value'),
-            'tags' => $this->input->post('tags')
+            'tags' => $this->input->post('tags'),
+            'sku' => $this->input->post('sku')
                 // 'almacen_id'=>$this->input->post('almacen_id')=='' ? null:$this->input->post('almacen_id')
         );
         $employee_id = $this->Employee->get_logged_in_employee_info()->person_id;
@@ -619,7 +629,7 @@ class Items extends Secure_area implements iData_controller {
                         $item_code = $this->spreadsheetexcelreader->val($i, 'A');
                         $item_id = $this->Item->get_item_id($item_code);                        
                         $item_data = array(
-                            'item_number' => $this->spreadsheetexcelreader->val($i, 'A'),
+                            'item_number' => $item_code,
                             'name'        => $this->spreadsheetexcelreader->val($i, 'B'),
                             'category'    => $this->spreadsheetexcelreader->val($i, 'C'),
                             'brand'       => $this->spreadsheetexcelreader->val($i, 'D'),
@@ -705,7 +715,7 @@ class Items extends Secure_area implements iData_controller {
      */
 
     function get_form_width() {
-        return 460;
+        return 560;
     }
 
     function get_form_height() {
@@ -720,5 +730,17 @@ class Items extends Secure_area implements iData_controller {
     
     function do_upload($item_id=null){
         $this->load->library("upload_Custom", array('item_id' => $item_id));
+    }
+
+    function get_almacenes(){
+        //Para busqueda almacenes.
+        $almacenes = array('' => $this->lang->line('almacenes_todos'));
+        foreach ($this->Almacen->get_all() as $row) {
+            $almacenes[$row['almacen_id']] = $row['nombre'];
+            $data['selected_almacen'] = $row['almacen_id'];
+        }
+        $data['almacenes'] = $almacenes;
+        $data['total_almacenes'] = count($almacenes);
+        return $data;
     }
 }

@@ -74,6 +74,24 @@ function get_dimensions()
 
 function set_feedback(text, classname, keep_displayed)
 {
+	if (text != '')
+	{
+		switch(classname){
+			case 'success_message':
+				new PNotify({title: 'Operación exitosa' , text: text, type: 'success', delay: 2000, nonblock: true});
+			break;
+			case 'error_message':
+				new PNotify({title: 'Lo sentimos!' , text: text, type: 'error', delay: 2000, nonblock: true});
+			break;
+			default:
+				$('#feedback_bar').css('opacity', '0');
+			break;
+		}
+	}
+}
+
+function set_feedback_old(text, classname, keep_displayed)
+{
     if (text != '')
     {
         $('#feedback_bar').removeClass();

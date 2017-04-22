@@ -139,14 +139,13 @@
         </script>
     {%endraw%}
     <!-- The Templates plugin is included to render the upload/download listings -->
-    <script src="{{base_url()}}assets/bower_components/blueimp-tmpl/js/tmpl.min.js"></script>
     <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-    <script src="{{base_url()}}assets/bower_components/blueimp-load-image/js/load-image.all.min.js"></script>
+    <!--<script src="{{base_url()}}assets/bower_components/blueimp-tmpl/js/tmpl.min.js"></script>
+    <script src="{{base_url()}}assets/bower_components/blueimp-load-image/js/load-image.all.min.js"></script>-->
     <!-- The Canvas to Blob plugin is included for image resizing functionality -->
     <!--<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>-->
     <!-- blueimp Gallery script -->
-    <script src="{{base_url()}}assets/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js"></script>
-
+    <!--<script src="{{base_url()}}assets/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js"></script>
     <script src="{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-process.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
@@ -154,10 +153,37 @@
     <script src="{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-audio.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-video.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-validate.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
-    <script src="{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-ui.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-ui.js" type="text/javascript" language="javascript" charset="UTF-8"></script>-->
     <script type='text/javascript'>
+        
+        //alert(typeof $.widget'blueimp.fileupload')
+        if (typeof $.blueimp === 'object') {
+    inicializa_form_images();
+    console.log("Carga cache frmImages");
+ } else {
+console.log("Primera Carga frmImages");
+     //document.head.appendChild(my_awesome_script);     
+     $.getScript("{{base_url()}}assets/bower_components/blueimp-tmpl/js/tmpl.min.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/blueimp-load-image/js/load-image.all.min.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.iframe-transport.js"); 
+     
+     $.getScript("{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-process.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-image.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-audio.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-video.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-validate.js"); 
+     $.getScript("{{base_url()}}assets/bower_components/jquery-file-upload/js/jquery.fileupload-ui.js", function(){ 
+    inicializa_form_images();
+});
+  }      
+        
 $(document).ready(function () {
-    //Images Upload
+   
+});
+function inicializa_form_images(){
+ //Images Upload
     $(function () {
         'use strict';
         // Initialize the jQuery File Upload widget:
@@ -218,7 +244,7 @@ $(document).ready(function () {
             });
         }
     });
-});
+}
     </script>
 {%else%}
     <fieldset id="item_basic_info">

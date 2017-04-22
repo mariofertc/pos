@@ -2,6 +2,7 @@ application/config/database.php
 .htaccess
 application/logs/*
 /nbproject/private/
+<<<<<<< HEAD
 pos.sublime-project
 pos.sublime-workspace
 node_modules/
@@ -9,3 +10,7 @@ vendor/
 assets/bower_components/*
 credenciales_paypal
 files
+=======
+/assets/bower_components/
+/node_modules/
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274

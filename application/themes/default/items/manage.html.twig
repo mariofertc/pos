@@ -79,8 +79,9 @@
                 sort[indice] = indice + idx;
             }
             sort[indice++] = 0;
-            sort[indice++] = 4;
+            sort[indice++] = 5;
             sort[indice++] = 7;
+            sort[indice++] = 12;
             //enable_select_all()
             //enable_checkboxes()
             //enable_row_selection()
@@ -97,7 +98,7 @@
                 "iDisplayLength": 10,
                 //"sPaginationType": "full_numbers",
                 //"sAjaxSource": 'customers/mis_datos',
-                "ajax": '{{controller_name}}/mis_datos',
+                "ajax": '{{site_url("items")}}/mis_datos',
                 /*       "aoColumnDefs": [
                  {'bSortable': false, 'aTargets': [0]},
                  {'bSortable': false, 'aTargets': [4]},

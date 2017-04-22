@@ -90,7 +90,7 @@
                                                             <tr>
                                                                 <td>{{ anchor("sales/delete_item/"~ item_id,'['~line('common_delete')~']')}}</td>
 
-                                                                <td style="align:center;">{{ item['number']}}<br>
+                                                                <td style="align:center;">{{ item['item_number']}}<br>
                                                                 <td style="align:center;">{{item['name']}}<br /> [{{ item['quantity']}} {{line('sales_stock')}}]</td>
                                                                     {% if items_module_allowed %}
                                                                     <td>{{ form_input({'name':'price','value':item['price'],'size':'6',class:"form-control input-sm"})}}</td>
@@ -413,7 +413,7 @@
                 {
                     if (confirm('{{ line("sales_confirm_suspend_sale")}}'))
                     {
-                        $('#finish_sale_form').attr('action', '<?php echo site_url("sales/suspend")}}');
+                        $('#finish_sale_form').attr('action', '{{ site_url("sales/suspend")}}');
                         $('#finish_sale_form').submit();
                     }
                 });

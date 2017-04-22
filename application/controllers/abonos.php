@@ -13,6 +13,7 @@ class Abonos extends Secure_area {
     function index() {
         //Crear la tabla sólo al ver el índice.
         $this->Sale->create_sales_items_temp_table();
+		$this->Abono->create_sales_abonos_temp_table();
         //echo "xc";
         $data['controller_name'] = strtolower($this->uri->segment(1));
         $data['form_width'] = $this->get_form_width();

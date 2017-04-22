@@ -213,7 +213,7 @@ class Sale_lib
 			'is_serialized'=>$this->CI->Item->get_info($item_id)->is_serialized,
 			'quantity'=>$quantity,
             'discount'=>$discount==null?0:$discount,
-			'price'=>$price!=null ? $price: round($item->unit_price+(($almacen->utilidad/100)*$item->unit_price),0)
+			'price'=>$price!=null ? $price: round($item->unit_price+(($almacen->utilidad/100)*$item->unit_price),2)
 			//'stock'=>$this->CI->Item->get_info($item_id)->quantity
 			)
 		);

@@ -82,8 +82,8 @@ class Sales extends Secure_area {
         $data = array();
         $mode = $this->sale_lib->get_mode();
         // $almacen = $this->sale_lib->get_almacen();
-
-        $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $this->Almacen->get_first()->almacen_id);
+        $selected_almacen = $this->Almacen->get_first();
+        $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen['almacen_id']);
 
         $item_id_or_number_or_receipt = $this->input->post("item");
         $quantity = $mode == "sale" ? 1 : -1;
@@ -120,7 +120,8 @@ class Sales extends Secure_area {
         } else {
             $data['error'] = $this->lang->line('sales_error_editing_item');
         }
-        $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $this->Almacen->get_first()->almacen_id);
+        $selected_almacen = $this->Almacen->get_first();
+        $almacen = $this->Almacen->get_info($this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen['almacen_id']);
         if ($this->sale_lib->out_of_stock($this->sale_lib->get_item_id($line), $almacen)) {
             $data['warning'] = $this->lang->line('sales_quantity_less_than_zero');
         }
@@ -150,8 +151,9 @@ class Sales extends Secure_area {
         $data['taxes'] = $this->sale_lib->get_taxes();
         $data['total'] = $this->sale_lib->get_total();
 
+        $selected_almacen = $this->Almacen->get_first();
         //Almacen
-        $data['almacen_id'] = $this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $this->Almacen->get_first()->almacen_id;
+        $data['almacen_id'] = $this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen['almacen_id'];
         // var_dump($data['almacen_id']);
         // ECHO $data['almacen_id'];DIE;
 
@@ -192,8 +194,11 @@ class Sales extends Secure_area {
         if ($data['sale_id'] == 'Vent -1') {
             $data['error_message'] = $this->lang->line('sales_transaction_failed');
         }
-        $this->load->view("sales/receipt", $data);
+        
+        $this->twiggy->set($data);
         $this->sale_lib->clear_all();
+        //$this->load->view("receivings/receipt", $data);
+        $this->twiggy->display("sales/receipt");
     }
 
     function receipt($sale_id) {
@@ -241,8 +246,8 @@ class Sales extends Secure_area {
         }
 
         $data['employees'] = array();
-        foreach ($this->Employee->get_all()->result() as $employee) {
-            $data['employees'][$employee->person_id] = $employee->first_name . ' ' . $employee->last_name;
+        foreach ($this->Employee->get_all() as $employee) {
+            $data['employees'][$employee['person_id']] = $employee['first_name'] . ' ' . $employee['last_name'];
         }
 
         $data['sale_info'] = $this->Sale->get_info($sale_id)->row_array();

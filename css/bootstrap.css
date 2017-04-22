@@ -4,3 +4,13 @@
 #page-wrapper {
     margin: 0 0 0 158px;
 }
+
+table.dataTable thead .sorting_asc::after {
+    content: "";
+}
+table.dataTable thead .sorting::after {
+    content: "";
+}
+table.dataTable thead .sorting_desc::after {
+    content: "";
+}
