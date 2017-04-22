@@ -1,0 +1,80 @@
+{% block header %}
+    {% include 'partials/heading.html.twig' %}
+    {% include 'partials/heade.html.twig' %}
+{% endblock %}
+{% block content %}
+{% block main_banner %}
+	{# include 'main_banner.html.twig' #}
+{% endblock %}
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">{{line('market_home')}}</a></li>
+				  <li class="active">{{line('market_carrito_compras')}}</li>
+				</ol>
+			</div>
+			{% if productos|length == 0 %}
+				<div class="panel">
+					<div class="panel-body">
+						<p>{{line('market_carrito_vacio')}}</p>
+						<p><a href="{{site_url('web/market/blog')}}">{{line('market_visita_novedades')}}</a></p>
+					</div>
+				</div>
+			{% else %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a href="{{site_url('web/market/tienda')}}" class="btn  btn-info">{{line("market_volver_a_tienda")}}</a>
+					<a href="{{site_url('web/market/autenticacion')}}" class="btn btn-primary">{{line("market_iniciar_compra")}}</a>
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive cart_info">
+						<table class="table table-condensed">
+							<thead>
+								<tr class="cart_menu">
+									<td class="image">{{line('market_producto')}}</td>
+									<td class="description"></td>
+									<td class="price">{{line('market_precio')}}</td>
+									<td class="quantity">{{line('market_cantidad')}}</td>
+									<td class="total">{{line('market_total')}}</td>
+									<td></td>
+								</tr>
+							</thead>
+							<tbody id="items-carrito">
+								{% for indice, producto in productos %}
+									{% include 'carrito/item_carrito.html.twig' with {'producto':producto,'indice':indice} %}
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</section> <!--/#cart_items-->
+	{% if productos|length > 0 %}
+	<section id="do_action">
+		<div class="container">
+			<div class="col-sm-12">
+				<div class="total_area">
+					<ul>
+						<li id="cart-subtotal">{{line('market_subtotal')}}$<span>{{subtotal}}</span></li>
+						<li>{{line('market_costos_envio')}}<span>{{line('market_gratis')}}</span></li>
+						<li id="cart-total">{{line('market_total')}}$<span>{{total}}</span></li>
+					</ul>
+					<div class="btn-group btn-group-justified">
+						<div class="btn-group">
+							<a class="btn btn-default check_out" href="{{site_url('web/Carts/entrega')}}">{{line('market_pagar')}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+	{% endif %}
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/foote.html.twig' %}
+    {% include 'partials/footing.html.twig' %}
+{% endblock %}

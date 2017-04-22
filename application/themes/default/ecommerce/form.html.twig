@@ -1,0 +1,176 @@
+{{ form_open('ecommerce/save/' ~ item_info.order_id, {'id' : 'ecommerce_form'}) }}
+<ul id="error_message_box"></ul>
+<fieldset id="employee_basic_info">
+    <legend>{{ line("market_entrega_info") }}</legend>
+    <div class="panel">
+        <div class="panel-header">
+                <div class="col-lg-9">
+                    <h2>{{item_info.usuario.nombre}} {{item_info.usuario.apellido}} </h2>
+                </div>
+                <div class="col-lg-3">
+                    {{item_info.fecha_creacion}}
+                </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="description"></td>
+                        <td class="price">{{line('market_precio')}}</td>
+                        <td class="quantity">{{line('market_cantidad')}}</td>
+                        <td class="total">{{line('market_total')}}</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody id="items-carrito">
+                    {% for producto in item_info.productos %}
+                        <tr>
+                            <td class="cart_description">
+                                <h4><a href="">{{producto.name}}</a></h4>
+                            </td>
+                            <td class="cart_price">
+                                <p>$ <span>{{producto.price}}</span></p>
+                            </td>
+                            <td class="cart_quantity">
+                                {{producto.quantity}}
+                            </td>
+                            <td class="cart_total">
+                            {% set total = producto.price * producto.quantity %}   
+                                <p class="cart_total_price">$ <span>{{total}}</span></p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Total</td>
+                        <td>{{transaccion.amount.total}}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    {{ form_submit({'name':'submit','id':'submit','value':line('market_despachar'),'class':'btn btn-success'}) }}
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{line('market_direccion_facturacion')}}
+                            </div>
+                            <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                {{item_info.direccionF.nombre}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.apellido}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.direccion}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.detalles}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                    {{item_info.direccionF.zip}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.pais}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.provincia}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{item_info.direccionF.ciudad}}
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div><!--/panel-->
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{line('market_direccion_envio')}}
+                            </div>
+                            <div class="panel-body">
+                                {% if not item_info.direccionE %}
+                                    <p>{{line('market_enviar_a_direccion_factura')}}</p>
+                                {% else %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{item_info.direccionE.nombre}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.apellido}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.direccion}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.detalles}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                                {{item_info.direccionE.zip}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.pais}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item_info.direccionE.provincia}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{item.direccionE.ciudad}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="panel-footer">
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                       <a class="btn btn-primary" target="_blanck" href="{{site_url('ecommerce')}}/sobre_envio/{{item_info.order_id}}">{{line('market_sobre_envio') }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--/panel-->
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+{{ form_close() }}
+{% block javascript %}
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $('#ecommerce_form').validate({
+            submitHandler:function(form){
+                $.ajax({
+                    type: $(form).attr('method'),
+                            url: $(form).attr('action'),
+                            data: $(form).serialize(),
+                            success: function (response)
+                            {
+                                tb_remove();
+                                post_person_form_submit(response);
+                            },
+                            dataType: 'json'
+                    });
+                },
+                errorLabelContainer: "#error_message_box",
+                wrapper: "li"
+        });
+    });
+</script>
+{% endblock %}

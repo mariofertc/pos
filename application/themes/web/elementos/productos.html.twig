@@ -1,0 +1,5 @@
+{% for producto in productos %}
+	<div class="col-sm-3">
+		{% include 'elementos/item_producto.html.twig' with {'producto':producto} %}
+	</div>
+{% endfor %}

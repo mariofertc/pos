@@ -1,0 +1,161 @@
+{% block header %}
+    {% include 'partials/heading.html.twig' %}
+{% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a class="btn btn-default btn-bg" href="{{site_url('web/market/tienda')}}">
+				<i class="fa fa-mail-reply"></i>
+				{{line("market_volver_a_tienda")}}
+			</a>
+			<div id="header-logo-container">
+				<a class="logo-center" href="{{site_url('web/market/tienda')}}"><img src="images/home/logo.png" alt="{{config('company')}}" /></a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="step-one">
+				<h2 class="heading">
+				<a href="#">{{line('market_conexion_segura')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				<a href="{{site_url('web/Store/entrega')}}">{{line('market_paso1')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				<a href="{{site_url('web/Store/pago')}}">{{line('market_paso2')}}</a>
+				<span class="fa fa-chevron-right"></span>
+				{{line('market_paso4')}}
+				</h2>
+			</div>
+
+			<div class="shopper-informations">
+				<div class="row">
+					<div class="col-sm-6 clearfix">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_pagar_con_tarjeta')}}
+							</div>
+							<div class="panel-body">
+								<form class="form-horizontal" id="form-pago-cc" role="form" action="{{site_url('web/Store/pago_cc')}}" >
+								    	<div class="alert alert-info errors">
+		     							</div>
+								    <fieldset>
+								      <div class="form-group">
+								        <label class="col-sm-3 control-label" for="card-holder-name">{{line('market_tipo')}}</label>
+								        <div class="col-sm-9">
+								        	<select name="credit_card"  placeholder="Card Holder's Name" id="credit_card" class="select required">
+								        		<option value=""></option>
+										        <option selected value="visa">visa</option>
+										        <option value="mastercard">mastercard</option>
+										        <option value="discover">discover</option>
+										        <option value="amex">amex</option>
+										    </select>
+								        </div>
+								      </div>
+								      <div class="form-group">
+								        <label class="col-sm-3 control-label" for="card-number">{{line('market_numero_tarjeta')}}</label>
+								        <div class="col-sm-9">
+								          <input type="text" class="form-control" name="card-number" id="card-number" placeholder="{{line('market_debit_credit_card')}}">
+								        </div>
+								      </div>
+								      <div class="form-group">
+								        <label class="col-sm-3 control-label" for="expiry-month">{{line('market_fecha_expiracion')}}</label>
+								        <div class="col-sm-9">
+								          <div class="row">
+								            <div class="col-xs-6">
+								              <select class="form-control col-sm-2" name="expiry-month" id="expiry-month">
+								                <option>{{line('market_mes')}}</option>
+								                <option value="01">Ene (01)</option>
+								                <option value="02">Feb (02)</option>
+								                <option value="03">Mar (03)</option>
+								                <option value="04">Abr (04)</option>
+								                <option value="05">May (05)</option>
+								                <option value="06">Jun (06)</option>
+								                <option value="07">Jul (07)</option>
+								                <option value="08">Ago (08)</option>
+								                <option value="09">Sep (09)</option>
+								                <option value="10">Oct (10)</option>
+								                <option value="11">Nov (11)</option>
+								                <option value="12">Dic (12)</option>
+								              </select>
+								            </div>
+								            <div class="col-xs-6">
+								              <select class="form-control" name="expiry-year">
+								              	{% for i in 2015..2025 %}
+								                	<option value="{{i}}">{{i}}</option>
+								              	{% endfor %}
+								              </select>
+								            </div>
+								          </div>
+								        </div>
+								      </div>
+								      <div class="form-group">
+								        <label class="col-sm-3 control-label" for="cvv">{{line('market_card_ccv')}}</label>
+								        <div class="col-sm-9">
+								          <input type="text" class="form-control" name="cvv" id="cvv" placeholder="{{line('market_card_codigo_ver')}}">
+								        </div>
+								      </div>
+								     <div class="btn-group btn-group-justified">
+											<div class="btn-group">
+								          <button type="submit" class="btn btn-success" id="submit_cc">{{line('market_continuar')}}</button>
+								        </div>
+								      </div>
+								    </fieldset>
+								  </form>
+								
+							</div><!--/panel-body-->
+							<div class="panel-footer">
+								<p class="alert alert-info">
+									{{line('market_pago_cc_detalle')}}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 clearfix">
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								{{line('market_pagar_con_paypal')}}
+							</div>
+							<div class="panel-body">
+								<form class="form-horizontal" id="form-pago-paypal" role="form" action="{{site_url('web/Store/pago_paypal')}}">
+									<fieldset>
+										<div class="btn-group btn-group-justified">
+											<div class="btn-group">
+												<button type="submit" class="btn btn-success" href="{{site_url('web/Carts/confirmacion')}}">{{line('market_continuar')}}</button>
+											</div>
+										</div>
+									</fieldset>
+								</form>
+							</div><!--/panel-body-->
+							<div class="panel-footer">
+								<p class="alert alert-info">
+									{{line('market_pago_paypal_detalle')}}
+								</p>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div><!--/panel-body-->
+		<div class="panel-footer">
+			<div class="row">
+			<div class="col-sm-12">
+				<div class="total_area">
+					<ul>
+						<li id="cart-subtotal">{{line('market_subtotal')}}$<span>{{subtotal}}</span></li>
+						<li>{{line('market_costos_envio')}}<span>{{line('market_gratis')}}</span></li>
+						<li id="cart-total">{{line('market_total')}}$<span>{{total}}</span></li>
+					</ul>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div><!--/container-->
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/foote.html.twig' %}
+    {% include 'partials/footing.html.twig' %}
+{% endblock %}

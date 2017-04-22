@@ -1,0 +1,28 @@
+{% block item_carrito %}	
+	<tr>
+		<td class="cart_product">
+			<a href=""><img src="images/cart/one.png" alt="{{producto.name}}"></a>
+		</td>
+		<td class="cart_description">
+			<h4><a href="">{{producto.name}}</a></h4>
+			<p>{{producto.categoria}}{{producto.item_id}}</p>
+		</td>
+		<td class="cart_price">
+			<p>$ <span>{{producto.price}}</span></p>
+		</td>
+		<td class="cart_quantity">
+			<div class="cart_quantity_button">
+				<a class="cart_quantity_up" indice="{{ indice }}" href="{{producto.item_id}}" val="1"> + </a>
+				<input class="cart_quantity_input" type="text" name="quantity" value="{{producto.quantity}}" autocomplete="off" size="2" readonly="readonly"> 
+				<a class="cart_quantity_down" indice="{{ indice }}" href="{{producto.item_id}}" val="-1"> - </a>
+			</div>
+		</td>
+		<td class="cart_total">
+		{% set total = producto.price * producto.quantity %}	
+			<p class="cart_total_price">$ <span>{{total}}</span></p>
+		</td>
+		<td class="cart_delete">
+			<a class="remove-from-cart" indice="{{ indice }}" href="{{producto.cart_id}}"><i class="fa fa-times"></i></a>
+		</td>
+	</tr>
+{% endblock %}
