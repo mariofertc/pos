@@ -46,6 +46,8 @@ $route['reports/graphical_:any'] = "reports/date_input";
 $route['reports/(inventory_:any)/(:any)'] = "reports/$1/$2";
 $route['reports/inventory_:any'] = "reports/excel_export";
 
+$route['web_market'] = "web/market";
+
 //Para inventario por almacenes.
 $route['reports/(inventory_summary_almacen)/(:any)'] = "reports/$1/$2/$3/$4";
 $route['reports/inventory_summary_almacen'] = "reports/specific_summary_almacen_input";
