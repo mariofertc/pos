@@ -1,7 +1,14 @@
 {% block item_carrito %}	
 	<tr>
 		<td class="cart_product">
-			<a href=""><img src="images/cart/one.png" alt="{{producto.name}}"></a>
+			<a href="">
+				{# <img src="{{base_url()}}images/cart/one.png" alt="{{producto.name}}"> #}
+				{% for imagen in producto.imagenes|slice(0,1) %}
+						<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{imagen.url}}" alt="{{producto.name}}" style="width:100px;"/></a>
+					{% else %}
+						<a href="{{site_url('web/market/producto')}}/{{producto.item_id}}"><img src="{{site_url()}}/images/p.png" alt="{{producto.name}}" /></a>
+					{% endfor %}
+			</a>
 		</td>
 		<td class="cart_description">
 			<h4><a href="">{{producto.name}}</a></h4>
