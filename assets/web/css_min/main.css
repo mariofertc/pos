@@ -6,6 +6,7 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700);
 @import url(http://fonts.googleapis.com/css?family=Abel);*/
 
+
 body {
   font-family: 'Roboto', sans-serif;
   background:;
@@ -263,7 +264,11 @@ a#scrollUp i{
   outline: medium none;
   padding-left: 10px;
   width: 155px;
+<<<<<<< HEAD
   background-image: url(../../../images/home/searchicon.png);
+=======
+  background-image: url(../images/home/searchicon.png);
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
   background-repeat: no-repeat;
   background-position: 130px;
 }
@@ -593,7 +598,10 @@ ul.sub-menu {
 
 .girl {
   margin-left: 0;
+<<<<<<< HEAD
   height: 450px;
+=======
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .item h1 {
@@ -903,9 +911,12 @@ h2.title {
   opacity:;
 }
 
+<<<<<<< HEAD
 .product-overlay img{
   width:100%;
 }
+=======
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 .single-products:hover .product-overlay {
   display:block;
   height:100%;
@@ -1431,8 +1442,14 @@ h2.title {
 
 #form {
   display: block;
+<<<<<<< HEAD
   overflow: hidden;
   background-color: #FFFFFF;
+=======
+  margin-bottom: 185px;
+  margin-top: 185px;
+  overflow: hidden;
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .login-form {
@@ -1464,6 +1481,10 @@ h2.title {
   margin-bottom: 10px;
   outline: medium none;
   padding-left: 10px;
+<<<<<<< HEAD
+=======
+  width: 100%;
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .login-form form span{
@@ -1534,7 +1555,11 @@ h2.title {
 
 .breadcrumbs .breadcrumb {
   background:transparent;
+<<<<<<< HEAD
   /*margin-bottom: 75px;*/
+=======
+  margin-bottom: 75px;
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
   padding-left: 0;
 }
 
@@ -2009,8 +2034,12 @@ h2.title {
 .single-blog-post a img {
   border: 1px solid #F7F7F0;
   width: 100%;
+<<<<<<< HEAD
   margin-bottom: 30px;
   height: 400px;
+=======
+  margin-bottom: 30px
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .blog-post-area  
@@ -2115,6 +2144,10 @@ h2.title {
 }
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 /*************************
 *******Blog Single CSS******
 **************************/
@@ -2397,6 +2430,10 @@ h2.title {
   background:#FE980F;
   border: 0 none;
   border-radius: 0;
+<<<<<<< HEAD
+=======
+  margin-top: 16px;
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274
 }
 
 .blank-arrow {
@@ -2521,6 +2558,7 @@ h2.title {
   color: #FE980F;
 }
 
+<<<<<<< HEAD
 .bg-yellow-gradient {
   background: #f39c12 !important;
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f39c12), color-stop(1, #f7bc60)) !important;
@@ -2577,3 +2615,6 @@ h2.title {
   text-align: center;
   margin-left: 25%;
 }
+=======
+
+>>>>>>> 511878403f4980ed514ea7e86f4829c9d2a0e274

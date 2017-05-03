@@ -929,3 +929,13 @@
 [17-09-2015 03:50:03] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
 [17-09-2015 03:50:03] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payments/payment/PAY-9UN86047W1611314CKXWSXVI
 [17-09-2015 03:50:05] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[27-04-2017 09:16:34] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[27-04-2017 09:16:36] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[27-04-2017 09:16:37] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[27-04-2017 09:16:37] PayPal\Core\PayPalHttpConnection: INFO	: GET https://api.sandbox.paypal.com/v1/payment-experience/web-profiles/
+[27-04-2017 09:16:37] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[27-04-2017 09:16:38] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[27-04-2017 09:16:38] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[27-04-2017 09:16:39] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[27-04-2017 09:16:40] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
+[27-04-2017 09:16:40] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"transactions[0].amount","issue":"Amount cannot be zero"}],"message":"Invalid request - see details","information_link":"https://developer.paypal.com/docs/api/payments/#errors","debug_id":"32a1b469ef084"}

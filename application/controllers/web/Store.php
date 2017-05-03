@@ -21,8 +21,9 @@ class Store extends Secure_CI {
      * @return [HTML] [entrega.html.twig]
      */
     function entrega(){
-        $this->data['direccionE']=$this->webuser_direccion->get_by_user($this->user->user_id,'ENVIO');
-        $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->user_id);
+      //var_dump($this->user);
+        $this->data['direccionE']=$this->webuser_direccion->get_by_user($this->user->person_id,'ENVIO');
+        $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->person_id);
         $this->data['misma_direccion']=(bool)$this->user->misma_direccion;
         $this->twiggy->set($this->data);
         $this->twiggy->display('carrito/entrega');
@@ -36,7 +37,7 @@ class Store extends Secure_CI {
      */
     function pago(){
         if (isset($this->user))
-            $this->data['productos'] = $this->cart->get_items_by_user($this->user->user_id);
+            $this->data['productos'] = $this->cart->get_items_by_user($this->user->person_id);
         else
             $this->data['productos'] = $this->cart->get_items_by_session($this->session->userdata('session_id'));
 
@@ -75,10 +76,10 @@ class Store extends Secure_CI {
      */
     function pago_paypal(){
         try {
-            $monto = $this->_get_total($this->user->user_id);
-            $description = $this->_get_id_items($this->user->user_id);
-            $item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->user_id));
-            $orden_data=array('user_id'=>$this->user->user_id,
+            $monto = $this->_get_total($this->user->person_id);
+            $description = $this->_get_id_items($this->user->person_id);
+            $item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->person_id));
+            $orden_data=array('user_id'=>$this->user->person_id,
                               'valor'=>$monto,
                               'descripcion'=>$description,
                               'fecha_creacion'=>date('Y-m-d H:i:s'));
@@ -138,9 +139,9 @@ class Store extends Secure_CI {
     function pago_cc(){
          try {
             
-            $description = $this->_get_id_items($this->user->user_id);
-            $item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->user_id));
-            $monto = $this->_get_total($this->user->user_id);
+            $description = $this->_get_id_items($this->user->person_id);
+            $item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->person_id));
+            $monto = $this->_get_total($this->user->person_id);
             
             if($monto<=0){
                 echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_monto_cero'))); 
@@ -151,7 +152,7 @@ class Store extends Secure_CI {
 
             $payment = $this->paypalrest->makePaymentUsingCC($cc_id, $monto, 'USD', $description,$item_list);
 
-            $orden_data=array('user_id'=>$this->user->user_id,
+            $orden_data=array('user_id'=>$this->user->person_id,
                               'payment_id'=>$payment->getId(),
                               'estado'=>$payment->getState(),
                               'valor'=>$monto,
@@ -160,7 +161,7 @@ class Store extends Secure_CI {
 
             $res = $this->orden->save($orden_data);
             if(!$res['error']){
-                $this->cart->delete_by_user($this->user->user_id);
+                $this->cart->delete_by_user($this->user->person_id);
                 echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('market_orden_cc_ok'))); 
             }
             else
