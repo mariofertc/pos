@@ -3,6 +3,7 @@
 /**
  * Permite acceder y administrar secciones del market
  */
+
 class Market extends CI_Controller {
 
     protected $controller_name;
@@ -57,8 +58,8 @@ class Market extends CI_Controller {
     function procesar_compra(){
         $payerID = $this->input->get('PayerID');
         $orderID = $this->input->get('orderId');
-
-        if(isset($payerID) && isset($orderID)){
+//echo $payerID;
+        if($payerID && $orderID){
             try {
                 $order = $this->orden->get_info($orderID);
                 $payment = $this->paypalrest->executePayment($order->payment_id, $payerID);
@@ -93,11 +94,12 @@ class Market extends CI_Controller {
     function login(){
         $username = $this->input->post('username');
         $password = $this->input->post('password');
+        $module = $this->input->post('module');
 
         if (!$this->Customer->login($username, $password)) {               
             echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('login_invalid_username_and_password')));
         } else {
-            echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('login_validated')));
+            echo json_encode(array('error'=>FALSE,'msg'=>$this->lang->line('login_validated'),'module'=>$module));
         }
     }
 
@@ -391,6 +393,7 @@ class Market extends CI_Controller {
      */
     function loger($ajax=FALSE) {
         $this->data['title'] = 'Market - Login ';
+        $this->data['module'] = $this->input->get('module');
         $this->data['ajax_request']=$ajax;
         $this->twiggy->set($this->data);
         $this->twiggy->display('loger');

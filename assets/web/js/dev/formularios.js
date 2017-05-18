@@ -16,15 +16,20 @@ module.exports={
 		              $('#submit').val('Procesando...');
 		            },
 		            success : function(data){
+
 		              if(!data.error){
-		               window.open(utils.getBasePath()+'/web/market','_self');
+		              	if(data.module){
+		                  window.open(utils.getBasePath()+'/web/'+data.module+"/"+(data.module=="Store"?"entrega":""),'_self');
+		               }else{
+		                 window.open(utils.getBasePath()+'/web/market','_self');
+		           	   }
+		           	   //NOTA: Produe error cuando se envia el pnotify primero. Por seguridad de navegadores no se permite.
 		              	new PNotify({
 		                    title: 'Bienvenido!',
 		                    text: data.msg,
 		                    type: 'info',
 		                    delay: 500
 		                });
-		              
 		              }else{
 		                $('#form-loginmarket').find('.errors').fadeIn('slow').html(data.msg); 
 		                $('#submit').val('Guardar');
@@ -129,6 +134,7 @@ module.exports={
 			            	utils.log(textStatus);
 			            	utils.log(errorThrown);
 			               $('#form-pago-cc').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			               $('#submit_cc').removeClass('disabled');
 			            }
 	                })
 	        },

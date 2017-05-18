@@ -1,18 +1,16 @@
 {% block header %}
     {% include 'partials/heading.html.twig' %}
+    {% include 'partials/heade.html.twig' %}
 {% endblock %}
 {% block content %}
-
+<section id="pago">
 <div class="container">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<a class="btn btn-default btn-bg" href="{{site_url('web/market/tienda')}}">
-				<i class="fa fa-mail-reply"></i>
-				{{line("market_volver_a_tienda")}}
-			</a>
-			<div id="header-logo-container">
+			<a class="btn btn-info" href="{{site_url('web/market/tienda')}}"><i class="fa fa-mail-reply"></i> {{line("market_volver_a_tienda")}}</a>
+			<!--<div id="header-logo-container">
 				<a class="logo-center" href="{{site_url('web/market/tienda')}}"><img src="images/home/logo.png" alt="{{config('company')}}" /></a>
-			</div>
+			</div>-->
 		</div>
 		<div class="panel-body">
 			<div class="step-one">
@@ -80,7 +78,7 @@
 								            </div>
 								            <div class="col-xs-6">
 								              <select class="form-control" name="expiry-year">
-								              	{% for i in 2015..2025 %}
+								              	{% for i in 2017..2025 %}
 								                	<option value="{{i}}">{{i}}</option>
 								              	{% endfor %}
 								              </select>
@@ -153,6 +151,7 @@
 		</div>
 	</div>
 </div><!--/container-->
+</section>
 {% endblock %}
 
 {% block footer %}

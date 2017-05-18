@@ -1,18 +1,26 @@
 {% block header %}
     {% include 'partials/heading.html.twig' %}
+        {% include 'partials/heade.html.twig' %}
 {% endblock %}
 {% block content %}
-
+{% block main_banner %}
+	{# include 'main_banner.html.twig' #}
+{% endblock %}
+<section id="entrega">
 <div class="container">
+	<div class="breadcrumbs">
+		<ol class="breadcrumb">
+		  <li><a href="#">{{line('market_home')}}</a></li>
+		  <li class="active">{{line('market_paso1')}}</li>
+		</ol>
+	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<a class="btn btn-default btn-bg" href="{{site_url('web/market/tienda')}}">
-				<i class="fa fa-mail-reply"></i>
-				{{line("market_volver_a_tienda")}}
-			</a>
-			<div id="header-logo-container">
+			<a href="{{site_url('web/market/tienda')}}" class="btn btn-info"><i class="fa fa-mail-reply"></i> {{line("market_volver_a_tienda")}}</a>
+			<!--<div id="header-logo-container">
+				
 				<a class="logo-center" href="{{site_url('web/market/tienda')}}"><img src="images/home/logo.png" alt="{{config('company')}}" /></a>
-			</div>
+			</div>-->
 		</div>
 		<div class="panel-body">
 
@@ -28,7 +36,7 @@
 				</h2>
 			</div>
 			<div class="panel-heading">
-				<h4>{{line('market_direccion_facturacion_envio')}}</h2>
+				<h4>{{line('market_direccion_facturacion_envio')}}</h4>
 			</div>
 			<div class="shopper-informations">
 				<div class="row">
@@ -145,6 +153,7 @@
 		</div>
 	</div>
 </div>	
+</section>
 {% endblock %}
 {% block footer %}
     {% include 'partials/foote.html.twig' %}

@@ -12,6 +12,7 @@ class Store extends Secure_CI {
         $this->load->model('cart');
         $this->load->model('webuser_direccion');
         $this->load->library('PaypalRest');
+        $this->load->library('sale_lib');
         $this->data['controller_name'] = $this->controller_name;
         $this->twiggy->theme('web');
     }
@@ -37,13 +38,15 @@ class Store extends Secure_CI {
      */
     function pago(){
         if (isset($this->user))
-            $this->data['productos'] = $this->cart->get_items_by_user($this->user->person_id);
+          $this->data['productos'] = $this->sale_lib->get_cart();
+            //$this->data['productos'] = $this->cart->get_items_by_user($this->user->person_id);
         else
             $this->data['productos'] = $this->cart->get_items_by_session($this->session->userdata('session_id'));
 
         $subtotal =0;
         foreach ($this->data['productos'] as $key => $producto) {
-            $subtotal+=( $producto->cantidad*$producto->unit_price);
+            //$subtotal+=( $producto->cantidad*$producto->unit_price);
+           $subtotal+=( $producto['quantity']*$producto['price']);
         }
         $this->data['subtotal']=$subtotal;
         $this->data['total']=$subtotal;
@@ -138,10 +141,19 @@ class Store extends Secure_CI {
 
     function pago_cc(){
          try {
-            
+
+          $productos = "";
+          if (isset($this->user))
+          $this->data['productos'] = $this->sale_lib->get_cart();
+            //$this->data['productos'] = $this->cart->get_items_by_user($this->user->person_id);
+        else
+            $this->data['productos'] = $this->cart->get_items_by_session($this->session->userdata('session_id'));
+          
+
             $description = $this->_get_id_items($this->user->person_id);
             $item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->person_id));
             $monto = $this->_get_total($this->user->person_id);
+
             
             if($monto<=0){
                 echo json_encode(array('error'=>TRUE,'msg'=>$this->lang->line('market_monto_cero'))); 
@@ -204,11 +216,17 @@ class Store extends Secure_CI {
      * @return [double]          Total del carrito
      */
     private function _get_total($user_id){
-        $this->data['productos'] = $this->cart->get_items_by_user($user_id);
+        //$this->data['productos'] = $this->cart->get_items_by_user($user_id);
+        $this->data['productos'] = $this->sale_lib->get_cart();
         $subtotal =0;
         foreach ($this->data['productos'] as $key => $producto) {
-            $subtotal+=( $producto->cantidad*$producto->unit_price);
-        }
+            //$subtotal+=( $producto->cantidad*$producto->unit_price);
+           $subtotal+=( $producto['quantity']*$producto['price']);
+        }        
+        // $subtotal =0;
+        // foreach ($this->data['productos'] as $key => $producto) {
+        //     $subtotal+=( $producto->cantidad*$producto->unit_price);
+        // }
         return $subtotal;
     }
 }

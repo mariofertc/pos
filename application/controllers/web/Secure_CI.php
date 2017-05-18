@@ -12,7 +12,10 @@ class Secure_CI extends CI_Controller
 				echo json_encode(array('error'=>TRUE,'msg'=>site_url('web/market/loger/true'))); 
 				exit;
 			}else{
-				redirect(site_url('web/market/loger'));
+				//if(get_class($this) == "Store");
+
+				//redirect(site_url('web/market/loger'));
+				redirect(site_url('web/market/loger?module='.get_class($this)));
 			}
 		}else{
 			$customer_id = $this->session->userdata('customer_id');
