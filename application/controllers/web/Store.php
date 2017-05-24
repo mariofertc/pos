@@ -48,6 +48,9 @@ class Store extends Secure_CI {
             //$subtotal+=( $producto->cantidad*$producto->unit_price);
            $subtotal+=( $producto['quantity']*$producto['price']);
         }
+        if($subtotal == 0){
+          redirect('web/Market');
+        }
         $this->data['subtotal']=$subtotal;
         $this->data['total']=$subtotal;
         $this->twiggy->set($this->data);
@@ -144,15 +147,21 @@ class Store extends Secure_CI {
 
           $productos = "";
           if (isset($this->user))
-          $this->data['productos'] = $this->sale_lib->get_cart();
+          //$this->data['productos'] = $this->sale_lib->get_cart();
+        $productos = $this->sale_lib->get_cart();
             //$this->data['productos'] = $this->cart->get_items_by_user($this->user->person_id);
         else
             $this->data['productos'] = $this->cart->get_items_by_session($this->session->userdata('session_id'));
-          
 
-            $description = $this->_get_id_items($this->user->person_id);
-            $item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->person_id));
+            //$description = $this->_get_id_items($this->user->person_id);
+            $description = $this->_get_id_items();
+            //$item_list = $this->paypalrest->createItemsList($this->cart->get_items_by_user($this->user->person_id));
+            $item_list = $this->paypalrest->createItemsList($productos);
             $monto = $this->_get_total($this->user->person_id);
+
+            var_dump($item_list);
+            var_dump($monto);
+            die();
 
             
             if($monto<=0){
@@ -201,11 +210,15 @@ class Store extends Secure_CI {
      * @param  [integer] $user_id Clave primaria del usuario
      * @return [string]  id1,id2,id3...
      */
-    private function _get_id_items($user_id){
-        $this->data['productos'] = $this->cart->get_items_by_user($user_id);
+    //private function _get_id_items($user_id){
+    private function _get_id_items($user_id = null){
+      //$this->data['productos'] = $this->cart->get_items_by_user($user_id);
+      $this->data['productos'] = $this->sale_lib->get_cart();
+      //var_dump($this->data['productos']);
         $items =array();
         foreach ($this->data['productos'] as $key => $producto) {
-            $items[]=$producto->item_id;
+            //$items[]=$producto->item_id;
+            $items[]=$producto['item_id'];
         }
         return implode(',',$items);
     }

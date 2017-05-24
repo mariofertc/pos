@@ -146,6 +146,7 @@ module.exports={
 	                    "card-number": "required",
 	                    "expiry-month": "required",
 	                    "expiry-year": "required",
+	                    "cvv" : "required"
 	                }
 	    });
 	},

@@ -960,3 +960,63 @@
 [17-05-2017 10:48:41] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
 [17-05-2017 10:48:42] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 400
 [17-05-2017 10:48:42] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/vault/credit-cards. {"name":"VALIDATION_ERROR","debug_id":"19ee58017e57","message":"Invalid request - see details","information_link":"https://developer.paypal.com/docs/api/vault/#errors","details":[{"field":"number","issue":"Value is invalid"}]}
+[18-05-2017 07:19:02] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[18-05-2017 07:19:03] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:19:05] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[18-05-2017 07:19:05] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[18-05-2017 07:19:05] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:19:06] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[18-05-2017 07:19:06] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[18-05-2017 07:19:07] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:19:38] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 500
+[18-05-2017 07:19:38] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 500 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"INTERNAL_SERVICE_ERROR","message":"An internal service error occurred.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#INTERNAL_SERVICE_ERROR","debug_id":"76afc5886a485"}
+[18-05-2017 07:20:02] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[18-05-2017 07:20:02] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:20:03] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[18-05-2017 07:20:03] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[18-05-2017 07:20:04] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:20:05] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[18-05-2017 07:20:05] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[18-05-2017 07:20:05] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:20:36] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 500
+[18-05-2017 07:20:36] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 500 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"INTERNAL_SERVICE_ERROR","message":"An internal service error occurred.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#INTERNAL_SERVICE_ERROR","debug_id":"24e4db33d7289"}
+[18-05-2017 07:20:47] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[18-05-2017 07:20:47] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:20:48] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[18-05-2017 07:20:48] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[18-05-2017 07:20:49] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:20:50] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[18-05-2017 07:20:50] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[18-05-2017 07:20:50] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:21:21] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 500
+[18-05-2017 07:21:21] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 500 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"INTERNAL_SERVICE_ERROR","message":"An internal service error occurred.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#INTERNAL_SERVICE_ERROR","debug_id":"2c26d69ecd914"}
+[18-05-2017 07:24:49] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[18-05-2017 07:24:50] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:24:51] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[18-05-2017 07:24:51] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[18-05-2017 07:24:52] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:24:53] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[18-05-2017 07:24:53] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[18-05-2017 07:24:53] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:25:24] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 500
+[18-05-2017 07:25:24] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 500 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"INTERNAL_SERVICE_ERROR","message":"An internal service error occurred.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#INTERNAL_SERVICE_ERROR","debug_id":"e733de62c97bc"}
+[18-05-2017 07:27:59] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[18-05-2017 07:27:59] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:28:00] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[18-05-2017 07:28:00] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[18-05-2017 07:28:00] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:28:01] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[18-05-2017 07:28:01] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[18-05-2017 07:28:02] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:28:33] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 500
+[18-05-2017 07:28:33] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 500 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"INTERNAL_SERVICE_ERROR","message":"An internal service error occurred.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#INTERNAL_SERVICE_ERROR","debug_id":"9dcc7085981eb"}
+[18-05-2017 07:31:17] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[18-05-2017 07:31:17] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:31:18] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 200
+[18-05-2017 07:31:18] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[18-05-2017 07:31:19] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:31:20] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 201
+[18-05-2017 07:31:20] PayPal\Core\PayPalHttpConnection: INFO	: POST https://api.sandbox.paypal.com/v1/payments/payment
+[18-05-2017 07:31:20] PayPal\Core\PayPalHttpConnection: INFO	: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[18-05-2017 07:31:51] PayPal\Core\PayPalHttpConnection: INFO	: Response Status 	: 500
+[18-05-2017 07:31:51] PayPal\Core\PayPalHttpConnection: ERROR	: Got Http response code 500 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"INTERNAL_SERVICE_ERROR","message":"An internal service error occurred.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#INTERNAL_SERVICE_ERROR","debug_id":"cb97cde8d34d6"}
