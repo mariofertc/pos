@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 	reload = browserSync.reload;
 
 var env=process.env.NODE_ENV || 'development';
-var host = "192.168.1.8";
+var host = "localhost";
 var puerto = 6666;
 
 var url_actual = '/pos/web/Carts';

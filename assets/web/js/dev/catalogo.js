@@ -29,6 +29,7 @@ module.exports={
 		var ult = $('.features_items .product-image-wrapper:last');
 		filters.ultimo = ult.index('.product-image-wrapper');
 		filters.nombre = $('#search_input').val();
+		//console.log(filters.nombre);
 		console.log(filters.toSource());
 		return filters;
 	},
@@ -39,6 +40,7 @@ module.exports={
 		var filtros = this.get_filters();
 		filtros.ultimo=-1;
 		$.get(utils.getBasePath()+'/web/market/catalogo',filtros, function(data) {
+			console.log(filtros);
 			if(data!=""){
 				$('#market-catalogo').html(data).animate({opaccity:0.8}, 500);
 			}

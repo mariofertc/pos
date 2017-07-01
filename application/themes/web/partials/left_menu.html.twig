@@ -107,7 +107,7 @@
 		<div class="price-range"><!--price-range-->
 			<h2>{{line('market_rango_precios')}}</h2>
 			<div class="well text-center">
-				 <input type="text" class="span2" value="{{precios.minimo}},{{(precios.maximo+precios.minimo)/2}}" data-slider-min="{{precios.minimo}}" data-slider-max="{{precios.maximo}}" data-slider-step="1" data-slider-value="[{{precios.minimo}},{{(precios.maximo+precios.minimo)/2}}]" id="sl2" ><br />
+				 <input type="text" class="span2" value="{{precios.maximo}},{{(precios.maximo+precios.minimo)/2}}" data-slider-min="{{precios.minimo}}" data-slider-max="{{precios.maximo}}" data-slider-step="1" data-slider-value="[{{precios.minimo}},{{(precios.maximo)}}]" id="sl2" ><br />
 				 <b class="pull-left">$ {{precios.minimo}}</b> <b class="pull-right">$ {{precios.maximo}}</b>
 			</div>
 		</div><!--/price-range-->

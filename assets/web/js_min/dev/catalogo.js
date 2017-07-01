@@ -29,7 +29,7 @@ module.exports={
 		var ult = $('.features_items .product-image-wrapper:last');
 		filters.ultimo = ult.index('.product-image-wrapper');
 		filters.nombre = $('#search_input').val();
-		console.log(filters.toSource());
+		console.log(filters.toSource()+"Mario");
 		return filters;
 	},
 	load_destacados : function(){
