@@ -335,6 +335,7 @@ class Market extends CI_Controller {
                 $where['tags like ']='%'.$value.'%';
             }
         }
+        //var_dump($where);
         $ultimo=$this->input->get('ultimo');
         $ultimo=(int)$ultimo+1;
         $this->data['productos'] = $this->Item->get_all(9,$ultimo,$where,null,$filtros);

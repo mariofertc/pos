@@ -39,6 +39,7 @@ class Item extends CI_Model {
         $this->db->limit($num, $offset);
         //Aumentar los stocks de las sucursales.
         $items = $this->db->get()->result_array();
+        //var_dump($this->db->last_query());
         $almacenes = $this->Almacen->get_all();
         foreach ($items as &$item) {
             foreach ($almacenes as $almacen) {
@@ -607,8 +608,10 @@ class Item extends CI_Model {
         $query = $this->db->get();
 
         if ($query->num_rows() == 1) {
-            $query->row()->maximo=round($query->row()->maximo,0);
-            $query->row()->minimo=round($query->row()->minimo,0);
+            //$query->row()->maximo=round($query->row()->maximo,0);
+            //$query->row()->minimo=round($query->row()->minimo,0);
+            $query->row()->maximo=ceil($query->row()->maximo);
+            $query->row()->minimo=floor($query->row()->minimo);
             return $query->row();
         } else {
             return null;
