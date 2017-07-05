@@ -93,7 +93,7 @@ class Porpagarm extends CI_Model {
      */
 
     function get_all($num = 10, $offset = 0, $where, $order = null) {
-        $this->db->select('rp.receiving_id, rp.payment_id, concat("RECV-",rp.receiving_id) as compra_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe', false);
+        /*$this->db->select('rp.receiving_id, rp.payment_id, concat("RECV-",rp.receiving_id) as compra_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe', false);
         $this->db->from('receivings_items_temp');
         $this->db->join('people as employee', 'receivings_items_temp.employee_id = employee.person_id');
         $this->db->join('people as supplier', 'receivings_items_temp.supplier_id = supplier.person_id', 'left');
@@ -104,9 +104,20 @@ class Porpagarm extends CI_Model {
         $this->db->group_by('receivings_items_temp.receiving_id');
         $this->db->order_by('receivings_items_temp.receiving_id');
 
-//		$data = array();
         $this->db->order_by($order);
         $this->db->limit($num, $offset);
+        $data['summary'] = $this->db->get()->result_array();
+
+        $this->get_payment_abonos($data);
+        return $data['summary'];*/
+
+
+        $this->db->from('phppos_receivings_abonos_temp');
+        if ($where != "")
+            $this->db->where($where);
+        $this->db->order_by($order);
+        $this->db->limit($num, $offset);
+
         $data['summary'] = $this->db->get()->result_array();
 
         $this->get_payment_abonos($data);
@@ -114,7 +125,13 @@ class Porpagarm extends CI_Model {
     }
 
     function get_total($where = '') {
-        $this->db->select('rp.payment_id,rp.receiving_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe', false);
+
+        $this->db->from('phppos_receivings_abonos_temp');
+        $this->db->order_by('receiving_id');
+        if ($where != "")
+            $this->db->where($where);
+        return count($this->db->get()->result_array());
+        /*$this->db->select('rp.payment_id,rp.receiving_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe', false);
         $this->db->from('receivings_items_temp');
         $this->db->join('people as employee', 'receivings_items_temp.employee_id = employee.person_id');
         $this->db->join('people as supplier', 'receivings_items_temp.supplier_id = supplier.person_id', 'left');
@@ -127,7 +144,7 @@ class Porpagarm extends CI_Model {
         if ($where != "")
             $this->db->where($where);
         $this->db->where('deleted', 0);
-        return count($this->db->get()->result_array());
+        return count($this->db->get()->result_array());*/
     }
 
     function get_receiving($receiving_id) {
@@ -152,7 +169,7 @@ class Porpagarm extends CI_Model {
     }
 
     function search($search) {
-        $this->db->select('rp.payment_id,rp.receiving_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe,' .
+        /*$this->db->select('rp.payment_id,rp.receiving_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe,' .
                 'null as mora, null as cuotas', false);
         $this->db->from('receivings_items_temp');
         $this->db->join('people as employee', 'receivings_items_temp.employee_id = employee.person_id');
@@ -160,7 +177,8 @@ class Porpagarm extends CI_Model {
         $this->db->join('receivings_payments rp', 'rp.receiving_id = phppos_receivings_items_temp.receiving_id', 'left outer');
         $this->db->join('payments as p', 'p.payment_id = rp.payment_id');
         $this->db->join('receivings_payments rp2', 'rp2.receiving_id = phppos_receivings_items_temp.receiving_id', 'left outer');
-        $this->db->where('por_cobrar = 1');
+        $this->db->where('por_cobrar = 1');*/
+        $this->db->from('phppos_receivings_abonos_temp');
         if ($search) {
             $this->db->where("(supplier.first_name LIKE '%" . $this->db->escape_like_str($search) . "%' or 
 			supplier.last_name LIKE '%" . $this->db->escape_like_str($search) . "%' or 
@@ -261,7 +279,7 @@ class Porpagarm extends CI_Model {
                 $data['summary'][$key]['cuotas'] = $cuo;
                 $data['summary'][$key]['mora'] = $det;
             }
-            $data['summary'][$key]['debe'] = $tot_debe - $tot_pagado;
+            $data['summary'][$key]['debe'] = number_format($tot_debe - $tot_pagado,2);
             $data['summary'][$key]['total'] = $tot_debe;
         }
     }
@@ -327,6 +345,41 @@ class Porpagarm extends CI_Model {
         return $data;
     }
 
-}
+    public function create_porpagar_temp_table()
+    {
+        $table_temp = $this->db->dbprefix('receivings_abonos_temp');
+        if($this->db->table_exists($table_temp))
+        {
+            //Borra datos previos
+            $this->db->query("drop table ".$table_temp);
+        }
+        $this->db->query("CREATE TABLE if not exists ".$table_temp."
+        (SELECT rp.receiving_id, rp.payment_id, concat('RECV-',rp.receiving_id) as compra_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name,' ',employee.last_name) as employee_name, CONCAT(supplier.first_name,' ',supplier.last_name) as supplier_name, sum(total) as total, sit.payment_type, comment, 0 as debe, supplier.person_id
+        FROM ".$this->db->dbprefix('receivings_items_temp')." as sit
+        INNER JOIN ".$this->db->dbprefix('people'). " as employee ON  sit.employee_id=employee.person_id
+        LEFT JOIN ".$this->db->dbprefix('people')." as supplier ON  sit.supplier_id=supplier.person_id
+        LEFT OUTER JOIN ".$this->db->dbprefix('receivings_payments')." as rp ON  rp.receiving_id=sit.receiving_id
+        INNER JOIN ".$this->db->dbprefix('payments')." as p ON  p.payment_id=rp.payment_id
+        LEFT OUTER JOIN ".$this->db->dbprefix('receivings_payments')." as rp2 ON rp2.receiving_id = sit.receiving_id
+        where p.por_cobrar = 1
+        GROUP BY sit.receiving_id)");
+    }
 
-?>
+}
+ /*$this->db->select('rp.receiving_id, rp.payment_id, concat("RECV-",rp.receiving_id) as compra_id, receiving_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(supplier.first_name," ",supplier.last_name) as supplier_name, sum(total) as total, receivings_items_temp.payment_type, comment, 0 as debe', false);
+        $this->db->from('receivings_items_temp');
+        $this->db->join('people as employee', 'receivings_items_temp.employee_id = employee.person_id');
+        $this->db->join('people as supplier', 'receivings_items_temp.supplier_id = supplier.person_id', 'left');
+        $this->db->join('receivings_payments rp', 'rp.receiving_id = phppos_receivings_items_temp.receiving_id', 'left outer');
+        $this->db->join('payments as p', 'p.payment_id = rp.payment_id');
+        $this->db->join('receivings_payments rp2', 'rp2.receiving_id = phppos_receivings_items_temp.receiving_id', 'left outer');
+        $this->db->where('por_cobrar = 1');
+        $this->db->group_by('receivings_items_temp.receiving_id');
+        $this->db->order_by('receivings_items_temp.receiving_id');
+
+        $this->db->order_by($order);
+        $this->db->limit($num, $offset);
+        $data['summary'] = $this->db->get()->result_array();
+
+        $this->get_payment_abonos($data);
+        return $data['summary'];*/

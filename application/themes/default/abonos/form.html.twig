@@ -1,4 +1,3 @@
-<div id="required_fields_message">{{ line('common_fields_required_message')}}</div>
 <ul id="error_message_box"></ul>
 {{form_open('abonos/save/'~sale_id~'/'~payment_id,{'id':'item_form'})}}
 <fieldset id="item_basic_info">
@@ -65,22 +64,22 @@ $(document).ready(function(){
 			to the visible scan_item_number value
 			*/
 			//$('#item_number').val($('#scan_item_number').val());
-			  $.ajax({
-                        type: $(form).attr('method'),
-                        url: $(form).attr('action'),
-                        data: $(form).serialize(),
-                        success: function (response)
-                        {
-				tb_remove();
-				post_abono_form_submit(response);
+			$.ajax({
+                    type: $(form).attr('method'),
+                    url: $(form).attr('action'),
+                    data: $(form).serialize(),
+                    success: function (response)
+                    {
+						tb_remove();
+						post_abono_form_submit(response);
 				//PrinterJob job = PrinterJob.getPrinterJob();
 				// jQuery(".page_item a").attr("target","_blank");
+					},
+					dataType:'json'
+				});
 			},
-			dataType:'json'
-		});
-		},
-		errorLabelContainer: "#error_message_box",
- 		wrapper: "li",
+		//errorLabelContainer: "#error_message_box",
+ 		//wrapper: "li",
 		rules:{
 			date:{
 				required:true,

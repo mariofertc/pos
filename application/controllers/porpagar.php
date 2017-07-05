@@ -10,6 +10,7 @@ class Porpagar extends Secure_area {
 
     function index() {
         $this->Receiving->create_receivings_items_temp_table();
+        $this->Porpagarm->create_porpagar_temp_table();
         // $this->_reload();
         //$this->output->enable_profiler(TRUE);
         $data['controller_name'] = strtolower($this->uri->segment(1));

@@ -290,7 +290,7 @@ class Abono extends CI_Model {
                 $data['summary'][$key]['mora'] = $det;
             }
 //            $data['summary'][$key]['debe'] = $tot_debe - $tot_pagado;
-            $data['summary'][$key]['debe'] = $tot_debe - $tot_pagado;
+            $data['summary'][$key]['debe'] = number_format($tot_debe - $tot_pagado,2);
             $data['summary'][$key]['total'] = $tot_debe;
         }
     }
@@ -363,13 +363,14 @@ class Abono extends CI_Model {
 	
 	public function create_sales_abonos_temp_table()
 	{
-		if($this->db->table_exists('phppos_sales_abonos_temp'))
+        $table_temp = $this->db->dbprefix('sales_abonos_temp');
+		if($this->db->table_exists($table_temp))
 		{
 			//Borra datos previos
-			$this->db->query("drop table ".$this->db->dbprefix('sales_abonos_temp'));
+			$this->db->query("drop table " . $table_temp);
 		}
-		$this->db->query("CREATE TABLE if not exists ".$this->db->dbprefix('sales_abonos_temp')."
-		(SELECT sp.payment_id,sit.sale_id as sale_id, concat(sit.sale_id,'/',sp.payment_id) as abono_id, concat('POS-',sit.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name,' ',employee.last_name) as employee_name, CONCAT(customer.first_name,' ',customer.last_name) as customer_name, sum(total) as total, sit.payment_type, comment, 0 as debe, customer.person_id
+		$this->db->query("CREATE TABLE if not exists ". $table_temp ."
+		(SELECT sp.payment_id,sit.sale_id as sale_id, concat('POS-',sit.sale_id) as venta_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name,' ',employee.last_name) as employee_name, CONCAT(customer.first_name,' ',customer.last_name) as customer_name, sum(total) as total, sit.payment_type, comment, 0 as debe, customer.person_id
 		FROM ".$this->db->dbprefix('sales_items_temp')." as sit
 		INNER JOIN ".$this->db->dbprefix('people'). " as employee ON  sit.employee_id=employee.person_id
 		LEFT JOIN ".$this->db->dbprefix('people')." as customer ON  sit.customer_id=customer.person_id

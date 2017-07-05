@@ -103,24 +103,38 @@ function init_table_sorting(){
 }
 
 function post_abono_form_submit(response){
-	if(!response.success)
-		set_feedback(response.message,'error_message',true);
-	else{
-		//This is an update, just update one row
-		if(jQuery.inArray(response.sale_id,get_visible_checkbox_ids()) != -1){
-			update_row(response.sale_id,'{{site_url(controller_name~"/get_row")}}');
-			set_feedback(response.message,'success_message',false);
-		}
-                //refresh entire table
-		else {
-			do_search(true,function(){
-				//highlight new row
-				hightlight_row(response.sale_id);
-				//set_feedback(response.message,'success_message',false);
-				set_feedback('Refresca toda la tabla','success_message',false);
-			});
-		}
-	}
+	 if (!response.success){
+                //set_feedback(response.message, 'error_message', true);
+                new PNotify({
+                    title: 'Oh No!',
+                    text: response.message,
+                    type: 'error'
+                });
+            }
+            else{
+                //This is an update, just update one row
+                if (jQuery.inArray(response.item_id, get_visible_checkbox_ids()) != -1){
+                    update_row(response.item_id, '{{ site_url(controller_name~"/get_row")}}');
+                    //set_feedback(response.message, 'success_message', false);
+                    new PNotify({
+                        title: 'Exito',
+                        text: response.message,
+                        type: 'success'
+                    });
+                }
+                else {
+                ////refresca toda la tabla.
+                    oTable.api().ajax.reload(
+                            function ( json ) {
+                                hightlight_row(response.item_id);
+                                new PNotify({
+                                    title: 'Exito',
+                                    text: response.message,
+                                    type: 'success'
+                                });}
+                            );
+                }
+            }
 }
 
 function post_bulk_form_submit(response){
