@@ -18,6 +18,7 @@ $lang['common_zip']='C.I.';
 $lang['common_country']='País';
 $lang['common_comments']='Comentarios';
 $lang['common_edit']='Editar';
+$lang['common_acciones']='Acciones';
 $lang['common_search']='Buscar';
 $lang['common_search_options']='Opciones de Búsqueda';
 $lang['common_delete']='Borrar';

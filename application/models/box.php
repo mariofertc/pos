@@ -60,16 +60,29 @@ class Box extends CI_Model
 
 	}
 	
-	/*
-	Returns all the boxes
-	*/
+	/**
+	 *
+	 * Returns all the boxes
+	 *
+	 */
 	function get_all()
 	{
 		$this->db->from('boxes');
+		$this->db->join('employees', 'boxes.employee_id=employees.person_id');
 		$this->db->order_by("close_time", "desc");
-		return $this->db->get();
+		return $this->db->get()->result_array();
 	}
 	
+	/**
+	 *
+	 * Block comment
+	 *
+	 */	
+	function get_total()
+	{
+		$this->db->from('boxes');
+		return $this->db->get()->num_rows();	
+	}
 	/*
 	Gets information about a particular item
 	*/
@@ -146,5 +159,3 @@ class Box extends CI_Model
 		return $this->db->update('boxes', array('deleted' => 1));
  	}
 }
-
-?>

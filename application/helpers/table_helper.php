@@ -200,7 +200,7 @@ function get_supplier_data_row($supplier,$controller)
 /*
 Gets the html table to manage boxes.
 */
-function get_boxes_manage_table($boxes,$controller)
+function get_boxes_manage_table()
 {
 	$CI =& get_instance();
 	$table='<table class="tablesorter" id="sortable_table">';
@@ -209,7 +209,7 @@ function get_boxes_manage_table($boxes,$controller)
 	$CI->lang->line('boxes_close_time'),
 	$CI->lang->line('boxes_comment'),
 	$CI->lang->line('employees_employee'),
-	'&nbsp'
+	$CI->lang->line('common_acciones')
 	);
 	
 	$table.='<thead><tr>';
@@ -218,7 +218,7 @@ function get_boxes_manage_table($boxes,$controller)
 		$table.="<th>$header</th>";
 	}
 	$table.='</tr></thead><tbody>';
-	$table.=get_boxes_manage_table_data_rows($boxes,$controller);
+	//$table.=get_boxes_manage_table_data_rows($boxes,$controller);
 	$table.='</tbody></table>';
 	return $table;
 }

@@ -2,9 +2,13 @@
 require_once ("secure_area.php");
 class Boxes extends Secure_area
 {
-	function __construct()
-	{
-		parent::__construct('boxes');
+	protected $controller_name;
+
+    function __construct() {
+        //Boxes
+        // $this->controller_name = strtolower($this->uri->segment(1));
+        $this->controller_name = "boxes";
+		parent::__construct($this->controller_name);
 	}
 	
 	function index()
@@ -12,9 +16,27 @@ class Boxes extends Secure_area
 		$data['controller_name']=strtolower($this->uri->segment(1));
 		$data['form_width']=$this->get_form_width();
 		$data['subtitle']='Cierre Diario de Caja';
-		$data['manage_table']=get_boxes_manage_table($this->Box->get_all(),$this);
-		$this->load->view('boxes/manage',$data);
-		//$this->load->view('boxes/form',$data);
+		$data['manage_table']=get_boxes_manage_table();
+		$this->twiggy->set($data);
+        $this->twiggy->display("boxes/manage");
+		// $this->load->view('boxes/manage',$data);
+	}
+
+	function mis_datos() {
+		$data['controller_name'] = $this->controller_name;
+		$data['form_width'] = $this->get_form_width();
+		$data['form_height'] = 150;
+		$aColumns = array('box_id', 'close_time', 'comment', 'username');
+		//Eventos Tabla
+		$cllAccion = array(
+				'1' => array(
+						'function' => "view",
+						'common_language' => "common_edit",
+						'language' => "_update",
+						'width' => $this->get_form_width(),
+						'height' => $this->get_form_height()),
+				);
+		echo getData($this->Box, $aColumns, $cllAccion);
 	}
 	
 	function refresh()
@@ -64,8 +86,9 @@ class Boxes extends Secure_area
 		$tot_venta = $this->Summary_sales->getSummaryData(array('start_date'=>$fecha_inicio, 'end_date'=>$fecha_fin));
 		//$tot_venta = $fecha_fin;
 		$data['tot_venta'] = $tot_venta;
-		//$data['item_tax_info']=$this->Item_taxes->get_info($item_id);
-		$this->load->view("boxes/form",$data);
+
+		$this->twiggy->set($data);
+        $this->twiggy->display("boxes/form");
 	}
 	
 	
@@ -158,13 +181,13 @@ class Boxes extends Secure_area
 		}
 	}
 	
-	/*
-	get the width for the add/edit form
-	*/
-	function get_form_width()
-	{			
-		return 350;
-	}
+	function get_form_width() {
+        return 560;
+    }
+
+    function get_form_height() {
+        return 550;
+    }
 	function get_row()
 	{
 		$box_id = $this->input->post('row_id');
