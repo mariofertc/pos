@@ -736,12 +736,13 @@ class Items extends Secure_area implements iData_controller {
     function get_almacenes(){
         //Para busqueda almacenes.
         $almacenes = array('' => $this->lang->line('almacenes_todos'));
-        foreach ($this->Almacen->get_all() as $row) {
+		$almacenes_db = $this->Almacen->get_all();
+        foreach ($almacenes_db as $row) {
             $almacenes[$row['almacen_id']] = $row['nombre'];
             $data['selected_almacen'] = $row['almacen_id'];
         }
         $data['almacenes'] = $almacenes;
-        $data['total_almacenes'] = count($almacenes);
+        $data['total_almacenes'] = count($almacenes_db);
         return $data;
     }
 }
