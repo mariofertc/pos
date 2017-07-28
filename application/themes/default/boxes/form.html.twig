@@ -1,0 +1,97 @@
+{{ form_open('boxes/save/'~ box_info.box_id,{'id':'box_form', 'role':'form'})}}
+<fieldset id="box_basic_info">
+	<legend>{{line("module_close_box_desc") }}</legend>
+<div class="form-group">
+	{{form_label(line('sales_total_day')~':', 'tot_venta_lbl') }}
+	{{form_label('$'~tot_venta.total, 'tot_venta_lbl') }}
+</div>
+
+<div class="form-group">
+	{{form_label(line('boxes_comment')~':', 'comment') }}
+	 {{ form_textarea({
+		'name':'comment',
+		'id':'comment',
+		'value':box_info.comment,
+		'rows':'5',
+		'cols':'17',
+                'class':'form-control'}
+	)}}
+</div>
+
+<div class="form_field">
+	{{form_label(line('module_close_box_confirm')) }}
+</div>
+<div class="field_row clearfix">
+	{{form_label('Estoy deacuerdo'~':', 'is_agree') }}
+{{ form_checkbox({
+		'name':'is_agree',
+		'id':'is_agree',
+		'value':1,
+		'checked':(box_info.is_agree)? 1 : 0,
+                'class':'checkbox-inline'}
+	)}}
+
+	
+</div>
+     {{ form_submit({
+	'name':'submit',
+	'id':'submit',
+	'value':line('common_submit'),
+	'class':'btn btn-success'}) }}
+</fieldset>
+{{ form_close() }}
+
+<script type='text/javascript'>
+
+//validation and submit handling
+$(document).ready(function(){
+	
+	$('#box_form').validate({
+		submitHandler:function(form){
+			$.ajax({
+            type: $(form).attr('method'),
+            url: $(form).attr('action'),
+            data: $(form).serialize(),
+            success: function (response)
+			{
+				tb_remove();
+				post_box_form_submit(response);
+			},
+			dataType:'json'
+		});
+
+		},
+		errorLabelContainer: "#error_message_box",
+ 		wrapper: "li",
+		rules:
+		{
+			name:"required",
+			is_agree:
+			{
+				required:true,
+				number:true
+			},
+			cost_price:
+			{
+				required:true,
+				number:true
+			}
+   		},
+		messages:
+		{
+			name:"Vamos",
+			is_agree:
+			{
+				required:"Tiene que estar deacuerdo para continuar.",
+				//number:"nu"
+			},
+			cost_price:
+			{
+				required:"jjj",
+				number:"hhh"
+			}
+		}
+	});
+});
+
+</script>
