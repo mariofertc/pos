@@ -74,14 +74,15 @@
         $(document).ready(function () {
             var len = {{total_almacenes}};
             var sort = [];
-            idx = 8;
-            for (indice = sort.length; indice < len; indice++) {
+            idx = 9;
+            for (indice = 0; indice < len; indice++) {
                 sort[indice] = indice + idx;
             }
             sort[indice++] = 0;
             sort[indice++] = 5;
             sort[indice++] = 7;
-            sort[indice++] = 12;
+			sort[indice++] = 8;
+            sort[indice++] = len + idx + 1;
             //enable_select_all()
             //enable_checkboxes()
             //enable_row_selection()
@@ -99,17 +100,6 @@
                 //"sPaginationType": "full_numbers",
                 //"sAjaxSource": 'customers/mis_datos',
                 "ajax": '{{site_url("items")}}/mis_datos',
-                /*       "aoColumnDefs": [
-                 {'bSortable': false, 'aTargets': [0]},
-                 {'bSortable': false, 'aTargets': [4]},
-                 {'bSortable': false, 'aTargets': [7]},
-                 {'bSortable': false, 'aTargets': [8]},
-                 {'bSortable': false, 'aTargets': [9]},
-                 {'bSortable': false, 'aTargets': [10]},
-                 {'bSortable': false, 'aTargets': [11]},
-                 {'bSortable': false, 'aTargets': [13]}
-                 
-                 ],*/
                 "columnDefs": [
                     {'sortable': false, 'targets': sort},
                     {"searchable": false, 'targets': sort}
