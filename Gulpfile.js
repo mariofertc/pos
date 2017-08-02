@@ -5,6 +5,7 @@ var gulp = require('gulp'),
 	gulpif = require('gulp-if'),
 	connect = require('gulp-connect-php')
 	reload = browserSync.reload;
+var concat = require('gulp-concat');
 
 var env=process.env.NODE_ENV || 'development';
 var host = "localhost";
@@ -19,6 +20,37 @@ gulp.task('js',function(){
 		.pipe(reload({stream:true}));
 });
 
+gulp.task('js_back',function(){
+	return gulp.src(['assets/bower_components/jquery/dist/jquery.js',
+		'assets/bower_components/jquery-validation/dist/jquery.validate.js',
+		'assets/bower_components/bootstrap/dist/js/bootstrap.js',
+		'js/common.js',
+		'assets/bower_components/pnotify/pnotify.core.js',
+		'assets/bower_components/jquery-ui/jquery-ui.js',
+		'assets/bower_components/gentelella/build/js/custom.js'
+		])
+		.pipe(concat('back.js'))
+		.pipe(gulpif(env === "production",uglify()))
+		.pipe(gulp.dest('assets'))
+		.pipe(reload({stream:true}));
+});
+
+gulp.task('css_back',function(){
+	return gulp.src(['assets/bower_components/bootstrap/dist/css/bootstrap.css',
+		'assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css',
+		'assets/bower_components/pnotify/pnotify.core.css',
+		'css/bootstrap.css',
+		'assets/bower_components/gentelella/build/css/custom.css',
+		'assets/bower_components/font-awesome/css/font-awesome.css'
+		])
+		.pipe(concat('back.css'))
+		.pipe(gulpif(env === "production",uglify()))
+		.pipe(gulp.dest('assets'))
+		.pipe(reload({stream:true}));
+});
+
+
+
 gulp.task('browsy',function(){
 	return gulp.src(['assets/web/js/dev/main.js'])
 		.pipe(browserify({ debug : env === 'development' }))
@@ -32,6 +64,15 @@ gulp.task('css',function(){
 		.pipe(gulpif(env === "production",uglify()))
 		.pipe(gulp.dest('assets/web/css_min/'))
 		.pipe(reload({stream:true}));
+});
+
+// Fonts
+gulp.task('fonts', function() {
+    return gulp.src([
+                    'assets/bower_components/gentelella/vendors/bootstrap/dist/fonts/glyphicons-*.*',
+                    'assets/bower_components/font-awesome/fonts/fontawesome-*.*'
+                    ])
+            .pipe(gulp.dest('fonts/'));
 });
 
 gulp.task('connect-sync',function(){
@@ -63,3 +104,5 @@ gulp.task('watch',function(){
 });
 
 gulp.task('default',['js','browsy','css','connect-sync','watch']);
+
+gulp.task('back',['js_back','css_back']);

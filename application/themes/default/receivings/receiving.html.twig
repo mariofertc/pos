@@ -5,39 +5,41 @@
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
     <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
 {% endblock %}
-{% block header %}
-    {% include 'partials/header.html.twig' %}
-{% endblock %}
 {% block content %}
-
-    <div id="page-wrapper">
+<div class="page-title">
+  <div class="title_left">
+    <h3>{{ line('recvs_register') }}</h3>
+  </div>
+  <div class="title_right">
+  </div>
+</div>
+<div class="clear-fix"></div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-sm-4">
-                                {{ line('recvs_register') }}
+                            <div class="col-md-2">
                                 {{ anchor("items/view/-1?width=360",
-		"<div class='small_button'><span>"~line('sales_new_item')~"</span></div>",
-		{'class':'btn btn-success btn-sm thickbox','title':line('sales_new_item')})
+        "<div class='small_button'><span>"~line('sales_new_item')~"</span></div>",
+        {'class':'btn btn-success btn-sm thickbox','title':line('sales_new_item')})
                                 }}
                             </div>
-                            <div class="col-lg-6 col-sm-4">
+                            <div class="col-md-4">
                                 {{ form_open("receivings/change_almacen",{'id':'almacen_form', class:"form-inline"})}}
                                 <div class="form-group-sm">
                                     {{ form_label(line('almacenes_almacen'),'almacen')}}
                                     {{ form_dropdown('almacen',almacenes,almacen,'onchange="$(\'#almacen_form\').submit();" class="form-control"')}}
                                 </div>
-                                </form>
+                                {{form_close()}}
                             </div>
-                            <div class="col-lg-6 col-sm-4">
+                            <div class="col-md-5">
                                 {{ form_open("receivings/change_mode",{'id':'mode_form', class:"form-inline"})}}
                                 <div class="form-group-sm">
                                     {{form_label( line('recvs_mode'),'mode') }}
                                     {{ form_dropdown('mode',modes,mode,'onchange="$(\'#mode_form\').submit();" class="form-control"')}}
                                 </div>
-                                </form>
+                                {{form_close()}}
                             </div>
                         </div>
                     </div>
@@ -279,6 +281,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
         {% endblock %}

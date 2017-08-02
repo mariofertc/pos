@@ -8,12 +8,17 @@
     {% include 'partials/header.html.twig' %}
 {% endblock %}
 {% block content %}
-    <div id="page-wrapper">
+  <div class="page-title">
+  <div class="title_left">
+    <h3>{{line('module_'~controller_name)}} <small>Registros almacenados</small></h3>
+  </div>
+  <div class="title_right"></div>
+</div>
+<div class="clear-fix"></div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{line('common_list_of')~' '~line('module_'~controller_name) }}
                         <div class="btn-group" role="group">
                             {{ anchor(controller_name~"/delete",line("common_delete"),{'id':'delete', 'class':'btn btn-warning'})}}
                         </div>
@@ -42,8 +47,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id="feedback_bar"></div>
+
 {% endblock %}
 {% block javascript %}
     {{ parent() }}
