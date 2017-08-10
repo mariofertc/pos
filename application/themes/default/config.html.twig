@@ -9,9 +9,16 @@
 	{% include 'partials/header.html.twig' %}
 {% endblock %}
 {% block content %}
-	<div id="page-wrapper">
-		<div class="row">
-			<div class="col-lg-12">
+    
+<div class="page-title">
+  <div class="title_left">
+    <h3>{{line('module_'~controller_name)}} <small>Registros almacenados</small></h3>
+  </div>
+  <div class="title_right"></div>
+</div>
+<div class="clear-fix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">{{line('module_config')}}</div>
 					<div class="panel-body">
@@ -169,7 +176,7 @@
 											'Pacific/Auckland':'(GMT+12:00) Auckland, Wellington',
 											'Etc/GMT-12':'(GMT+12:00) Fiji, Kamchatka, Marshall Is.',
 											'Pacific/Chatham':'(GMT+12:45) Chatham Islands',
-											'Pacific/Tongatapu':'(GMT+13:00) Nuku\'alofa',
+											'Pacific/Tongatapu':"(GMT+13:00) Nuku'alofa",
 											'Pacific/Kiritimati':'(GMT+14:00) Kiritimati'
 										}, config('timezone') ? config('timezone') : timezone,"class='form-control'" ) 
 									}}
@@ -188,7 +195,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 
 

@@ -10,7 +10,7 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{{base_url()}}images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="{{base_url()}}images/profile.png" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>{{line('common_welcome')}}</span>
@@ -24,23 +24,109 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>Ventas</h3>
+                <h3>Principal</h3>
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{base_url()}}">Principal</a></li>
-                      <li><a href="{{base_url()}}/menu">Accesos</a></li>
+                      <li><a href="{{site_url('home')}}/menu">Accesos</a></li>
                     </ul>
                   </li>
-                    {% for module in allowed_modules.result %}
+                  {% set ingresa_menu = false %}
+                  {% for module in allowed_modules.result if (module.module_id != 'config' and module.module_id != 'web_market' and module.module_id != 'reports' and module.module_id != 'suppliers' and module.module_id != 'receivings' and module.module_id != 'employees' and module.module_id != 'payments' and module.module_id != 'porpagar' and module.module_id != 'almacenes' and module.module_id != 'ecommerce' and module.module_id != 'lanzamientos' and module.module_id != 'blog' and module.module_id != 'items') %}
+                    {% if loop.first %}
+                      <li><a><i class="fa fa-shopping-cart"></i> Ventas <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                    {% endif %}
                     <li>
                         <a href="{{site_url(module.module_id)}}">
-                            <img src="{{base_url() ~ 'images/menubar/' ~ module.module_id ~ '.png'}}" alt={{module.desc_lang_key}} style="width: 23px; height: 23px;"/>
+                            <img src="{{base_url() ~ 'images/menubar/' ~ module.module_id ~ '.png'}}" alt="{{line(module.desc_lang_key)}}" style="width: 23px; height: 23px;"/>
+                                 {{line("module_" ~ module.module_id)}}
+                        </a>
+                    </li>
+                    {% set ingresa_menu = true %}
+                    {% endfor %}
+                    {% if ingresa_menu %}
+                        </ul>
+                      </li>
+                      {% set ingresa_menu = false %}
+                    {% endif %}
+
+                    {% for module in allowed_modules.result if (module.module_id != 'config' and module.module_id != 'web_market' and module.module_id != 'reports' and module.module_id != 'employees' and module.module_id != 'sales' and module.module_id != 'customers' and module.module_id != 'payments' and module.module_id != 'abonos' and module.module_id != 'almacenes' and module.module_id != 'ecommerce' and module.module_id != 'lanzamientos' and module.module_id != 'blog' and module.module_id != 'items' and module.module_id != 'boxes') %}
+                    {% if loop.first %}
+                      <li><a><i class="fa fa-dropbox"></i> Compras <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                    {% endif %}
+                    <li>
+                        <a href="{{site_url(module.module_id)}}">
+                            <img src="{{base_url() ~ 'images/menubar/' ~ module.module_id ~ '.png'}}" alt="{{line(module.desc_lang_key)}}" style="width: 23px; height: 23px;"/>
+                                 {{line("module_" ~ module.module_id)}}
+                        </a>
+                    </li>
+                    {% set ingresa_menu = true %}
+                    {% endfor %}
+                    {% if ingresa_menu %}
+                        </ul>
+                      </li>
+                      {% set ingresa_menu = false %}
+                    {% endif %}
+
+                     {% for module in allowed_modules.result if (module.module_id != 'config' and module.module_id != 'web_market' and module.module_id != 'reports' and module.module_id != 'sales' and module.module_id != 'customers' and module.module_id != 'abonos' and module.module_id != 'ecommerce' and module.module_id != 'lanzamientos' and module.module_id != 'blog' and module.module_id != 'boxes'  and module.module_id != 'receivings' and module.module_id != 'suppliers' and module.module_id != 'porpagar') %}
+                    {% if loop.first %}
+                      <li><a><i class="fa fa-building-o"></i> Inventario <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                    {% endif %}
+                    <li>
+                        <a href="{{site_url(module.module_id)}}">
+                            <img src="{{base_url() ~ 'images/menubar/' ~ module.module_id ~ '.png'}}" alt="{{line(module.desc_lang_key)}}" style="width: 23px; height: 23px;"/>
+                                 {{line("module_" ~ module.module_id)}}
+                        </a>
+                    </li>
+                    {% set ingresa_menu = true %}
+                    {% endfor %}
+                    {% if ingresa_menu %}
+                        </ul>
+                      </li>
+                      {% set ingresa_menu = false %}
+                    {% endif %}
+
+                    {% for module in allowed_modules.result if (module.module_id != 'config' and module.module_id != 'reports' and module.module_id != 'employees' and module.module_id != 'sales' and module.module_id != 'customers' and module.module_id != 'abonos' and module.module_id != 'boxes'  and module.module_id != 'receivings' and module.module_id != 'suppliers' and module.module_id != 'porpagar' and module.module_id != 'items'  and module.module_id != 'almacenes' and module.module_id != 'payments') %}
+                    {% if loop.first %}
+                      <li><a><i class="fa fa-soundcloud"></i> Web Market <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                    {% endif %}
+                    <li>
+                        <a href="{{site_url(module.module_id)}}">
+                            <img src="{{base_url() ~ 'images/menubar/' ~ module.module_id ~ '.png'}}" alt="{{line(module.desc_lang_key)}}" style="width: 23px; height: 23px;"/>
+                                 {{line("module_" ~ module.module_id)}}
+                        </a>
+                    </li>
+                    {% set ingresa_menu = true %}
+                    {% endfor %}
+                    {% if ingresa_menu %}
+                        </ul>
+                      </li>
+                      {% set ingresa_menu = false %}
+                    {% endif %}
+
+                    {% for module in allowed_modules.result if (module.module_id == 'reports') %}
+                    <li>
+                        <a href="{{site_url(module.module_id)}}">
+                            <img src="{{base_url() ~ 'images/menubar/' ~ module.module_id ~ '.png'}}" alt="{{line(module.desc_lang_key)}}" style="width: 23px; height: 23px;"/>
+                                 {{line("module_" ~ module.module_id)}}
+                        </a>
+                    </li>
+                    {% endfor %}
+
+  {#                  {% for module in allowed_modules.result if (module.module_id != 'config' and module.module_id != 'web_market') %}
+                    <li>
+                        <a href="{{site_url(module.module_id)}}">
+                            <img src="{{base_url() ~ 'images/menubar/' ~ module.module_id ~ '.png'}}" alt="{{line(module.desc_lang_key)}}" style="width: 23px; height: 23px;"/>
                                  {{line("module_" ~ module.module_id)}}
                         </a>
                     </li>
                     {%endfor%}
-
+#}
                   {#<li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="index.html">Dashboard</a></li>
@@ -142,17 +228,23 @@
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
+              {% for module in allowed_modules.result if module.module_id == 'config' %}
+              <a data-toggle="tooltip" data-placement="top" title="{{line(module.desc_lang_key)}}" href="{{site_url(module.module_id)}}">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+            {% endfor %}
+            {% for module in allowed_modules.result if module.module_id == 'web_market' %}
+              <a data-toggle="tooltip" data-placement="top" title="{{line(module.desc_lang_key)}}" href="{{site_url(module.module_id)}}">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+              </a>
+            {% endfor %}
+              {#<a data-toggle="tooltip" data-placement="top" title="FullScreen">
                 <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
               </a>
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-                {#line("common_logout")#}
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="home/logout">
+              </a>#}
+              <a data-toggle="tooltip" data-placement="top" title='{{line("common_logout")}}' href="home/logout">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -173,19 +265,28 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{{base_url()}}images/img.jpg" alt="">John Doe
+                    <img src="{{base_url()}}images/profile.png" alt="">{{ user_info.first_name ~ ' '~ user_info.last_name~'!'}}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
+                    <li><a href="javascript:;"> Perfil</a></li>
+                    {% for module in allowed_modules.result if module.module_id == 'config' %}
                     <li>
-                      <a href="javascript:;">
+                      <a href="{{site_url(module.module_id)}}">
                         <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
+                        <span>{{line("module_" ~ module.module_id)}}</span>
                       </a>
                     </li>
-                    <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  {% endfor %}
+                   {% for module in allowed_modules.result if module.module_id == 'web_market' %}
+                    <li>
+                      <a href="{{site_url(module.module_id)}}">
+                        <span class="glyphicon glyphicon-shopping-cart pull-right"></span>
+                        <span>{{line("module_" ~ module.module_id)}}</span>
+                      </a>
+                    </li>
+                  {% endfor %}
+                    <li><a href="home/logout"><i class="fa fa-sign-out pull-right"></i> {{line("common_logout")}}</a></li>
                   </ul>
                 </li>
 
@@ -197,7 +298,7 @@
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
                       <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img src="images/profile.png" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -209,7 +310,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img src="images/profile.png" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -221,7 +322,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img src="images/profile.png" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -233,7 +334,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img src="images/profile.png" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>

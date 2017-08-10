@@ -66,7 +66,7 @@ class Ecommerce extends Secure_area {
 
         $payment = $this->paypalrest->getPaymentDetails($item->payment_id);
         $transaccion = $payment->transactions[0];
-        $item->productos=$transaccion->item_list->items;
+        $item->productos=(count($transaccion->item_list) > 0)?$transaccion->item_list->items:null;
         $data['transaccion']=$transaccion;
         $data['item_info']=$item;
         $this->twiggy->set($data);

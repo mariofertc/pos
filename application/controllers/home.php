@@ -38,6 +38,16 @@ class Home extends Secure_area {
         $data['total_customer'] = $this->Customer->get_total();
         $data['total_supplier'] = $this->Supplier->get_total();
         $data['total_item'] = $this->Item->get_total();
+        $sessions = array();
+        $nombre = "";
+        foreach($this->sessions->get_all() as $session){
+            $user = unserialize($session->user_data);
+            $nombre = $this->Person->get_info($user['person_id']);
+            
+            $sessions[] = array_merge((array)$session, array('nombre'=>$nombre->first_name." ".$nombre->last_name));
+        }
+        $data['sessions'] = $sessions;
+
         return $data;
     }
 

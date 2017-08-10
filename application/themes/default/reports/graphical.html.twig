@@ -15,7 +15,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
         <div style="text-align: center;">
             <script type="text/javascript">
-                //swfobject.embedSWF("{{ base_url()}}/open-flash-chart.swf", "chart","100%", "420", "9.0.0", "expressInstall.swf", {"data-file": "{{data_file}}"});
+                swfobject.embedSWF("{{ base_url()}}/open-flash-chart.swf", "chart","100%", "420", "9.0.0", "expressInstall.swf", {"data-file": "{{data_file}}"});
             </script>
         </div>
         <div id="chart_wrapper">
@@ -35,7 +35,7 @@
     {% endfor %}
     {% if(summary_almacen is not empty) %}
         {% for name in summary_almacen %}
-            {{ loop.first ? "<div class='col-md-3'><h4>"}}{{name['almacen']}}{{"</h4><table class='table'><tbody>" : '' }}
+            {{ loop.first ? "<div class='col-md-3'><h4>"~name['almacen']~"</h4><table class='table'><tbody>" : '' }}
             <tr>
                 <th>
                     {{ line('reports_subtotal')~ ': '}}

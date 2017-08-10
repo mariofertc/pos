@@ -1,0 +1,2 @@
+update phppos_modules set name_lang_key = 'module_web_market', desc_lang_key = 'module_web_market_desc' where module_id = 'web_market';
+alter table phppos_sessions modify column user_agent varchar(150);
