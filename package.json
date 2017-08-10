@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "browser-sync": "~2.3.1",
-    "gulp": "~3.8.11",
+    "gulp": "~3.9.1",
     "gulp-browserify": "~0.5.1",
     "gulp-concat": "^2.6.1",
     "gulp-connect-php": "0.0.5",

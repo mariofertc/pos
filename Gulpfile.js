@@ -25,7 +25,7 @@ gulp.task('js_back',function(){
 		'assets/bower_components/jquery-validation/dist/jquery.validate.js',
 		'assets/bower_components/bootstrap/dist/js/bootstrap.js',
 		'js/common.js',
-		'assets/bower_components/pnotify/pnotify.core.js',
+		'assets/bower_components/pnotify/dist/pnotify.js',
 		'assets/bower_components/jquery-ui/jquery-ui.js',
 		'assets/bower_components/gentelella/build/js/custom.js'
 		])
@@ -38,7 +38,7 @@ gulp.task('js_back',function(){
 gulp.task('css_back',function(){
 	return gulp.src(['assets/bower_components/bootstrap/dist/css/bootstrap.css',
 		'assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css',
-		'assets/bower_components/pnotify/pnotify.core.css',
+		'assets/bower_components/pnotify/dist/pnotify.css',
 		'css/bootstrap.css',
 		'assets/bower_components/gentelella/build/css/custom.css',
 		'assets/bower_components/font-awesome/css/font-awesome.css'
