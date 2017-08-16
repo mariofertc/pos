@@ -24,7 +24,7 @@
     </div>
 </div>
 
-
+<div class="row">
     {% for name, value in summary_data %}
         {{ loop.first ? "<div class='col-md-3'><h4>Resúmen</h4><table class='table'><tbody>" : '' }}
             <tr>
@@ -69,4 +69,5 @@
             {{ loop.last ? "</tbody></table></div>" : '' }}
         {% endfor %}
     {% endif %}
+</div>
 {% endblock %}
