@@ -11,10 +11,11 @@ class Payments extends Secure_area {
     function index() {
         $data['controller_name'] = strtolower($this->uri->segment(1));
         $data['form_width'] = $this->get_form_width();
+        $data['form_height'] = $this->get_form_height();
         $data['manage_table'] = get_payment_manage_table();
         //$this->load->view('payments/manage',$data);
-        $this->twiggy->set($data);
-        $this->twiggy->display('payments/manage');
+        $this->twig->set($data);
+        $this->twig->display('payments/manage');
     }
     
     function mis_datos() {
@@ -58,8 +59,8 @@ class Payments extends Secure_area {
     function view($payment_id = -1) {
         $data['payment_info'] = $this->Payment->get_info($payment_id);
         $data['yo'] = 's';
-        $this->twiggy->set($data);
-        $this->twiggy->display("payments/form");
+        $this->twig->set($data);
+        $this->twig->display("payments/form");
     }
 
     /*

@@ -38,7 +38,7 @@
                                         <tr class="{{loop.index%2==0?'odd gradeX':'even gradeA'}}">
 {#                                            <td><a href="#" class="expand">+</a></td>#}
                                             {%for cell in row %}
-                                                <td class="">{{cell}}</td>
+                                                <td class="">{{cell|raw}}</td>
                                             {% endfor %}
                                         </tr>
                                         {#<tr>

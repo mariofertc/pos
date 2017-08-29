@@ -3,7 +3,8 @@ var gulp = require('gulp'),
 	browserify = require('gulp-browserify'),
 	uglify = require('gulp-uglify'),
 	gulpif = require('gulp-if'),
-	connect = require('gulp-connect-php')
+	connect = require('gulp-connect-php'),
+	replace = require('gulp-replace'),
 	reload = browserSync.reload;
 var concat = require('gulp-concat');
 
@@ -44,6 +45,8 @@ gulp.task('css_back',function(){
 		'assets/bower_components/font-awesome/css/font-awesome.css'
 		])
 		.pipe(concat('back.css'))
+		//.pipe(replace('../fonts/','../fonts/'))
+		.pipe(replace('sourceMappingURL=bootstrap.css.map','xxxoxooo'))
 		.pipe(gulpif(env === "production",uglify()))
 		.pipe(gulp.dest('assets'))
 		.pipe(reload({stream:true}));

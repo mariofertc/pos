@@ -112,7 +112,7 @@ class Supplier extends Person {
       Inserts or updates a suppliers
      */
 
-    function save(&$person_data, &$supplier_data, $supplier_id = false) {
+    function save(&$person_data, &$supplier_data=false, &$supplier_id = false, $d = false) {
         $success = false;
         //Run these queries as a transaction, we want to make sure we do all or nothing
         $this->db->trans_start();

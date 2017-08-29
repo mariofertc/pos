@@ -18,8 +18,8 @@ class Porpagar extends Secure_area {
 //		$data['manage_table']=get_porpagar_manage_table($this->Porpagarm->get_all(),$this);
         $data['manage_table'] = get_porpagar_manage_table();
         //$this->load->view('porpagar/manage',$data);
-        $this->twiggy->set($data);
-        $this->twiggy->display('porpagar/manage');
+        $this->twig->set($data);
+        $this->twig->display('porpagar/manage');
     }
     
      function mis_datos() {
@@ -327,8 +327,8 @@ class Porpagar extends Secure_area {
             $this->lang->line('sales_credit') => $this->lang->line('sales_credit')
         );
         //$this->load->view("porpagar/form", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("porpagar/form");
+        $this->twig->set($data);
+        $this->twig->display("porpagar/form");
     }
 
     function get_row() {

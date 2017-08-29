@@ -21,7 +21,7 @@ class Secure_CI extends CI_Controller
 			$customer_id = $this->session->userdata('customer_id');
 	        if(isset($customer_id)){
 				$this->user = $this->Customer->get_logged_in_customer_info();
-		    	$this->twiggy->set('webuser_data',$this->user);
+		    	$this->twig->set('webuser_data',$this->user);
 	        }
 		}
 	}

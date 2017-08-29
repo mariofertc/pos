@@ -16,6 +16,13 @@ class Receiving extends CI_Model
 
 		return ($query->num_rows()==1);
 	}
+	function get_total($where = null)
+	{
+		if($where)
+			$this->db->where($where);
+		return $this->db->from('receivings')->count_all_results();
+	}
+	
 
 	function save ($items,$supplier_id,$employee_id,$comment,$payments,$receiving_id=false,$data = false)
 	{

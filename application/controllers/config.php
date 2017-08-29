@@ -10,8 +10,8 @@ class Config extends Secure_area {
 
     function index() {
         //$this->load->view("config");
-        $this->twiggy->set(array("time_zone" => date_default_timezone_get()));
-        $this->twiggy->display("config");
+        $this->twig->set(array("time_zone" => date_default_timezone_get()));
+        $this->twig->display("config");
     }
 
     function save() {
@@ -40,5 +40,3 @@ class Config extends Secure_area {
     }
 
 }
-
-?>

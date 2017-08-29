@@ -18,8 +18,8 @@ class Abonos extends Secure_area {
         $data['controller_name'] = strtolower($this->uri->segment(1));
         $data['form_width'] = $this->get_form_width();
         $data['manage_table'] = get_abono_manage_table();
-        $this->twiggy->set($data);
-        $this->twiggy->display('abonos/manage');
+        $this->twig->set($data);
+        $this->twig->display('abonos/manage');
     }
     
     function mis_datos() {
@@ -45,7 +45,7 @@ class Abonos extends Secure_area {
     }
 
     function menu_abonos() {
-        $this->twiggy->display('abonos/menu');
+        $this->twig->display('abonos/menu');
 
         //$this->_reload();
         // $this->output->enable_profiler(TRUE);
@@ -387,8 +387,8 @@ class Abonos extends Secure_area {
             $this->lang->line('sales_credit') => $this->lang->line('sales_credit')
         );
         //$this->load->view("abonos/form", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("abonos/form");
+        $this->twig->set($data);
+        $this->twig->display("abonos/form");
     }
 
     function get_row() {

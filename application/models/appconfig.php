@@ -77,5 +77,3 @@ class Appconfig extends CI_Model
 		return $this->db->empty_table('app_config'); 
 	}
 }
-
-?>

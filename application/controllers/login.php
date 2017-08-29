@@ -4,7 +4,7 @@ class Login extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-//        $this->load->spark('twiggy/0.8.5');
+//        $this->load->spark('twig/0.8.5');
     }
 
     function index() {
@@ -18,8 +18,8 @@ class Login extends CI_Controller {
 
             if ($this->form_validation->run() == false) {                
                 $data['title'] = 'login_login';
-                $this->twiggy->set($data);
-                $this->twiggy->display('login');
+                $this->twig->set($data);
+                $this->twig->display('login');
             } else {
 //                echo "yap";
                 redirect('home');

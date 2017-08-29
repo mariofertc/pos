@@ -18,8 +18,8 @@ class Reports extends Secure_area {
         $data['controller_name'] = strtolower($this->uri->segment(1));
 //		$this->load->view("reports/listing",array());	
 
-        $this->twiggy->set($data);
-        return $this->twiggy->display('reports/listing');
+        $this->twig->set($data);
+        return $this->twig->display('reports/listing');
     }
 
     /*
@@ -102,8 +102,8 @@ class Reports extends Secure_area {
     function date_input_excel_export() {
         $data = $this->_get_common_report_data();
 //        $this->load->view("reports/date_input_excel_export", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports//date_input_excel_export");
+        $this->twig->set($data);
+        $this->twig->display("reports//date_input_excel_export");
     }
 
     //Summary sales report
@@ -131,8 +131,8 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     function export_excel($datos) {
@@ -163,8 +163,8 @@ class Reports extends Secure_area {
         //var_dump($almacenes);
         $data['specific_input_data'] = $almacenes;
 //        $this->load->view("reports/specific_input", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/specific_input');
+        $this->twig->set($data);
+        $this->twig->display('reports/specific_input');
 //        $this->load->view("reports/specific_input", $data);
     }
 
@@ -191,8 +191,8 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     //Summary customers report
@@ -218,8 +218,8 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     //Summary suppliers report
@@ -245,8 +245,8 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     //Summary items report
@@ -272,8 +272,8 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     //Summary employees report
@@ -299,8 +299,8 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     //Summary taxes report
@@ -326,8 +326,8 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     //Summary discounts report
@@ -353,8 +353,8 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     function summary_payments($start_date, $end_date, $export_excel = 0) {
@@ -379,16 +379,16 @@ class Reports extends Secure_area {
         if ($export_excel == 1) {
             return $this->export_excel($data);
         }
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     //Input for reports that require only a date range. (see routes.php to see that all graphical summary reports route here)
     function date_input() {
         $data = $this->_get_common_report_data();
 //        $this->load->view("reports/date_input", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/date_input");
+        $this->twig->set($data);
+        $this->twig->display("reports/date_input");
     }
 
     /**
@@ -406,8 +406,8 @@ class Reports extends Secure_area {
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
             "summary_almacen" => $model->getSummaryAlmacenes(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     /**
@@ -455,8 +455,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     /**
@@ -497,8 +497,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     //The actual graph data
@@ -529,8 +529,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     //The actual graph data
@@ -562,8 +562,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     //The actual graph data
@@ -594,8 +594,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     //The actual graph data
@@ -628,8 +628,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     //The actual graph data
@@ -664,8 +664,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     //The actual graph data
@@ -699,8 +699,8 @@ class Reports extends Secure_area {
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
             "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
         );
-        $this->twiggy->set($data);
-        $this->twiggy->display('reports/graphical');
+        $this->twig->set($data);
+        $this->twig->display('reports/graphical');
     }
 
     //The actual graph data
@@ -733,8 +733,8 @@ class Reports extends Secure_area {
         }
         $data['specific_input_data'] = $customers;
 //        $this->load->view("reports/specific_input", $data);
-         $this->twiggy->set($data);
-        $this->twiggy->display('reports/specific_input');
+         $this->twig->set($data);
+        $this->twig->display('reports/specific_input');
     }
 
     function specific_customer($start_date, $end_date, $customer_id, $export_excel = 0) {
@@ -771,8 +771,8 @@ class Reports extends Secure_area {
             return $this->export_excel($data);
         }
 //        $this->load->view("reports/tabular_details", $data);
-         $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular_details");
+         $this->twig->set($data);
+        $this->twig->display("reports/tabular_details");
     }
 
     function specific_employee_input() {
@@ -785,8 +785,8 @@ class Reports extends Secure_area {
         }
         $data['specific_input_data'] = $employees;
 //        $this->load->view("reports/specific_input", $data);
-         $this->twiggy->set($data);
-        $this->twiggy->display('reports/specific_input');
+         $this->twig->set($data);
+        $this->twig->display('reports/specific_input');
     }
 
     function specific_employee($start_date, $end_date, $employee_id, $export_excel = 0) {
@@ -823,8 +823,8 @@ class Reports extends Secure_area {
         }
 
 //        $this->load->view("reports/tabular_details", $data);
-         $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular_details");
+         $this->twig->set($data);
+        $this->twig->display("reports/tabular_details");
     }
 
     function detailed_sales($start_date, $end_date, $export_excel = 0) {
@@ -859,8 +859,8 @@ class Reports extends Secure_area {
             return $this->export_excel($data);
         }
 
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular_details");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular_details");
 
 //        $this->load->view("reports/tabular_details", $data);
     }
@@ -897,8 +897,8 @@ class Reports extends Secure_area {
             return $this->export_excel($data);
         }
 
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular_details");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular_details");
 
 //        $this->load->view("reports/tabular_details", $data);
     }
@@ -1051,8 +1051,8 @@ class Reports extends Secure_area {
         );
 
 //        $this->load->view("reports/tabular_details", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular_details");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular_details");
     }
 
     function excel_export() {
@@ -1079,8 +1079,8 @@ class Reports extends Secure_area {
         );
 
 //        $this->load->view("reports/tabular", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     function inventory_low_almacen($almacen_id, $export_excel = 0) {
@@ -1104,8 +1104,8 @@ class Reports extends Secure_area {
         );
 
 //        $this->load->view("reports/tabular", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     function inventory_summary($export_excel = 0) {
@@ -1164,8 +1164,8 @@ class Reports extends Secure_area {
         );
 
 //        $this->load->view("reports/tabular", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/tabular");
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular");
     }
 
     //Específico SummarySale. Esto elimina los dos metodos de arriba.
@@ -1180,8 +1180,8 @@ class Reports extends Secure_area {
         //var_dump($almacenes);
         $data['specific_input_data'] = $almacenes;
 //        $this->load->view("reports/specific_input_almacen", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("reports/specific_input_almacen");
+        $this->twig->set($data);
+        $this->twig->display("reports/specific_input_almacen");
     }
 
     function do_line($result) {

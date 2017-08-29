@@ -24,6 +24,14 @@ class Sale extends CI_Model
 		
 		return $success;
 	}
+
+	function get_total($where = null)
+	{
+		if($where)
+			$this->db->where($where);
+		return $this->db->from('sales')->count_all_results();
+	}
+
 	
 	function save($items,$customer_id,$employee_id,$comment,$payments,$sale_id=false,$data = false)
 	{

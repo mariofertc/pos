@@ -19,8 +19,8 @@ class Blog extends Secure_area {
         $this->data['form_width'] = $this->get_form_width();
         $this->data['manage_table'] = get_blog_manage_table();
         $this->data['title'] = 'blog_manager_title';
-        $this->twiggy->set($this->data);
-        return $this->twiggy->display('blog/manage');
+        $this->twig->set($this->data);
+        return $this->twig->display('blog/manage');
     }
 
 
@@ -56,8 +56,8 @@ class Blog extends Secure_area {
         $item = $this->articulo_blog->get_info($item_id);
 
         $data['articulo_info']=$item;
-        $this->twiggy->set($data);
-        $this->twiggy->display("blog/form");
+        $this->twig->set($data);
+        $this->twig->display("blog/form");
     }
 
     /**
@@ -110,7 +110,7 @@ class Blog extends Secure_area {
     function comentarios($articulo_id){
         $this->data['articulo']=new stdClass;
         $this->data['articulo']->opiniones=$this->blog_review->get_by_articulo($articulo_id);
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('blog/comentarios');
+        $this->twig->set($this->data);
+        $this->twig->display('blog/comentarios');
     }
 }

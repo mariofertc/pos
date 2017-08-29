@@ -195,10 +195,10 @@ class Sales extends Secure_area {
             $data['error_message'] = $this->lang->line('sales_transaction_failed');
         }
         
-        $this->twiggy->set($data);
+        $this->twig->set($data);
         $this->sale_lib->clear_all();
         //$this->load->view("receivings/receipt", $data);
-        $this->twiggy->display("sales/receipt");
+        $this->twig->display("sales/receipt");
     }
 
     function receipt($sale_id) {
@@ -232,8 +232,8 @@ class Sales extends Secure_area {
         
 //        $this->load->view("sales/receipt", $data);
         $this->sale_lib->clear_all();
-        $this->twiggy->set($data);
-        $this->twiggy->display("sales/receipt");
+        $this->twig->set($data);
+        $this->twig->display("sales/receipt");
     }
 
     function edit($sale_id) {
@@ -252,8 +252,8 @@ class Sales extends Secure_area {
 
         $data['sale_info'] = $this->Sale->get_info($sale_id)->row_array();
 
-        $this->twiggy->set($data);
-        $this->twiggy->display("sales/edit");
+        $this->twig->set($data);
+        $this->twig->display("sales/edit");
 //		$this->load->view('sales/edit', $data);
     }
 
@@ -352,8 +352,8 @@ class Sales extends Secure_area {
         if ($this->Box->ya_cerrado())
             $data['error'] = $this->lang->line('boxes_close_sale');
 //        $this->load->view("sales/register", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("sales/register");
+        $this->twig->set($data);
+        $this->twig->display("sales/register");
     }
 
     function cancel_sale() {

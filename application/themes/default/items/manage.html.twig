@@ -36,11 +36,11 @@
                             <div id="search_filter_section" style="display: {{ search_section_state is defined?  ( (search_section_state)? 'block' : 'none') : 'none'}}background-color:#EEEEEE">
                                 {{ form_open(controller_name~"/refresh",{'id':'items_filter_form'}) }}
                                 {{ form_label(line('items_low_inventory_items')~' '~':', 'low_inventory')}}
-                                {{ form_checkbox({'name':'low_inventory','id':'low_inventory','value':1,'checked': low_inventory is defined?  ( (low_inventory)? 1 : 0) : 0})~' | ' }}
+                                {{ form_checkbox({'name':'low_inventory','id':'low_inventory','value':1,'checked': low_inventory is defined?  ( (low_inventory)? 1 : 0) : 0})}} |
                                 {{ form_label(line('items_serialized_items')~' '~':', 'is_serialized')}}
-                                {{ form_checkbox({'name':'is_serialized','id':'is_serialized','value':1,'checked': is_serialized is defined?  ( (is_serialized)? 1 : 0) : 0})~' | '}}
+                                {{ form_checkbox({'name':'is_serialized','id':'is_serialized','value':1,'checked': is_serialized is defined?  ( (is_serialized)? 1 : 0) : 0})}} | 
                                 {{ form_label(line('items_no_description_items')~' '~':', 'no_description')}}
-                                {{ form_checkbox({'name':'no_description','id':'no_description','value':1,'checked': no_description is defined?  ( (no_description)? 1 : 0) : 0})~' | '}}
+                                {{ form_checkbox({'name':'no_description','id':'no_description','value':1,'checked': no_description is defined?  ( (no_description)? 1 : 0) : 0})}} | 
 
                                 <!--Por almacenes-->
                                 {{ form_label(line('almacenes_almacen')~' '~':', 'no_description')}}
@@ -54,7 +54,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            {{  manage_table }}
+                            {{  manage_table|raw }}
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,7 @@
 {#<link href="{{base_url()}}assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" type="text/css">#}
 {#<link href="{{base_url()}}assets/bower_components/pnotify/pnotify.core.css" rel="stylesheet" type="text/css">#}
 {#<link href="{{base_url()}}css/bootstrap.css" rel="stylesheet" type="text/css">#}
-<link href="{{base_url()}}assets/back.css" rel="stylesheet" type="text/css">
+            <link href="{{base_url()}}assets/back.css" rel="stylesheet" type="text/css">
             <meta http-equiv="content-type" content="text/html; charset=utf-8" />
             <!--[if lt IE 9]>
                 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -22,32 +22,28 @@
         {% endblock %}
     </head>
     <body class="nav-md">
-
         <div class="container body">
-          <div class="main_container">
-            
-        {% block header %}
-          {% include 'partials/header.html.twig' %}
-        {% endblock %}
-        <!-- page content -->
-            <div class="right_col" role="main">
-        {% block content %}
+          <div class="main_container">            
+            {% block header %}
+              {% include 'partials/header.html.twig' %}
+            {% endblock %}
+            <!-- page content -->
+                <div class="right_col" role="main">
+                {% block content %}
 
-        {% endblock %}
-            </div>
-          
-        <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            Punto de Venta PHP - Administrador <a href="https://www.ambatosystem.com">Ambatosystem</a>
+                {% endblock %}
+                </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+              <div class="pull-right">
+                Punto de Venta PHP - Administrador <a href="https://www.ambatosystem.com">Ambatosystem</a>
+              </div>
+              <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
           </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
-      </div>
-    </div>
+        </div>
 
         {% block javascript %}
             {#<script src="{{base_url()}}assets/bower_components/jquery/dist/jquery.js" type="text/javascript" language="javascript" charset="UTF-8"></script>

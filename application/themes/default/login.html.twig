@@ -1,60 +1,91 @@
-{% extends _layout %}
-    
-{% block content %}
+{# {% extends _layout %} #}
+<!DOCTYPE html>
+<html>
+<head>
+     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+            <title>Punto de Venta PHP | {{line(title)}}</title>
 
-        {% if host() == 'ambatosystem/pos'  %}
-            <h2>Username = vicente</h2>
-            <h2>Password = vicented</h2>
-         {% endif %}
+    <!-- Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{{base_url()}}assets/back.css">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <h2>Punto de Venta 11.1</h2>
-                    <div class="login-panel panel panel-default">
-                        <div class="panel-heading">
-                            <p> {{line('login_login')}}</p>
-                            <p> {{line('login_welcome_message')}}</p>
-                        </div>
-                        <div class="panel-body">
+    <style>
+    body {
+        height: calc(100% - 51px);
+        box-sizing: content-box;
+        min-height: 600px;
+    }
+    </style>
+</head>
+<body class = 'login'>
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
 
-                            {{ form_open('/login', {'id': 'login_form', 'role' : 'form'}) }}
-                            <fieldset>
-                                <div class="form-group">
-                                    {{validation_errors('<label class="error">', '</label>') }}
-                                   {{form_input({
+
+            {{ form_open('/login', {'id': 'login_form', 'role' : 'form'}) }}
+            {{validation_errors('<label class="error">', '</label>') | raw }}
+              <h1>Punto de Venta {{config('pos_version')}}</h1>
+               {% if host() == 'ambatosystem/pos'  %}
+                    <h2>Username = vicente</h2>
+                    <h2>Password = vicented</h2>
+                {% endif %}
+              <div>
+                 {{form_input({
                                         'name' : 'username',
                                         'value' : set_value('username'),
                                         'size' : '20',
                                         'class' : 'form-control',
                                         "placeholder" : "Usuario",
                                     })}}
-                                </div>
-                                <div class="form-group">
-                                    {{form_password({
+              </div>
+              <div>
+                {{form_password({
                                         'name' : 'password',
                                         'value' : set_value('password'),
                                         'size' : '20',
                                         'class' : 'form-control',
-                                        "placeholder" : "Clave"})}}
+                                        "placeholder" : "Contraseña"})}}
+              </div>
 
-                                </div>
-                                <div class="checkbox">
+              <div>
+                {{ form_submit('loginButton', 'Entrar', "class='btn btn-lg btn-success submit'") }}
+                {# <a class="reset_pass" href="#">Lost your password?</a> #}
+                <div class="checkbox">
                                     <label>
                                         <input name="remember" type="checkbox" value="Remember Me">Recordarme</input>
                                     </label>
                                 </div>
-                                {{ form_submit('loginButton', 'Go', "class='btn btn-lg btn-success btn-block'") }}
-                            </fieldset>
-                            {{ form_close()}}
-                        </div>
-                    </div>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">
+                    {{line('login_login')}}
+                  {# <a href="#signup" class="to_register"> Create Account </a> #}
+                </p>
+
+                <div class="clearfix"></div>
+                <br>
+
+                <div>
+                  <h1><i class="fa fa-thumbs-o-up"></i> AmbatoSystem</h1>
+                  <p> {{line('login_welcome_message')}}</p>
                 </div>
+              </div>
+            {{ form_close()}}
+
             </div>
         </div>
-{% endblock %}
+</section>
+</div>
+</div>
      {%block javascript%}
-         {{parent()}}
+         {# {{parent()}} #}
         <script type="text/javascript">
             $(document).ready(function ()
             {
@@ -80,3 +111,48 @@
             });
         </script>
         {%endblock%}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var IS_IPAD=navigator.userAgent.match(/iPad/i)!=null;
+        $("#header-bar").hide();
+            clicked="desktop";
+            var t= {
+                desktop:"100%",tabletlandscape:1040,tabletportrait:788,mobilelandscape:500,mobileportrait:340,placebo:0
+            }
+            ;
+            jQuery(".responsive a").on("click",function() {
+                var e=jQuery(this);
+                for (device in t) {
+                    if(e.hasClass(device)) {
+                        clicked=device;
+                        jQuery("#iframe").width(t[device]);
+                        if(clicked==device) {
+                            jQuery(".responsive a").removeClass("active");
+                            e.addClass("active")
+                        }
+                    }
+                }
+                return false
+            }
+            );
+            if(IS_IPAD) {
+                $("#iframe").css("padding-bottom","60px")
+            }
+    </script>
+
+            <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-55162400-1', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+
+    
+</body>
+</html>    

@@ -20,13 +20,13 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="btn-group" role="group">
-                    {{ anchor(controller_name~"/view/-1?width="~form_width,line(controller_name~'_new'),
+                    {{ anchor(controller_name~"/view/-1?width="~form_width~"&height="~form_height,line(controller_name~'_new'),
                       {'class':'btn btn-primary thickbox','title':line(controller_name~'_new')})}}
                 </div>
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    {{  manage_table }}
+                    {{  manage_table | raw }}
                 </div>
             </div>
         </div>

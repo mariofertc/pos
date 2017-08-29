@@ -17,15 +17,15 @@ class Customers extends Person_controller {
 //        $data['manage_table'] = get_people_manage_table($this->Customer->get_all(), $this);
         
 //        $data['admin_table']=get_beneficios_admin_table();
-//        $this->twiggy->template('beneficiarios/manage')->display();
+//        $this->twig->template('beneficiarios/manage')->display();
         
         
         $data['controller_name'] = $this->controller_name;
         $data['form_width'] = $this->get_form_width();
         $data['manage_table'] = get_people_manage_table();
         $data['title'] = 'home_home';
-        $this->twiggy->set($data);
-        $this->twiggy->display('people/manage');
+        $this->twig->set($data);
+        $this->twig->display('people/manage');
     }
     
     function mis_datos() {
@@ -73,8 +73,8 @@ class Customers extends Person_controller {
         $data['person_info'] = $this->Customer->get_info($customer_id);
 //        $this->load->view("customers/form", $data);
         
-         $this->twiggy->set($data);
-        $this->twiggy->display('customers/form');
+         $this->twig->set($data);
+        $this->twig->display('customers/form');
     }
 
     /*

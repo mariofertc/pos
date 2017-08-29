@@ -16,8 +16,8 @@ class Ecommerce extends Secure_area {
         $this->data['form_width'] = $this->get_form_width();
         $this->data['manage_table'] = get_ecommerce_manage_table();
         $this->data['title'] = 'customer_customer';
-        $this->twiggy->set($this->data);
-        return $this->twiggy->display('ecommerce/manage');
+        $this->twig->set($this->data);
+        return $this->twig->display('ecommerce/manage');
     }
 
     function mis_datos() {
@@ -54,8 +54,8 @@ class Ecommerce extends Secure_area {
         $tipo_direccion = ($item->usuario->misma_direccion)?'FACTURA':'ENVIO';
         $item->direccionE=$this->webuser_direccion->get_by_user($item->user_id,$tipo_direccion);
         $data['item_info']=$item;
-        $this->twiggy->set($data);
-        $this->twiggy->display("ecommerce/sobre_envio");
+        $this->twig->set($data);
+        $this->twig->display("ecommerce/sobre_envio");
     }
 
     function view($orden_id = -1) {
@@ -69,8 +69,8 @@ class Ecommerce extends Secure_area {
         $item->productos=(count($transaccion->item_list) > 0)?$transaccion->item_list->items:null;
         $data['transaccion']=$transaccion;
         $data['item_info']=$item;
-        $this->twiggy->set($data);
-        $this->twiggy->display("ecommerce/form");
+        $this->twig->set($data);
+        $this->twig->display("ecommerce/form");
     }
 
      function save($order_id = -1) {

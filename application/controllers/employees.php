@@ -17,8 +17,8 @@ class Employees extends Person_controller {
         $data['form_width'] = $this->get_form_width();
         $data['manage_table'] = get_people_manage_table($this->Employee->get_all(), $this);
 //		$this->load->view('people/manage',$data);
-        $this->twiggy->set($data);
-        $this->twiggy->display('people/manage');
+        $this->twig->set($data);
+        $this->twig->display('people/manage');
     }
 
     function mis_datos() {
@@ -73,8 +73,8 @@ class Employees extends Person_controller {
         $data['all_modules'] = $result;
         $data['person_info'] = $persona;
         //$this->load->view("employees/form", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("employees/form");
+        $this->twig->set($data);
+        $this->twig->display("employees/form");
     }
 
     /*

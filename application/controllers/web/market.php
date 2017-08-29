@@ -31,20 +31,20 @@ class Market extends CI_Controller {
         if(isset($userdata)){
             $this->data['webuser_data']=$this->Customer->get_logged_in_customer_info();
         }
-        $this->twiggy->theme('web');
+        $this->twig->theme('web');
     }
 
     function index() {
         $this->data['title'] = 'Marketsillo';
         $this->data['lanzamientos']=$this->lanzamiento->get_ultimos();
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('inicio');
+        $this->twig->set($this->data);
+        $this->twig->display('inicio');
     }
 
     function tienda() {
         $this->data['title'] = 'Market - Tienda ';
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('tienda');
+        $this->twig->set($this->data);
+        $this->twig->display('tienda');
     }
 
    
@@ -84,7 +84,7 @@ class Market extends CI_Controller {
                 $this->data['msg']=$message;
             }
         }
-        $this->twiggy->display('carrito/finalizar');
+        $this->twig->display('carrito/finalizar');
     }
 
      /**
@@ -199,8 +199,8 @@ class Market extends CI_Controller {
         $this->data['producto']=$this->Item->get_info($pro);
         $this->data['producto']->opiniones=$this->product_review->get_by_item($pro);
         $this->data['producto']->imagenes=$this->file_model->get_all_by_item($pro)->result();
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('producto_detail');
+        $this->twig->set($this->data);
+        $this->twig->display('producto_detail');
     }
 
     /**
@@ -266,8 +266,8 @@ class Market extends CI_Controller {
     function get_review(){
         $review_id=$this->input->post('ID');
         $this->data['review'] = $this->product_review->get_info($review_id);
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('elementos/product_review');
+        $this->twig->set($this->data);
+        $this->twig->display('elementos/product_review');
     }
 
     /**
@@ -277,20 +277,20 @@ class Market extends CI_Controller {
     function get_blog_review(){
         $articulo_id=$this->input->post('ID');
         $this->data['review'] = $this->blog_review->get_info($articulo_id);
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('elementos/blog_review');
+        $this->twig->set($this->data);
+        $this->twig->display('elementos/blog_review');
     }
 
     function destacados(){
         $this->data['productos'] = $this->Item->get_all(6,0,array('on_web'=>1),null,null);
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('elementos/catalogo');
+        $this->twig->set($this->data);
+        $this->twig->display('elementos/catalogo');
     }
 
     function productos($categoria){
         $this->data['productos'] = $this->Item->get_all(4,0,array('category'=>urldecode($categoria),'on_web'=>1),null,null);
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('elementos/productos');
+        $this->twig->set($this->data);
+        $this->twig->display('elementos/productos');
     }
 
     /**
@@ -339,11 +339,11 @@ class Market extends CI_Controller {
         $ultimo=$this->input->get('ultimo');
         $ultimo=(int)$ultimo+1;
         $this->data['productos'] = $this->Item->get_all(9,$ultimo,$where,null,$filtros);
-        $this->twiggy->set($this->data);
+        $this->twig->set($this->data);
         if(count($this->data['productos'])>0){
-            $this->twiggy->display('elementos/catalogo');
+            $this->twig->display('elementos/catalogo');
         }else{
-            $this->twiggy->display('elementos/catalogo');
+            $this->twig->display('elementos/catalogo');
         }
     }
 
@@ -356,17 +356,17 @@ class Market extends CI_Controller {
         $destacad = $this->input->get('destacado');
         $destacado = empty($destacad) ? FALSE : TRUE;
         $this->data['producto'] = $this->Item->get_info($product_id);
-        $this->twiggy->set($this->data);
+        $this->twig->set($this->data);
         if(!$destacado)
-            $this->twiggy->display('elementos/item_producto');
+            $this->twig->display('elementos/item_producto');
         else
-            $this->twiggy->display('elementos/item_producto_destacado');
+            $this->twig->display('elementos/item_producto_destacado');
     }
 
     function compra() {
         $this->data['title'] = 'Market - Compra ';
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('compra');
+        $this->twig->set($this->data);
+        $this->twig->display('compra');
     }   
     
     /**
@@ -379,8 +379,8 @@ class Market extends CI_Controller {
         
         if(!$this->webuser->is_logged()){
             $this->data['comprando']=TRUE;
-            $this->twiggy->set($this->data);
-            $this->twiggy->display('carrito/autenticacion'); 
+            $this->twig->set($this->data);
+            $this->twig->display('carrito/autenticacion'); 
         }else{
             redirect(site_url('web/Store/entrega'));
         }
@@ -396,8 +396,8 @@ class Market extends CI_Controller {
         $this->data['title'] = 'Market - Login ';
         $this->data['module'] = $this->input->get('module');
         $this->data['ajax_request']=$ajax;
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('loger');
+        $this->twig->set($this->data);
+        $this->twig->display('loger');
     }   
 
     /**
@@ -407,8 +407,8 @@ class Market extends CI_Controller {
     function blog() {
         $this->data['title'] = 'Market - Blog ';
         $this->data['articulos_blog']=$this->articulo_blog->get_ultimos(5);
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('blog');
+        $this->twig->set($this->data);
+        $this->twig->display('blog');
     }
 
     /**
@@ -421,20 +421,20 @@ class Market extends CI_Controller {
         $this->data['articulo']=$this->articulo_blog->get_info($articulo_id);
         $this->data['articulo']->opiniones=$this->blog_review->get_by_articulo($articulo_id);
         $this->data['articulo']->imagenes=$this->file_model->get_all_by_item($articulo_id)->result();
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('blog_item');
+        $this->twig->set($this->data);
+        $this->twig->display('blog_item');
     }  
 
     function contacto() {
         $this->data['title'] = 'Market - Contacto';
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('contacto');
+        $this->twig->set($this->data);
+        $this->twig->display('contacto');
     }  
 
     function error404() {
         $this->data['title'] = 'Market - 404';
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('error404');
+        $this->twig->set($this->data);
+        $this->twig->display('error404');
     } 
 
 }

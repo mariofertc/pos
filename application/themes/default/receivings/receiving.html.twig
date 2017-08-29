@@ -20,10 +20,12 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-2">
+                                <div class='small_button'><span>
                                 {{ anchor("items/view/-1?width=360",
-        "<div class='small_button'><span>"~line('sales_new_item')~"</span></div>",
+        line('sales_new_item'),
         {'class':'btn btn-success btn-sm thickbox','title':line('sales_new_item')})
                                 }}
+                            </span></div>
                             </div>
                             <div class="col-md-4">
                                 {{ form_open("receivings/change_almacen",{'id':'almacen_form', class:"form-inline"})}}
@@ -135,18 +137,19 @@
                                         <div class="panel panel-primary">
                                         <div class="panel-heading">
                                             <div class="row">
-                                        {{line("recvs_supplier")~': <b>'~supplier~ '</b><br/>'}}
+                                        {{line("recvs_supplier")}}: <b>{{supplier}}</b><br/>
                                             </div>
                                             </div>
-                                        {{anchor("receivings/delete_supplier",'
-<div class="panel-footer">
-                                                    <span class="pull-left">'~line("common_delete")~" "~line("suppliers_supplier")~'</span>
+
+                                            <div class="panel-footer">
+                                                    <span class="pull-left">
+                                        {{anchor("receivings/delete_supplier",line("common_delete")~" "~line("suppliers_supplier"))}}
+                                        </span>
                                                     <span class="pull-right">
                                                         <i class="fa fa-arrow-circle-right"></i>
                                                     </span>
                                                     <div class="clearfix"></div>
                                                 </div>
-')}}
                                         </div>
                                     {% else %}
                                         {{form_open("receivings/select_supplier",{'id':'select_supplier_form'})}}
@@ -165,7 +168,7 @@
                                         <div class="clearfix">&nbsp;</div>
                                     {% endif %}
 
-                                    <div class="panel panel-yellow">
+                                    <div class="panel panel-warning">
                                         <div class="panel-heading">
                                             <div class="row">
                                                 <p>
@@ -192,7 +195,7 @@
                                             </form>
                                         </div>
                                         {% if payments|length>0 %}
-                                            <div class="panel panel-green">
+                                            <div class="panel panel-success">
                                                 <div class="panel-heading">
                                                     <div class="row">
                                                         {{ form_open("receivings/complete",{'id':'finish_sale_form'})}}

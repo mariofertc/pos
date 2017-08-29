@@ -10,7 +10,7 @@ class Wlist extends Secure_CI {
         $this->controller_name = strtolower($this->uri->segment(1));
         $this->load->model('wishlist');
         $this->data['controller_name'] = $this->controller_name;
-        $this->twiggy->theme('web');
+        $this->twig->theme('web');
     }
 
     function index(){
@@ -18,8 +18,8 @@ class Wlist extends Secure_CI {
     	
     	$this->data['productos'] = $this->wishlist->get_items_by_user($this->user->user_id);
 
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('wlist/wlist');
+        $this->twig->set($this->data);
+        $this->twig->display('wlist/wlist');
     }
 
     function add_to_wlist(){

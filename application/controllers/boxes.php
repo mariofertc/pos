@@ -17,8 +17,8 @@ class Boxes extends Secure_area
 		$data['form_width']=$this->get_form_width();
 		$data['subtitle']='Cierre Diario de Caja';
 		$data['manage_table']=get_boxes_manage_table();
-		$this->twiggy->set($data);
-        $this->twiggy->display("boxes/manage");
+		$this->twig->set($data);
+        $this->twig->display("boxes/manage");
 		// $this->load->view('boxes/manage',$data);
 	}
 
@@ -87,8 +87,8 @@ class Boxes extends Secure_area
 		//$tot_venta = $fecha_fin;
 		$data['tot_venta'] = $tot_venta;
 
-		$this->twiggy->set($data);
-        $this->twiggy->display("boxes/form");
+		$this->twig->set($data);
+        $this->twig->display("boxes/form");
 	}
 	
 	

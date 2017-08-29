@@ -27,7 +27,7 @@ class Secure_area extends CI_Controller
 		$data['allowed_modules']=$this->Module->get_allowed_modules($logged_in_employee_info->person_id);
 		$data['user_info']=$logged_in_employee_info;
 //		$this->load->vars($data);
-//                $this->twiggy->set($data,null, true);
-                $this->twiggy->set($data);
+//                $this->twig->set($data,null, true);
+                $this->twig->set($data);
 	}
 }

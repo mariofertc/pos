@@ -20,11 +20,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-sm-4">
-                                {{ anchor("items/view/-1?width=360",
-		"<div class='small_button'><span>"~line('sales_new_item')~"</span></div>",
-		{'class':'btn btn-success btn-sm thickbox','title':line('sales_new_item')})
-                                }}
-
+                                {{ anchor("items/view/-1?width=360",line('sales_new_item'), {'class':'btn btn-success btn-sm thickbox','title':line('sales_new_item')}) }}
                                 {{ anchor("sales/suspended?width=425", line('sales_suspended_sales'), {'class':'btn btn-success btn-sm thickbox','title':line('sales_suspended_sales')}) }}
                             </div>
                             <div class="col-lg-4 col-sm-4">
@@ -149,17 +145,15 @@
                                     {% if customer is not empty%}
                                         <div class="panel panel-primary">
                                             <div class="panel-heading">
-                                                <div class="row">{{line("sales_customer")~': <b>'~customer~ '</b><br/>'}}
+                                                <div class="row">{{line("sales_customer")}}: <b>{{customer}}</b><br/>
                                                 </div>
                                             </div>
-                                            {{anchor("sales/delete_customer",'<div class="panel-footer">
-                                                    <span class="pull-left">'~line("common_delete")~" "~line("customers_customer")~'</span>
-                                                    <span class="pull-right">
-                                                        <i class="fa fa-arrow-circle-right"></i>
-                                                    </span>
-                                                    <div class="clearfix"></div>
-                                                </div>
-')}}</div>
+                                            <div class="panel-footer"><span class="pull-left">
+                                                {{anchor("sales/delete_customer",line("common_delete")~" "~line("customers_customer"))}}
+                                                </span><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span><div class="clearfix"></div>
+                                            </div>
+                                            </div>
+                                            {# {{anchor("sales/delete_customer",'<div class="panel-footer"><span class="pull-left">'~line("common_delete")~" "~line("customers_customer")~'</span><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span><div class="clearfix"></div></div>')}}</div> #}
                                         {% else %}
                                             {{form_open("sales/select_customer",{'id':'select_customer_form'})}}
                                         <div class="form-group-sm">
@@ -176,7 +170,7 @@
                                         </div>
                                         <div class="clearfix">&nbsp;</div>
                                     {% endif %}
-                                    <div class="panel panel-yellow">
+                                    <div class="panel panel-warning">
                                         <div class="panel-heading">
                                             <div class="row">
                                                 <p>
@@ -207,13 +201,13 @@
                                             {{ form_close() }}
                                         </div>
                                         {% if payments|length>0 %}
-                                            <div class="panel panel-green">
+                                            <div class="panel panel-success">
                                                 <div class="panel-heading">
                                                     <div class="row">
                                                         {{ form_open("sales/complete",{'id':'finish_sale_form'})}}
                                                         <label id="comment_label" for="comment">{{ line('common_comments')}}:</label>
                                                         {{ form_textarea({'name':'comment','value':'','rows':'4','cols':'23',class:'form-control'})}}
-                                                        <a id="suspend_sale_button" src="#" href="#" class="btn btn-primary">{{ line('sales_suspend') }}</a>
+                                                        <a id="suspend_sale_button" src="#" href="#" class="btn btn-info">{{ line('sales_suspend') }}</a>
                                                     </div>
                                                 </div>
                                                 <a id="finish_sale_button" href="#">

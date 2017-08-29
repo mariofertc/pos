@@ -23,8 +23,8 @@ class Items extends Secure_area implements iData_controller {
         $data['title'] = 'customer_customer';
 
         $data = array_merge($data,$this->get_almacenes());
-        $this->twiggy->set($data);
-        return $this->twiggy->display('items/manage');
+        $this->twig->set($data);
+        return $this->twig->display('items/manage');
 
         // $this->output->enable_profiler(TRUE);
         $base_url = $this->uri->segment(3);
@@ -53,8 +53,8 @@ class Items extends Secure_area implements iData_controller {
             $data['selected_almacen'] = $row['almacen_id'];
         }
         $data['almacenes'] = $almacenes;
-        $this->twiggy->set($data);
-        $this->twiggy->display("items/manage");
+        $this->twig->set($data);
+        $this->twig->display("items/manage");
         //$this->load->view('items/manage', $data);
     }
 
@@ -124,8 +124,8 @@ class Items extends Secure_area implements iData_controller {
         //$data['almacenes'] = $almacenes;
 
         //$this->output->enable_profiler(TRUE);
-        $this->twiggy->set($data);
-        $this->twiggy->display("items/manage");
+        $this->twig->set($data);
+        $this->twig->display("items/manage");
         //$this->load->view('items/manage', $data);
     }
 
@@ -213,8 +213,8 @@ class Items extends Secure_area implements iData_controller {
         // call_user_method(
 //        $this->load->view("items/form", $data);
         //var_dump($data["item_info"]);
-        $this->twiggy->set($data);
-        $this->twiggy->display("items/form");
+        $this->twig->set($data);
+        $this->twig->display("items/form");
     }
     
     function get_categories($item_id){
@@ -226,7 +226,7 @@ class Items extends Secure_area implements iData_controller {
         $data['colores'] = $this->Item_Clasifica->get_all(10,0,array('category.category_id'=>$data['id_color'],'items.item_id'=>$item_id));
         //var_dump($data);
         
-        $this->twiggy->set($data);
+        $this->twig->set($data);
     }
 
     //Ramel Inventory Tracking
@@ -240,8 +240,8 @@ class Items extends Secure_area implements iData_controller {
             $data['selected_almacen'] = $row['almacen_id'];
         }
         $data['almacenes'] = $almacenes;
-        $this->twiggy->set($data);
-        $this->twiggy->display("items/inventory");
+        $this->twig->set($data);
+        $this->twig->display("items/inventory");
         //$this->load->view("items/inventory", $data);
     }
 
@@ -259,8 +259,8 @@ class Items extends Secure_area implements iData_controller {
         }
         $data['almacenes_det'] = $almacenes_det;
         $data['almacenes'] = $almacenes;
-        $this->twiggy->set($data);
-        $this->twiggy->display("items/move_inventory");
+        $this->twig->set($data);
+        $this->twig->display("items/move_inventory");
         //$this->load->view("items/move_inventory", $data);
     }
 
@@ -361,7 +361,10 @@ class Items extends Secure_area implements iData_controller {
 
     function count_details($item_id = -1) {
         $data['item_info'] = $this->Item->get_info($item_id);
-        $this->load->view("items/count_details", $data);
+        $data['details'] = $this->Item->get_details($item_id);
+        $this->twig->set($data);
+        $this->twig->display("items/count_details");
+        // $this->load->view("items/count_details", $data);
     }
 
 //------------------------------------------- Ramel
@@ -377,8 +380,8 @@ class Items extends Secure_area implements iData_controller {
         }
 
         $data['items'] = $result;
-        $this->twiggy->set($data);
-        $this->twiggy->display("barcode_sheet");
+        $this->twig->set($data);
+        $this->twig->display("barcode_sheet");
         //$this->load->view("barcode_sheet", $data);
     }
 
@@ -400,8 +403,8 @@ class Items extends Secure_area implements iData_controller {
             1 => $this->lang->line('items_change_all_to_serialized'),
             0 => $this->lang->line('items_change_all_to_unserialized'));
         
-        $this->twiggy->set($data);
-        $this->twiggy->display("items/form_bulk");
+        $this->twig->set($data);
+        $this->twig->display("items/form_bulk");
     }
 
     function save_clasifica($item_id = -1, $almacen_id = -1) {
@@ -603,7 +606,7 @@ class Items extends Secure_area implements iData_controller {
      * @since: 10.1
      */
     function excel_import() {
-        $this->twiggy->display("items/excel_import");
+        $this->twig->display("items/excel_import");
     }
 
     /**
@@ -725,8 +728,8 @@ class Items extends Secure_area implements iData_controller {
     
     function view_images($item_id = -1) {
         $data['item_info'] = $this->Item->get_info($item_id);
-        $this->twiggy->set($data);
-        $this->twiggy->display("items/form_images");
+        $this->twig->set($data);
+        $this->twig->display("items/form_images");
     }
     
     function do_upload($item_id=null){

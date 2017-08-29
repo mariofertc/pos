@@ -159,7 +159,8 @@ class Customer extends Person {
       Inserts or updates a customer
      */
 
-    function save(&$person_data, &$customer_data, $customer_id = false) {
+    function save(&$person_data, &$customer_data = false, &$customer_id = false,$d=false) {
+		//list($$person_data, $customer_data, $customer_id) = func_get_args();
         $success = false;
         //Run these queries as a transaction, we want to make sure we do all or nothing
         $this->db->trans_start();
@@ -343,5 +344,3 @@ class Customer extends Person {
         return false;
     }
 }  
-
-?>

@@ -17,9 +17,10 @@ protected $controller_name = "";
         // $this->output->enable_profiler(TRUE);
         $data['controller_name'] = strtolower($this->uri->segment(1));
         $data['form_width'] = $this->get_form_width();
+        $data['form_height'] = $this->get_form_height();
         $data['manage_table'] = get_almacen_manage_table();
-        $this->twiggy->set($data);
-        $this->twiggy->display('almacenes/manage');
+        $this->twig->set($data);
+        $this->twig->display('almacenes/manage');
 //        $this->load->view('almacenes/manage', $data);
     }
 
@@ -57,8 +58,8 @@ protected $controller_name = "";
 
     function view($almacen_id = -1) {
         $data['almacen_info'] = $this->Almacen->get_info($almacen_id);
-        $this->twiggy->set($data);
-        $this->twiggy->display("almacenes/form");
+        $this->twig->set($data);
+        $this->twig->display("almacenes/form");
         //$this->load->view("almacenes/form", $data);
     }
 

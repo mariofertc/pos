@@ -14,7 +14,7 @@ class Store extends Secure_CI {
         $this->load->library('PaypalRest');
         $this->load->library('sale_lib');
         $this->data['controller_name'] = $this->controller_name;
-        $this->twiggy->theme('web');
+        $this->twig->theme('web');
     }
 
     /**
@@ -26,8 +26,8 @@ class Store extends Secure_CI {
         $this->data['direccionE']=$this->webuser_direccion->get_by_user($this->user->person_id,'ENVIO');
         $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->person_id);
         $this->data['misma_direccion']=(bool)$this->user->misma_direccion;
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('carrito/entrega');
+        $this->twig->set($this->data);
+        $this->twig->display('carrito/entrega');
     }
 
     /**
@@ -53,8 +53,8 @@ class Store extends Secure_CI {
         }
         $this->data['subtotal']=$subtotal;
         $this->data['total']=$subtotal;
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('carrito/pago');
+        $this->twig->set($this->data);
+        $this->twig->display('carrito/pago');
     }
 
     function finalizar(){
@@ -72,8 +72,8 @@ class Store extends Secure_CI {
         
         $this->data['direccionE']=$this->webuser_direccion->get_by_user($this->user->user_id,'ENVIO');
         $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->user_id);
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('carrito/finalizar');
+        $this->twig->set($this->data);
+        $this->twig->display('carrito/finalizar');
     }
 
     /**

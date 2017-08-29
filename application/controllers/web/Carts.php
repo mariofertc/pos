@@ -14,9 +14,9 @@ class Carts extends CI_Controller {
         $this->data['controller_name'] = $this->controller_name;
         if($this->Customer->is_logged_in()){
             $this->user = $this->Customer->get_logged_in_customer_info();;
-            $this->twiggy->set('webuser_data',$this->user);
+            $this->twig->set('webuser_data',$this->user);
         }
-        $this->twiggy->theme('web');
+        $this->twig->theme('web');
     }
 
     /**
@@ -37,8 +37,8 @@ class Carts extends CI_Controller {
         $this->data['subtotal']=$subtotal;
         $this->data['total']=$subtotal;
 
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('carrito/carrito');
+        $this->twig->set($this->data);
+        $this->twig->display('carrito/carrito');
     }
     function almacen(){
         echo "1";

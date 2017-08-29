@@ -14,12 +14,12 @@
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-calculator"></i> Total Ventas</span>
-              <div class="count green">2,500</div>
+              <div class="count green">{{total_ventas}}</div>
               <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-calculator"></i> Total Compras</span>
-              <div class="count">4,567</div>
+              <div class="count">{{total_compras}}</div>
               <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-shopping-cart"></i> Total Ventas Web</span>
-              <div class="count">7,325</div>
+              <div class="count">{{total_ventas_web}}</div>
               <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
             </div>
           </div>
@@ -133,7 +133,7 @@
                             <div class="byline">
                               <span>{{ sess.last_activity|date("F jS \\a\\t g:ia") }}</span> tiene <a>conexión</a>
                             </div>
-                            <p class="excerpt">{{sess.user_agent}}. Con la IP: <a>{{sess.ip_address}}</a>
+                            <p class="excerpt">{# {{sess.user_agent}}. #} con la IP: <a>{{sess.ip_address}}</a>
                             </p>
                           </div>
                         </div>

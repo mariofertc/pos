@@ -173,10 +173,10 @@ class Receivings extends Secure_area {
             $data['error_message'] = $this->lang->line('receivings_transaction_failed');
         }
 
-        $this->twiggy->set($data);
+        $this->twig->set($data);
         $this->receiving_lib->clear_all();
         //$this->load->view("receivings/receipt", $data);
-        $this->twiggy->display("receivings/receipt");
+        $this->twig->display("receivings/receipt");
     }
 
     function receipt($receiving_id) {
@@ -201,8 +201,8 @@ class Receivings extends Secure_area {
         $data['receiving_id'] = 'RECV ' . $receiving_id;
         $this->receiving_lib->clear_all();
 //		$this->load->view("receivings/receipt",$data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("receivings/receipt");
+        $this->twig->set($data);
+        $this->twig->display("receivings/receipt");
     }
 
     function _reload($data = array()) {
@@ -239,8 +239,8 @@ class Receivings extends Secure_area {
             $data['supplier'] = $info->first_name . ' ' . $info->last_name;
         }
 //		$this->load->view("receivings/receiving",$data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("receivings/receiving");
+        $this->twig->set($data);
+        $this->twig->display("receivings/receiving");
     }
 
     function cancel_receiving() {

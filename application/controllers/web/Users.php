@@ -11,7 +11,7 @@ class Users extends Secure_CI {
         $this->data['controller_name'] = $this->controller_name;
         $this->load->model('wishlist');
         $this->load->model('webuser_direccion');
-        $this->twiggy->theme('web');
+        $this->twig->theme('web');
     }
 
     function perfil(){
@@ -20,8 +20,8 @@ class Users extends Secure_CI {
         $this->data['direccionF']=$this->webuser_direccion->get_by_user($this->user->person_id);
         //var_dump($this->user);
         $this->data['email_md5'] = md5(trim($this->user->email));
-        $this->twiggy->set($this->data);
-        $this->twiggy->display('perfil');
+        $this->twig->set($this->data);
+        $this->twig->display('perfil');
     }
 
     /**

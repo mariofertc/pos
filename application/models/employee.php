@@ -117,7 +117,7 @@ class Employee extends Person {
       Inserts or updates an employee
      */
 
-    function save(&$person_data, &$employee_data, &$permission_data, $employee_id = false) {
+    function save(&$person_data, &$employee_data = false, &$permission_data = false, $employee_id = false) {
         $success = false;
 
         //Run these queries as a transaction, we want to make sure we do all or nothing
@@ -139,7 +139,7 @@ class Employee extends Person {
 
                 //Now insert the new permissions
                 if ($success) {
-                    if ($permission_data <> null) {
+                    if ($permission_data <> false) {
                         foreach ($permission_data as $allowed_module) {
                             $success = $this->db->insert('permissions', array(
                                 'module_id' => $allowed_module,
@@ -340,5 +340,3 @@ class Employee extends Person {
     }
 
 }
-
-?>

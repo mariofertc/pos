@@ -15,8 +15,8 @@ class Suppliers extends Person_controller {
 //        $data['manage_table'] = get_supplier_manage_table($this->Supplier->get_all(), $this);
         $data['manage_table'] = get_supplier_manage_table();
 //        $this->load->view('suppliers/manage', $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display('suppliers/manage');
+        $this->twig->set($data);
+        $this->twig->display('suppliers/manage');
     }
 
     function mis_datos() {
@@ -62,8 +62,8 @@ class Suppliers extends Person_controller {
     function view($supplier_id = -1) {
         $data['person_info'] = $this->Supplier->get_info($supplier_id);
 //        $this->load->view("suppliers/form", $data);
-        $this->twiggy->set($data);
-        $this->twiggy->display("suppliers/form");
+        $this->twig->set($data);
+        $this->twig->display("suppliers/form");
     }
 
     /*

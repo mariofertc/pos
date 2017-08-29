@@ -16,10 +16,11 @@ class Lanzamientos extends Secure_area {
      */
     function index() {
         $this->data['form_width'] = $this->get_form_width();
+        $this->data['form_height'] = $this->get_form_height();
         $this->data['manage_table'] = get_lanzamientos_manage_table();
         $this->data['title'] = 'lanzamientos_market';
-        $this->twiggy->set($this->data);
-        return $this->twiggy->display('lanzamientos/manage');
+        $this->twig->set($this->data);
+        return $this->twig->display('lanzamientos/manage');
     }
 
 
@@ -49,8 +50,8 @@ class Lanzamientos extends Secure_area {
         $item = $this->lanzamiento->get_info($item_id);
 
         $data['lanzamiento_info']=$item;
-        $this->twiggy->set($data);
-        $this->twiggy->display("lanzamientos/form");
+        $this->twig->set($data);
+        $this->twig->display("lanzamientos/form");
     }
 
     /**

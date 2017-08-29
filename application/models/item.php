@@ -618,4 +618,15 @@ class Item extends CI_Model {
         }
 
     }
+
+    function get_details($item_id){
+        $this->db->from('phppos_inventory');
+        $this->db->join('phppos_people','trans_user = person_id');
+
+        $this->db->where('trans_items', $item_id);
+        $this->db->order_by("trans_date", "desc");
+        return $this->db->get()->result();
+//         $trans_items_id = $item_info->item_id;
+// $query=mysql_query("select * from  where ='" .$trans_items_id. "' ORDER BY trans_date DESC" );
+    }
 }
