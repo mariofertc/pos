@@ -56,5 +56,4 @@ $lang['common_images_save_first']='Favor primero guarde el Artículo, para poder
 $lang['common_error']='Error';
 $lang['common_warning']='Advertencia';
 $lang['common_fax']='Fax';
-
-?>
+$lang['common_last_week']='Semana anterior';

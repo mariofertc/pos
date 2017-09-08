@@ -5,3 +5,6 @@ CREATE TABLE IF NOT EXISTS `phppos_sessions` (
         `data` blob NOT NULL,
         KEY `ci_sessions_timestamp` (`timestamp`)
 );
+
+alter table phppos_suppliers add column `fecha_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP;
+alter table phppos_items add column `fecha_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP;

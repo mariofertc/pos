@@ -2,35 +2,41 @@
 {% block content %}
 
 <div class="row tile_count">
+  {% set total_week = total_sales_week %}
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> Total Clientes</span>
-              <div class="count">{{total_customer}}</div>
-              <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+              <div class="count green">{{total_customer}}</div>
+              <span class="count_bottom"><i class="{{total_week>0?'green':'red'}}"><i class="fa {{total_week>0?'fa-sort-asc':'fa-sort-desc'}}"></i>{{total_week}}% </i> {{line('common_last_week')}}</span>
             </div>
+            {% set total_week = total_supplier_week %}
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-truck"></i> Total Proveedores</span>
-              <div class="count">{{total_supplier}}</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+              <div class="count green">{{total_supplier}}</div>
+              <span class="count_bottom"><i class="{{total_week>0?'green':'red'}}"><i class="fa {{total_week>0?'fa-sort-asc':'fa-sort-desc'}}"></i>{{total_week}}% </i> {{line('common_last_week')}}</span>
             </div>
+            {% set total_week = total_sales_week %}
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-calculator"></i> Total Ventas</span>
-              <div class="count green">{{total_ventas}}</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+              <div class="count green">{{total_sales}}</div>
+              <span class="count_bottom"><i class="{{total_week>0?'green':'red'}}"><i class="fa {{total_week>0?'fa-sort-asc':'fa-sort-desc'}}"></i>{{total_week}}% </i> {{line('common_last_week')}}</span>
             </div>
+            {% set total_week = total_receivings_week %}
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-calculator"></i> Total Compras</span>
-              <div class="count">{{total_compras}}</div>
-              <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+              <div class="count green">{{total_receivings}}</div>
+              <span class="count_bottom"><i class="{{total_week>0?'green':'red'}}"><i class="fa {{total_week>0?'fa-sort-asc':'fa-sort-desc'}}"></i>{{total_week}}% </i> {{line('common_last_week')}}</span>
             </div>
+            {% set total_week = total_item_week %}
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-stack-overflow"></i> Total Productos</span>
-              <div class="count">{{total_item}}</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+              <div class="count green">{{total_item}}</div>
+              <span class="count_bottom"><i class="{{total_week>0?'green':'red'}}"><i class="fa {{total_week>0?'fa-sort-asc':'fa-sort-desc'}}"></i>{{total_week}}% </i> {{line('common_last_week')}}</span>
             </div>
+            {% set total_week = total_sales_web %}
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-shopping-cart"></i> Total Ventas Web</span>
-              <div class="count">{{total_ventas_web}}</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+              <div class="count green">{{total_sales_web}}</div>
+              <span class="count_bottom"><i class="{{total_week>0?'green':'red'}}"><i class="fa {{total_week>0?'fa-sort-asc':'fa-sort-desc'}}"></i>{{total_week}}% </i> {{line('common_last_week')}}</span>
             </div>
           </div>
             <div class="dashboard_graph">

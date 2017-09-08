@@ -14,7 +14,7 @@ class Summary_employees extends Report
 	
 	public function getData(array $inputs)
 	{
-		$this->db->select('CONCAT(first_name, " ",last_name) as employee, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit', false);
+		$this->db->select('CONCAT(first_name, " ",last_name) as employee, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit, count(*) as cantidad', false);
 		$this->db->from('sales_items_temp');
 		$this->db->join('employees', 'employees.person_id = sales_items_temp.employee_id');
 		$this->db->join('people', 'employees.person_id = people.person_id');

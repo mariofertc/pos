@@ -20,4 +20,3 @@ function to_dia($number)
 // {
 	// return number_format(str_replace(',','.',$number), 2, '.', '');
 // }
-?>

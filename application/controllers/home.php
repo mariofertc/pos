@@ -40,28 +40,34 @@ class Home extends Secure_area {
         $data['total_customer'] = $this->Customer->get_total();
         $data['total_supplier'] = $this->Supplier->get_total();
         $data['total_item'] = $this->Item->get_total();
-        $data['total_ventas'] = $this->Sale->get_total();
-        $data['total_compras'] = $this->Receiving->get_total();
-        $data['total_ventas_web'] = $this->orden->get_total();
+        $data['total_sales'] = $this->Sale->get_total();
+        $data['total_receivings'] = $this->Receiving->get_total();
+        $data['total_sales_web'] = $this->orden->get_total();
 
         //Semanales
-        $start_week = strtotime("last monday midnight");
-        $end_week = strtotime("+1 week",$start_week);
+        $current_week = strtotime("last monday midnight");
+        $pass_week = strtotime("-1 week",$current_week);
+        //Mensual
+        $today = strtotime("today");
+        $last_month = strtotime("-1 month",$today);
 
-        //echo CI_VERSION;
-        //echo "yo";
-        //var_dump( local_to_gmt($start_week));
-        //var_dump( local_to_gmt($end_week));
-        //die();
+        //Convert to date
+        $current_week = date('Y-m-d H:i:s', $current_week);
+        $pass_week = date('Y-m-d H:i:s', $pass_week);
+        $today = date('Y-m-d H:i:s', $today);
+        $last_month = date('Y-m-d H:i:s', $last_month);
+        
+        $data['total_supplier_week'] = $this->get_summary_percent($current_week, $pass_week, $this->Supplier, $data['total_supplier'],'fecha_registro');
+        $data['total_item_week'] = $this->get_summary_percent($current_week, $pass_week, $this->Item, $data['total_item'],'fecha_registro');
+        $data['total_sales_week'] = $this->get_summary_percent($current_week, $pass_week, $this->Sale, $data['total_sales'],'sale_time');
+        $data['total_receivings_week'] = $this->get_summary_percent($current_week, $pass_week, $this->Receiving, $data['total_receivings'],'receiving_time');
+        $data['total_sales_web_week'] = $this->get_summary_percent($current_week, $pass_week, $this->orden, $data['total_sales'],'fecha_creacion');
 
-        $semana_anterior = $this->Customer->get_total(array('fecha_registro >'=>date("sunday", strtotime("last week monday"))));
-        $esta_semana = $this->Customer->get_total(array('fecha_registro >'=>date("sunday", strtotime("last week monday"))));
-        $data['total_customer'] = $this->Customer->get_total();
-        $data['total_supplier'] = $this->Supplier->get_total();
-        $data['total_item'] = $this->Item->get_total();
-        $data['total_ventas'] = $this->Sale->get_total();
-        $data['total_compras'] = $this->Receiving->get_total();
-        $data['total_ventas_web'] = $this->orden->get_total();
+        $this->load->model('reports/Summary_employees');
+        $model = $this->Summary_employees;
+        $data['by_employee'] = $model->getData(array('start_date' => $last_month, 'end_date' => $today));
+        // $data['by_employee'] = $model->getData(array('start_date' => $start_date, 'end_date' => $end_date));
+        //var_dump($data['by_employee']);
 
         $sessions = array();
         $nombre = "";
@@ -80,6 +86,13 @@ class Home extends Secure_area {
         $data['sessions'] = $sessions;
 
         return $data;
+    }
+
+    function get_summary_percent($current_week, $pass_week, $model, $total, $field){
+        $semana_anterior = $model->get_total(array("$field >"=> $pass_week,"$field <"=> $current_week))/($total==0?1:$total);
+        $esta_semana = $model->get_total(array("$field >="=> $current_week)) / ($total==0?1:$total);
+        //echo $esta_semana;
+        return round(100 * ($esta_semana - $semana_anterior),2);
     }
 
 }

@@ -276,7 +276,9 @@ class Reports extends Secure_area {
         $this->twig->display("reports/tabular");
     }
 
-    //Summary employees report
+    /**
+    *  Summary employees report
+    **/
     function summary_employees($start_date, $end_date, $export_excel = 0) {
         $this->load->model('reports/Summary_employees');
         $model = $this->Summary_employees;
