@@ -63,12 +63,6 @@ class Home extends Secure_area {
         $data['total_receivings_week'] = $this->get_summary_percent($current_week, $pass_week, $this->Receiving, $data['total_receivings'],'receiving_time');
         $data['total_sales_web_week'] = $this->get_summary_percent($current_week, $pass_week, $this->orden, $data['total_sales'],'fecha_creacion');
 
-        $this->load->model('reports/Summary_employees');
-        $model = $this->Summary_employees;
-        $data['by_employee'] = $model->getData(array('start_date' => $last_month, 'end_date' => $today));
-        // $data['by_employee'] = $model->getData(array('start_date' => $start_date, 'end_date' => $end_date));
-        //var_dump($data['by_employee']);
-
         $sessions = array();
         $nombre = "";
         $user = null;
@@ -93,6 +87,47 @@ class Home extends Secure_area {
         $esta_semana = $model->get_total(array("$field >="=> $current_week)) / ($total==0?1:$total);
         //echo $esta_semana;
         return round(100 * ($esta_semana - $semana_anterior),2);
+    }
+
+    function get_summary_per_employee(){
+        //Mensual
+        $today = strtotime("today");
+        $last_month = strtotime("-1 month",$today);
+
+        //Convert to date
+        $today = date('Y-m-d H:i:s', $today);
+        $last_month = date('Y-m-d H:i:s', $last_month);
+
+        $this->load->model('reports/Summary_employees');
+        $model = $this->Summary_employees;
+        // $data['by_employee'] = $model->getDataby("concat(Year(`sale_date`), '-', Month(`sale_date`)) month, CONCAT(first_name, ' ',last_name) as employee, count(*) as cnt", array('start_date' => $last_month, 'end_date' => $today));
+        $employees = $model->getDataby("CONCAT(first_name, ' ',last_name) as name, count(*) as y, sale_date", array('start_date' => $last_month, 'end_date' => $today));
+        $cll_employee = array();
+        foreach ($employees as &$employee) {
+            $cll_employee[$employee['name']][] = array(strtotime($employee['sale_date'])*1000,(int)$employee['y']);
+        }
+        
+        echo json_encode($cll_employee);
+    }
+     function get_summary_five_employee(){
+        //Mensual
+        $today = strtotime("today");
+        $last_month = strtotime("-12 month",$today);
+
+        //Convert to date
+        $today = date('Y-m-d H:i:s', $today);
+        $last_month = date('Y-m-d H:i:s', $last_month);
+
+        $this->load->model('reports/Summary_employees');
+        $model = $this->Summary_employees;
+        // $data['by_employee'] = $model->getDataby("concat(Year(`sale_date`), '-', Month(`sale_date`)) month, CONCAT(first_name, ' ',last_name) as employee, count(*) as cnt", array('start_date' => $last_month, 'end_date' => $today));
+        $employees = $model->getDatabyFiveTop("CONCAT(first_name, ' ',last_name) as name, count(*) as y, sale_date", array('start_date' => $last_month, 'end_date' => $today), 'y desc');
+        $cll_employee = array();
+        foreach ($employees as &$employee) {
+            $cll_employee[$employee['name']][] = (int)$employee['y'];
+        }
+        
+        echo json_encode($cll_employee);
     }
 
 }
