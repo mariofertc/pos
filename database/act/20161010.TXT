@@ -3,6 +3,6 @@
   `color` varchar(20) DEFAULT NULL,
   `color_value` varchar(10) DEFAULT NULL,
   `brand` varchar(30) DEFAULT NULL,
-  `tags` varchar(100) DEFAULT NULL)
+  `tags` varchar(100) DEFAULT NULL);
  
  alter table phppos_items add column sku varchar(50);

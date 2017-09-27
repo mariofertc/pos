@@ -1,6 +1,6 @@
 <?php
 
-require_once ("person_controller.php");
+require_once ("Person_controller.php");
 
 class Suppliers extends Person_controller {
     protected $controller_name = "";
@@ -196,7 +196,6 @@ class Suppliers extends Person_controller {
                 //echo 'Caught exception: ',  $e->getMessage(), "\n";
                 // echo json_encode( array('success'=>false,'message'=>$e->getMessage()) );
                 echo json_encode(array('success' => false, 'message' => 'vamos'));
-                break;
             }
         }
 

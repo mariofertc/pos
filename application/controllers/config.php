@@ -1,6 +1,6 @@
 <?php
 
-require_once ("secure_area.php");
+require_once ("Secure_area.php");
 
 class Config extends Secure_area {
 

@@ -1,5 +1,5 @@
 <?php
-require_once ("secure_area.php");
+require_once ("Secure_area.php");
 
 class Blog extends Secure_area {
 

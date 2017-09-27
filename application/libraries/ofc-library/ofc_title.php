@@ -6,7 +6,8 @@
  */
 class title
 {
-	function title( $text='' )
+     //function title( $text='' )
+	function __construct( $text='' )
 	{
 		$this->text = $text;
 	}

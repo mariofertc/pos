@@ -1,8 +1,8 @@
 <?php
 
-require_once ("secure_area.php");
+require_once ("Secure_area.php");
 
-//require_once ("interfaces/idata_controller.php");
+//require_once ("interfaces/iData_controller.php");
 class Almacenes extends Secure_area {
 protected $controller_name = "";
     function __construct() {

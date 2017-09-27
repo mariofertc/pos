@@ -1,9 +1,9 @@
 <?php
 
-require_once ("secure_area.php");
+require_once ("Secure_area.php");
 require_once (APPPATH . "libraries/ofc-library/open-flash-chart.php");
 
-//require_once ("interfaces/idata_controller.php");
+//require_once ("interfaces/iData_controller.php");
 //class Reports extends Secure_area implements iPerson_controller
 class Reports extends Secure_area {
 

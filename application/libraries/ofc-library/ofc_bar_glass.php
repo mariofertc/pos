@@ -16,7 +16,7 @@ class bar_on_show
 	 * @param $cascade as float. Cascade in seconds
 	 * @param $delay as float. Delay before animation starts in seconds.
 	 */
-	function __construct($type, $cascade, $delay)
+	function bar_on_show($type, $cascade, $delay)
 	{
 		$this->type = $type;
 		$this->cascade = (float)$cascade;

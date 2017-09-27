@@ -1,6 +1,6 @@
 <?php
-require_once ("secure_area.php");
-//require_once ("interfaces/idata_controller.php");
+require_once ("Secure_area.php");
+//require_once ("interfaces/iData_controller.php");
 class Abonos extends Secure_area
 {
 	function __construct()

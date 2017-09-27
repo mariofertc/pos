@@ -501,4 +501,3 @@ class Sale_lib
 		return to_currency_no_money($total);
 	}
 }
-?>

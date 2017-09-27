@@ -1,6 +1,6 @@
 <?php
 
-class Item_Clasifica extends CI_Model {
+class Item_clasifica extends CI_Model {
 
     function exists($id) {
         //Bug php or mysql version, if it is char explicit convert to number.
