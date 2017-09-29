@@ -493,7 +493,8 @@ class Reports extends Secure_area {
             "title" => $this->lang->line('reports_items_summary_report'),
             "data_file" => site_urL("reports/graphical_summary_items_graph/$start_date/$end_date"),
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
-            "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date))
+            "summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
+
         );
         $this->twig->set($data);
         $this->twig->display('reports/graphical');
@@ -511,17 +512,18 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
-            $graph_data[$row['name']] = $row['total'];
+            $graph_data[$row['name']][] = (double)$row['total'];
+            //$graph_data[$row['name']] = $row['total'];
         }
 
         $data = array(
             "title" => $this->lang->line('reports_items_summary_report'),
             "xaxis_label" => $this->lang->line('reports_revenue'),
             "yaxis_label" => $this->lang->line('reports_items'),
-            "data" => $graph_data
+            "data" => $graph_data,
+             "type" => 'column'
         );
-
-        $this->load->view("reports/graphs/hbar", $data);
+        echo json_encode($data);
     }
 
     /**
@@ -585,15 +587,17 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
-            $graph_data[$row['supplier']] = $row['total'];
+            //$graph_data[$row['supplier']] = $row['total'];
+            $graph_data[$row['supplier']][] = (double)$row['total'];
         }
 
         $data = array(
             "title" => $this->lang->line('reports_suppliers_summary_report'),
-            "data" => $graph_data
+            "data" => $graph_data, "type" => 'column',
+            "xaxis_type" => 'int'
         );
 
-        $this->load->view("reports/graphs/pie", $data);
+        echo json_encode($data);
     }
 
     function graphical_summary_employees($start_date, $end_date) {
@@ -618,15 +622,17 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
-            $graph_data[$row['employee']] = $row['total'];
+            //$graph_data[$row['employee']] = $row['total'];
+            $graph_data[$row['employee']][] = (double)$row['total'];
         }
 
         $data = array(
             "title" => $this->lang->line('reports_employees_summary_report'),
-            "data" => $graph_data
+            "data" => $graph_data,
+             "type" => 'column'
         );
 
-        $this->load->view("reports/graphs/pie", $data);
+        echo json_encode($data);
     }
 
     function graphical_summary_taxes($start_date, $end_date) {
@@ -650,15 +656,18 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
-            $graph_data[$row['percent']] = $row['total'];
+            //$graph_data[$row['percent']] = $row['total'];
+            $graph_data[$row['percent']] = (double)$row['total'];
         }
 
         $data = array(
             "title" => $this->lang->line('reports_taxes_summary_report'),
-            "data" => $graph_data
+            "data" => $graph_data,
+            "type" => 'pie'
         );
 
-        $this->load->view("reports/graphs/pie", $data);
+        echo json_encode($data);
+        //$this->load->view("reports/graphs/pie", $data);
     }
 
     //Graphical summary customers report
@@ -725,17 +734,22 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
-            $graph_data[$row['discount_percent']] = $row['count'];
+            //$graph_data[$row['discount_percent']] = $row['count'];
+            $graph_data[$row['discount_percent']][] = (double)$row['count'];
         }
 
         $data = array(
             "title" => $this->lang->line('reports_discounts_summary_report'),
             "yaxis_label" => $this->lang->line('reports_count'),
             "xaxis_label" => $this->lang->line('reports_discount_percent'),
-            "data" => $graph_data
+            "data" => $graph_data,
+            "type" => 'column',
+            "xaxis_type" => 'int'
         );
 
-        $this->load->view("reports/graphs/bar", $data);
+        echo json_encode($data);
+
+       // $this->load->view("reports/graphs/bar", $data);
     }
 
     function graphical_summary_payments($start_date, $end_date) {
@@ -760,16 +774,19 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
-            $graph_data[$row['payment_type']] = $row['payment_amount'];
+            //$graph_data[$row['payment_type']] = $row['payment_amount'];
+            $graph_data[$row['payment_type']] = (double)$row['payment_amount'];
         }
 
         $data = array(
             "title" => $this->lang->line('reports_payments_summary_report'),
             "yaxis_label" => $this->lang->line('reports_revenue'),
             "xaxis_label" => $this->lang->line('reports_payment_type'),
-            "data" => $graph_data
+            "data" => $graph_data,
+            'type' => 'pie'
         );
-        $this->load->view("reports/graphs/pie", $data);
+        echo json_encode($data);
+        //$this->load->view("reports/graphs/pie", $data);
     }
 
     function specific_customer_input() {
