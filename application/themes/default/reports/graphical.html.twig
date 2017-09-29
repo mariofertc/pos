@@ -1,22 +1,19 @@
 {% extends _layout %}
 {% block header %}
     {% include 'partials/header.html.twig' %}
-      <script src="{{base_url()}}js/swfobject.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 {% endblock %}
 {% block content %}
    <div class="page-title">
-  <div class="title_left">
-    <h3>{{ line('title')}} <small>{{ line('subtitle')}}</small></h3>
-  </div>
-  <div class="title_right"></div>
+      <div class="title_left">
+        <h3>{{ line('title')}} <small>{{ line('subtitle')}}</small></h3>
+    </div>
+    <div class="title_right"></div>
 </div>
 <div class="clear-fix"></div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-        <div style="text-align: center;">
-            <script type="text/javascript">
-                swfobject.embedSWF("{{ base_url()}}/open-flash-chart.swf", "chart","100%", "420", "9.0.0", "expressInstall.swf", {"data-file": "{{data_file}}"});
-            </script>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div id = "graph" style="text-align: center;">
+            {{data_file}}
         </div>
         <div id="chart_wrapper">
             <div id="chart"></div>
@@ -27,47 +24,135 @@
 <div class="row">
     {% for name, value in summary_data %}
         {{ loop.first ? "<div class='col-md-3'><h4>Resúmen</h4><table class='table'><tbody>" : '' }}
-            <tr>
-                <th>{{ line('reports_'~ name) ~ ': ' }}</th>
-                <th>{{ to_currency(value)}}</th>
-            </tr>
+        <tr>
+            <th>{{ line('reports_'~ name) ~ ': ' }}</th>
+            <th>{{ to_currency(value)}}</th>
+        </tr>
         {{ loop.last ? "</tbody></table></div>" : '' }}
     {% endfor %}
     {% if(summary_almacen is not empty) %}
         {% for name in summary_almacen %}
-            {{ loop.first ? "<div class='col-md-3'><h4>"~name['almacen']~"</h4><table class='table'><tbody>" : '' }}
-            <tr>
-                <th>
-                    {{ line('reports_subtotal')~ ': '}}
-                </th>
-                <th>{{to_currency(name['subtotal']) }}</th>
-            </tr>
-             <tr>
-                <th>
-                        {{ line('reports_total')~ ': ' }}
-                 </th>
-                <th>
-                        {{to_currency(name['total'])}}
-                </th>
+            {# (loop.first ? "<div class='col-md-3'><h4>"~name['almacen']~"</h4><table class='table'><tbody>" : '')|raw #}
+            <div class='col-md-3'><h4>{{name['almacen']}}</h4><table class='table'><tbody>
+                <tr>
+                    <th>
+                        {{ line('reports_subtotal')~ ': '}}
+                    </th>
+                    <th>{{to_currency(name['subtotal']) }}</th>
                 </tr>
                 <tr>
-                <th>
+                    <th>
+                        {{ line('reports_total')~ ': ' }}
+                    </th>
+                    <th>
+                        {{to_currency(name['total'])}}
+                    </th>
+                </tr>
+                <tr>
+                    <th>
                         {{ line('reports_tax')~ ': ' }}
-                  </th>
-                <th>
+                    </th>
+                    <th>
                         {{to_currency(name['tax'])}}
                     </th>
                 </tr>
                 <tr>
                     <th>
-                   {{ line('reports_profit')~ ': ' }}
-                    </th>
-                <th>
-                        {{to_currency(name['profit'])}}
+                       {{ line('reports_profit')~ ': ' }}
                    </th>
-               </tr>
-            {{ loop.last ? "</tbody></table></div>" : '' }}
-        {% endfor %}
-    {% endif %}
+                   <th>
+                    {{to_currency(name['profit'])}}
+                </th>
+            </tr>
+        </tbody></table></div>
+        {# loop.last ? "</tbody></table></div>" : '' #}
+    {% endfor %}
+{% endif %}
 </div>
+{% endblock %}
+{% block javascript %}
+  {{ parent() }}
+  <script src="{{base_url()}}assets/bower_components/highcharts/highcharts.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+  <script>
+  $.getJSON("{{data_file}}", function(data) {
+      this.options = {
+        chart: {
+          renderTo: 'graph',
+          type: data.type
+        },
+        title: {
+          text:data.title
+        }
+    };
+      if(data.type == 'pie'){  
+        respuesta = [];
+         $.each(data.data,function(key,serie){
+              respuesta.push({'name': key,'y': serie});
+      })
+        this.options.series = [{
+        name: 'Brands',
+        colorByPoint: true,
+        data:respuesta
+    }]
+    //Tipo spline
+      }else if(data.type=='spline'){
+
+        xAxis = [{title: data.xaxis_label, type: data.xaxis_type}]
+        if(data.xaxis_type == 'datetime'){
+          xAxis.labels = [{formatter: function() {
+              return Highcharts.dateFormat('%d %b %Y', this.value);
+             }}]
+             this.options.xAxis= [{
+          type : 'datetime',
+          labels: {
+            formatter: function() {
+              return Highcharts.dateFormat('%d %b %Y', this.value);
+             }
+          },          
+                    title: {
+            text: 'Fecha'
+            }
+        }];
+        self = this;
+        
+        if(typeof(data.datos) !== 'undefined'){
+          $.each(data.datos,function(key,serie){
+            if(typeof(self.options.series) !== 'undefined')
+              self.options.series.push({'name': key,'data': serie});
+          else
+              self.options.series = [{'name': key,'data': serie}];
+          })
+        }
+        if(typeof(this.options.series) !== 'undefined')
+              this.options.series.push({'name': data.yaxis_label,'data': data.data});
+          else
+              this.options.series = [{'name': data.yaxis_label,'data': data.data}];
+      }
+    }else{
+        // datos fgenericos
+        //alert(data.xaxis_label)
+        respuesta = [];
+         $.each(data.data,function(key,serie){
+              respuesta.push({'name': key,'data': serie});
+               })
+         this.options.series = respuesta;
+         this.options.xAxis = {
+            labels:
+            {
+              enabled: false
+            }
+        };
+           
+       }
+
+        // xAxis.series = respuesta;
+         
+
+          
+      
+      //this.options.series = [{'name': data.yaxis_label,'data': data.data}];
+      var chart = new Highcharts.Chart(this.options);
+  });
+  </script>
+
 {% endblock %}

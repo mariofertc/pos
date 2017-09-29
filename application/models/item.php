@@ -16,6 +16,14 @@ class Item extends CI_Model {
         return ($query->num_rows() == 1);
     }
 
+    function exists_item_number($item_number) {
+        $this->db->from('items');
+        $this->db->where('item_number', $item_number);
+        $this->db->where('deleted', 0);
+        $query = $this->db->get();
+        return ($query->num_rows() == 1);
+    }
+
     function get_all($num = 0, $offset = 0, $where, $order = null,$where_in=null) {
 
         if ($order == null)

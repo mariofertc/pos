@@ -499,8 +499,6 @@ class Items extends Secure_area implements iData_controller {
         );
         $employee_id = $this->Employee->get_logged_in_employee_info()->person_id;
         $cur_item_info = $this->Item->get_info($item_id);
-
-
         $this->db->trans_start();
         // $this->db->insert('abonos',$abonos_data);
         // $abono_id = $this->db->insert_id();
@@ -531,7 +529,7 @@ class Items extends Secure_area implements iData_controller {
                 'trans_items' => $item_id,
                 'trans_user' => $employee_id,
                 'trans_comment' => $this->lang->line('items_manually_editing_of_quantity'),
-                'trans_inventory' => $cur_item_info ? $this->input->post('quantity') - $cur_item_info->quantity : $this->input->post('quantity')
+                'trans_inventory' => $cur_item_info ? $this->input->post('quantity') - (double)$cur_item_info->quantity : $this->input->post('quantity')
             );
             $this->Inventory->insert($inv_data);
             $items_taxes_data = array();
@@ -712,6 +710,13 @@ class Items extends Secure_area implements iData_controller {
         }
 
         echo json_encode(array('success' => $success, 'message' => $msg));
+    }
+
+    function exists_item_number(){
+        $item_number = $this->input->post('item_number');
+        if(trim($item_number) == "")
+            echo json_encode(true);
+        echo json_encode(!$this->Item->exists_item_number($item_number));
     }
 
     /*

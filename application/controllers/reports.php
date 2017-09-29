@@ -422,6 +422,44 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
+            $graph_data[] = array(strtotime($row['sale_date'])*1000,(double)$row['total']);
+        }
+
+        //Almacenes
+        $datos_almacenes = $model->getAlmacenes(array('start_date' => $start_date, 'end_date' => $end_date));
+        $graph_datos = array();
+
+        $cllColores = array();
+        foreach ($datos_almacenes as $row) {
+            //$graph_datos[$row['almacen']][date('m/d/Y', strtotime($row['sale_date']))] = $row['total'];
+            $graph_datos[$row['almacen']][] = array(strtotime($row['sale_date'])*1000,(double)$row['total']);
+            //$cllColores[$row['almacen']] = random_color();
+        }
+        //var_dump($graph_datos);
+
+        $data = array(
+            "title" => $this->lang->line('reports_sales_summary_report'),
+            "yaxis_label" => $this->lang->line('reports_revenue'),
+            "xaxis_label" => $this->lang->line('reports_date'),
+            "data" => $graph_data,
+            "datos" => $graph_datos,
+            "colores" => $cllColores,
+            "type" => 'spline',
+            "xaxis_type" => 'datetime'
+        );
+        echo json_encode($data);
+    }
+
+    /**
+     * Resume gráfico de ventas
+     */
+    function graphical_summary_sales_graph_old($start_date, $end_date) {
+        $this->load->model('reports/Summary_sales');
+        $model = $this->Summary_sales;
+        $report_data = $model->getData(array('start_date' => $start_date, 'end_date' => $end_date));
+
+        $graph_data = array();
+        foreach ($report_data as $row) {
             $graph_data[date('m/d/Y', strtotime($row['sale_date']))] = $row['total'];
         }
 
@@ -511,15 +549,19 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
-            $graph_data[$row['category']] = $row['total'];
+            //$graph_data[$row['category']] = $row['total'];
+            $graph_data[$row['category']] = (double)$row['total'];
+            //$graph_data[$row['category']][] = array($row['category'],(double)$row['total']);
         }
 
         $data = array(
             "title" => $this->lang->line('reports_categories_summary_report'),
-            "data" => $graph_data
+            "data" => $graph_data,
+            "type" => 'pie'
         );
+        echo json_encode($data);
 
-        $this->load->view("reports/graphs/pie", $data);
+        //$this->load->view("reports/graphs/pie", $data);
     }
 
     function graphical_summary_suppliers($start_date, $end_date) {
@@ -642,17 +684,22 @@ class Reports extends Secure_area {
 
         $graph_data = array();
         foreach ($report_data as $row) {
-            $graph_data[$row['customer']] = $row['total'];
+            //$graph_data[$row['customer']] = $row['total'];
+            $graph_data[$row['customer']][] = (double)$row['total'];
         }
 
         $data = array(
             "title" => $this->lang->line('reports_customers_summary_report'),
             "xaxis_label" => $this->lang->line('reports_revenue'),
             "yaxis_label" => $this->lang->line('reports_customers'),
-            "data" => $graph_data
+            "data" => $graph_data,
+            "type" => 'column',
+            "xaxis_type" => 'int'
         );
 
-        $this->load->view("reports/graphs/hbar", $data);
+        echo json_encode($data);
+
+        //$this->load->view("reports/graphs/hbar", $data);
     }
 
     //Graphical summary discounts report

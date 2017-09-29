@@ -474,7 +474,7 @@ console.log("Primera Carga");
                     });
 
                 },
-                errorLabelContainer: "#error_message_box",
+                //errorLabelContainer: "#error_message_box",
                 wrapper: "li",
                 rules: {
                     name: "required",
@@ -500,6 +500,18 @@ console.log("Primera Carga");
                     reorder_level: {
                         required: true,
                         number: true
+                    },
+                    item_number:{
+                        required:false,
+                        remote: {
+                            url: "{{site_url('items/exists_item_number')}}",
+                            type: "post",
+                            data: {
+                                item_number: function() {
+                                return $( "#item_number" ).val();
+                                }
+                            }
+                        }
                     }
                 },
                 messages:
@@ -527,6 +539,9 @@ console.log("Primera Carga");
                             reorder_level: {
                                 required: "{{ line('items_reorder_level_required')}}",
                                 number: "{{ line('items_reorder_level_number')}}"
+                            },
+                            item_number:{
+                                remote:"{{line('items_item_number_repit')}}"
                             }
 
                         }

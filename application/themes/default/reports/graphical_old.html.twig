@@ -1,0 +1,73 @@
+{% extends _layout %}
+{% block header %}
+    {% include 'partials/header.html.twig' %}
+      <script src="{{base_url()}}js/swfobject.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+{% endblock %}
+{% block content %}
+   <div class="page-title">
+  <div class="title_left">
+    <h3>{{ line('title')}} <small>{{ line('subtitle')}}</small></h3>
+  </div>
+  <div class="title_right"></div>
+</div>
+<div class="clear-fix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+        <div style="text-align: center;">
+            <script type="text/javascript">
+                swfobject.embedSWF("{{ base_url()}}/open-flash-chart.swf", "chart","100%", "420", "9.0.0", "expressInstall.swf", {"data-file": "{{data_file}}"});
+            </script>
+        </div>
+        <div id="chart_wrapper">
+            <div id="chart"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% for name, value in summary_data %}
+        {{ loop.first ? "<div class='col-md-3'><h4>Resúmen</h4><table class='table'><tbody>" : '' }}
+            <tr>
+                <th>{{ line('reports_'~ name) ~ ': ' }}</th>
+                <th>{{ to_currency(value)}}</th>
+            </tr>
+        {{ loop.last ? "</tbody></table></div>" : '' }}
+    {% endfor %}
+    {% if(summary_almacen is not empty) %}
+        {% for name in summary_almacen %}
+            {{ loop.first ? "<div class='col-md-3'><h4>"~name['almacen']~"</h4><table class='table'><tbody>" : '' }}
+            <tr>
+                <th>
+                    {{ line('reports_subtotal')~ ': '}}
+                </th>
+                <th>{{to_currency(name['subtotal']) }}</th>
+            </tr>
+             <tr>
+                <th>
+                        {{ line('reports_total')~ ': ' }}
+                 </th>
+                <th>
+                        {{to_currency(name['total'])}}
+                </th>
+                </tr>
+                <tr>
+                <th>
+                        {{ line('reports_tax')~ ': ' }}
+                  </th>
+                <th>
+                        {{to_currency(name['tax'])}}
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                   {{ line('reports_profit')~ ': ' }}
+                    </th>
+                <th>
+                        {{to_currency(name['profit'])}}
+                   </th>
+               </tr>
+            {{ loop.last ? "</tbody></table></div>" : '' }}
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
