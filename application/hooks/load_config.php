@@ -18,4 +18,3 @@ function load_config()
 		date_default_timezone_set($CI->config->item('timezone'));
 	}	
 }
-?>

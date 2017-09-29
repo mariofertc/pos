@@ -12,7 +12,7 @@
 $hook['post_controller_constructor'] = array(
                                 'class'    => '',
                                 'function' => 'load_config',
-                                'filename' => 'load_config.php',
+                                'filename' => 'Load_config.php',
                                 'filepath' => 'hooks'
                                 );								
 /* End of file hooks.php */
