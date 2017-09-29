@@ -339,7 +339,7 @@ class Items extends Secure_area implements iData_controller {
         $stock_data_d = array(
             'almacen_id' => $this->input->post('almacen_id_destino') == '' ? null : $this->input->post('almacen_id_destino'),
             'item_id' => $item_id,
-            'cantidad' => $this->input->post('q-' . $this->input->post('almacen_id_destino')) + $this->input->post('newquantity'));
+            'cantidad' => (int)$this->input->post('q-' . $this->input->post('almacen_id_destino')) + $this->input->post('newquantity'));
 
 
         //Nota: no es necesario....
