@@ -44,7 +44,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#generate_report").click(function() {
-            if ($("#simple_radio").attr('checked')) {
+            if ($("#simple_radio").is(':checked')) {
                 window.location = window.location + '/' + $("#report_date_range_simple option:selected").val();
             }
             else {
