@@ -39,8 +39,10 @@ class Summary_sales extends Report {
         $this->db->from('sales_items_temp');
         $this->db->group_by('sale_date', 'almacen');
         $this->db->having('sale_date BETWEEN "' . $inputs['start_date'] . '" and "' . $inputs['end_date'] . '"');
-        $this->db->order_by('almacen', 'sale_date');
-        return $this->db->get()->result_array();
+        $this->db->order_by('sale_date', 'asc');
+        $this->db->order_by('almacen', 'asc');
+        $result = $this->db->get()->result_array();
+        return $result;
     }
 
     public function getSummaryAlmacenes(array $inputs) {
