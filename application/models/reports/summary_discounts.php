@@ -15,8 +15,11 @@ class Summary_discounts extends Report
 	public function getData(array $inputs)
 	{
 	
-		$this->db->select('CONCAT(discount_percent, "%") as discount_percent, count(*) as count', false);
+		$this->db->select('CONCAT(discount_percent, "%") as discount_percent, count(*) as count, almacen', false);
 		$this->db->from('sales_items_temp');
+		 if (isset($inputs['almacen_id']))
+            if ($inputs['almacen_id'] != 0)
+                $this->db->where('almacen_id = ' . $inputs['almacen_id']);
 		$this->db->where('sale_date BETWEEN "'. $inputs['start_date']. '" and "'. $inputs['end_date'].'" and discount_percent > 0');
 		$this->db->group_by('sales_items_temp.discount_percent');
 		$this->db->order_by('discount_percent');
@@ -27,6 +30,9 @@ class Summary_discounts extends Report
 	{
 		$this->db->select('sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax,sum(profit) as profit');
 		$this->db->from('sales_items_temp');
+		 if (isset($inputs['almacen_id']))
+            if ($inputs['almacen_id'] != 0)
+                $this->db->where('almacen_id = ' . $inputs['almacen_id']);
 		$this->db->where('sale_date BETWEEN "'. $inputs['start_date']. '" and "'. $inputs['end_date'].'"');
 		return $this->db->get()->row_array();		
 	}

@@ -31,8 +31,6 @@
                             <a href="#" id="email" class="btn btn-default">{{line("common_email")}}</a>
                         </div>
                         <div class="btn-group" role="group">
-
-
                             <div id="search_filter_section" style="display: {{ search_section_state is defined?  ( (search_section_state)? 'block' : 'none') : 'none'}}background-color:#EEEEEE">
                                 {{ form_open(controller_name~"/refresh",{'id':'items_filter_form'}) }}
                                 {{ form_label(line('items_low_inventory_items')~' '~':', 'low_inventory')}}
@@ -41,15 +39,12 @@
                                 {{ form_checkbox({'name':'is_serialized','id':'is_serialized','value':1,'checked': is_serialized is defined?  ( (is_serialized)? 1 : 0) : 0})}} | 
                                 {{ form_label(line('items_no_description_items')~' '~':', 'no_description')}}
                                 {{ form_checkbox({'name':'no_description','id':'no_description','value':1,'checked': no_description is defined?  ( (no_description)? 1 : 0) : 0})}} | 
-
                                 <!--Por almacenes-->
                                 {{ form_label(line('almacenes_almacen')~' '~':', 'no_description')}}
                                 {{ form_dropdown('almacen_id', almacenes, selected_almacen,"id = 'almacen_search' style='width: 163px'")}}
                                 <input type="hidden" name="search_section_state" id="search_section_state" value="{{ search_section_state is defined?  ( (search_section_state)? 'block' : 'none') : 'none'}}" />
                                 </form>
                             </div>
-
-
                         </div>
                     </div>
                     <div class="panel-body">

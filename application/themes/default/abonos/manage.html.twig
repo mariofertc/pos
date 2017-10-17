@@ -9,49 +9,45 @@
 
 {% block content %}
     <div class="page-title">
-  <div class="title_left">
-    <h3>{{line('module_'~controller_name)}} <small>Registros almacenados</small></h3>
-  </div>
-  <div class="title_right"></div>
+      <div class="title_left">
+        <h3>{{line('module_'~controller_name)}} <small>Registros almacenados</small></h3>
+    </div>
+    <div class="title_right"></div>
 </div>
 
 <div class="clear-fix"></div>
-        
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="btn-group" role="group">
-                            {{ anchor(controller_name~"/delete",line("common_delete"),{'id':'delete', 'class':'btn btn-warning'})}}
-                            <a href="#" id="email" class="btn btn-default">{{line("common_email")}}</a>
-                        </div>
-</div>
-{#
-<div id="titleTextImg" style="background-color:#EEEEEE;height:20px;position:relative;">
-	<div style="float:left;vertical-align:text-top;"><?php echo $this->lang->line('common_search_options')?> :</div>
-	<a id="imageDivLink" href="javascript:show_hide_search_filter('search_filter_section', 'imageDivLink');" style="outline:none;">
-	<img src="
-	<?php echo isset($search_section_state)?  ( ($search_section_state)? base_url().'images/minus.png' : base_url().'images/plus.png') : base_url().'images/plus.png';?>" style="border:0;outline:none;padding:0px;margin:0px;position:relative;top:-5px;"></a>
-</div>
 
-<div id="search_filter_section" style="display: <?php echo isset($search_section_state)?  ( ($search_section_state)? 'block' : 'none') : 'none';?>;background-color:#EEEEEE;">
-	<?php echo form_open("$controller_name/refresh",array('id'=>'items_filter_form')); ?>
-	<?php echo form_label($this->lang->line('abonos_en_mora').' '.':', 'en_mora');?>
-	<?php echo form_checkbox(array('name'=>'en_mora','id'=>'en_mora','value'=>1,'checked'=> isset($en_mora)?  ( ($en_mora)? 1 : 0) : 0)).' | ';?>
-	<?php echo form_label($this->lang->line('abonos_tiene_deuda').' '.':', 'tiene_deuda');?>
-	<?php echo form_checkbox(array('name'=>'tiene_deuda','id'=>'tiene_deuda','value'=>1,'checked'=> isset($tiene_deuda)?  ( ($tiene_deuda)? 1 : 0) : 0)).' | ';?>
-	<input type="hidden" name="search_section_state" id="search_section_state" value="<?php echo isset($search_section_state)?  ( ($search_section_state)? 'block' : 'none') : 'none';?>" />
-	</form>
-</div>#}
-<div class="panel-body">
-                        <div class="dataTable_wrapper">
-                            {{  manage_table|raw }}
-                        </div>
-                    </div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="btn-group" role="group">
+                    {{ anchor(controller_name~"/delete",line("common_delete"),{'id':'delete', 'class':'btn btn-warning'})}}
+                    <a href="#" id="email" class="btn btn-default">{{line("common_email")}}</a>
+                </div>
+                <div class="btn-group" role="group">
+                    <div id="search_filter_section" style="display: {{ search_section_state is defined?  ( (search_section_state)? 'block' : 'none') : 'none'}}background-color:#EEEEEE">
+                        {{ form_open(controller_name~"/refresh",{'id':'abonos_filter_form'}) }}
+                        {{ form_label(line('abonos_tiene_deuda')~' '~':', 'tiene_deuda')}}
+                        {{ form_checkbox({'name':'tiene_deuda','id':'tiene_deuda','value':1,'checked': tiene_deuda is defined?  ( (tiene_deuda)? 1 : 0) : 0})}} 
+                        {{ form_label(line('abonos_en_mora')~' '~':', 'en_mora')}}
+                        {{ form_checkbox({'name':'en_mora','id':'en_mora','value':1,'checked': en_mora is defined?  ( (en_mora)? 1 : 0) : 0})}} 
+                        <!--Por almacenes-->
+                        {{ form_label(line('almacenes_almacen')~' '~':', 'no_description')}}
+                        {{ form_dropdown('almacen_id', almacenes, selected_almacen,"id = 'almacen_search' style='width: 163px'")}}
+                        <input type="hidden" name="search_section_state" id="search_section_state" value="{{ search_section_state is defined?  ( (search_section_state)? 'block' : 'none') : 'none'}}" />
+                    </form>
                 </div>
             </div>
-        </div>
-    
+<div class="panel-body">
+    <div class="dataTable_wrapper">
+        {{  manage_table|raw }}
+    </div>
+</div>
+</div>
+</div>
+</div>
+
 {% endblock %}
 
 {% block javascript %}
@@ -60,18 +56,18 @@
     <script src="{{base_url()}}assets/bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     <script type="text/javascript">
-$(document).ready(function(){
-     oTable = $('#sortable_table').dataTable({
-                   "processing": true,
-                "serverSide": true,
+    $(document).ready(function(){
+       oTable = $('#sortable_table').dataTable({
+         "processing": true,
+         "serverSide": true,
                 //"bJQueryUI": true,
                 "iDisplayLength": 10,
                 //"sPaginationType": "full_numbers",
                 //"sAjaxSource": 'customers/mis_datos',
-                "ajax": '{{controller_name}}/mis_datos',
-                 "columnDefs": [
-                    {'sortable': false, 'targets': [0,7,8,9]},
-                    {"searchable": false, 'targets': [0,7,8,9]}
+                "ajax": '{{site_url(controller_name)}}/mis_datos',
+                "columnDefs": [
+                {'sortable': false, 'targets': [0,7,8,9]},
+                {"searchable": false, 'targets': [0,7,8,9]}
                 ]
             });
     //init_table_sorting();
@@ -82,16 +78,15 @@ $(document).ready(function(){
     //enable_delete('<?php echo $this->lang->line($controller_name."_confirm_delete")?>','<?php echo $this->lang->line($controller_name."_none_selected")?>');
     
     $("#en_mora").click(function(){
-    	$('#items_filter_form').submit();
+    	$('#abonos_filter_form').submit();
     });
 
     $("#tiene_deuda").click(function(){
-    	$('#items_filter_form').submit();
+    	$('#abonos_filter_form').submit();
     });
-
 });
 
-function init_table_sorting(){
+    function init_table_sorting(){
 	//Only init if there is more than one row
 	if($('.tabledist tbody tr').length >1){
 		$("#sortable_table").tablesorter({
@@ -107,7 +102,7 @@ function init_table_sorting(){
 }
 
 function post_abono_form_submit(response){
-	 if (!response.success){
+  if (!response.success){
                 //set_feedback(response.message, 'error_message', true);
                 new PNotify({
                     title: 'Oh No!',
@@ -128,46 +123,46 @@ function post_abono_form_submit(response){
                 }
                 else {
                 ////refresca toda la tabla.
-                    oTable.api().ajax.reload(
-                            function ( json ) {
-                                hightlight_row(response.item_id);
-                                new PNotify({
-                                    title: 'Exito',
-                                    text: response.message,
-                                    type: 'success'
-                                });}
-                            );
-                }
+                oTable.api().ajax.reload(
+                    function ( json ) {
+                        hightlight_row(response.item_id);
+                        new PNotify({
+                            title: 'Exito',
+                            text: response.message,
+                            type: 'success'
+                        });}
+                        );
             }
-}
-
-function post_bulk_form_submit(response){
-	if(!response.success){
-		set_feedback(response.message,'error_message',true);
-	}
-	else{
-		var selected_item_ids=get_selected_values();
-		for(k=0;k<selected_item_ids.length;k++){
-			update_row(selected_item_ids[k],'{{ site_url("controller_name/get_row")}}');
-		}
-		set_feedback(response.message,'success_message',false);
-	}
-}
-
-function show_hide_search_filter(search_filter_section, switchImgTag) {
-        var ele = document.getElementById(search_filter_section);
-        var imageEle = document.getElementById(switchImgTag);
-        var elesearchstate = document.getElementById('search_section_state');
-        if(ele.style.display == "block"){
-                ele.style.display = "none";
-				imageEle.innerHTML = '<img src=" {{ base_url()}}images/plus.png" style="border:0;outline:none;padding:0px;margin:0px;position:relative;top:-5px;" >';
-                elesearchstate.value="none";
         }
-        else{
-                ele.style.display = "block";
-                imageEle.innerHTML = '<img src="{{ base_url()}}images/minus.png" style="border:0;outline:none;padding:0px;margin:0px;position:relative;top:-5px;" >';
-                elesearchstate.value="block";
-        }
+    }
+
+    function post_bulk_form_submit(response){
+       if(!response.success){
+          set_feedback(response.message,'error_message',true);
+      }
+      else{
+          var selected_item_ids=get_selected_values();
+          for(k=0;k<selected_item_ids.length;k++){
+             update_row(selected_item_ids[k],'{{ site_url("controller_name/get_row")}}');
+         }
+         set_feedback(response.message,'success_message',false);
+     }
+ }
+
+ function show_hide_search_filter(search_filter_section, switchImgTag) {
+    var ele = document.getElementById(search_filter_section);
+    var imageEle = document.getElementById(switchImgTag);
+    var elesearchstate = document.getElementById('search_section_state');
+    if(ele.style.display == "block"){
+        ele.style.display = "none";
+        imageEle.innerHTML = '<img src=" {{ base_url()}}images/plus.png" style="border:0;outline:none;padding:0px;margin:0px;position:relative;top:-5px;" >';
+        elesearchstate.value="none";
+    }
+    else{
+        ele.style.display = "block";
+        imageEle.innerHTML = '<img src="{{ base_url()}}images/minus.png" style="border:0;outline:none;padding:0px;margin:0px;position:relative;top:-5px;" >';
+        elesearchstate.value="block";
+    }
 }
 </script>
 {% endblock %}

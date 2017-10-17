@@ -4,9 +4,9 @@ require_once ("Secure_area.php");
 
 //require_once ("interfaces/iData_controller.php");
 class Abonos extends Secure_area {
-
+    var $controller_name = "abonos";
     function __construct() {
-        parent::__construct('abonos');
+        parent::__construct($this->controller_name);
         //$this->load->library('sale_lib');
     }
 
@@ -15,8 +15,25 @@ class Abonos extends Secure_area {
         $this->Sale->create_sales_items_temp_table();
 		$this->Abono->create_sales_abonos_temp_table();
         //echo "xc";
-        $data['controller_name'] = strtolower($this->uri->segment(1));
+        //$data['controller_name'] = strtolower($this->uri->segment(1));
+        $data['controller_name'] = $this->controller_name;
         $data['form_width'] = $this->get_form_width();
+        $data['manage_table'] = get_abono_manage_table();
+        $this->twig->set($data);
+        $this->twig->display('abonos/manage');
+    }
+
+     function refresh() {
+        $en_mora = $this->input->post('en_mora');
+        $tiene_deuda = $this->input->post('tiene_deuda');
+
+        $data['search_section_state'] = $this->input->post('search_section_state');
+        $data['en_mora'] = $this->input->post('en_mora');
+        $data['tiene_deuda'] = $this->input->post('tiene_deuda');
+        $data['controller_name'] = $this->controller_name;
+        $data['form_width'] = $this->get_form_width();
+
+        //$this->Abono->get_all_filtered($en_mora, $tiene_deuda), $this
         $data['manage_table'] = get_abono_manage_table();
         $this->twig->set($data);
         $this->twig->display('abonos/manage');
@@ -408,19 +425,6 @@ class Abonos extends Secure_area {
     function suggest() {
         $suggestions = $this->Abono->get_search_suggestions($this->input->post('q'), $this->input->post('limit'));
         echo implode("\n", $suggestions);
-    }
-
-    function refresh() {
-        $en_mora = $this->input->post('en_mora');
-        $tiene_deuda = $this->input->post('tiene_deuda');
-
-        $data['search_section_state'] = $this->input->post('search_section_state');
-        $data['en_mora'] = $this->input->post('en_mora');
-        $data['tiene_deuda'] = $this->input->post('tiene_deuda');
-        $data['controller_name'] = strtolower($this->uri->segment(1));
-        $data['form_width'] = $this->get_form_width();
-        $data['manage_table'] = get_abono_manage_table($this->Abono->get_all_filtered($en_mora, $tiene_deuda), $this);
-        $this->load->view('abonos/manage', $data);
     }
 
     /*

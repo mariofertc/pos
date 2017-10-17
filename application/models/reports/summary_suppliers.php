@@ -14,10 +14,13 @@ class Summary_suppliers extends Report
 	
 	public function getData(array $inputs)
 	{
-		$this->db->select('CONCAT(first_name, " ",last_name) as supplier, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax,sum(profit) as profit', false);
+		$this->db->select('CONCAT(first_name, " ",last_name) as supplier, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax,sum(profit) as profit, almacen', false);
 		$this->db->from('sales_items_temp');
 		$this->db->join('suppliers', 'suppliers.person_id = sales_items_temp.supplier_id');
 		$this->db->join('people', 'suppliers.person_id = people.person_id');
+		if (isset($inputs['almacen_id']))
+            if ($inputs['almacen_id'] != 0)
+                $this->db->where('almacen_id = ' . $inputs['almacen_id']);
 		$this->db->where('sale_date BETWEEN "'. $inputs['start_date']. '" and "'. $inputs['end_date'].'"');
 		$this->db->group_by('supplier_id');
 		$this->db->order_by('last_name');
@@ -31,6 +34,9 @@ class Summary_suppliers extends Report
 		$this->db->from('sales_items_temp');
 		$this->db->join('suppliers', 'suppliers.person_id = sales_items_temp.supplier_id');
 		$this->db->join('people', 'suppliers.person_id = people.person_id');
+		if (isset($inputs['almacen_id']))
+            if ($inputs['almacen_id'] != 0)
+                $this->db->where('almacen_id = ' . $inputs['almacen_id']);
 		$this->db->where('sale_date BETWEEN "'. $inputs['start_date']. '" and "'. $inputs['end_date'].'"');
 
 		return $this->db->get()->row_array();

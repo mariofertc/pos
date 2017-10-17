@@ -40,7 +40,8 @@
 $route['default_controller'] = "login";
 $route['no_access/(:any)'] = "no_access/index/$1";
 $route['reports/(summary_:any)/(:any)/(:any)'] = "reports/$1/$2/$3";
-$route['reports/summary_:any'] = "reports/date_input_excel_export";
+//$route['reports/summary_:any'] = "reports/date_input_excel_export";
+$route['reports/summary_:any'] = "reports/specific_summary_sale_input";
 $route['reports/(graphical_:any)/(:any)/(:any)'] = "reports/$1/$2/$3";
 $route['reports/graphical_:any'] = "reports/date_input";
 //$route['reports/(inventory_:any)/(:any)'] = "reports/$1/$2";

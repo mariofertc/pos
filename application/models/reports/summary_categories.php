@@ -14,9 +14,12 @@ class Summary_categories extends Report
 	
 	public function getData(array $inputs)
 	{
-		$this->db->select('category, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit');
+		$this->db->select('category, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit, almacen');
 		$this->db->from('sales_items_temp');
 		$this->db->join('items', 'sales_items_temp.item_id = items.item_id');
+		 if (isset($inputs['almacen_id']))
+            if ($inputs['almacen_id'] != 0)
+                $this->db->where('almacen_id = ' . $inputs['almacen_id']);
 		$this->db->where('sale_date BETWEEN "'. $inputs['start_date']. '" and "'. $inputs['end_date'].'"');
 		$this->db->group_by('category');
 		$this->db->order_by('category');
@@ -29,9 +32,11 @@ class Summary_categories extends Report
 		$this->db->select('sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit');
 		$this->db->from('sales_items_temp');
 		$this->db->join('items', 'sales_items_temp.item_id = items.item_id');
+		 if (isset($inputs['almacen_id']))
+            if ($inputs['almacen_id'] != 0)
+                $this->db->where('almacen_id = ' . $inputs['almacen_id']);
 		$this->db->where('sale_date BETWEEN "'. $inputs['start_date']. '" and "'. $inputs['end_date'].'"');
 
 		return $this->db->get()->row_array();
 	}
 }
-?>

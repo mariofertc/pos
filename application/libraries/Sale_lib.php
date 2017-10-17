@@ -251,8 +251,13 @@ class Sale_lib
 		$quanity_added = $this->get_quantity_already_added($item_id);
 		
 		// if ($item->quantity - $quanity_added < 0)
-                if($almacenes == null) return false;
-		if ($almacenes->cantidad - $quanity_added < 0)
+		$cantidad = 0;
+                // if($almacenes == null) return false;
+        if($almacenes != null){
+        	$cantidad = $almacenes->cantidad;
+        }
+                //var_dump($almacenes->cantidad);
+		if ($cantidad - $quanity_added < 0)
 		{
 			return true;
 		}
