@@ -714,9 +714,11 @@ class Items extends Secure_area implements iData_controller {
 
     function exists_item_number(){
         $item_number = $this->input->post('item_number');
+        $item_id = $this->input->post('item_id');
         if(trim($item_number) == "")
             echo json_encode(true);
-        echo json_encode(!$this->Item->exists_item_number($item_number));
+        $result = $this->Item->exists_item_number($item_number, $item_id);
+        echo json_encode(!$result);
     }
 
     /*

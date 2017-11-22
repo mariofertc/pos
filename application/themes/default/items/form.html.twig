@@ -292,9 +292,10 @@ console.log("Primera Carga");
     $(document).ready(function () {
 
         $('#unit_price').on('change',function(){
-            interest = get_interest();
+            /*interest = get_interest();
             precio = parseFloat($(this).val());
-            $('#final_price').val((precio * interest + precio).toFixed(2));
+            $('#final_price').val((precio * interest + precio).toFixed(2));*/
+            calculate_final_price();
         })
         $('#final_price').on('change',function(){
             interest = get_interest() + 1;
@@ -302,17 +303,21 @@ console.log("Primera Carga");
             $('#unit_price').val((precio / interest).toFixed(2));
         })
         $('#tax_percent_name_1').on('change',function(){
-            interest = get_interest();
+            /*interest = get_interest();
             precio = parseFloat($('#unit_price').val());
-            $('#final_price').val((precio * interest + precio).toFixed(2));
+            $('#final_price').val((precio * interest + precio).toFixed(2));*/
+            calculate_final_price();
         })
         $('#tax_percent_name_2').on('change',function(){
+            /*interest = get_interest();
+            precio = parseFloat($('#unit_price').val());
+            $('#final_price').val((precio * interest + precio).toFixed(2));*/
+            calculate_final_price();
+        })
+        function calculate_final_price(){
             interest = get_interest();
             precio = parseFloat($('#unit_price').val());
             $('#final_price').val((precio * interest + precio).toFixed(2));
-        })
-        function calculate_price(){
-
         }
         function get_interest(){
             return (parseFloat($('#tax_percent_name_1').val()) + ($('#tax_percent_name_2').val() != '' ? parseFloat($('#tax_percent_name_2').val()) : 0))/100;
@@ -397,6 +402,7 @@ console.log("Primera Carga");
                             $('#tags').tagit("destroy");
                             $("#tags").val(data.tags);
                             $('#tags').tagit()
+                            calculate_final_price();
                              //$('#tags').tagit("fill", {label: 'tag', value: 12})
                         }
                     });
@@ -509,7 +515,8 @@ console.log("Primera Carga");
                             data: {
                                 item_number: function() {
                                 return $( "#item_number" ).val();
-                                }
+                                },
+                                item_id : "{{item_info.item_id}}"
                             }
                         }
                     }
