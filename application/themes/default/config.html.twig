@@ -32,7 +32,10 @@
 									<div class="form-group">	
 										{{ form_label(line('config_company')~':', 'company',{'class':'wide required'}) }}
 										{{ form_input({'name':'company','id':'company','value':config('company'),'class':"form-control", 'placeholder':"Ingrese el Nombre de la Companía"})}}
-
+									</div>
+									<div class="form-group">	
+										{{ form_label(line('config_identity')~':', 'identity',{'class':'wide required'}) }}
+										{{ form_input({'name':'identity','id':'identity','value':config('identity'),'class':"form-control", 'placeholder':line('config_identity_placeholder')})}}
 									</div>
 
 									<div class="form-group">	
