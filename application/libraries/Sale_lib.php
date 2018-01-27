@@ -480,6 +480,47 @@ class Sale_lib
 		return $taxes;
 	}
 
+	function get_taxes_item($cart)
+	{
+		$customer_id = $this->get_customer();
+		$customer = $this->CI->Customer->get_info($customer_id);
+
+		//Do not charge sales tax if we have a customer that is not taxable
+		if (!$customer->taxable and $customer_id!=-1)
+		{
+		   return array();
+		}
+
+		$taxes = array();
+		$item = $cart;
+			$tax_info = $this->CI->Item_taxes->get_info($item['item_id']);
+
+			foreach($tax_info as $tax)
+			{
+				$name = $tax['percent'].'% ' . $tax['name'];
+				$tax_amount=($item['price']*$item['quantity']-$item['price']*$item['quantity']*$item['discount']/100)*(($tax['percent'])/100);
+
+
+				if (!isset($taxes[$name]))
+				{
+					$taxes[$name] = 0;
+				}
+				$taxes[$name] += $tax_amount;
+			}
+
+		return $taxes;
+	}
+
+	function get_total_discount()
+	{
+		$discount = 0;
+		foreach($this->get_cart() as $item)
+		{
+		    $discount+=$item['price']*$item['quantity']*$item['discount']/100;
+		}
+		return to_currency_no_money($discount);
+	}
+
 	function get_subtotal()
 	{
 		$subtotal = 0;
@@ -504,5 +545,47 @@ class Sale_lib
 		}
 
 		return to_currency_no_money($total);
+	}
+	/**
+	 * Obtiene el total de impuestos de la compra.
+	 * @return string Total de impuestos.
+	 */
+	function get_total_taxes()
+	{
+		$total = 0;
+		foreach($this->get_taxes() as $tax)
+		{
+			$total+=$tax;
+		}
+		return to_currency_no_money($total);
+	}
+
+	/**
+	 * Obtiene el total de compras con impuestos.
+	 * @return string Total de base imponible.
+	 */
+	function get_total_imponible()
+	{
+		$customer_id = $this->get_customer();
+		$customer = $this->CI->Customer->get_info($customer_id);
+		//Do not charge sales tax if we have a customer that is not taxable
+		if (!$customer->taxable and $customer_id!=-1)
+		{
+		   return 0;
+		}
+
+		$taxable = 0;
+		foreach($this->get_cart() as $line=>$item)
+		{
+			$tax_info = $this->CI->Item_taxes->get_info($item['item_id']);
+			foreach($tax_info as $tax)
+			{
+				/*$name = $tax['percent'].'% ' . $tax['name'];
+				$tax_amount=($item['price']*$item['quantity']-$item['price']*$item['quantity']*$item['discount']/100)*(($tax['percent'])/100);*/
+				$taxable+=($item['price']*$item['quantity']-$item['price']*$item['quantity']*$item['discount']/100);
+			}
+		}
+		//var_dump($taxable);
+		return $taxable;
 	}
 }

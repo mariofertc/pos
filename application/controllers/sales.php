@@ -270,6 +270,10 @@ class Sales extends Secure_area {
         $data['address'] = $this->config->item('address');
         $data['phone'] = $this->config->item('phone');
         $data['return_policy'] = $this->config->item('return_policy');
+        $discount = $this->sale_lib->get_total_discount();
+        $base_imponible = $this->sale_lib->get_total_imponible();
+        $importe_total = $this->sale_lib->get_total_taxes();
+
         $this->sale_lib->clear_all();
         $dom = xml_dom();
         $factura = xml_add_child($dom, 'factura');
@@ -280,7 +284,7 @@ class Sales extends Secure_area {
         xml_add_child($info_tributaria, 'timpo_emision', '1');
         xml_add_child($info_tributaria, 'razonSocial', $data['company']);
         xml_add_child($info_tributaria, 'ruc', $data['identity']);
-        xml_add_child($info_tributaria, 'claveAcceso', 'xxx');
+        xml_add_child($info_tributaria, 'claveAcceso', '2010ABSALON');
         xml_add_child($info_tributaria, 'codDoc', '01');
         xml_add_child($info_tributaria, 'estab', '01');
         xml_add_child($info_tributaria, 'ptoEmi', '01');
@@ -292,28 +296,41 @@ class Sales extends Secure_area {
         xml_add_child($info_tributaria, 'razonSocialComprador', $data['customer']);
         xml_add_child($info_tributaria, 'identificacionComprador', $cust_info->zip);
         xml_add_child($info_tributaria, 'totalSinImpuestos', $data['subtotal']);
-        xml_add_child($info_tributaria, 'totalDescuento', '01');
+        xml_add_child($info_tributaria, 'totalDescuento', $discount);
         $total_con_impuestos = xml_add_child($info_tributaria, 'totalConImpuestos');
         $total_impuesto = xml_add_child($total_con_impuestos, 'totalImpuesto');
         xml_add_child($total_impuesto, 'codigo', '2');
-        xml_add_child($total_impuesto, 'codigoPorcentaje', '12');
-        xml_add_child($total_impuesto, 'valor', $sale_id);
-        xml_add_child($info_tributaria, 'importeTotal', 10);
+        xml_add_child($total_impuesto, 'codigoPorcentaje', '2');
+        xml_add_child($total_impuesto, 'baseImponible', $base_imponible);
+        xml_add_child($total_impuesto, 'valor', $importe_total);
+        xml_add_child($info_tributaria, 'propina', '0.00');
+        xml_add_child($info_tributaria, 'importeTotal', $data['total']);
+        xml_add_child($info_tributaria, 'moneda', "DOLAR");
         //Detalles
         $detalles = xml_add_child($factura, 'detalles');
         foreach($data['cart'] as $cart){
-            $detalle = xml_add_child($factura, 'detalle');
+            $detalle = xml_add_child($detalles, 'detalle');
+            xml_add_child($detalle, 'codigoPrincipal', $cart['item_id']);
+            if($cart['item_number'])
+                xml_add_child($detalle, 'codigoAuxiliar', $cart['item_number']);
             xml_add_child($detalle, 'descripcion', $cart['name']);
             xml_add_child($detalle, 'cantidad', $cart['quantity']);
             xml_add_child($detalle, 'precioUnitario', $cart['price']);
-            xml_add_child($detalle, 'precioTotalSinImpuesto', $cart['price']);
-            $impuestos = xml_add_child($detalle, 'impuestos');
-            $impuesto = xml_add_child($impuestos, 'impuesto');
-            xml_add_child($impuesto, 'codigo', '1');
-            xml_add_child($impuesto, 'codigoPorcentaje', '1');
-            xml_add_child($impuesto, 'tarifa', '1');
-            xml_add_child($impuesto, 'baseImponible', '1');
-            xml_add_child($impuesto, 'valor', '12');
+            xml_add_child($detalle, 'descuento', $cart['price']*$cart['quantity']*$cart['discount']/100);
+            xml_add_child($detalle, 'precioTotalSinImpuesto', ($cart['price']*$cart['quantity']-$cart['price']*$cart['quantity']*$cart['discount']/100));
+            $cll_taxes = $this->sale_lib->get_taxes_item($cart);
+            foreach($cll_taxes as $tax){   
+                $impuestos = xml_add_child($detalle, 'impuestos');
+                $impuesto = xml_add_child($impuestos, 'impuesto');
+                //IVA 2, ICE 3, IRBPNR 5
+                xml_add_child($impuesto, 'codigo', '2');
+                //0 0, 12 2, 14 3, no objeto de impuesto 6, exento iva 7
+                xml_add_child($impuesto, 'codigoPorcentaje', '2');
+                xml_add_child($impuesto, 'tarifa', '12');
+                xml_add_child($impuesto, 'baseImponible', to_currency_no_money($cart['price']*$cart['quantity']-$cart['price']*$cart['quantity']*$cart['discount']/100));
+                xml_add_child($impuesto, 'valor', to_currency_no_money($tax));
+            }
+            
         }
 
         xml_print($dom);
@@ -500,5 +517,3 @@ class Sales extends Secure_area {
     }
 
 }
-
-?>
