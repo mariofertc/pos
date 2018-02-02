@@ -89,6 +89,7 @@ $lang['items_manually_editing_of_quantity'] = 'Edición Manual de Cantidad';
 $lang['items_color'] = 'Color';
 $lang['items_size'] = 'Talla';
 $lang['items_size_number'] = 'Talla debe ser un número';
+$lang['items_size_length'] = 'Exedido los 10 caracteres para Talla';
 $lang['items_color_valor'] = 'Cod Color';
 $lang['items_brand'] = 'Marca';
 $lang['items_tags'] = 'Tags';
