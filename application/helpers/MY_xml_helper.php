@@ -31,7 +31,7 @@ if ( ! function_exists('xml_dom'))
 {
 	function xml_dom()
 	{
-		return new DOMDocument('1.0');
+		return new DOMDocument('1.0', "UTF-8");
 	}
 }
 
