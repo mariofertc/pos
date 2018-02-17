@@ -501,7 +501,7 @@ console.log("Primera Carga");
                         number: true
                     },
                     size: {
-                        number: true
+                        maxlength: 10
                     },
                     reorder_level: {
                         required: true,
@@ -541,7 +541,7 @@ console.log("Primera Carga");
                                 number: "{{ line('items_quantity_number')}}"
                             },
                             size: {
-                                number: "{{ line('items_size_number')}}"
+                                maxlength: "{{ line('items_size_length')}}"
                             },
                             reorder_level: {
                                 required: "{{ line('items_reorder_level_required')}}",
