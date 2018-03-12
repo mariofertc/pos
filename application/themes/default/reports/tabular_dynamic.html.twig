@@ -1,0 +1,91 @@
+{% extends _layout %}
+{% block css %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables/media/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="{{base_url()}}assets/bower_components/datatables-fixedcolumns/css/dataTables.fixedColumns.css"/>
+    {#<link rel="stylesheet" href="{{base_url()}}css/phppos.css"/>#}
+{% endblock %}
+{% block header %}
+    {% if export_excel == 0 %}
+        {% include 'partials/header.html.twig' %}
+        {% else %}
+        {% include 'partials/header_excel.html.twig' %}
+    {% endif %}
+{% endblock %}
+{%block content %}
+<div class="page-title">
+  <div class="title_left">
+    <h3>{{ title }} <small>{{ subtitle | raw }}</small></h3>
+</div>
+<div class="title_right"></div>
+</div>
+<div class="clear-fix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">   
+        <div class="panel-body">
+            <div class="dataTable_wrapper">
+                {{  manage_table|raw }}
+            </div>
+        </div>
+        <div class="panel-footer">
+            {#<?php foreach($summary_data as $name=>$value) { ?>#}
+            {%for name, value in summary_data %}
+            <div class="summary_row">{{line('reports_'~name)~ ': '~(name=="items"?value:to_currency(value))}}</div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block javascript %}
+    {{parent()}}
+    <script src="{{base_url()}}assets/bower_components/datatables/media/js/jquery.dataTables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}assets/bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+    <script>
+    $(document).ready(function () {
+        /*$('#reporte').DataTable({'responsive':true,
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No se ha encontrado nada",
+                "info": "Página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay información",
+                "infoFiltered": "(filtrados _MAX_ registros)",
+                "search": "Buscar",
+                "previous": "Previo",
+                "next": "Siguiente"
+                
+            }});*/
+         oTable = $('#sortable_table').dataTable({
+                //scrollY: "450px",
+                scrollX: true,
+                scrollCollapse: true,
+                "processing": true,
+                "serverSide": true,
+                //"bJQueryUI": true,
+                "iDisplayLength": 10,
+                //"sPaginationType": "full_numbers",
+                //"sAjaxSource": 'customers/mis_datos',
+                "ajax": {
+                    "url":'{{site_url(controller_name)}}/mis_datos_inventory_summary_almacen',
+                    {% if almacen_id != 0 %}
+                    "data" : {
+                        "where_in" : "almacenes.almacen_id = {{almacen_id}}"
+                    }
+                        {% endif %}
+                },
+                "order": [[1, "asc"]],
+                "columnDefs": [
+                    {'sortable': false, 'targets': [0,8]},
+                    {"searchable": false, 'targets': [0,8]}
+                ],
+                "fnDrawCallback": function () {
+                    //alert("{{total_almacenes}}");
+                    //tb_init('#sortable_table a.thickbox');
+                    //imgLoader = new Image();// preload image
+                    //imgLoader.src = tb_pathToImage;
+                    enable_row_selection();
+                }
+            });
+    });
+    </script>
+{% endblock %}

@@ -1347,4 +1347,20 @@ function get_blog_data_row($articulo,$controller)
 	$table_data_row.='</tr>';
 	return $table_data_row;
 }
-?>
+
+/*
+Gets the html data rows for the stock.
+*/
+function get_stock_manage_table($headers)
+{	
+	$table='<table class="stripe row-border order-column dataTable no-footer DTFC_Cloned" id="sortable_table">';
+	$headers = array_merge(array('<input type="checkbox" id="select_all" />'), $headers);
+	$table.='<thead><tr>';
+	foreach($headers as $header)
+	{
+		$table.="<th>$header</th>";
+	}
+	$table.='</tr></thead><tbody>';
+	$table.='</tbody></table>';
+	return $table;
+}

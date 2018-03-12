@@ -9,12 +9,12 @@ class Inventory_summary_almacen extends Report
 	
 	public function getDataColumns()
 	{
-		return array($this->lang->line('reports_item_name'), $this->lang->line('reports_item_number'), $this->lang->line('reports_description'), $this->lang->line('reports_count'), $this->lang->line('reports_reorder_level'), $this->lang->line('reports_total'));
+		return array($this->lang->line('reports_item_name'), $this->lang->line('reports_item_number'), $this->lang->line('reports_description'), $this->lang->line('reports_date'), $this->lang->line('items_location'), $this->lang->line('reports_count'), $this->lang->line('reports_reorder_level'), $this->lang->line('reports_total'));
 	}
 	
 	public function getData(array $inputs)
 	{
-		$this->db->select('name, item_number, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, (phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre');
+		$this->db->select('name, item_number, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, (phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre, fecha_registro, location');
 		$this->db->from('items');
 		$this->db->where('items.deleted', 0);	
 		$this->db->join('stock_almacenes', 'stock_almacenes.item_id = items.item_id');
@@ -24,8 +24,36 @@ class Inventory_summary_almacen extends Report
 		$this->db->order_by('name');
 		
 		return $this->db->get()->result_array();
-
 	}
+
+	public function get_all($num = 0, $offset = 0, $where, $order = null,$where_in=null) {
+		$this->db->select('name, item_number, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, (phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre, fecha_registro, location');
+		$this->db->from('items');
+
+		$this->db->join('stock_almacenes', 'stock_almacenes.item_id = items.item_id');
+		$this->db->join('almacenes', 'stock_almacenes.almacen_id = almacenes.almacen_id');
+		$this->db->where('items.deleted', 0);	
+		if ($where != "")
+            $this->db->where($where);
+		/*if($inputs['almacen_id'])
+			$this->db->where('almacenes.almacen_id', $inputs['almacen_id']);	*/
+		if(!is_null($order))
+			$this->db->order_by($order);
+		else
+			$this->db->order_by('name');
+		$this->db->limit($num, $offset);
+		
+		return $this->db->get()->result_array();
+	}
+	function get_total($where = '') {
+        $this->db->from('items');
+        $this->db->join('stock_almacenes', 'stock_almacenes.item_id = items.item_id');
+		$this->db->join('almacenes', 'stock_almacenes.almacen_id = almacenes.almacen_id');
+        if ($where != "")
+            $this->db->where($where);
+        $this->db->where('items.deleted', 0);
+        return $this->db->count_all_results();
+    }
 	
 	public function getSummaryData(array $inputs)
 	{

@@ -16,6 +16,7 @@ $lang['reports_serial_number'] = 'Serial #';
 $lang['reports_description'] = 'Descripción';
 $lang['reports_sale_id'] = 'ID de Venta';
 $lang['reports_items_purchased'] = 'Artículos Comprados';
+$lang['reports_items_cost_price'] = 'Total Precio Compra';
 $lang['reports_sold_by'] = 'Vendido Por';
 $lang['reports_sold_to'] = 'Vendido A';
 $lang['reports_category'] = 'Categoría';

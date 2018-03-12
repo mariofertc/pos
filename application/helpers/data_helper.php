@@ -121,6 +121,13 @@ function getData($model, $aColumns, $cllAccion = array(), $es_mas = false) {
             $sWhere .= $aColumns[$i] . " LIKE '%" . ($_GET['sSearch_' . $i]) . "%' ";
         }
     }
+    $where_in = isset($_GET['where_in'])?$_GET['where_in']:"";
+    //Para where_in 
+    if($where_in!=""){
+        if ($sWhere != "")
+                $sWhere .= " AND ";
+        $sWhere.=$where_in;
+    }
 //    $page = isset($_GET['iDisplayStart']) ? $_GET['iDisplayStart'] : 0;
     $page = isset($_GET['start']) ? $_GET['start'] : 0;
 //    $offset = isset($_GET['iDisplayLength']) ? $_GET['iDisplayLength'] : 0;
@@ -128,7 +135,7 @@ function getData($model, $aColumns, $cllAccion = array(), $es_mas = false) {
     //return json_encode($sOrder);
     $rResult = $model->get_all($offset, ($page == null ? 0 : $page), $sWhere, $sOrder);
 //    var_dump($rResult);
-    $total = $model->get_total();
+    $total = $model->get_total($where_in!=""?$where_in:"");
 
     $filtrados = $model->get_total($sWhere);
     /*
