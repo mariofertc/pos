@@ -169,6 +169,7 @@ class Sales extends Secure_area {
         $data['payments'] = $this->sale_lib->get_payments();
         $data['amount_change'] = to_currency($this->sale_lib->get_amount_due() * -1);
         $data['employee'] = $emp_info->first_name . ' ' . $emp_info->last_name;
+        $data['print_after_sale'] = $this->Appconfig->get('print_after_sale');
 
         if ($customer_id != -1) {
             $cust_info = $this->Customer->get_info($customer_id);
