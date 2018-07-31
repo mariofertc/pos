@@ -206,6 +206,7 @@ class Sale_lib
 			'item_id'=>$item_id,
 			'line'=>$insertkey,
 			'name'=>$this->CI->Item->get_info($item_id)->name,
+			'brand'=>$item->brand,
 			'item_number'=>$this->CI->Item->get_info($item_id)->item_number,
 			'description'=>$description!=null ? $description: $this->CI->Item->get_info($item_id)->description,
 			'serialnumber'=>$serialnumber!=null ? $serialnumber: '',
