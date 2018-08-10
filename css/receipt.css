@@ -1,3 +1,24 @@
+:root {
+    --main-bg-color: coral;
+    --main-left-margin: 100px;
+    --main-font-size: 70%;
+}
+@media print{
+  	.nav_menu, .nav_menu *
+    {
+        display: none !important;
+    }
+    footer
+    {
+        display: none !important;
+    }
+    @page {
+        size: a5 landscape;
+        margin: 0;
+        }
+  	body { margin: 1.6cm; }
+}
+@page { margin: 0; }
 #receipt_wrapper
 {
 	font-family:Arial;
@@ -9,30 +30,27 @@
 	text-align:center;
 }
 
-#company_name
-{
-	font-size:150%;
-	font-weight:bold;
-}
 
-#company_phone
+#header_info
 {
+	position:relative;
+	border-collapse:collapse;
+	margin-left:var(--main-left-margin)	;
+	margin-top:50px;
 	margin-bottom:15px;
-
-}
-
-#sale_time
-{
-	margin-bottom:5px;
+	width:88%;
+    font-size: var(--main-font-size);
 }
 
 #receipt_items
 {
 	position:relative;
 	border-collapse:collapse;
+	margin-left:15px	;
 	margin-top:15px;
 	margin-bottom:15px;
-	width:100%;
+	width:88%;
+    font-size: var(--main-font-size);
 }
 
 #receipt_items td
@@ -41,16 +59,17 @@
 	padding:3px;	
 }
 
-.short_name
+/*.short_name
 {
 	display:none;
-}
+}*/
 
 #sale_return_policy
 {
 	width:80%;
 	margin:0 auto;
 	text-align:center;
+	font-size: var(--main-font-size);
 }
 
 #barcode

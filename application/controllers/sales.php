@@ -222,6 +222,9 @@ class Sales extends Secure_area {
         if ($customer_id != -1) {
             $cust_info = $this->Customer->get_info($customer_id);
             $data['customer'] = $cust_info->first_name . ' ' . $cust_info->last_name;
+            $data['zip'] = $cust_info->zip;
+            $data['address_1'] = $cust_info->address_1;
+            $data['phone_number'] = $cust_info->phone_number;
         }
         $data['sale_id'] = 'POS ' . $sale_id;
         $data['print_after_sale'] = $this->Appconfig->get('print_after_sale');
