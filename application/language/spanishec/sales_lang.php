@@ -12,6 +12,7 @@ $lang['sales_tax_percent']='Impuesto %';
 $lang['sales_price']='Precio';
 $lang['sales_quantity']='Cnt.';
 $lang['sales_discount']='Desc %';
+$lang['sales_discount_discount']='Descuento';
 $lang['sales_edit']='Editar';
 $lang['sales_payment']='Forma de Pago';
 $lang['sales_edit_item']='Editar Artículo';

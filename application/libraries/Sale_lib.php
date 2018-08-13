@@ -532,6 +532,16 @@ class Sale_lib
 		return to_currency_no_money($subtotal);
 	}
 
+	function get_subtotal_without_disc()
+	{
+		$subtotal = 0;
+		foreach($this->get_cart() as $item)
+		{
+		    $subtotal+=($item['price']*$item['quantity']);
+		}
+		return to_currency_no_money($subtotal);
+	}
+
 	function get_total()
 	{
 		$total = 0;

@@ -208,6 +208,7 @@ class Sales extends Secure_area {
         $data['cart'] = $this->sale_lib->get_cart();
         $data['payments'] = $this->sale_lib->get_payments();
         $data['subtotal'] = $this->sale_lib->get_subtotal();
+        $data['subtotal_without_disc'] = $this->sale_lib->get_subtotal_without_disc();
         $data['taxes'] = $this->sale_lib->get_taxes();
         $data['total'] = $this->sale_lib->get_total();
         $data['receipt_title'] = $this->lang->line('sales_receipt');
@@ -218,6 +219,7 @@ class Sales extends Secure_area {
         $data['amount_change'] = to_currency($this->sale_lib->get_amount_due() * -1);
         $data['amount_tendered'] = to_currency($this->sale_lib->get_payments_total() * -1);
         $data['employee'] = $emp_info->first_name . ' ' . $emp_info->last_name;
+        $data['discount'] = $this->sale_lib->get_total_discount();
 
         if ($customer_id != -1) {
             $cust_info = $this->Customer->get_info($customer_id);
@@ -237,7 +239,8 @@ class Sales extends Secure_area {
 //        $this->load->view("sales/receipt", $data);
         $this->sale_lib->clear_all();
         $this->twig->set($data);
-        $this->twig->display("sales/receipt");
+        //TODO: It has to be at configuration.
+        $this->twig->display("sales/receipt_dongu");
     }
 
     function generate_electronic_document($sale_id) {
