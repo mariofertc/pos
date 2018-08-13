@@ -148,8 +148,10 @@ class Sales extends Secure_area {
     function complete() {
         $data['cart'] = $this->sale_lib->get_cart();
         $data['subtotal'] = $this->sale_lib->get_subtotal();
+        $data['subtotal_without_disc'] = $this->sale_lib->get_subtotal_without_disc();
         $data['taxes'] = $this->sale_lib->get_taxes();
         $data['total'] = $this->sale_lib->get_total();
+        $data['discount'] = $this->sale_lib->get_total_discount();
 
         $selected_almacen = $this->Almacen->get_first();
         //Almacen
@@ -174,6 +176,9 @@ class Sales extends Secure_area {
         if ($customer_id != -1) {
             $cust_info = $this->Customer->get_info($customer_id);
             $data['customer'] = $cust_info->first_name . ' ' . $cust_info->last_name;
+            $data['zip'] = $cust_info->zip;
+            $data['address_1'] = $cust_info->address_1;
+            $data['phone_number'] = $cust_info->phone_number;
         }
 
         $total_payments = 0;
@@ -199,7 +204,8 @@ class Sales extends Secure_area {
         $this->twig->set($data);
         $this->sale_lib->clear_all();
         //$this->load->view("receivings/receipt", $data);
-        $this->twig->display("sales/receipt");
+        //TODO: Must be on configuration
+        $this->twig->display("sales/receipt_dongu");
     }
 
     function receipt($sale_id) {
