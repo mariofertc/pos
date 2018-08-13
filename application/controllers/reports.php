@@ -904,7 +904,7 @@ class Reports extends Secure_area {
         $details_data = array();
 
         foreach ($report_data['summary'] as $key => $row) {
-            $summary_data[] = array(anchor('sales/edit/' . $row['sale_id'], 'POS ' . $row['sale_id'], array('target' => '_blank')), $row['sale_date'], $row['items_purchased'], $row['employee_name'], $row['customer_name'], to_currency($row['subtotal']), to_currency($row['total']), to_currency($row['tax']), to_currency($row['profit']), $row['payment_type'], $row['comment'],anchor('sales/generate_electronic_document/' . $row['sale_id'], 'XML', array('target' => '_blank')));
+            $summary_data[] = array(anchor('sales/edit/' . $row['sale_id'], 'POS ' . $row['sale_id'], array('target' => '_blank')), $row['sale_date'], $row['items_purchased'], $row['employee_name'], $row['customer_name'], to_currency($row['subtotal']), to_currency($row['total']), to_currency($row['tax']), to_currency($row['profit']), $row['payment_type'], $row['comment'],anchor('sales/receipt/' . $row['sale_id'], 'Fac', array('target' => '_blank')) . " | " .anchor('sales/generate_electronic_document/' . $row['sale_id'], 'XML', array('target' => '_blank')));
 
 //            foreach ($report_data['details'][$key] as $drow) {
 //                $details_data[$key][] = array($drow['name'], $drow['category'], $drow['serialnumber'], $drow['description'], $drow['quantity_purchased'], to_currency($drow['subtotal']), to_currency($drow['total']), to_currency($drow['tax']), to_currency($drow['profit']), $drow['discount_percent'] . '%');

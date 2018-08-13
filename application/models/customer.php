@@ -69,11 +69,18 @@ class Customer extends Person {
      */
 
     function get_info($customer_id) {
+        $this->db->start_cache();
         $this->db->from('customers');
         $this->db->join('people', 'people.person_id = customers.person_id');
         $this->db->where('deleted', 0);
+        $this->db->stop_cache();
         $this->db->where('customers.person_id', $customer_id);
         $query = $this->db->get();
+        if ($query->num_rows() == 0) {
+            $this->db->where('zip', $customer_id);
+            $query = $this->db->get();
+        }
+        $this->db->flush_cache();
 
         if ($query->num_rows() == 1) {
             return $query->row();
@@ -263,11 +270,16 @@ class Customer extends Person {
         $this->db->join('people', 'customers.person_id=people.person_id');
         $this->db->where("(first_name LIKE '%" . $this->db->escape_like_str($search) . "%' or 
 		last_name LIKE '%" . $this->db->escape_like_str($search) . "%' or 
-		CONCAT(`first_name`,' ',`last_name`) LIKE '%" . $this->db->escape_like_str($search) . "%') and deleted=0");
+		CONCAT(`first_name`,' ',`last_name`) LIKE '%" . $this->db->escape_like_str($search) . "%' or 
+        zip LIKE '%" . $this->db->escape_like_str($search) . "%') and deleted=0");
         $this->db->order_by("last_name", "asc");
         $by_name = $this->db->get();
         foreach ($by_name->result() as $row) {
-            $suggestions[] = $row->person_id . '|' . $row->first_name . ' ' . $row->last_name;
+            //$suggestions[] = $row->person_id . '|' . $row->first_name . ' ' . $row->last_name;
+            if($row->zip)
+                $suggestions[] = $row->person_id . '|' . $row->first_name . ' ' . $row->last_name . '|' .$row->zip;
+            else
+                $suggestions[] = $row->person_id . '|' . $row->first_name . ' ' . $row->last_name;
         }
 
         $this->db->from('customers');
