@@ -144,7 +144,11 @@ class Reports extends Secure_area {
         $filename .= "_Export.xls";
         header('Content-type: application/ms-excel');
         header('Content-Disposition: attachment; filename=' . $filename);
-        echo implode("\t", array_values($headers)) . "\r\n";
+        if(isset($headers['summary'])){
+            echo implode("\t", array_values($headers['summary'])) . "\r\n";
+        }else{
+            echo implode("\t", array_values($headers)) . "\r\n";
+        }
         foreach ($data as $row) {
             echo implode("\t", array_values($row)) . "\r\n";
         }
@@ -825,7 +829,8 @@ class Reports extends Secure_area {
         $data = array(
             "title" => $customer_info->first_name . ' ' . $customer_info->last_name . ' ' . $this->lang->line('reports_report'),
             "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
-            "headers" => $model->getDataColumns(),
+            //"headers" => $model->getDataColumns(),
+            "headers" => $headers,
             "summary_data" => $summary_data,
             "details_data" => $details_data,
             "overall_summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date, 'customer_id' => $customer_id)),
@@ -1231,7 +1236,9 @@ class Reports extends Secure_area {
             "controller_name" => $this->controller_name,
             "almacen_id" => $almacen_id
         );
-
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
 //        $this->load->view("reports/tabular", $data);
         $this->twig->set($data);
         $this->twig->display("reports/tabular_dynamic");
@@ -1242,7 +1249,7 @@ class Reports extends Secure_area {
         $model = $this->Inventory_summary_almacen;
         $tabular_data = array();
         //$report_data = $model->get_all(array("almacen_id" => $almacen_id));
-        $aColumns = array('item_number', 'name', 'item_number', 'description', 'fecha_registro', 'location', 'quantity', 'reorder_level', 'total');
+        $aColumns = array('item_number', 'name', 'sku', 'item_number', 'category', 'brand', 'description', 'fecha_registro', 'location', 'quantity', 'cost_price', 'reorder_level', 'total');
         //Eventos Tabla
         $cllAccion = array(
         );

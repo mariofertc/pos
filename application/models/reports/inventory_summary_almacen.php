@@ -9,7 +9,7 @@ class Inventory_summary_almacen extends Report
 	
 	public function getDataColumns()
 	{
-		return array($this->lang->line('reports_item_name'), $this->lang->line('reports_item_number'), $this->lang->line('reports_description'), $this->lang->line('reports_date'), $this->lang->line('items_location'), $this->lang->line('reports_count'), $this->lang->line('reports_reorder_level'), $this->lang->line('reports_total'));
+		return array($this->lang->line('reports_item_name'), $this->lang->line('items_sku'), $this->lang->line('reports_item_number'), $this->lang->line('reports_category'), $this->lang->line('items_brand'), $this->lang->line('reports_description'), $this->lang->line('reports_date'), $this->lang->line('items_location'), $this->lang->line('reports_count'), $this->lang->line('items_cost_price_ab'), $this->lang->line('reports_reorder_level'), $this->lang->line('reports_total'));
 	}
 	
 	public function getData(array $inputs)
@@ -27,7 +27,7 @@ class Inventory_summary_almacen extends Report
 	}
 
 	public function get_all($num = 0, $offset = 0, $where, $order = null,$where_in=null) {
-		$this->db->select('name, item_number, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, (phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre, fecha_registro, location');
+		$this->db->select('name, item_number, sku, category, brand, cost_price, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, (phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre, fecha_registro, location');
 		$this->db->from('items');
 
 		$this->db->join('stock_almacenes', 'stock_almacenes.item_id = items.item_id');

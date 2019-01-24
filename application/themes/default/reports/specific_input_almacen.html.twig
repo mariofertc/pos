@@ -46,7 +46,8 @@
             $("#generate_report").click(function ()
             {
                 var export_excel = 0;
-                if ($("#export_excel_yes").attr('checked'))
+                //if ($("#export_excel_yes").attr('checked'))
+                if ($("#export_excel_yes").is(':checked')) 
                 {
                     export_excel = 1;
                 }
