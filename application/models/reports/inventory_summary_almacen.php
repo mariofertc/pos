@@ -9,7 +9,7 @@ class Inventory_summary_almacen extends Report
 	
 	public function getDataColumns()
 	{
-		return array($this->lang->line('reports_item_name'), $this->lang->line('items_sku'), $this->lang->line('reports_item_number'), $this->lang->line('reports_category'), $this->lang->line('items_brand'), $this->lang->line('reports_description'), $this->lang->line('reports_date'), $this->lang->line('items_location'), $this->lang->line('reports_count'), $this->lang->line('items_cost_price_ab'), $this->lang->line('reports_reorder_level'), $this->lang->line('reports_total'));
+		return array($this->lang->line('reports_item_name'), $this->lang->line('items_sku'), $this->lang->line('reports_item_number'), $this->lang->line('reports_category'), $this->lang->line('items_brand'), $this->lang->line('suppliers_supplier'),  $this->lang->line('reports_description'), $this->lang->line('items_size'),  $this->lang->line('items_color'), $this->lang->line('reports_date'), $this->lang->line('items_location'), $this->lang->line('reports_count'), $this->lang->line('items_cost_price_ab'), $this->lang->line('items_unit_price_ab'), $this->lang->line('reports_reorder_level'), $this->lang->line('reports_total'));
 	}
 	
 	public function getData(array $inputs)
@@ -27,11 +27,12 @@ class Inventory_summary_almacen extends Report
 	}
 
 	public function get_all($num = 0, $offset = 0, $where, $order = null,$where_in=null) {
-		$this->db->select('name, item_number, sku, category, brand, cost_price, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, (phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre, fecha_registro, location');
+		$this->db->select('name, item_number, sku, category, brand, cost_price, unit_price, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, size, color,(phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre, items.fecha_registro, location, company_name');
 		$this->db->from('items');
 
 		$this->db->join('stock_almacenes', 'stock_almacenes.item_id = items.item_id');
 		$this->db->join('almacenes', 'stock_almacenes.almacen_id = almacenes.almacen_id');
+		$this->db->join('suppliers', 'suppliers.person_id = items.supplier_id', 'left');
 		$this->db->where('items.deleted', 0);	
 		if ($where != "")
             $this->db->where($where);
@@ -44,11 +45,13 @@ class Inventory_summary_almacen extends Report
 		$this->db->limit($num, $offset);
 		
 		return $this->db->get()->result_array();
+		//print_r($this->db->last_query());
 	}
 	function get_total($where = '') {
         $this->db->from('items');
         $this->db->join('stock_almacenes', 'stock_almacenes.item_id = items.item_id');
 		$this->db->join('almacenes', 'stock_almacenes.almacen_id = almacenes.almacen_id');
+		$this->db->join('suppliers', 'suppliers.person_id = items.supplier_id', 'left');
         if ($where != "")
             $this->db->where($where);
         $this->db->where('items.deleted', 0);

@@ -1249,7 +1249,7 @@ class Reports extends Secure_area {
         $model = $this->Inventory_summary_almacen;
         $tabular_data = array();
         //$report_data = $model->get_all(array("almacen_id" => $almacen_id));
-        $aColumns = array('item_number', 'name', 'sku', 'item_number', 'category', 'brand', 'description', 'fecha_registro', 'location', 'quantity', 'cost_price', 'reorder_level', 'total');
+        $aColumns = array('item_number', 'name', 'sku', 'item_number', 'category', 'brand','company_name', 'description','size','color', 'items.fecha_registro', 'location', 'quantity', 'cost_price', 'unit_price', 'reorder_level', 'total');
         //Eventos Tabla
         $cllAccion = array(
         );

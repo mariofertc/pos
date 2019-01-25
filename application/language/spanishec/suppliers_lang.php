@@ -14,4 +14,3 @@ $lang['suppliers_basic_information']='Información de Proveedores';
 $lang['suppliers_account_number']='Cuenta #';
 $lang['suppliers_company_name']='Empresa';
 $lang['suppliers_company_name_required'] = 'Nombre de la Empresa es un campo requerido';
-?>

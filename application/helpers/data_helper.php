@@ -233,8 +233,10 @@ function get_value($row, $column_key, $id = null) {
             if (get_class($dato) == 'MongoId')
                 return (string) $dato;
         }
-
         return trim($dato) == '' ? '-' : $dato;
-    } else
+    } elseif(strpos($column_key,".")){
+        $dato = $row[explode(".",$column_key)[1]];
+        return $dato;
+    }
         return "-";
 }
