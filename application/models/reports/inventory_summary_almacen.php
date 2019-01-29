@@ -27,7 +27,7 @@ class Inventory_summary_almacen extends Report
 	}
 
 	public function get_all($num = 0, $offset = 0, $where, $order = null,$where_in=null) {
-		$this->db->select('name, item_number, sku, category, brand, cost_price, unit_price, phppos_stock_almacenes.cantidad as quantity, reorder_level, description, size, color,(phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.almacen_id, almacenes.nombre, items.fecha_registro, location, company_name');
+		$this->db->select('name, sku, item_number, category, brand, company_name, description, size, color, items.fecha_registro, location, phppos_stock_almacenes.cantidad as quantity, cost_price, unit_price, reorder_level,(phppos_stock_almacenes.cantidad*cost_price) as total, almacenes.nombre, almacenes.almacen_id');
 		$this->db->from('items');
 
 		$this->db->join('stock_almacenes', 'stock_almacenes.item_id = items.item_id');

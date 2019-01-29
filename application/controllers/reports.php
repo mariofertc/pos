@@ -1212,7 +1212,8 @@ class Reports extends Secure_area {
         $this->load->model('reports/Inventory_summary_almacen');
         $model = $this->Inventory_summary_almacen;
         $tabular_data = array();
-        $report_data = $model->getData(array("almacen_id" => $almacen_id));
+        //$report_data = $model->getData(array("almacen_id" => $almacen_id));
+        $report_data = $model->get_all(100000, 0, $almacen_id=="0"?"":array("almacenes.almacen_id" => $almacen_id));
         $total_items = 0;
         $total_valor = 0;
 
@@ -1221,12 +1222,12 @@ class Reports extends Secure_area {
             $total_items += $row['quantity'];
             $total_valor += $row['total'];
         }
-
         $data = array(
             "title" => $this->lang->line('reports_inventory_summary_report'),
             "subtitle" => 'Almac&eacute;n ' . (($almacen_id != 0) ? $row['nombre'] : ''),
             "headers" => $model->getDataColumns(),
-            "data" => $tabular_data,
+            "data" => $report_data,
+            // "data" => $tabular_data,
             "summary_data" => array('items' => $total_items, 'items_cost_price' => $total_valor),
             "export_excel" => $export_excel,
             // "total_items" => $total_items,
