@@ -936,6 +936,49 @@ class Reports extends Secure_area {
 //        $this->load->view("reports/tabular_details", $data);
     }
 
+    /**
+     * Report detailed of saled articles.
+     * @param  [type]
+     * @param  [type]
+     * @param  integer
+     * @return [type]
+     */
+    function detailed_items($start_date, $end_date, $export_excel = 0) {
+        $this->load->model('reports/Detailed_sales');
+        $model = $this->Detailed_sales;
+
+        //$headers = $model->getDataColumns();
+        $report_data = $model->getData(array('start_date' => $start_date, 'end_date' => $end_date));
+
+        $summary_data = array();
+        $details_data = array();
+
+        foreach ($report_data['summary'] as $key => $row) {
+            $summary_data[] = array(anchor('sales/edit/' . $row['sale_id'], 'POS ' . $row['sale_id'], array('target' => '_blank')), $row['sale_date'], $row['items_purchased'], $row['employee_name'], $row['customer_name'], to_currency($row['subtotal']), to_currency($row['total']), to_currency($row['tax']), to_currency($row['profit']), $row['payment_type'], $row['comment'],anchor('sales/receipt/' . $row['sale_id'], 'Fac', array('target' => '_blank')) . " | " .anchor('sales/generate_electronic_document/' . $row['sale_id'], 'XML', array('target' => '_blank')));
+
+            foreach ($report_data['details'][$key] as $drow) {
+                $details_data[] = array(anchor('sales/edit/' . $row['sale_id'], 'POS ' . $row['sale_id'], array('target' => '_blank')), $row['sale_date'], $row['customer_name'], $drow['name'], $drow['category'], $drow['serialnumber'], $drow['description'], $drow['tags'], $drow['size'], $drow['color'], $drow['quantity_purchased'], to_currency($drow['subtotal']), to_currency($drow['total']), to_currency($drow['tax']), to_currency($drow['profit']), $drow['discount_percent'] . '%');
+            }
+        }
+
+        $data = array(
+            "title" => $this->lang->line('reports_detailed_sales_report'),
+            "subtitle" => date('m/d/Y', strtotime($start_date)) . '-' . date('m/d/Y', strtotime($end_date)),
+            "headers" => $model->getDataColumnsItems(),
+            "summary_data" => $details_data,
+            "data" => $details_data,
+            "overall_summary_data" => $model->getSummaryData(array('start_date' => $start_date, 'end_date' => $end_date)),
+            "export_excel" => $export_excel
+        );
+
+        if ($export_excel == 1) {
+            return $this->export_excel($data);
+        }
+
+        $this->twig->set($data);
+        $this->twig->display("reports/tabular_details");
+    }
+
     function detailed_sales_old($start_date, $end_date, $export_excel = 0) {
         $this->load->model('reports/Detailed_sales');
         $model = $this->Detailed_sales;
