@@ -197,13 +197,21 @@ class Sale extends CI_Model
 	//We create a temp table that allows us to do easy report/sales queries
 	public function create_sales_items_temp_table()
 	{
+		$sql_prefix = "";
 		if($this->db->table_exists('phppos_sales_items_temp'))
 		{
 			//Borra datos previos
-			$this->db->query("drop table ".$this->db->dbprefix('sales_items_temp'));
+			//$this->db->query("drop table ".$this->db->dbprefix('sales_items_temp'));
+			$this->db->query("delete from " . $this->db->dbprefix('sales_items_temp'));
+			$sql_prefix = "insert into ";
+		}else{
+			$sql_prefix = "create table if not exists ";
 		}
-		$this->db->query("CREATE TABLE if not exists ".$this->db->dbprefix('sales_items_temp')."
-		(SELECT date(sale_time) as sale_date, ".$this->db->dbprefix('sales_items').".sale_id, comment, payment_type, customer_id, employee_id, 
+		$this->db->query('SET SQL_BIG_SELECTS=1'); 
+		//$this->db->query("insert into ".$this->db->dbprefix('sales_items_temp')."
+		//$this->db->query("CREATE TABLE if not exists ".$this->db->dbprefix('sales_items_temp')."
+		$this->db->query($sql_prefix.$this->db->dbprefix('sales_items_temp')."
+		(SELECT date(sale_time) as sale_date, TIME(sale_time) as sale_date_time, ".$this->db->dbprefix('sales_items').".sale_id, comment, payment_type, customer_id, employee_id, 
 		".$this->db->dbprefix('items').".item_id, supplier_id, quantity_purchased, item_cost_price, item_unit_price, SUM(percent) as item_tax_percent,
 		discount_percent, (item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) as subtotal,
 		".$this->db->dbprefix('sales_items').".line as line, serialnumber, ".$this->db->dbprefix('sales_items').".description as description,

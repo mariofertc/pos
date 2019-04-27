@@ -10,6 +10,7 @@ $lang['reports_items_summary_report'] = 'Reporte de Resumen de Artículos';
 $lang['reports_employees_summary_report'] = 'Reporte de Resumen de Empleados';
 $lang['reports_taxes_summary_report'] = 'Reporte de Resumen de Impuestos';
 $lang['reports_date'] = 'Fecha';
+$lang['reports_time'] = 'Hora';
 $lang['reports_name'] = 'Nombre';
 $lang['reports_quantity_purchased'] = 'Cantidad Vendida';
 $lang['reports_serial_number'] = 'Serial #';
