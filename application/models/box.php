@@ -139,14 +139,40 @@ class Box extends CI_Model
 		$this->db->order_by("close_time", "desc");
 		return $this->db->get();	
 	}
+
+	/**
+	 * Verifica si la caja ya esta cerrada
+	 * @return [type] [description]
+	 * @todo Implementar funcionalidad
+	 */
+	function ya_cerrado(){
+		return FALSE;
+	}
 	/*
 	Verifica si ya se ha cerrado la caja del día.
 	*/
-	function ya_cerrado()
+	function por_cerrar($box_id)
 	{
 		$this->db->from('boxes');
-		$this->db->where("substr(close_time,1,10) = '".date("Y-m-d")."' and deleted=0");		
-		$query = $this->db->get();	
+		$this->db->where("box_id",$box_id);		
+		$this->db->where("deleted",0);		
+		$this->db->where("close_time",null);		
+		//$this->db->where("substr(close_time,1,10) = '".date("Y-m-d")."' and deleted=0");		
+		$query = $this->db->get();
+		return ($query->num_rows()>=1);
+	}
+
+	/*
+	Verifica si tiene una caja aún abierta.
+	*/
+	function pendiente_cerrar($employee_id)
+	{
+		$this->db->from('boxes');
+		$this->db->where("employee_id",$employee_id);		
+		$this->db->where("deleted",0);		
+		$this->db->where("close_time",null);		
+		//$this->db->where("substr(close_time,1,10) = '".date("Y-m-d")."' and deleted=0");		
+		$query = $this->db->get();
 		return ($query->num_rows()>=1);
 	}
 	

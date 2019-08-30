@@ -18,7 +18,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                     <div class="btn-group" role="group">
-                            {{ anchor(controller_name~"/view/-1?width="~form_width,line(controller_name~'_new'), {'class':'btn btn-primary thickbox','title':line(controller_name~'_new')})}}
+                            {{ anchor(controller_name~"/view/-1?width="~form_width,line(controller_name~'_open'), {'class':'btn btn-primary thickbox','title':line(controller_name~'_open')})}}
                     </div>
                     <div class="btn-group" role="group">
                             <div id="search_filter_section" style="display: {{ search_section_state is defined?  ( (search_section_state)? 'block' : 'none') : 'none'}}background-color:#EEEEEE">
@@ -52,7 +52,7 @@ $(document).ready(function(){
                 "processing": true,
                 "serverSide": true,
                 "ajax": '{{controller_name}}/mis_datos',
-                "aoColumnDefs": [{'bSortable': false, 'aTargets': [0]}, {'bSortable': false, 'aTargets': [2,4]}],
+                "aoColumnDefs": [{'bSortable': false, 'aTargets': [0]}, {'bSortable': false, 'aTargets': [2,8]}],
                 "order": [[2, "asc"]]
             });
 
@@ -72,7 +72,7 @@ function init_table_sorting()
 			headers:
 			{
 				0: { sorter: false},
-				4: { sorter: false}
+				8: { sorter: false}
 			}
 
 		});

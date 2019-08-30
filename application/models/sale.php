@@ -211,7 +211,7 @@ class Sale extends CI_Model
 		//$this->db->query("insert into ".$this->db->dbprefix('sales_items_temp')."
 		//$this->db->query("CREATE TABLE if not exists ".$this->db->dbprefix('sales_items_temp')."
 		$this->db->query($sql_prefix.$this->db->dbprefix('sales_items_temp')."
-		(SELECT date(sale_time) as sale_date, TIME(sale_time) as sale_date_time, ".$this->db->dbprefix('sales_items').".sale_id, comment, payment_type, customer_id, employee_id, 
+		(SELECT sale_time, date(sale_time) as sale_date, TIME(sale_time) as sale_date_time, ".$this->db->dbprefix('sales_items').".sale_id, comment, payment_type, customer_id, employee_id, 
 		".$this->db->dbprefix('items').".item_id, supplier_id, quantity_purchased, item_cost_price, item_unit_price, SUM(percent) as item_tax_percent,
 		discount_percent, (item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) as subtotal,
 		".$this->db->dbprefix('sales_items').".line as line, serialnumber, ".$this->db->dbprefix('sales_items').".description as description,

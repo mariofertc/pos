@@ -1,0 +1,70 @@
+{{ form_open('boxes/save_open/'~ box_info.box_id,{'id':'box_form', 'role':'form'})}}
+<fieldset id="box_basic_info">
+	<legend>{{line("boxes_open") }}</legend>
+	<div class="form-group">
+		{{form_label(line('boxes_open_time')~':', 'open_time') }}
+		{{form_input({'name':'open_time','value':"now"|date("Y-m-d H:i:s"),'class':'form-control','readonly':true}) }}
+	</div>
+	<div class="form-group">
+		{{form_label(line('boxes_open_value')~':', 'open_value') }}
+		{{form_input({'name':'open_value','id':'open_value','value':info.open_value?info.open_value:0,'class':'form-control'}) }}
+	</div>
+	<div class="form-group">
+		{{form_label(line('boxes_comment')~':', 'open_comment') }}
+		{{ form_textarea({
+			'name':'open_comment',
+			'id':'open_comment',
+			'value':box_info.open_comment,
+			'rows':'5',
+			'cols':'17',
+			'class':'form-control'}
+		)}}
+	</div>
+	{{ form_submit({
+		'name':'submit',
+		'id':'submit',
+		'value':line('common_submit'),
+		'class':'btn btn-success'}) }}
+</fieldset>
+{{ form_close() }}
+
+<script type='text/javascript'>
+
+//validation and submit handling
+$(document).ready(function(){
+	
+	$('#box_form').validate({
+		submitHandler:function(form){
+			$.ajax({
+            type: $(form).attr('method'),
+            url: $(form).attr('action'),
+            data: $(form).serialize(),
+            success: function (response)
+			{
+				tb_remove();
+				post_box_form_submit(response);
+			},
+			dataType:'json'
+		});
+
+		},
+		errorLabelContainer: "#error_message_box",
+ 		wrapper: "li",
+		rules:
+		{
+            open_value: {
+                required: true,
+                number: true
+            }
+   		},
+		messages:
+		{
+			open_value:{
+				required:"Es requerido el valor inicial de caja",
+				number:"Favor ingrese un numero válido"
+			}
+		}
+	});
+});
+
+</script>
