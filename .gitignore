@@ -17,6 +17,8 @@ application/logs/*
 !application/logs/.htaccess
 
 composer.lock
+composer.phar
+/vendor/
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
