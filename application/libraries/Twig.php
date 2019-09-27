@@ -152,6 +152,13 @@ class Twig
 		$CI =& get_instance();
 		return $CI->output->set_output($this->twig->render($view, $params));
 	}
+	public function renderView($view, $params = [])
+	{ 
+		$params = array_merge($this->_data,$params);
+		$view = $view . '.html.twig';
+		$CI =& get_instance();
+		return $this->twig->render($view, $params);
+	}
 
 	private function addCIFunctions()
 	{

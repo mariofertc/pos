@@ -44,21 +44,57 @@
     <script src="{{base_url()}}js/manage_tables.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
     
     <script type="text/javascript">
-$(document).ready(function(){         
+    $(document).ready(function(){         
             //enable_delete('{{ line(controller_name~"_confirm_delete")}}', '{{ line(controller_name~"_none_selected")}}')
-             oTable = $('#sortable_table').dataTable({
-                scrollX: true,
-                scrollCollapse: true,
-                "processing": true,
-                "serverSide": true,
-                "ajax": '{{controller_name}}/mis_datos',
-                "aoColumnDefs": [{'bSortable': false, 'aTargets': [0]}, {'bSortable': false, 'aTargets': [2,8]}],
-                "order": [[2, "asc"]]
-            });
+        oTable = $('#sortable_table').DataTable({
+            scrollX: true,
+            scrollCollapse: true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": '{{controller_name}}/mis_datos',
+            "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,9]},{ "visible": false, "targets": 1 }],
+            "order": [[2, "asc"]]
+        });
 
-    //enable_search('<?php echo site_url("$controller_name/suggest")?>','<?php echo $this->lang->line("common_confirm_search")?>');
-    //enable_delete('<?php echo $this->lang->line($controller_name."_confirm_delete")?>','<?php echo $this->lang->line($controller_name."_none_selected")?>');
-    //enable_bulk_edit('<?php echo $this->lang->line($controller_name."_none_selected")?>');
+        //Child rows with summary report.
+        $('#sortable_table tbody').on('click', 'img.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = oTable.row( tr );
+            console.log(row.data()[1])
+         
+            if ( row.child.isShown() ) {
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                row.child( format(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        } );
+
+        function format ( rowData ) {
+            var div = $('<div/>')
+                .addClass( 'loading' )
+                .text( 'Loading...' );
+         
+            $.ajax( {
+                url: '{{controller_name}}/view_child_row',
+                data: {
+                    box_id: rowData[1]
+                },
+                dataType: 'json',
+                success: function ( json ) {
+                    div
+                        .html( json.html )
+                        .removeClass( 'loading' );
+                }
+            } );
+         
+            return div;
+        }
+
+        //End child row append
+
     });
 
 function init_table_sorting()

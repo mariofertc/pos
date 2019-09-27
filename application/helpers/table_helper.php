@@ -205,7 +205,9 @@ function get_boxes_manage_table()
 	$CI =& get_instance();
 	$table='<table class="tablesorter" id="sortable_table">';
 	
-	$headers = array('<input type="checkbox" id="select_all" />', 
+	// $headers = array('<input type="checkbox" id="select_all" />', 
+	$headers = array('', 
+	$CI->lang->line('box_id'),
 	$CI->lang->line('boxes_open_time'),
 	$CI->lang->line('boxes_close_time'),
 	$CI->lang->line('boxes_open_comment'),

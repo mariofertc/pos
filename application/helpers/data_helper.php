@@ -195,7 +195,8 @@ function get_data($rows, $aColumns, $cllAccion, $es_mas = false) {
                 if ($i == 0) {
 //                    var_dump($aRow);
                     $id = mb_strtolower($aRow[$aColumns[$i]]);
-                    $row[] = (!$es_mas) ? "<input type='checkbox' id='empleado_$id' value='" . $id . "'/>" : '<img src="' . asset_url() . '/images/table/add.png">';
+                    $row[] = (!$es_mas) ? "<input type='checkbox' id='empleado_$id' value='$id'/>" : '<img class="details-control" src="' . base_url() . '/images/tables/details_open.png">';
+                    // $row[] = (!$es_mas) ? "<input type='checkbox' id='empleado_$id' value='" . $id . "'/>" : '<img src="' . asset_url() . '/images/table/add.png">';
                 } else if ($aColumns[$i] == "email") {
                     $row[] = mailto($aRow['email'], character_limiter($aRow['email'], 10));
                 } else if (trim($aColumns[$i]) != '') {
