@@ -87,8 +87,9 @@ class Boxes extends Secure_area
 		//$data['box_id']=1;
 		//$this->load->view("boxes/form",$data);
 		
-		$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
+		//$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
 		$box = $this->Box->get_info($box_id);
+		$employee_id=$box->employee_id;
 
 		// if($employee_id != $box->employee_id){
 		$validate = $this->validate_close($box_id);
@@ -136,25 +137,24 @@ class Boxes extends Secure_area
 
 	function view_child_row($box_id=-1){
 		$box = $this->Box->get_info($this->input->get('box_id'));		
-		//Para ver el cierre del dia
-		$this->load->model('reports/Summary_sales');
-		$model = $this->Summary_sales;
-		/*$fecha_inicio = date('Y-m-d 00:00:00');
-		$fecha_fin = date('Y-m-d 23:59:59');*/
-		$fecha_inicio = $box->open_time;
-		$fecha_fin = date('Y-m-d H:i:s');
-		//$fecha_fin = date('Y-m-d',strtotime('-1 second',strtotime('+1 day',strtotime(date('m').'/'.date('d').'/'.date('Y').' 23:59:59'))));
-		//$fecha_inicio = '2011-03-23 00:00:00';
-		//$fecha_fin = '2011-03-23 23:00:00';
-		$tot_venta = $this->Summary_sales->getSummaryDataByTimeAndEmployee(array('start_date'=>$fecha_inicio, 'end_date'=>$fecha_fin, 'employee_id'=> $box->employee_id));
-		//$tot_venta = $fecha_fin;
-		$data['tot_venta'] = $tot_venta;
-		$data['box_info'] = $box;
 
-		$this->twig->set($data);
+		$fecha_inicio = $box->open_time;
+		$fecha_fin = $box->close_time?$box->close_time:date('Y-m-d H:i:s');
+
+		$this->load->model('reports/Summary_payments');
+        $model = $this->Summary_payments;
+        $data['info'] = $model->getSummaryDataByEmployee(array('start_date' => $fecha_inicio, 'end_date' => $fecha_fin, 'employee_id'=> $box->employee_id));
+        $data['open_value'] = $box->open_value;
+        /*$graph_data = array();
+        foreach ($report_data as $row) {
+            $graph_data[$row['payment_type']] = (double)$row['payment_amount'];
+        }*/
+// var_dump($data);
+        $this->twig->set($data);
         $temp = $this->twig->renderView("boxes/view_child_row");
         echo json_encode(array('html'=>$temp));
-        // $this->twig->display("boxes/form");
+
+        return;
 	}	
 	
 	function find_box_info()

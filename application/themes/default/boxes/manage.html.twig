@@ -53,7 +53,7 @@
             "serverSide": true,
             "ajax": '{{controller_name}}/mis_datos',
             "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,9]},{ "visible": false, "targets": 1 }],
-            "order": [[2, "asc"]]
+            "order": [[2, "desc"]]
         });
 
         //Child rows with summary report.
@@ -138,7 +138,7 @@ function post_box_form_submit(response)
                 }
                 else {
                 ////refresca toda la tabla.
-                    oTable.api().ajax.reload(
+                    oTable.ajax.reload(
                             function ( json ) {
                                 hightlight_row(response.item_id);
                                 new PNotify({

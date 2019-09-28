@@ -23,4 +23,3 @@ $lang['payments_time_limit'] = 'Limite Plazo';
 $lang['payments_days'] = 'Días';
 $lang['payments_months'] = 'Meses';
 $lang['payments_shares'] = 'Cuotas';
-?>

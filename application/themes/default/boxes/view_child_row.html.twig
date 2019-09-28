@@ -1,19 +1,43 @@
 <fieldset id="box_basic_info">
 	<legend>{{line("module_close_box_desc") }}</legend>
+	{% set total = 0 %}
+	{% for inf in info %}
+		{% if loop.first %}
+		<div class="row bg-primary">
+			<div class ="col-md-3">
+				<strong>{{line('almacenes_almacen')|upper}}</strong>
+			</div>
+			<div class ="col-md-3">
+				<strong>{{line('payments_type')|upper}}</strong>
+			</div>
+			<div class ="col-md-2 text-center">
+				<strong>{{line('sales_total')|upper}}</strong>
+			</div>
+		</div>
+		{% endif %}
+		<div class="row">
+			<div class ="col-md-3">
+			{{inf.almacen}}
+			</div>
+			<div class ="col-md-3">
+			{{inf.payment_type}}
+			</div>
+			<div class ="col-md-2 text-right">
+			{{inf.payment_amount}}
+			</div>
+		</div>
+		{% set total = total + inf.payment_amount %}
+		{% if loop.last %}
+		<div class="row">
+			<div class="col-md-offset-3 col-md-3"><strong>Inicio de Caja</strong></div>
+			<div class="col-md-2 text-right">{{open_value}}</div>
+		</div>
+		<div class="row bg-info">
+			<div class="col-md-offset-3 col-md-3"><strong>Total</strong></div>
+			<div class="col-md-2 text-right"><strong>{{(total + open_value)|number_format(2, '.', ',')}}</strong></div>
+		</div>
+		{% endif %}
+	{% endfor %}
 
-<div class="form-group">
-	{{form_label(line('sales_total_day')~':', 'tot_venta_lbl') }}
-	{{form_label('$'~tot_venta.total, 'tot_venta_lbl') }}
-</div>
-
-<div class="form-group">
-	{{form_label(line('boxes_open_value')~':', '') }}
-	{{form_label('$'~box_info.open_value, '') }}
-</div>
-
-<div class="form-group">
-	{{form_label(line('boxes_close_value')~':', '') }}
-	{{form_label('$'~(box_info.open_value+tot_venta.total), '') }}
-	{{form_hidden('close_value',tot_venta.total+box_info.open_value)}}
-</div>
+	
 </fieldset>

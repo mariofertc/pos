@@ -65,11 +65,19 @@ class Box extends CI_Model
 	 * Returns all the boxes
 	 *
 	 */
-	function get_all()
+	function get_all($num = 0, $offset = 0, $where, $order = null,$where_in=null)
 	{
 		$this->db->from('boxes');
 		$this->db->join('employees', 'boxes.employee_id=employees.person_id');
-		$this->db->order_by("close_time", "desc");
+		if ($where != "")
+            $this->db->where($where);
+        if(!is_null($where_in))
+            foreach ($where_in as $key => $value) {
+                $this->db->where_in($key,$value);
+            }
+        $this->db->order_by($order);
+        $this->db->limit($num, $offset);
+		//$this->db->order_by("close_time", "desc");
 		return $this->db->get()->result_array();
 	}
 	
