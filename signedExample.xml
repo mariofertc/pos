@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="2.0.0">
+  <infoTributaria>
+    <ambiente>1</ambiente>
+    <timpo_emision>1</timpo_emision>
+    <razonSocial>Don Gu</razonSocial>
+    <ruc/>
+    <claveAcceso>2010ABSALON</claveAcceso>
+    <codDoc>01</codDoc>
+    <estab>01</estab>
+    <ptoEmi>01</ptoEmi>
+    <secuencial>1</secuencial>
+    <dirMatriz>27 de Febrero y Atahualpha</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>1</fechaEmision>
+    <tipoIdentificacionComprador>1</tipoIdentificacionComprador>
+    <razonSocialComprador>Consumidor Final</razonSocialComprador>
+    <identificacionComprador>1212121212</identificacionComprador>
+    <totalSinImpuestos>600.00</totalSinImpuestos>
+    <totalDescuento>0.00</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>2</codigoPorcentaje>
+        <baseImponible>600</baseImponible>
+        <valor>72.00</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0.00</propina>
+    <importeTotal>672.00</importeTotal>
+    <moneda>DOLAR</moneda>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>1</codigoPrincipal>
+      <codigoAuxiliar>1234555</codigoAuxiliar>
+      <descripcion>Sistema POS</descripcion>
+      <cantidad>1.00</cantidad>
+      <precioUnitario>600.00</precioUnitario>
+      <descuento/>
+      <precioTotalSinImpuesto>600</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>600.00</baseImponible>
+          <valor>72.00</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha512"/>
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha512"/>
+        <DigestValue>tTQZylgNJuqvnp3teqYOTitReILiKcJYTKRrIV3sA7UZxQT2kS8IeSV5dVWkNA3UgUCFWMyqcggE56SF2E2M1Q==</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>KQaSc/qWGNb2lxZDOkjPUcqJC8CJw9JZJycFuSGFmde1XSJIm25+6O8yTwtbn67VikvSIaDspDckkW5Yoxi3XnMKKXlo+289d1Kqat9yf5inXIifXv7dHl+R3/kEgeUqt8sjnOISaRoGVmN2HhaKb06sb8prGC/Yof9nYJChMaIWQ54Pvt2e8AtwHEIC+JYqToCdV4nAytttplRVh5ztI1h3hzLcFoohzVJj//5ss04c+n7ZM7QlT8YWPkBxoUn6smdLPRuZ0CqbwCFMb2gVYAKxn6lytvu0iyrRjF3hRVw1hI/URo9PWv7hEgQewO5IHy+f3l4t9QhBmk+UULS6VQ==</SignatureValue>
+  </Signature>
+</factura>

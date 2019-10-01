@@ -345,14 +345,115 @@ class Sales extends Secure_area {
             }
             
         }
+        $cert_store = file_get_contents('D:\firmaElectrónica\MarioTorresTest.pfx');
+        // $status = openssl_pkcs12_read($cert_store, $cert_info, '12345678');
+        $status = openssl_pkcs12_read($cert_store, $cert_info, '');
+
+
+if (!$status) {
+    throw new RuntimeException(__('Invalid pasword'));
+}
+
+$public_key = $cert_info['cert'];
+$private_key = $cert_info['pkey'];
+
+// Read the private key
+$pkeyid = openssl_get_privatekey($private_key);
+
+if (!$pkeyid) {
+    throw new RuntimeException(__('Invalid private key'));
+}
+
+// Sign an XML file and save the signature in a new file
+// This method does not save the public key within the XML file.
+// This file cannot be verified unless
+// the verifying code has the key with which it was signed.
+
+file_put_contents('fact1.xml', $dom->saveXML());
+
+// Read the xml file content
+$filename = 'fact1.xml';
+
+ $data = file_get_contents($filename);
+//$data = $dom;
+
+
+// Compute signature with SHA-512
+$status = openssl_sign($data, $signature, $pkeyid, OPENSSL_ALGO_SHA512);
+
+// Free the key from memory
+openssl_free_key($pkeyid);
+
+if (!$status) {
+    throw new RuntimeException(__('Computing of the signature failed'));
+}
+
+//
+// Create a SignedXml object.
+//
+$xml = new DOMDocument();
+$xml->load($filename);
+$xml->preserveWhiteSpace = true;
+$xml->formatOutput = true;
+
+// Encode signature
+$signature_value = base64_encode($signature);
+
+// Calulate and encode digest value
+$digest_value = base64_encode(hash('sha512', $data, true));
+
+// Get the XML representation of the signature and save
+// it to an XmlElement object.
+$signatureElement = $xml->createElement('Signature');
+$signatureElement->setAttribute('xmlns', 'http://www.w3.org/2000/09/xmldsig#');
+
+$signedInfoElement = $xml->createElement('SignedInfo');
+$signatureElement->appendChild($signedInfoElement);
+
+$canonicalizationMethodElement = $xml->createElement('CanonicalizationMethod');
+$canonicalizationMethodElement->setAttribute('Algorithm', 'http://www.w3.org/TR/2001/REC-xml-c14n-20010315');
+$signedInfoElement->appendChild($canonicalizationMethodElement);
+
+$signatureMethodElement = $xml->createElement('SignatureMethod');
+$signatureMethodElement->setAttribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#rsa-sha512');
+$signedInfoElement->appendChild($signatureMethodElement);
+
+$referenceElement = $xml->createElement('Reference');
+$referenceElement->setAttribute('URI', '');
+$signedInfoElement->appendChild($referenceElement);
+
+$transformsElement = $xml->createElement('Transforms');
+$referenceElement->appendChild($transformsElement);
+
+$transformElement = $xml->createElement('Transform');
+$transformElement->setAttribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#enveloped-signature');
+$transformsElement->appendChild($transformElement);
+
+$digestMethodElement = $xml->createElement('DigestMethod');
+$digestMethodElement->setAttribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#sha512');
+$referenceElement->appendChild($digestMethodElement);
+
+$digestValueElement = $xml->createElement('DigestValue', $digest_value);
+$referenceElement->appendChild($digestValueElement);
+
+$signatureValueElement = $xml->createElement('SignatureValue', $signature_value);
+$signatureElement->appendChild($signatureValueElement);
+
+// Append the element to the XML document.
+// We insert the new element as root (child of the document)
+$xml->documentElement->appendChild($signatureElement);
+
+// Save the signed xml file
+file_put_contents('signedExample.xml', $xml->saveXML());
 
         xml_print($dom);
+
         $this->twig->set($data);
 
         //$this->twig->display("sales/receipt");
     }
 
-    function edit($sale_id) {
+    function edit($domsale_id) {
         $data = array();
 
         $data['customers'] = array('' => 'No Customer');
