@@ -42,9 +42,11 @@
     "wysihtml5": "~0.3.0",
     "bootstrap-wysihtml5": "*",
     "gentelella": "^1.4.0",
-    "highcharts": "^5.0.14"
+    "highcharts": "^5.0.14",
+    "eonasdan-bootstrap-datetimepicker": "bs-datetimepicker#^4.17.47"
   },
   "resolutions": {
     "jquery": ">= 2.1.0"
-  }
+  },
+  "devDependencies": {}
 }

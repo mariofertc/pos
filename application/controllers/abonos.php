@@ -334,9 +334,11 @@ class Abonos extends Secure_area {
             'abono_amount' => $this->input->post('abono_amount'),
             'abono_type' => $this->input->post('abono_type'),
             'abono_comment' => $this->input->post('abono_comment'),
-            'abono_time' => date('Y-m-d', strtotime($this->input->post('date'))),
+            //'abono_time' => date('Y-m-d H:i:s', strtotime($this->input->post('date'))),
+            'abono_time' => date('Y-m-d H:i:s'),
             'payment_id' => $payment_id,
-            'sale_id' => $sale_id
+            'sale_id' => $sale_id,
+            'employee_id' => $this->Employee->get_logged_in_employee_info()->person_id
         );
 
         if ($this->Abono->save($abono_data)) {
@@ -435,9 +437,7 @@ class Abonos extends Secure_area {
         return 360;
     }
     function get_form_height() {
-        return 340;
+        return 400;
     }
 
 }
-
-?>

@@ -9,7 +9,7 @@
 	{{form_input({
 		'name':'date',
 		'id':'date',
-		'value':"now"|date('Y/m/d')}
+		'value':"now"|date('Y/m/d H:i:s')}
 	)}}
 	</div>
 </div>
@@ -47,13 +47,16 @@
 )}}
 </fieldset>
 {{form_close()}}
+<link href="{{base_url()}}assets/css/min/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+<script src="{{base_url()}}assets/js/min/moment.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
+<script src="{{base_url()}}assets/js/min/bootstrap-datetimepicker.min.js" type="text/javascript" language="javascript" charset="UTF-8"></script>
 <script type='text/javascript'>
-
 //validation and submit handling
 $(document).ready(function(){
     //Jquery datepicker error.
         $("#ui-datepicker-div").remove();
-	$('#date').datepicker({startDate: '01/01/1970',dateFormat: "yy/mm/dd"});
+	$('#date').datetimepicker({format: "Y/MM/DD HH:mm"});
+	//$('#date').datetimepicker({startDate: '01/01/1970',dateFormat: "yy/mm/dd"});
         //$('#date').datepicker();
         //$( "#date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
         //$.datepicker.formatDate( "yy-mm-dd", new Date( 20, 1 - 1, 26 ) );

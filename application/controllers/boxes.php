@@ -108,6 +108,9 @@ class Boxes extends Secure_area
 		//$fecha_fin = date('Y-m-d',strtotime('-1 second',strtotime('+1 day',strtotime(date('m').'/'.date('d').'/'.date('Y').' 23:59:59'))));
 		//$fecha_inicio = '2011-03-23 00:00:00';
 		//$fecha_fin = '2011-03-23 23:00:00';
+		$this->load->model('reports/Summary_payments');
+        $model = $this->Summary_payments;
+		$data['info_abonos'] = $model->getSummaryAbonosDataByEmployee(array('start_date' => $fecha_inicio, 'end_date' => $fecha_fin, 'employee_id'=> $box->employee_id));
 		$tot_venta = $this->Summary_sales->getSummaryDataByTimeAndEmployee(array('start_date'=>$fecha_inicio, 'end_date'=>$fecha_fin, 'employee_id'=>$employee_id));
 		//$tot_venta = $fecha_fin;
 		$data['tot_venta'] = $tot_venta;
@@ -143,6 +146,7 @@ class Boxes extends Secure_area
 
 		$this->load->model('reports/Summary_payments');
         $model = $this->Summary_payments;
+        $data['info_abonos'] = $model->getSummaryAbonosDataByEmployee(array('start_date' => $fecha_inicio, 'end_date' => $fecha_fin, 'employee_id'=> $box->employee_id));
         $data['info'] = $model->getSummaryDataByEmployee(array('start_date' => $fecha_inicio, 'end_date' => $fecha_fin, 'employee_id'=> $box->employee_id));
         $data['open_value'] = $box->open_value;
         /*$graph_data = array();

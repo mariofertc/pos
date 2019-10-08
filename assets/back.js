@@ -29700,15 +29700,18 @@ $MENU_TOGGLE.on('click', function() {
 
 	setContentHeight();
 });
-
+	TEMP_CURRENT_URL = CURRENT_URL
+	if($SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').length == 0){
+		TEMP_CURRENT_URL = CURRENT_URL.substring(0,CURRENT_URL.lastIndexOf("/"));
+		//$SIDEBAR_MENU.find('a[href="' + CURRENT_URL.substring(0,CURRENT_URL.lastIndexOf("/")) + '"]').parent('li').addClass('current-page');
+	}
 	// check active menu
-	$SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
-
-	$SIDEBAR_MENU.find('a').filter(function () {
-		return this.href == CURRENT_URL;
-	}).parent('li').addClass('current-page').parents('ul').slideDown(function() {
-		setContentHeight();
-	}).parent().addClass('active');
+		$SIDEBAR_MENU.find('a[href="' + TEMP_CURRENT_URL + '"]').parent('li').addClass('current-page');
+		$SIDEBAR_MENU.find('a').filter(function () {
+			return this.href == TEMP_CURRENT_URL;
+		}).parent('li').addClass('current-page').parents('ul').slideDown(function() {
+			setContentHeight();
+		}).parent().addClass('active');
 
 	// recompute content when resizing
 	$(window).smartresize(function(){  
@@ -34630,19 +34633,19 @@ if (typeof NProgress != 'undefined') {
 		init_daterangepicker_reservation();
 		init_SmartWizard();
 		init_EasyPieChart();
-		// init_charts();
+		init_charts();
 		init_echarts();
 		init_morris_charts();
 		init_skycons();
 		init_select2();
 		init_validator();
-		// init_DataTables();
+		init_DataTables();
 		init_chart_doughnut();
 		init_gauge();
 		//init_PNotify();
 		init_starrr();
 		init_calendar();
-		// init_compose();
+		init_compose();
 		init_CustomNotification();
 		init_autosize();
 		init_autocomplete();

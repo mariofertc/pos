@@ -1,3 +1,5 @@
+--20191008
+alter table phppos_abonos add column employee_id int(10);
 --20190821
 --Apertura y Cierre de Caja.
  alter table phppos_boxes add column open_time timestamp not null default current_timestamp, 
@@ -7,4 +9,3 @@
 
  alter table phppos_boxes modify column comment text null;
  alter table phppos_boxes modify column close_time timestamp null;
- 

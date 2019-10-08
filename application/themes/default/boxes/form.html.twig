@@ -10,49 +10,59 @@
 		{{form_label(line('boxes_close_time')~':', 'open_time') }}
 		{{form_input({'name':'open_time','value':"now"|date("Y-m-d H:i:s"),'class':'form-control','readonly':true}) }}
 	</div>
-<div class="form-group">
-	{{form_label(line('sales_total_day')~':', 'tot_venta_lbl') }}
-	{{form_label('$'~tot_venta.total, 'tot_venta_lbl') }}
-</div>
 
-<div class="form-group">
-	{{form_label(line('boxes_open_value')~':', '') }}
-	{{form_label('$'~box_info.open_value, '') }}
-</div>
+	<div class="form-group">
+		{{form_label(line('sales_total_day')~':', 'tot_venta_lbl') }}
+		{{form_label('$'~tot_venta.total, 'tot_venta_lbl') }}
+	</div>
 
-<div class="form-group">
-	{{form_label(line('boxes_close_value')~':', '') }}
-	{{form_label('$'~(box_info.open_value+tot_venta.total), '') }}
-	{{form_hidden('close_value',tot_venta.total+box_info.open_value)}}
-</div>
+	{% set total_abonos = 0 %}
+	{% for info_abono in info_abonos %}
+		{% set total_abonos = total_abonos + info_abono.abono_amount %}
+		<div class="form-group">
+			{{form_label('Abonos '~ info_abono.payment_type ~ ':') }}
+			{{form_label('$'~info_abono.abono_amount) }}
+		</div>
+	{% endfor %}
 
-<div class="form-group">
-	{{form_label(line('boxes_comment')~':', 'comment') }}
-	 {{ form_textarea({
-		'name':'comment',
-		'id':'comment',
-		'value':box_info.comment,
-		'rows':'5',
-		'cols':'17',
-                'class':'form-control'}
-	)}}
-</div>
+	<div class="form-group">
+		{{form_label(line('boxes_open_value')~':', '') }}
+		{{form_label('$'~box_info.open_value, '') }}
+	</div>
+	{% set total_cierre = total_abonos + box_info.open_value + tot_venta.total %}
+	<div class="form-group">
+		{{form_label(line('boxes_close_value')~':', '') }}
+		{{form_label('$'~(total_cierre), '') }}
+		{{form_hidden('close_value',total_cierre)}}
+	</div>
 
-<div class="form_field">
-	{{form_label(line('module_close_box_confirm')) }}
-</div>
-<div class="field_row clearfix">
-	{{form_label('Estoy deacuerdo'~':', 'is_agree') }}
-{{ form_checkbox({
-		'name':'is_agree',
-		'id':'is_agree',
-		'value':1,
-		'checked':(box_info.is_agree)? 1 : 0,
-                'class':'checkbox-inline'}
-	)}}
+	<div class="form-group">
+		{{form_label(line('boxes_comment')~':', 'comment') }}
+		 {{ form_textarea({
+			'name':'comment',
+			'id':'comment',
+			'value':box_info.comment,
+			'rows':'5',
+			'cols':'17',
+	                'class':'form-control'}
+		)}}
+	</div>
 
-	
-</div>
+	<div class="form_field">
+		{{form_label(line('module_close_box_confirm')) }}
+	</div>
+	<div class="field_row clearfix">
+		{{form_label('Estoy deacuerdo'~':', 'is_agree') }}
+	{{ form_checkbox({
+			'name':'is_agree',
+			'id':'is_agree',
+			'value':1,
+			'checked':(box_info.is_agree)? 1 : 0,
+	                'class':'checkbox-inline'}
+		)}}
+
+		
+	</div>
      {{ form_submit({
 	'name':'submit',
 	'id':'submit',
