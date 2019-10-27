@@ -453,7 +453,7 @@ class Sales extends Secure_area {
         //$this->twig->display("sales/receipt");
     }
 
-    function edit($domsale_id) {
+    function edit($sale_id) {
         $data = array();
 
         $data['customers'] = array('' => 'No Customer');

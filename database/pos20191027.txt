@@ -1,0 +1,1296 @@
+-- MySQL dump 10.13  Distrib 5.7.14, for Win64 (x86_64)
+--
+-- Host: localhost    Database: pos
+-- ------------------------------------------------------
+-- Server version	5.7.14
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `phppos_abonos`
+--
+
+DROP TABLE IF EXISTS `phppos_abonos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_abonos` (
+  `abono_id` int(10) NOT NULL AUTO_INCREMENT,
+  `abono_amount` double(15,2) NOT NULL,
+  `abono_type` varchar(50) NOT NULL,
+  `abono_comment` varchar(200) DEFAULT NULL,
+  `payment_id` int(10) NOT NULL,
+  `sale_id` int(10) NOT NULL,
+  `abono_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `employee_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`abono_id`),
+  KEY `fk_sale_in_abono` (`sale_id`),
+  KEY `fk_payment_in_abono` (`payment_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_abonos`
+--
+
+LOCK TABLES `phppos_abonos` WRITE;
+/*!40000 ALTER TABLE `phppos_abonos` DISABLE KEYS */;
+INSERT INTO `phppos_abonos` VALUES (1,80.00,'Efectivo','',23,5,'2017-05-24 05:00:00',NULL),(2,0.00,'Efectivo','',23,5,'2017-05-24 05:00:00',NULL),(3,0.00,'Efectivo','',23,5,'2017-05-24 05:00:00',NULL),(4,0.60,'Efectivo','',23,5,'2017-07-03 05:00:00',NULL),(5,0.00,'Efectivo','',23,5,'2017-07-03 05:00:00',NULL),(6,0.00,'Efectivo','',23,5,'2017-07-03 05:00:00',NULL),(7,0.00,'Efectivo','',23,5,'2017-07-03 05:00:00',NULL),(8,0.00,'Efectivo','',23,5,'2017-07-03 05:00:00',NULL),(9,0.00,'Efectivo','',23,5,'2017-07-03 05:00:00',NULL),(10,0.46,'Efectivo','',23,5,'2017-07-03 05:00:00',NULL),(11,0.00,'Efectivo','',23,5,'2017-07-04 05:00:00',NULL),(12,1.00,'Efectivo','',23,5,'2017-07-04 05:00:00',NULL),(13,8.00,'Efectivo','',23,5,'2017-07-04 05:00:00',NULL),(14,94.62,'Efectivo','',21,2,'2017-07-04 05:00:00',NULL),(15,10.00,'Efectivo','',4,16,'2019-10-08 05:00:00',NULL),(16,11.00,'Efectivo','',4,15,'2019-10-08 05:00:00',NULL),(17,12.00,'Efectivo','',23,14,'2019-10-08 05:00:00',NULL),(18,5.00,'Efectivo','',23,14,'2019-10-08 21:17:00',NULL),(19,4.00,'Efectivo','',4,15,'2019-10-08 21:18:44',NULL),(20,3.30,'Efectivo','',23,14,'2019-10-08 21:41:01',180);
+/*!40000 ALTER TABLE `phppos_abonos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_almacenes`
+--
+
+DROP TABLE IF EXISTS `phppos_almacenes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_almacenes` (
+  `almacen_id` int(10) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `deleted` int(1) DEFAULT '0',
+  `utilidad` int(3) DEFAULT '0',
+  `short_name` varchar(3) DEFAULT NULL,
+  PRIMARY KEY (`almacen_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_almacenes`
+--
+
+LOCK TABLES `phppos_almacenes` WRITE;
+/*!40000 ALTER TABLE `phppos_almacenes` DISABLE KEYS */;
+INSERT INTO `phppos_almacenes` VALUES (23,'Principal','La Y',0,35,'PRI'),(31,'Bodega','La Merced',0,0,'BOD');
+/*!40000 ALTER TABLE `phppos_almacenes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_app_config`
+--
+
+DROP TABLE IF EXISTS `phppos_app_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_app_config` (
+  `key` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_app_config`
+--
+
+LOCK TABLES `phppos_app_config` WRITE;
+/*!40000 ALTER TABLE `phppos_app_config` DISABLE KEYS */;
+INSERT INTO `phppos_app_config` VALUES ('address','27 de Febrero y Atahualpha'),('company','Mario Torres C'),('default_tax_1_name','IVA'),('default_tax_1_rate','14'),('default_tax_2_name','Impuesto 2 sobre las Ventas'),('default_tax_2_rate',''),('default_tax_rate','8'),('email','info@dongu90.com'),('fax',''),('language','spanishec'),('phone','032885885'),('print_after_sale','print_after_sale'),('timezone','America/Bogota'),('version','10.0'),('website','http://dongu90.com'),('identity','0501530869001'),('return_policy','Salida la mercadería no hay devolución.');
+/*!40000 ALTER TABLE `phppos_app_config` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_articulo_blog`
+--
+
+DROP TABLE IF EXISTS `phppos_articulo_blog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_articulo_blog` (
+  `articulo_id` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(250) NOT NULL,
+  `detalle` text,
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `employee_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  PRIMARY KEY (`articulo_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_articulo_blog`
+--
+
+LOCK TABLES `phppos_articulo_blog` WRITE;
+/*!40000 ALTER TABLE `phppos_articulo_blog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_articulo_blog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_boxes`
+--
+
+DROP TABLE IF EXISTS `phppos_boxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_boxes` (
+  `close_time` timestamp NULL DEFAULT NULL,
+  `comment` text,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `box_id` int(11) NOT NULL AUTO_INCREMENT,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `open_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `close_value` double(7,2) DEFAULT NULL,
+  `open_value` double(7,2) DEFAULT NULL,
+  `open_comment` text,
+  PRIMARY KEY (`box_id`),
+  KEY `pk_employees_boxes` (`employee_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_boxes`
+--
+
+LOCK TABLES `phppos_boxes` WRITE;
+/*!40000 ALTER TABLE `phppos_boxes` DISABLE KEYS */;
+INSERT INTO `phppos_boxes` VALUES ('2019-08-30 03:18:33','',180,1,0,'2019-08-30 01:54:48',103.34,23.33,'Exitos'),('2019-08-30 03:19:40','Sin comentarios',1088,2,0,'2019-08-30 02:23:42',133.33,63.33,'Sin ccc'),(NULL,NULL,1088,10,0,'2019-08-30 03:33:25',NULL,0.00,''),('2019-10-08 22:11:18','',180,9,0,'2019-08-30 03:33:14',167.14,0.00,'');
+/*!40000 ALTER TABLE `phppos_boxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_cart`
+--
+
+DROP TABLE IF EXISTS `phppos_cart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_cart` (
+  `cart_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `item_id` int(11) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT '1',
+  `fecha_agregado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `session_id` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`cart_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_cart`
+--
+
+LOCK TABLES `phppos_cart` WRITE;
+/*!40000 ALTER TABLE `phppos_cart` DISABLE KEYS */;
+INSERT INTO `phppos_cart` VALUES (3,3,4,2,'2015-04-08 23:12:58',NULL),(4,3,3,1,'2015-04-08 23:13:00',NULL);
+/*!40000 ALTER TABLE `phppos_cart` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_customers`
+--
+
+DROP TABLE IF EXISTS `phppos_customers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_customers` (
+  `person_id` int(10) NOT NULL,
+  `account_number` varchar(255) DEFAULT NULL,
+  `taxable` int(1) NOT NULL DEFAULT '1',
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `misma_direccion` tinyint(1) DEFAULT '1',
+  `fecha_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  UNIQUE KEY `account_number` (`account_number`),
+  UNIQUE KEY `username` (`username`),
+  KEY `person_id` (`person_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_customers`
+--
+
+LOCK TABLES `phppos_customers` WRITE;
+/*!40000 ALTER TABLE `phppos_customers` DISABLE KEYS */;
+INSERT INTO `phppos_customers` VALUES (1087,NULL,1,0,1,'2017-04-22 02:43:31',NULL,NULL),(1089,NULL,1,0,1,'2017-04-22 02:43:31',NULL,NULL),(1093,NULL,1,0,1,'2017-04-22 02:43:31',NULL,NULL),(1094,NULL,1,0,1,'2017-04-22 02:43:31',NULL,NULL),(1098,NULL,0,0,1,'2017-04-22 02:54:06','mariofertc@mixmail.com','552d1156a9b3071181ed713ad028be73'),(1099,'32',0,0,1,'2017-04-22 02:59:27','mariofertc@gmail.com','552d1156a9b3071181ed713ad028be73'),(1100,NULL,0,0,1,'2017-05-02 12:31:38','pelado@pelado.com','552d1156a9b3071181ed713ad028be73');
+/*!40000 ALTER TABLE `phppos_customers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_direcciones`
+--
+
+DROP TABLE IF EXISTS `phppos_direcciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_direcciones` (
+  `direccion_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(250) DEFAULT NULL,
+  `apellido` varchar(250) DEFAULT NULL,
+  `direccion` varchar(250) DEFAULT NULL,
+  `detalles` text,
+  `zip` varchar(8) DEFAULT NULL,
+  `ciudad` varchar(100) DEFAULT NULL,
+  `provincia` varchar(100) DEFAULT NULL,
+  `pais` varchar(100) DEFAULT NULL,
+  `tipo` varchar(20) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`direccion_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_direcciones`
+--
+
+LOCK TABLES `phppos_direcciones` WRITE;
+/*!40000 ALTER TABLE `phppos_direcciones` DISABLE KEYS */;
+INSERT INTO `phppos_direcciones` VALUES (1,'Mario','Torres','Manuel Matheus y Pablo Arenas','Casa esquinera','180101','Ambato','Tungurahua','Ecuador','FACTURA',1099),(2,'Pelado','Berraco','Mio Cid','Calle 24','180101','Ambato','Tungurahua','Ecuador','FACTURA',1100);
+/*!40000 ALTER TABLE `phppos_direcciones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_employees`
+--
+
+DROP TABLE IF EXISTS `phppos_employees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_employees` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `person_id` int(10) NOT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  UNIQUE KEY `username` (`username`),
+  KEY `person_id` (`person_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_employees`
+--
+
+LOCK TABLES `phppos_employees` WRITE;
+/*!40000 ALTER TABLE `phppos_employees` DISABLE KEYS */;
+INSERT INTO `phppos_employees` VALUES ('mariofertc','cebdd715d4ecaafee8f147c2e85e0754',180,0),('dongu','996055e145b7575ee6baf93e87ed1d7a',298,0),('james007','886f6803b74dc5e0a9a96fa11090277b',1088,0),('vendedor','a60c36fc7c825e68bb5371a0e08f828a',527,0);
+/*!40000 ALTER TABLE `phppos_employees` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_files`
+--
+
+DROP TABLE IF EXISTS `phppos_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_files` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `item_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_files`
+--
+
+LOCK TABLES `phppos_files` WRITE;
+/*!40000 ALTER TABLE `phppos_files` DISABLE KEYS */;
+INSERT INTO `phppos_files` VALUES (1,'zapatillas-nike-air-max-90-ultra-essential-1067966.jpg',65533,'image/jpeg','http://localhost/pos/files/zapatillas-nike-air-max-90-ultra-essential-1067966.jpg','A','',37),(2,'PCC_Zapatillas-hombre-1TM-070317-MJ-5.jpg',26480,'image/jpeg','http://localhost/pos/files/PCC_Zapatillas-hombre-1TM-070317-MJ-5.jpg','A','',37),(13,'zapatillas-color-azul.jpg',30887,'image/jpeg','http://localhost/pos/files/zapatillas-color-azul.jpg','R','',38),(14,'zapatillas-reebok-hombre-ree017316110-a-0841.jpg',16687,'image/jpeg','http://localhost/pos/files/zapatillas-reebok-hombre-ree017316110-a-0841.jpg','R','',38),(15,'zapatilla-jordan-super-fly-5-black-10688582 (1).jpg',55403,'image/jpeg','http://localhost/pos/files/zapatilla-jordan-super-fly-5-black-10688582%20%281%29.jpg','R','A',1),(16,'adidas1.jpg',130534,'image/jpeg','http://localhost/pos/files/adidas1.jpg','A','',36),(17,'30100966_4.JPG',164451,'image/jpeg','http://localhost/pos/files/30100966_4.JPG','A','',36),(26,'zapatillas-converse-modelo-star-player-ox-black-355901-MLA20437024248_102015-g.jpg',243612,'image/jpeg','http://localhost/pos/files/zapatillas-converse-modelo-star-player-ox-black-355901-MLA20437024248_102015-g.jpg','C','',39),(27,'zapatillas-converse-modelo-star-player-ox-black-D_NQ_NP_988901-MLA20437024586_102015-F.jpg',185265,'image/jpeg','http://localhost/pos/files/zapatillas-converse-modelo-star-player-ox-black-D_NQ_NP_988901-MLA20437024586_102015-F.jpg','C','',39),(30,'zapatilla-jordan-super-fly-5-black-1068856.jpg',87560,'image/jpeg','http://localhost/pos/files/zapatilla-jordan-super-fly-5-black-1068856.jpg','J','',35),(31,'zapatilla-jordan-super-fly-5-black-10688582.jpg',55403,'image/jpeg','http://localhost/pos/files/zapatilla-jordan-super-fly-5-black-10688582.jpg','J','',35);
+/*!40000 ALTER TABLE `phppos_files` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_inventory`
+--
+
+DROP TABLE IF EXISTS `phppos_inventory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_inventory` (
+  `trans_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trans_items` int(11) NOT NULL DEFAULT '0',
+  `trans_user` int(11) NOT NULL DEFAULT '0',
+  `trans_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `trans_comment` text NOT NULL,
+  `trans_inventory` double(15,2) DEFAULT NULL,
+  PRIMARY KEY (`trans_id`),
+  KEY `phppos_inventory_ibfk_1` (`trans_items`),
+  KEY `phppos_inventory_ibfk_2` (`trans_user`)
+) ENGINE=MyISAM AUTO_INCREMENT=140 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_inventory`
+--
+
+LOCK TABLES `phppos_inventory` WRITE;
+/*!40000 ALTER TABLE `phppos_inventory` DISABLE KEYS */;
+INSERT INTO `phppos_inventory` VALUES (12,2,180,'2016-11-16 17:05:49','Vent 1',-1.00),(14,3,180,'2016-11-17 20:39:47','Robo',4.00),(15,3,180,'2016-11-17 20:40:44','fgfg',10.00),(45,24,298,'2017-01-03 13:15:12','Traspaso de Almacenes',2.00),(46,24,298,'2017-01-03 13:15:26','Traspaso de Almacenes',2.00),(47,24,298,'2017-01-03 13:16:23','Traspaso de Almacenes',2.00),(48,24,298,'2017-01-03 13:16:32','Traspaso de Almacenes',2.00),(56,30,298,'2017-01-11 23:47:43','Vent 2',-1.00),(57,31,298,'2017-01-11 23:47:43','Vent 2',-1.00),(64,32,298,'2017-01-14 22:52:57','Vent 3',-1.00),(65,33,298,'2017-01-14 22:52:57','Vent 3',-1.00),(66,34,298,'2017-01-14 22:52:57','Vent 3',-1.00),(67,24,298,'2017-01-14 23:18:44','Vent 4',-1.00),(70,4,180,'2017-01-15 15:37:18','Vent 5',-1.00),(71,25,180,'2017-01-15 15:37:18','Vent 5',-1.00),(78,37,298,'2017-02-15 22:37:06','Traspaso de Almacenes',3.00),(82,38,180,'2017-02-26 16:05:31','Edición Manual de Cantidad',-1.00),(83,35,180,'2017-02-26 16:08:45','Edición Manual de Cantidad',2.00),(84,36,180,'2017-02-26 16:11:07','Edición Manual de Cantidad',3.00),(85,37,180,'2017-02-26 16:13:29','Edición Manual de Cantidad',-1.00),(86,38,180,'2017-02-26 16:16:33','Edición Manual de Cantidad',-1.00),(87,35,180,'2017-02-26 16:17:31','Edición Manual de Cantidad',-1.00),(88,38,180,'2017-02-26 16:18:08','Edición Manual de Cantidad',-1.00),(89,35,180,'2017-02-26 16:20:41','Edición Manual de Cantidad',-1.00),(90,37,180,'2017-02-26 16:22:50','Edición Manual de Cantidad',-1.00),(91,35,180,'2017-02-26 16:24:17','Edición Manual de Cantidad',-1.00),(92,35,180,'2017-02-26 16:47:50','Edición Manual de Cantidad',0.00),(93,36,180,'2017-02-26 16:48:04','Edición Manual de Cantidad',-4.00),(94,37,180,'2017-02-26 16:48:12','Edición Manual de Cantidad',0.00),(95,38,180,'2017-02-26 16:48:21','Edición Manual de Cantidad',-1.00),(96,36,180,'2017-02-26 16:49:18','Edición Manual de Cantidad',1.00),(97,35,180,'2017-02-26 19:34:41','Edición Manual de Cantidad',0.00),(98,35,180,'2017-02-26 19:48:23','Edición Manual de Cantidad',0.00),(99,35,180,'2017-04-11 12:14:48','Movimiento Inventario',2.00),(100,37,180,'2017-04-12 03:25:35','Traspaso de Almacenes',1.00),(101,37,180,'2017-04-12 03:27:09','Traspaso de Almacenes',1.00),(102,37,180,'2017-04-12 03:27:32','Arreglo inventario',3.00),(103,37,180,'2017-04-12 03:27:51','Yo movi',1.00),(104,38,180,'2017-04-12 03:46:02','Yo 3',3.00),(105,38,180,'2017-04-12 03:49:05','xxx',1.00),(106,39,180,'2017-04-12 03:52:39','Edición Manual de Cantidad',10.00),(107,37,180,'2017-04-22 03:19:28','Edición Manual de Cantidad',-1.00),(108,35,180,'2017-04-22 03:20:42','Edición Manual de Cantidad',-2.00),(109,35,180,'2017-04-22 03:22:18','Edición Manual de Cantidad',-2.00),(110,37,180,'2017-04-22 03:23:00','Edición Manual de Cantidad',-1.00),(111,38,180,'2017-04-22 03:26:06','Edición Manual de Cantidad',-4.00),(112,35,180,'2017-04-22 03:36:13','Edición Manual de Cantidad',-2.00),(113,36,180,'2017-04-22 03:45:45','Edición Manual de Cantidad',-4.00),(114,39,180,'2017-04-22 03:46:12','Edición Manual de Cantidad',-9.00),(115,37,180,'2017-04-22 03:52:22','Edición Manual de Cantidad',-1.00),(116,38,180,'2017-04-22 03:54:25','Edición Manual de Cantidad',-4.00),(117,36,180,'2017-04-22 04:03:18','Edición Manual de Cantidad',-4.00),(118,36,180,'2017-04-22 04:03:55','Edición Manual de Cantidad',-4.00),(119,39,180,'2017-04-22 04:06:48','Edición Manual de Cantidad',-10.00),(120,35,180,'2017-04-22 04:07:45','Edición Manual de Cantidad',-2.00),(121,37,180,'2017-04-22 04:08:08','Edición Manual de Cantidad',-1.00),(122,35,180,'2017-04-22 04:34:02','Edición Manual de Cantidad',-2.00),(123,36,180,'2017-07-04 12:21:08','RECV 1',1.00),(124,36,180,'2017-07-05 13:16:39','Vent 6',-1.00),(125,36,180,'2017-07-17 01:36:55','Vent 7',-1.00),(126,40,180,'2017-08-10 01:16:50','Edición Manual de Cantidad',2.00),(127,39,180,'2017-08-10 01:51:14','Vent 8',-1.00),(128,39,180,'2017-09-27 04:52:18','Vent 9',-1.00),(129,41,180,'2017-09-29 00:22:55','Edición Manual de Cantidad',0.00),(130,42,180,'2017-09-29 01:00:18','Edición Manual de Cantidad',0.00),(131,41,180,'2017-09-29 23:20:55','Vent 10',-1.00),(132,36,180,'2018-03-11 18:32:51','Vent 11',-1.00),(133,39,180,'2019-04-27 02:22:25','Edición Manual de Cantidad',-8.00),(134,35,180,'2019-08-30 02:05:33','Vent 12',-2.00),(135,36,1088,'2019-08-30 02:24:05','Vent 13',-2.00),(136,37,180,'2019-10-08 14:48:29','Vent 14',-1.00),(137,36,180,'2019-10-08 14:49:59','Vent 15',-1.00),(138,38,180,'2019-10-08 16:59:44','Vent 16',-1.00),(139,40,180,'2019-10-08 17:17:42','Vent 17',-1.00);
+/*!40000 ALTER TABLE `phppos_inventory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_items`
+--
+
+DROP TABLE IF EXISTS `phppos_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_items` (
+  `name` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `item_number` varchar(255) DEFAULT NULL,
+  `description` varchar(255) NOT NULL,
+  `cost_price` double(15,2) NOT NULL,
+  `unit_price` double(15,2) NOT NULL,
+  `quantity` double(15,2) NOT NULL DEFAULT '0.00',
+  `reorder_level` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_id` int(10) NOT NULL AUTO_INCREMENT,
+  `allow_alt_description` tinyint(1) DEFAULT NULL,
+  `is_serialized` tinyint(1) DEFAULT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `size` varchar(10) DEFAULT NULL,
+  `color` varchar(20) DEFAULT NULL,
+  `color_value` varchar(10) DEFAULT NULL,
+  `brand` varchar(30) DEFAULT NULL,
+  `tags` varchar(100) DEFAULT NULL,
+  `sku` varchar(50) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `on_web` int(1) DEFAULT NULL,
+  `fecha_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`item_id`),
+  UNIQUE KEY `item_number` (`item_number`),
+  KEY `phppos_items_ibfk_1` (`supplier_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_items`
+--
+
+LOCK TABLES `phppos_items` WRITE;
+/*!40000 ALTER TABLE `phppos_items` DISABLE KEYS */;
+INSERT INTO `phppos_items` VALUES ('BUNKY','ZAPATO',1090,'17000','',16.00,25.00,1.00,1.00,1,0,0,1,'26','NEGRO','','','HOMBRE','12',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY Negro','ZAPATO',1090,'11','',16.00,25.00,1.00,2.00,2,0,0,1,'27','','#000000','Bunky','HOMBRE','12',NULL,NULL,'2017-09-27 04:33:38'),('Llavero Ambato','souvenirs',1090,'456745','sdfgfsdg  fsdg sdfg sdf gsdf gd f',2.00,5.00,28.00,3.00,3,0,0,1,'','','','xxx','llavero,redondo','34',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY Negro','ZAPATO',1090,'12','',16.75,26.00,0.00,2.00,4,0,0,1,'29','Negro','#050000','Bunky','HOMBRE','12',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY Negro','ZAPATO',1090,NULL,'',16.75,26.00,1.00,2.00,5,0,0,1,'30','Negro','#020000','Bunky','HOMBRE','12',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY Negro','ZAPATO',1090,NULL,'',16.75,26.00,1.00,2.00,6,0,0,1,'31','Negro','#070000','Bunky','HOMBRE','12',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY Negro','ZAPATO',1090,NULL,'',16.75,26.00,1.00,2.00,7,0,0,1,'32','Negro','#0a0000','Bunky','HOMBRE','12',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY Negro','ZAPATO',1090,NULL,'',13.95,22.00,1.00,2.00,22,0,0,1,'24','','#060000','Bunky','Mujer,40500,Correa','40500',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY Negro','ZAPATO',1090,NULL,'',13.95,22.00,1.00,2.00,23,0,0,1,'25','','','Bunky','Mujer,40500,Correa','40500',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY','ZAPATO',1090,NULL,'',16.00,16.00,2.00,1.00,24,0,0,1,'26','','#070606','','','17000',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'',20.18,39.00,1.00,1.00,25,0,0,1,'37','AVELA','','','','X5934',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'',20.18,39.00,1.00,1.00,26,0,0,1,'38','AVELA','','','','X5934',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'',20.18,39.00,1.00,1.00,27,0,0,1,'38','','','','','X5934',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'',20.18,39.00,1.00,1.00,28,0,0,1,'40','AVELA','','','','X5934',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'',20.18,39.00,1.00,1.00,29,0,0,1,'39','','','','','X5934',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'',20.18,39.00,1.00,1.00,30,0,0,1,'39','','','','','X5934',NULL,NULL,'2017-09-27 04:33:38'),('BUNKY Negro','ZAPATO',1090,NULL,'',13.95,22.00,0.00,2.00,31,0,0,1,'29','','','Bunky','Mujer,40500,Correa','40500',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'MAGNOLIA',50.00,65.00,1.00,1.00,32,0,0,1,'34','AVELA','#cbc115','','','Z1501',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'MAGNOLIA',50.00,65.00,0.00,1.00,33,0,0,1,'35','AVELA','#d6be4f','','','Z1501',NULL,NULL,'2017-09-27 04:33:38'),('KOLOSH','SANDALIA',1092,NULL,'MAGNOLIA',50.00,65.00,0.00,1.00,34,0,0,1,'40','AVELA','#e0c236','','','Z1501',NULL,NULL,'2017-09-27 04:33:38'),('Jordan Sport','zapatillas',1095,'424/450','',25.00,35.09,2.00,1.00,35,0,0,0,'34','Negro','#110303','Jordan','jordan,clásica,zapatillas','424/450','Alacena1, repisa a',1,'2017-09-27 04:33:38'),('Adidas superstar','zapatillas',1095,NULL,'',25.00,35.00,2.00,1.00,36,0,0,0,'35','NAPA NOZES','','adidas','zapatillas,adidas','424/450','',1,'2017-09-27 04:33:38'),('Nike Carrera','Carrera',1095,NULL,'Zapatillas originales',25.00,35.00,1.00,1.00,37,0,0,0,'36','NAPA NOZES','','','','424/450','',1,'2017-09-27 04:33:38'),('Reebok Clásicas Hombre','zapatillas',1095,'604/530','',25.00,35.00,4.00,1.00,38,0,0,0,'34','JUANA CANELA','','Reebok','zapatillas,clásica','604/530','',1,'2017-09-27 04:33:38'),('Converse Star Player','zapatillas',1095,'12234565','xxxxxds sds',10.00,10.53,9.00,1.00,39,NULL,NULL,0,'42','Blanco','#fff0f0','converse','zapatillas,converse','134','',1,'2017-09-27 04:33:38'),('Venus','zapatillas',1095,'123456','',10.00,12.00,1.00,1.00,40,0,0,0,'22','','#6c0909','Venus','cuero','777','',0,'2017-09-27 04:33:38'),('asf','zapatillas',NULL,NULL,'',34.00,23.00,-1.00,1.00,41,NULL,NULL,0,'','','','','','','',NULL,'2017-09-29 00:22:55'),('asdf','asdf',NULL,NULL,'',3.00,4.00,0.00,5.00,42,NULL,NULL,0,'','','','','','','',NULL,'2017-09-29 01:00:18');
+/*!40000 ALTER TABLE `phppos_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_items_taxes`
+--
+
+DROP TABLE IF EXISTS `phppos_items_taxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_items_taxes` (
+  `item_id` int(10) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `percent` double(15,2) NOT NULL,
+  PRIMARY KEY (`item_id`,`name`,`percent`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_items_taxes`
+--
+
+LOCK TABLES `phppos_items_taxes` WRITE;
+/*!40000 ALTER TABLE `phppos_items_taxes` DISABLE KEYS */;
+INSERT INTO `phppos_items_taxes` VALUES (1,'IVA',14.00),(2,'IVA',14.00),(3,'IVA',14.00),(4,'IVA',14.00),(5,'IVA',14.00),(6,'IVA',14.00),(7,'IVA',14.00),(8,'IVA',14.00),(9,'IVA',14.00),(10,'IVA',14.00),(11,'IVA',14.00),(12,'IVA',14.00),(13,'IVA',14.00),(14,'IVA',14.00),(15,'IVA',14.00),(16,'IVA',14.00),(17,'IVA',14.00),(18,'IVA',14.00),(19,'IVA',14.00),(20,'IVA',14.00),(21,'IVA',14.00),(22,'IVA',14.00),(23,'IVA',14.00),(24,'IVA',14.00),(25,'IVA',14.00),(26,'IVA',14.00),(27,'IVA',14.00),(28,'IVA',14.00),(29,'IVA',14.00),(30,'IVA',14.00),(31,'IVA',14.00),(32,'IVA',14.00),(33,'IVA',14.00),(34,'IVA',14.00),(35,'IVA',14.00),(36,'IVA',14.00),(37,'IVA',14.00),(38,'IVA',14.00),(39,'IVA',14.00),(40,'IVA',12.00),(41,'IVA',14.00),(42,'IVA',14.00);
+/*!40000 ALTER TABLE `phppos_items_taxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_lanzamientos`
+--
+
+DROP TABLE IF EXISTS `phppos_lanzamientos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_lanzamientos` (
+  `lanzamiento_id` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(250) NOT NULL,
+  `detalle` text,
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `item_id` int(11) DEFAULT NULL,
+  `activo` int(11) DEFAULT '1',
+  `deleted` int(11) DEFAULT '0',
+  PRIMARY KEY (`lanzamiento_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_lanzamientos`
+--
+
+LOCK TABLES `phppos_lanzamientos` WRITE;
+/*!40000 ALTER TABLE `phppos_lanzamientos` DISABLE KEYS */;
+INSERT INTO `phppos_lanzamientos` VALUES (1,'Remate de Mercadería','A mitad de precio','2017-04-22 03:56:08',35,1,0);
+/*!40000 ALTER TABLE `phppos_lanzamientos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_modules`
+--
+
+DROP TABLE IF EXISTS `phppos_modules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_modules` (
+  `name_lang_key` varchar(255) NOT NULL,
+  `desc_lang_key` varchar(255) NOT NULL,
+  `sort` int(10) NOT NULL,
+  `module_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`module_id`),
+  UNIQUE KEY `desc_lang_key` (`desc_lang_key`),
+  UNIQUE KEY `name_lang_key` (`name_lang_key`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_modules`
+--
+
+LOCK TABLES `phppos_modules` WRITE;
+/*!40000 ALTER TABLE `phppos_modules` DISABLE KEYS */;
+INSERT INTO `phppos_modules` VALUES ('module_abonos','module_abonos_desc',10,'abonos'),('module_almacenes','module_almacenes_desc',13,'almacenes'),('module_close_box','module_close_box_desc',8,'boxes'),('module_config','module_config_desc',12,'config'),('module_customers','module_customers_desc',1,'customers'),('module_employees','module_employees_desc',7,'employees'),('module_items','module_items_desc',2,'items'),('module_payments','module_payments_desc',9,'payments'),('module_porpagar','module_porpagar_desc',11,'porpagar'),('module_receivings','module_receivings_desc',5,'receivings'),('module_reports','module_reports_desc',3,'reports'),('module_sales','module_sales_desc',6,'sales'),('module_suppliers','module_suppliers_desc',4,'suppliers'),('module_ecommerce','module_ecommerce_desc',16,'ecommerce'),('module_lanzamientos','module_lanzamientos_desc',17,'lanzamientos'),('module_blog','module_blog_desc',18,'blog'),('module_web_market','module_web_market_desc',15,'web_market');
+/*!40000 ALTER TABLE `phppos_modules` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_payments`
+--
+
+DROP TABLE IF EXISTS `phppos_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_payments` (
+  `payment_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(40) DEFAULT NULL,
+  `deleted` tinyint(4) DEFAULT '0',
+  `por_cobrar` int(1) DEFAULT '0',
+  `sort` int(11) DEFAULT NULL,
+  `have_plazo` int(1) DEFAULT '0',
+  `payment_days` int(11) DEFAULT '0',
+  `payment_months` int(11) DEFAULT '0',
+  `share` int(11) DEFAULT '0',
+  PRIMARY KEY (`payment_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_payments`
+--
+
+LOCK TABLES `phppos_payments` WRITE;
+/*!40000 ALTER TABLE `phppos_payments` DISABLE KEYS */;
+INSERT INTO `phppos_payments` VALUES (2,'Efectivo',0,0,1,0,0,0,0),(3,'Cheque',0,1,3,0,0,0,0),(4,'Cuentas por Cobrar',0,1,4,0,0,0,0),(13,'Cr?dito 2 Sem',1,0,6,0,7,0,2),(14,'Cr?dito 60 d?as',1,0,7,0,0,2,2),(15,'Cr?dito Plazo Fijo',1,0,8,0,1,0,1),(17,'ABONO A LA FACTURA',1,0,NULL,1,30,1,0),(18,'SALDOS 2011',1,0,NULL,0,0,0,0),(19,'SEPARADO',1,0,NULL,0,0,0,0),(20,'CUENTAS POR PAGAR',1,1,NULL,1,0,0,0),(21,'Cuentas por pagar',0,1,NULL,0,0,0,0),(22,'6 meses',0,1,NULL,1,0,6,6),(23,'Acumulativo',0,1,NULL,1,30,0,5);
+/*!40000 ALTER TABLE `phppos_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_paypal`
+--
+
+DROP TABLE IF EXISTS `phppos_paypal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_paypal` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(254) NOT NULL,
+  `payment_id` varchar(50) DEFAULT NULL,
+  `estado` varchar(20) DEFAULT NULL,
+  `valor` varchar(20) DEFAULT NULL,
+  `descripcion` varchar(40) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  PRIMARY KEY (`order_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_paypal`
+--
+
+LOCK TABLES `phppos_paypal` WRITE;
+/*!40000 ALTER TABLE `phppos_paypal` DISABLE KEYS */;
+INSERT INTO `phppos_paypal` VALUES (1,'2','PAY-5E871713ED106094YKUSAGDQ','approved','12','1','2015-04-07 16:17:20'),(2,'2','PAY-2UE00548LX540141PKUSAORY','approved','12','1','2015-04-07 16:35:20'),(3,'2','PAY-0GS2163430742331TKUSAQXY','created','12','1','2015-04-07 11:39:58'),(4,'2','PAY-8ER491043V3096027KUSAR2A','created','12','1','2015-04-07 11:42:16'),(5,'2','PAY-5NM51147BX784690TKUSASIQ','approved','12','1','2015-04-07 16:43:15'),(6,'2','PAY-19V54538K52532359KUSATPQ','approved','12','1','2015-04-07 16:45:52'),(7,'3','PAY-25S255896D479940PKUS2QEQ','created','180','4,3','2015-04-08 17:13:36'),(8,'1099',NULL,NULL,'0','','2017-04-27 21:16:34');
+/*!40000 ALTER TABLE `phppos_paypal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_people`
+--
+
+DROP TABLE IF EXISTS `phppos_people`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_people` (
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `address_1` varchar(255) DEFAULT NULL,
+  `address_2` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `zip` varchar(50) DEFAULT NULL,
+  `country` varchar(255) NOT NULL,
+  `comments` text,
+  `person_id` int(10) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`person_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1101 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_people`
+--
+
+LOCK TABLES `phppos_people` WRITE;
+/*!40000 ALTER TABLE `phppos_people` DISABLE KEYS */;
+INSERT INTO `phppos_people` VALUES ('John','Doe','555-555-5555','admin@phppointofsale.com','Address 1','','','','','','',1),('Josesaso','Solis','','','','','','','','','',2),('Mario','Torres','','','','','','','','','',3),('Juanito','Lara','','','','','','','','','',4),('Pepe','Robayo','','','','','','','','','',5),('Joaquin','Lalama','','','','','','','','','',6),('Ivonne Alexandra','Ald?s Mera','','','','','','','','','',7),('Vicente','Delgado','','','','','','','','','',8),('Patricia','Torres','','pator@gmail.com','','','','','','','',9),('Tannia','Lascano','','','','','','','','','',10),('Gordita','Quito','032876789','','','','','','','','banco Pichincha',11),('Patricio','Manobanda','','','','','','','','','Banco Guayaquil',12),('Roc','Chavez','22334455','','','','','','2223','','',13),('Jamilet','Colombia','','sex@xom.com','','','','','','','',14),('Carmen','Mangui','','','','','','','','','',15),('Jos','Acosta','','','','','','','','','',16),('Patricia Joaquina','Torres Toala','','','','','','','','','',17),('Daniela','Fernandez','','','','','','','','','',18),('Mario','Perez','','','','','','','','','',19),('0','0','0','0','0','0','0','0','0','0','0',20),('0','0','0','0','0','0','0','0','0','0','0',21),('0','0','0','0','0','0','0','0','0','0','0',22),('0','0','0','0','0','0','0','0','0','0','0',23),('0','0','0','0','0','0','0','0','0','0','0',24),('0','0','0','0','0','0','0','0','0','0','0',25),('0','0','0','0','0','0','0','0','0','0','0',26),('0','0','0','0','0','0','0','0','0','0','0',27),('mar','tor','','','','','','','','','',28),('mar','tor','','','','','','','','','',29),('Carlos','Llucsa','','','','','','','','','',30),('Mario','Torres','','','','','','','','','',31),('Juan','Salas','','','','','','','','','',32),('Juan','Lalama','','','','','','','','','',33),('Freddy','Cabezas','','','','','','','','','',34),('Juan Alejandro','Cajas Monroy','','','','','','','','','',35),('Mart?n','Molina','099358004','','','','Cuenca','Azuay','','Ecuador','',36),('Miryan','Morales','','','','','Quito','Pichincha','','Ecuador','',37),('Humberto','Molina','','','','','','','','','',38),('Vendedores','Varios','','','','','Ambato','Tungurahua','','Ecuador','',39),('A?da Margot','Daqui Janeta','','','','','Quito','Pichincha','','Ecuador','',40),('Carlos','Ter?n','','','','','Quito','Pichincha','','Ecuador','',41),('N\n','N','','','','','Quito','Pichincha','','Ecuador','',42),('Eguberto','Molina','','','','','','','','','',43),('Juan','Vaca','','','','','Quito','Pichincha','','Ecuador','',44),('Diego','Larrea','','','','','','','','','',45),('Monica','Cobo','096275971','','','','','','','','',46),('Marcela','Romero','02-232237 / 095666704','','','','','','','','',47),('N','N','','','','','','','','','',48),('Yolanda','Villota','','','','','','','','','Produbanco',49),('Carolina','Andrade','','','','','','','','','',50),('Marcela','Romero','095666704','','','','Quito','Pichincha','','Ecuador','',58),('Sr','Caiza','','','','','','','','','',59),('N','N','','','','','','','','','',60),('N','N','','','','','','','','','',61),('N','N','','','','','','','','','',62),('N','N','','','','','','','','','',63),('N','N','022474585','','Mariano Cardenal 7335 y Jos? Larrea','','Quito','Pichincha','','Ecuador','',64),('N','N','','','','','','','','','',65),('N','N','','','','','','','','','',66),('N','N','','','','','','','','','',67),('N','N','','','','','','','','','',68),('N','N','','','','','','','','','',69),('N','N','','','','','','','','','',70),('N','N','','','','','','','','','',71),('N','N','','','','','','','','','',72),('N','N','','','','','','','','','',73),('N','N','','','','','','','','','',74),('nn','nn','','','','','','','','','',75),('nn','nn','','','','','','','','','',76),('NN','NN','','','','','','','','','',77),('NN','NN','','','','','','','','','',78),('NN','NN','','','','','','','','','',79),('NN','NN','','','','','','','','','',80),('NN','NN','','','','','','','','','',81),('NN','NN','','','','','','','','','',82),('SANDRA ','BELTRAN','','','','','','','','','',83),('NN','NN','','','','','','','','','',84),('NN','NN','','','','','','','','','',85),('Araceli ','Barreno','','','','','','','','','',86),('NN','NN','','','','','','','','','',87),('NN','NN','','','','','','','','','',88),('NN','NN','','','','','','','','','',89),('N','N','','','','','','','','','',90),('N','N','','','','','','','','','',91),('NN','NN','','','','','','','','','',92),('NN','NN','','','','','','','','','',93),('NN','NN','','','','','','','','','',94),('NN','NN','','','','','','','','','',95),('NN','NN','','','','','','','','','',96),('NN','NN','','','','','','','','','',97),('NN','NN','','','','','','','','','',98),('NN','NN','','','','','','','','','',99),('NN','NN','','','','','','','','','',100),('NN','NN','','','','','','','','','',101),('NN','NN','','','','','','','','','',102),('NN','NN','','','','','','','','','',103),('NN','NN','','','','','','','','','',104),('N','N','','','','','','','','','',105),('N','N','','','','','','','','','',106),('N','N','','','','','','','','','',107),('N','N','','','','','','','','','',108),('N','N','','','','','','','','','',109),('NN','NN','','','','','','','','','',110),('NN','NN','','','','','','','','','',111),('NN','NN','','','','','','','','','',112),('N','N','','','','','','','','','',113),('NN','NN','','','','','','','','','',114),('NN','NN','','','','','','','','','',115),('NN','NN','','','','','','','','','',116),('NN','NN','','','','','','','','','',117),('NN','NN','','','','','','','','','',118),('NN','NN','','','','','','','','','',119),('NN','NN','','','','','','','','','',120),('NN','NN','','','','','','','','','',121),('NN','NN','','','','','','','','','',122),('NN','NN','','','','','','','','','',123),('NN','NN','','','','','','','','','',124),('N','Sr castro','','','','','','','','','',125),('N','N','','','','','','','','','',126),('N','N','','','','','','','','','',127),('N','N','','','','','','','','','',128),('N','N','','','','','','','','','',129),('N','N','','','','','','','','','',130),('N','N','','','','','','','','','',131),('N','N','','','','','','','','','',132),('N','N','','','','','','','','','',133),('N','N','','','','','','','','','',134),('N','N','','','','','','','','','',135),('N','N','','','','','','','','','',136),('N','N','','','','','','','','','',137),('N','N','','','','','','','','','',138),('N','N','','','','','','','','','',139),('NN','NN','','','','','','','','','',140),('NN','NN','','','','','','','','','',141),('N','N','','','','','','','','','',142),('Emma','Chicaiza','','','','','','','','','',143),('N','N','','','','','','','','','',144),('N','N','','','','','','','','','',145),('N','N','','','','','','','','','',146),('N','N','','','','','','','','','',147),('N','N','','','','','','','','','',148),('N','N','','','','','','','','','',149),('N','N','','','','','','','','','',150),('N','N','','','','','','','','','',151),('N','N','','','','','','','','','',152),('N','N','','','','','','','','','',153),('N','N','','','','','','','','','',154),('N','N','','','','','','','','','',155),('N','N','','','','','','','','','',156),('N','N','','','','','','','','','',157),('N','N','','','','','','','','','',158),('N','N','','','','','','','','','',159),('N','N','','','','','','','','','',160),('N','N','','','','','','','','','',161),('N','N','','','','','','','','','',162),('N','N','','','','','','','','','',163),('Karla','Falquez','','KK@II.COM','','','','','1222','','',164),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',165),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','0018907897','Ecuador','ninguno',166),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','1313131313','Ecuador','ningun',170),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',171),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',172),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',173),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',174),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',175),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',176),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',177),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',178),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',179),('Jose Luis','Acosta Suarez','491333','jooo@kkkd.com','Simon Voil','Dount City','Ambato','Tungurahua','000','Ecuador','ningun',180),('Karina Irene','Opel Hustin','221143','mitoyo@mitoyo.com','yahuira','urbina','Quito','Pichincha','001','Ecuador','ninguno',181),('Irene','Artiaga','','','','','','','','','',182),('Rosa  Amada','Vargas Ulloa','095124343','rosa.amada69@hotmail.com','La  Prensa',' Guajalo','Quito','Pichincha','1802268654','Ecuador','TIENE ACSESO A TODOS LOS PUNTOS',183),('Luis','Ronquillo','086926199-042322090','','Sucre y Santa Elena ','','Guayaquil','Guayas','','Ecuador','distriuidor de west,croydon ',184),('Rosa','Alvarez','','','','','','','','','',185),('MARYURY','S?nchez','081322973','','La Ofelia','','QUITO','Pichincha','1718940305','ECUADOR','',186),('Cintia','Ronquillo','093343750','','Guayaquil','','','','','','DISTRIBUIDOR DE KNUP, GRASEP',187),('Grase','Figueroa','093289760-2950984-042320195','','Edi. el dorado ','Chimborazo y Chile ','guayaquil','guayas','0992154527001','ecuador','',188),('Miguel','Hernandez','088621472-042519980','','edificio el galeon','','guayaquil','guayas','0991457712001','ecuador','DISTRIBUIDOR KANUP VALVULA- GRASEP',189),('Nelson','Ruales','095614255','','','','quito','pichincha','','ecuador','distribuidor Adix\n',190),('Cesar ','Vasquez','0422404376','','La Bahia','','Guayaquil ','Guayas','','Ecuador','',191),('Bolivar','Vallesteros','032412260 / 098715814','','Manuelita Saenz','','Ambato','Tungurahua','1801882620001','Ecuador','Distribuidor de calzado clasico',192),('Javier','Montero','042329047','','edificio el galeon','','Guayaquil','Guayas','','Ecuador','Distribuidor proescate, knup,\nskaters',193),('Janeth','Diaz','085669858','','Colon y Dies de Agosto','','Quito','Pichincha','','Ecuador','Distribuidor de groove, botas de mujer ',194),('Jaqueline','Rojas','042326468','','Colon y Malecon','','Guayaquil','Guayas','','Ecuador','Distriduidor de roquer, ',195),('Gladys ','de Rivera','','','Ceballos ','','Ambato','Tungurahua','','Ecuador','Distribuidor de botas y botines ',196),('Gladis','de Rivera','','','Cevallos  ','','Ambato','Tungurahua','','Ecuador','distribuidor de botas y botines ',197),('Judith','Carrillo','','','Cevallos','','Ambato','Tungurahua','','Ecuador','Distribuidor de botas squimal ',198),('Cecilia ','Lopez','092829994','','C.C.M.N.A','AV. Maldonado ','Quito','Pichincha ','','Ecuador','distribuidor de zapato de mujer ',199),('Nelson ','Ruales ','097614255','','La Mena ','','Quito','Pichincha','','Ecuador','Distribuidor deportivo de ni?o ',200),('CESAR','VASQUEZ','0','','Guayaquil','LA BAHIA','GUYAQUIL','GUAYAS','1000200','ECUADOR','sapatilla de mujer de adesivo 35-38',201),('SILVANA ','DE URGUILES','042323310','','edificio el galeon','','','','','','DISTRIBUIDOR  DE RANCO ',202),('IVAN','sailema ','','','','','Quito','Pichincha','','Ecuador','bota de cuero',203),('BERTHA','SANCHEZ','','','','','CEBALLOS','Tungurahua','','Ecuador','BOTA DE CUERO',204),('Jomayra','Uribe','089983907','superyojj@hotmail.com','la breta?a','','Quito','Pichincha','1725216657','Ecuador','vendedora majo 2',205),('Alicia Oliva','Sanchez','023210618','','CCMNA  Asc Tungurahua','Maldonado y Quimiag','Quito','Pichincha','','Ecuador','Venta  al por mayor',206),('ISABEL','Negrete','','','C. C.Chillogallo','','Quito','Pichincha','','Ecuador','Vntas por mayor',208),('Mar','Rosa','','','C.C.M.N. A.','Asc Tungurahua','Quito','Pichincha','','Ecuador','Venta por mayor',212),('BLANCA','PROA?O','','','','','','','','','CLIENTE \"CREDITO\"',213),('DAISY','CABRERA','','','','','','','','','VENTA DE CONTADO',214),('DAISY','CABRERA','','','','','','','','','VENTA DE CONTADO',215),('Saulo','Pallo','097142917','danipallo@hotmail.com','La lucha de los pobres','','Quito','Pichincha','1751280593','Ecuador',' YA NO TRABAJA EN LA EMPRESA',232),('NICOLAS','HERAS','097484636','','CIUDADELA CLEMENTE VALLEN','','Quito','Pichincha','','Ecuador','',233),('HILDA ','SANTANA','','','','','Quito','Pichincha','','Ecuador','',234),('CONSUMIDOR','FINAL','','','','','','','','','',235),('JOSE ','SALCEDO','','','','','','','','','',236),('ROSA','VARGAS','095124343','','','','QUITO','Pichincha','1802268654','Ecuador','',237),('ANITA','NICOLALDE','','','MINAS','','QUITO','Pichincha','','Ecuador','CLIENTE COMPRA AL POR MAYOR',238),('MARTHA','TOCTAQUIZA','','','HERMANO MIGUEL','','Quito','Pichincha','','Ecuador','COMPRA AL POR MAYOR',239),('BLANCA ','PADILLA','','','IBARRA','','IBARRA','IMBABURA','','Ecuador','COMPRA AL POR MAYOR',240),('PILAR ','CAJILEMA','2510498','','HERMANO MIGUEL','','QUITO','Pichincha','','Ecuador','COMPRA AL POR MAYOR',241),('ROSA ','HERAS','','','','','QUITO','Pichincha','','Ecuador','COMPRA AL POR MAYOR',242),('AMERICA DE LA','LANDAZURI','','','EL QUICHE','','EL QUICHE','Pichincha','','Ecuador','COMPRA AL POR MAYOR',243),('MARLENE ','ALVARES','2571248','','CHILE E6-34 Y BALPARAIZO','098797575','Quito','Pichincha','','Ecuador',' COMPRA AL POR MAYOR',244),('NINFA','ARTEAGA','0980236072','','VILLAFLORA','','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',245),('JENNY','ALVARES','','','','','Quito','Pichincha','','Ecuador','COMPRA AL POR MAYOR',246),('MARIA ROSA','POAQUIZA','','','','CCMNA','Quito','Pichincha','','Ecuador','CMPRA AL POR MAYOR',247),('GLORIA','MOLINA','','','','CHILLOGALLO','Quito','Pichincha','','Ecuador','COIMPRA AL POR MAYOR',248),('GLORIA','MOLINA','','','','CHILLOGALLO','Quito','Pichincha','','Ecuador','COIMPRA AL POR MAYOR',249),('ROSA ','YANCHATU?A','','','','CIUDADELA IBARRA','Quito','Pichincha','','Ecuador','COMPRA AL POR MAYOR',250),('DAVID','MOLINA GLORIA','089440879','','CHILLOGALLO','','Quito','Pichincha','','Ecuador','COMPRA AL POR MAYOR',251),('ROSA ','MONTERO','','','','','Quito','Pichincha','','Ecuador','COMPRA AL POR  MAYOR',252),('VILMA','VIDAL','','','','','Quito','Pichincha','','Ecuador','COMPRA UNIDADES POR MAYOR',253),('GUIDO','CABRERA','098454278','','3500120','Av 10 de Agosto y enrrique Guerrero','Quito','Pichincha','','Ecuador','distribuye sapatilla deportiva y botas de mujer',254),('MILTON','MU?OZ','','','','','CUENCA','CUENCA','','Ecuador','VENDEDOR ZAPATO DE MUJER',255),('MERCEDES','CUZCO','3383388','','080627027','LA PLANADA','QUITO','Pichincha','1712651452','Ecuador','VENTA AL POR MAYOR',256),('SONIA ','NAVAS','','','','','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',257),('MARIA','VASQUEZ','','','','','','','','','VENTA PARA NEGOCIO',258),('EDUARDO ','MEZA','089304540','','','','OTAVALO','IMBABURA','','Ecuador','VENTA AL POR MAYOR',259),('EDUARDO ','MEZA','089304540','','','','OTAVALO','IMBABURA','','Ecuador','VENTA AL POR MAYOR',260),('EDUARDO ','MEZA','089304540','','','','OTAVALO','IMBABURA','','Ecuador','VENTA AL POR MAYOR',261),('SEGUNDO','SANCHEZ','092581756','','ESTACIN RECREO TROLE','','QUITO','Pichincha','','Ecuador','VENTA AL POR  MAYOR',262),('INES','MOLINA','','','','CALDERON','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',263),('VICENTE','PINSON','','','','','','LOJA','1102268958','Ecuador','VENTA AL POR MAYOR',264),('CARMELA ','CAIZA','','','','','CALDERON','Pichincha','','Ecuador','VETA AL POR MAYOR  UNIDADES',265),('CARMELA ','CAIZA','','','','','CALDERON','Pichincha','','Ecuador','VETA AL POR MAYOR  UNIDADES',266),('CARMELA ','CAIZA','','','','','CALDERON','Pichincha','','Ecuador','VETA AL POR MAYOR  UNIDADES',267),('CARMELA ','CAIZA','','','','','CALDERON','Pichincha','','Ecuador','VETA AL POR MAYOR  UNIDADES',268),('CARMELA ','CAIZA','','','','','CALDERON','Pichincha','','Ecuador','VETA AL POR MAYOR  UNIDADES',269),('CARMELA ','CAIZA','','','','','CALDERON','Pichincha','','Ecuador','VETA AL POR MAYOR  UNIDADES',270),('CLIENTES','IVA','','','','','','','','','SOLO  PARA LOS CLIENTES QUE PIDEN FACTURA',271),('IRALDA','MIRANDA','','','','','','','','','',272),('JHOSON','ELIZALDE ROSARIO','081509047','','','','','','','','VENTA CON TARJETA',273),('MAGDALENA','BENALCAZAR','','','','','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',274),('MAARLENE ','ALVARES','','','','','Quito','Pichincha','','Ecuador','VENTA  PARA NEGOCIO POR UNIDADES',275),('WILSON','MEJIA','','','','','','','','','',276),('JORGE','GUANOLUISA','2245954','','COTOCOLLAO','','QUITO','Pichincha','0501746713','Ecuador','VENTA PARA NEGOCIO ',277),('FINAL','CONSUMIDOR','','','','','','','','','',278),('JORGE','PAREDES','','','','REGISTRO  CIVIL SUR','','','','','VENTA POR MAYOR',279),('MARIA','COBO','','','','','','','','','',280),('RAMIRO','YUGSI','3026215','','SHARLI  LOTE 56','SANTA BARBARA','Quito','Pichincha','','Ecuador','VENTA POR PARES PARA NEGOCIO',281),('ENRRIQUE ','AMAGUA','087406952','','SANGOLQUI','VIA RUMILOMA','Quito','Pichincha','','Ecuador','VENTA PARA NEGOCIO',282),('ENRRIQUE ','AMAGUA','087406952','','SANGOLQUI','VIA RUMILOMA','Quito','Pichincha','','Ecuador','VENTA PARA NEGOCIO',283),('EDISON','CAMPOS','2801458','','CARCELEN','Urb. MARISOL CALLE10','Quito','Pichincha','170668343-8','Ecuador','COMPRA PARA NEGOCIO POR PARES',284),('SANDRA','ANDAGONA','','','','','','','','','VENTA IR ABONANDO',285),('SUSANA ','CHICO','','','','','','','','','VENTA PARA HACER ABOS',286),('SUSANA','SALCEDO','','','','','','','','','VENTA UNIDADE PARA NEGOCIO',287),('VILMA','PEREZ','','','','','','','','','SEOARA UNA BOTA DE TACO COLOR NEGRA\nVALOR 49,00 USD',288),('MARCELO ','AREQUIPA','','','','COMITE DEL PUBLO','Quito','Pichincha','','Ecuador','VENTA PARA NEGOCIO POR DOCENAS',289),('MARCELO ','AREQUIPA','','','','COMITE DEL PUBLO','Quito','Pichincha','','Ecuador','VENTA PARA NEGOCIO POR DOCENAS',290),('MARCELO ','AREQUIPA','','','','COMITE DEL PUBLO','Quito','Pichincha','','Ecuador','VENTA PARA NEGOCIO POR DOCENAS',291),('RODIGO','UGSHA','3102310-085306932','','CATAMAYO OE146 Y PANSALA','MAGDALENA','Quito','Pichincha','','Ecuador','VENTA POR DOCENAS HERMANO MIGUE ANTIGUO IPIALES ',292),('Rosita Lissette','Saltos Vargas','2595252','rositasaltos@hotmail.com','La  Prensa','','Quito','Pichincha','','Ecuador','Tiene acceso a todos los iconos',294),('DANIELA','PAZ','','','','','','','','','SEPARA PARA SEGUIR HACIENDO ABONOS',295),('MARIA CRISTINA','SALDAS','','','','','','','','','SEPARA UNA BOTA PARA SEGUI ASIENDO ABONOS',296),('DIANO','DIONICIO','','','','','','','','','SEPARA UNA BOTA PARA SGUIR ABONANDO',297),('Don','Gu','','xxx@hotmail.com','','','Puyo','Pastaza','1818181818','Ecuador','',298),('jaime','santana','','','','','','','160039239','','',1085),('MARIA','DE  DORIS','','','','','','','','','',299),('JUNIOR','GUILLEN','','','','','','','','','',300),('SANDRA','GUEVARA','2354563','','','','','','170897963','','',301),('JEFFERSON','PALLO','','','','','Quito','Pichincha','','Ecuador','ya no trabaja',302),('MARIANA ','CERON','','','','','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',303),('SANDRA','BENAVIDEZ','3385640','','','','Quito','Pichincha','','Ecuador','',304),('ALVA ','COTACACHI','','','','','','','','','',305),('NANCY','ANDRAGO','0825972','','CALDERON','','QUITO','Pichincha','1711338457','ECUADOR','',306),('Victoria','Saltos','083793361','viky_yady@hotmail.com','','','Quito','Pichincha','1723307383','Ecuador','',307),('PAUBLINA','DAVILA','','','','','','','1711868917001','','',308),('CESAR','VERA','2852855','INCALSID@SEEDY.NET.EC','AQUILEMA E ISIDRO AYORA','','AMBATO','TUNGURAHUA','1891734715','ECUADOR','BOTA MUJER',309),('CESAR','VERA','2852855','INCALSID@SEEDY.NET.EC','AQUILEMA E ISIDRO AYORA','','AMBATO','TUNGURAHUA','1891734715','ECUADOR','BOTA MUJER',310),('JANETH','ESPIN','','','','','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',311),('MARTHA','COLOMBIANA','','','','','','','','','',312),('WILSON ','CARRILLO','','','','','','','','','',313),('WILSON','CARRILLO','','','','','','',' ','','',314),('SANDRA ','MINA','','','','','','','','','SEPARA BOTA ALPINA NEGRA 37',315),('FACTURA','IVA','','','','','','','','','',316),('JUAN MANUEL','MEJIA CASTILLO','046016951','','SAUCES 2 SOLAR 6 MZ.72 F','','GUAYAQUIL','GUAYAS','0930415278001','ECUADOR','DEPORTIVO AXION\n',317),('ANGEL','REINA','','','','','','','','','CLIENTE OR MENOR\n',318),('ELIZABETH','SALTOS','093709960','lubrillantas_sc@hotmail.com','','','Quito','Pichincha','1803753753','Ecuador','YA NO TRABAJA  EN LA EMPRESA',319),('JORGE','GARCES','095551224','','','','GUAYAQUIL','GUAYAS','','ECUADOR','',320),('ALFREDO','ALFREDO','','','','','','','','','',321),('DORIS','DORIS','','','','','','','','','',322),('MARIA','DORIS','','','','','','','','','',323),('SEBASTIAN','ACURIO','','','SAN CARLOS','','QYUITO','Pichincha','171746617','Ecuador','VENTA POR PARES',324),('ROSA AMADA ','VARGAS ULLOA','','','','','','','','','AL COSTO',325),('VERONICA','PERUGACHI','','','','FRANCISCO DE RUMIORCO','Quito','Pichincha','1707954275','Ecuador','VENTA AL POR MENOR',326),('Fernando ','Osorio','5107896','','','','Quito','Pichincha','1708531189','Ecuador','',327),('MARY','MORALES','','','','','','','','','SEPARADO',328),('MARYURY','SANCHEZ','','','','','','','','','',329),('ELIZABETH','SALTOS','','','','','','','','','',330),('Mercedes','Sandobal','','','','Tumbaco','Quito','Pichincha','','Ecuador','',331),('GLADYS ','ARCOS','','','','','','','','','',332),('JUAN','CASTA?EDA','','','','','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',333),('PIEDAD','MONTALVO','2302676','','SAN JOSE DE MINAS','','MINAS','Pichincha','1706499371001','Ecuador','VENTA AL POR MAYOR',334),('MARIBEL','BRAVO','','','RUMICHACA','EL COMERCIO','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',335),('EXDRAG S.A','EXDRAG S.A','2514476','','VILLAMIL 117 Y CALDERON ','EDIF. EL DORADO','GUAYAQUIL','GUAYAS','0992465999001','ECUADOR','ZAPATILLA RANCO',336),('PATRICIO','ALMACHE','','','','','','','','','',337),('NANCY','ANDRANGO','','','','','','','','','',338),('CARMEN','VAZQUEZ','','','','','IBARRA','','','','',339),('LUIS GONZALO','BAUTISTA M','0989989733-0959446017','','LA GARCIA MISENA 411 Y ROCA','','QUITO','Pichincha','','Ecuador','',340),('TEREZA','GORDON','','','','','','','','','',341),('MAGDALENA ','COLLAGUAZO','','','','','','','','','',342),('MARISOL ','CRIOLLO','','','VIA AMAGU?A','','Quito','Pichincha','','Ecuador','VENTA AL POR MAYOR',343),('HUMBERTO ','GUATINANGO','0992241071','','VELLAVISTA Y REAL AUDIENCIA','','QUITO','PICHINCHA','','ECUADOR','CLIENTE PARES',344),('GONZALO','GONZALO','','','','','','','','','',345),('JAVIER','SANCHEZ','','','','','','','','','',346),('JAVIER','SANCHEZ','','','','','','','','','',347),('RICARDO','ROMO','','','','','','','','','',348),('JORGE','FLORES','','','','','','','','','',349),('FALLAS','FALLAS','','','','','','','','','',350),('FAVIO','ANDINO','','','','','','','','','',351),('MARIA ','ALARCON','','','','','','','','','',352),('ANGEL','PILLAJO','','','','','','','','','',353),('SAILA','SUAREZ','','','','','','','','','',354),('JENNY','PILATAXI','','','','','','','','','',355),('MARLENE','ARIAS','','','','','','','','','',356),('MARIA','ZAMBRANO','','','','','','','','','',357),('LIGIA','GUERRERO','3430506','','PUSUQUI','','','','','','',358),('WALTER','YANES','','','','','','','','','',359),('FLAVIO','REYES','2597440','','COTOCOLLAO','','QUITO','PICHINCHA','1715022024001','ECUADOR','POR MAYOR',360),('PAPA','SAUL','','','','','','','','','',361),('MARLENE','BORJA','','','','','QUITO','PICHINCHA','','ECUADOR','',362),('RAFAEL','RAFAEL','','','','','QUITO','PICHINCHA','','ECUADOR','',363),('MARCELO ','DAVILA','','','','','','','','','',364),('DIANA ','RIVERA','','','','','CEVALLOS','TUNGUARHUA','','ECUADOR','DISTRIBUIDOR BOTAS SINTETICA',365),('JOSE','GUANINGA','','','','','','','1719758755','','',366),('FABRICIO ','CRUZ','','','','','','','','','',367),('BLANCA ','VERONES','','','','','','','','','',368),('FERNANDA JANET','MENDIETA BARBERAN','0982526274','yumin_love@hotmail.es','CONJUNTO  LOYOLA','BOQUE 14 DEP. 44','Quito','Pichincha','0503126294','Ecuador','EMPLEADA YA NO TRABAJA EN LA EMPRESA',369),('LUIS VENALCAZAR','VENALCAZAR','','','','','','','1710446624','','',370),('LUIS','VENALCAZAR','0987340148','','SAN JOSE DE JARDIN','','Quito','Pichincha','1710446624','Ecuador','',371),('MARY ','GUDI?O','','','','','Quito','Pichincha','','Ecuador','',372),('MILTON','VALAREZO','0966722774','','CHONE','','Quito','Pichincha','','Ecuador','',373),('CECILIA','VASQUEZ','022598099','','COTOCOLLAO','','QUITO','PICHINCHA','1001298106','ECUADIR','',374),('CECILIA','VASQUEZ','022598099','','COTOCOLLAO','','QUITO','PICHINCHA','1001298106','ECUADOR','',375),('BLANCA','CALDERON','','','','','','','','','',376),('MARLENE ','ARIAS','','','','','','','','','',377),('LUIS','ANIBAL','','','','','','','','','',378),('MARIA ','MORA','','','','','','','','','',379),('STALIN','VELA','','','','LA PLANADA','Quito','Pichincha','','Ecuador','PARA NEGOCIO',380),('MARIANA ','ORTIZ','','','CCMNA','MALDONADO','QUITO','PICHINCHA','','ECUADOR','SE COMPRA CON CHEQUES',381),('JOSE','GURANDA','','','','','','','','','',382),('DOLORES ','ZAMBRANO','','','','','','','','','',383),('NORMA','EGAS','','','','','Quito','PICHINCHA','','ECUADOR','SUURSAL MAJO 1 JUEVES18/05/2013 FACTURA 916',384),('PABLO','RIBERA','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO#1       JUEVES 18/05/2013 NOTA DE PADIDO 915',385),('SONIA ','SALCEDO','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA  MAJO #1',386),('DIANA ','BONILLA','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO #1',387),('DIANA ','VARGAS','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO#1\n',388),('DIANA ','CABRERA','','','','','QUITO','PICHINCHA','','ECUADIR','DISTRIBUIDORA MAJOS#1',389),('CRISTIAM ','SUAREZ','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO#1',390),('CRISTIAM ','SUAREZ','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO#1',391),('SANTIAGO','PONCE','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO #1\n',392),('SANTIAGO','PONCE','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO #1\n',393),('JHONN','MORA','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJOS #1',394),('SALINA ','MALDONADO','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO #1',395),('GRACIELA ','QUISPE','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO # 1',396),('ALICIA ','GALLEGO','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJOS #1\n',397),('CARLOS ','HATIVA','','','','','QUITO','PICHINCHA','','ECUADOR','DISTRIBUIDORA MAJO #1',398),('FERNANDA JANET','MENDIETA BARBERAN','','yumin_love@hotmail.es','','','QUITO','PICHINCHA','0503126294','ECUADOR','',399),('MARIA','MALLA ','','','','','','','','','',400),('MARIA','MALLA','','','','','QUITO','PICHINCHA','','ECUADOR','',401),('NANCY','ANDRADE','','','','','QUITO','PICHINCHA','','ECUADOR','',402),('PATRICIO ','CUAMA?A','','','','','QUITO','PICHINCHA','','ECUADOR','',403),('EDSON','ORELLANA','','','','','AMBATO','TUNGURAHUA','','ECUADOR','SE PAGA CON CHEUQES POSFECHADOS',404),('MARIA ','MAGIA','','','','','QUITO','PICHINCHA','','ECUADOR','',405),('MERCEDES','MARMOL','','','','','QUITO','PICHINCHA','','ECUADOR','',406),('MAGDALENA ','COLLA','','','','','QUITO','PICHINCHA','','ECUADOR','',407),('NATHALY ','SHUGULY','','','','','QUITO','PICHINCHA','','ECUADOR','',408),('PEDRO ','MERA','','','','','QUITO','PICHINCHA','','ECUADOR','',409),('SOFIA ','MOLINA','','','','','','','','','',410),('SOFIA ','MOLINA','','','','','','','','','',411),('SOFIA ','MOLINA','','','','','','','','','',412),('SOFIA ','MOLINA','','','','','','','','','',413),('SOFIA ','MOLINA','','','','','','','','','',414),('RAMON','GARCIA','','','','','QUITO','PICHINCHA','','ECUADOR','',415),('MONICA','MIRANDA','','','','','','','','','',416),('ALEJANDRO','YAGUALE','','','','','','','','','',417),('FRANCISCO','SARAZO','','','','','QUITO','PICHINCHA','','ECUADOR','',418),('CARMEN ','O?A','','','','','QUITO','PICHINCHA','','ECUADOR','',419),('LUCIA','HERRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',420),('MILENA','HENAO','','','','','','','','','',421),('TANIA ','SANTILLANA','','','','','','','','','',422),('ADELA','SANTILLANA','','','','','','','','','',423),('PRICILA ','SANTANA','','','','','','','','','',424),('RAQUEL','BOLA?OS','','','','','','','','','',425),('ROSA','VARGAS','09995124343','rosa.amada69@hotmail.com','','','','','1802268654001','','',426),('ALICIA','DOMINGUEZ','','','','','','','','','',427),('REINDER ','FLEXISOF','042647524','','VI JUAN TAMARENGO','','GUAYAQUIL','GUAYAS','0992634138001','ECUADOR','MERCADERIA COLOMBIANA',428),('FRANCIA',' BRASIL','3340824','','MONTESERRIN','','QUITO','PICHINCHA','1791714814001','ECUADOR','ZAPATO BRASILERO',429),('VENTA ','FACTURA','','','','','','','','','',430),('FS','SF','','','','','','','','','',431),('MONICA','SUAREZ MEZA','0959757762','monykasuarez@hotmail.com','PONCIANO BAJO','','QUITO','PICHINCHA','1314565548','ECUADOR','ya no trabaja en la empresa',432),('PATRICIA','CHAVARRIA','','','','','','','','','',433),('MONICA','SUAREZ MEZA','','','','','','','','','',434),('GRACE','ANDRADE','','','','','','','','','',435),('JESUS','DE LA CRUZ','','','','','','','','','',436),('RAMIRO','ARCO','','','','','QUITO','PICHINCHA','','ECUADOR','SE VENDE CON TARJETA DE CREDITO',437),('MONICA','VALLEJO','','','','','QUITO','PICHINCHA','','ECUADOR','',438),('MARIA','LOPEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',439),('MARIA ','PEREZ','','','','','QUITO','PICHINCHA','','ECUADOR','',440),('FANNY','MOYA','','','','','QUITO','PICHINCHA','','ECUADOR','',441),('EDUARDO ','AYALA','','','','','QUITO','PICHINCHA','','ECUADOR','',442),('DANIELA ','MONAN','','','','','QUITO','PICHINCHA','','ECUADOR','',443),('DAYSI ','TUQUERZ','','','','','QUITO','PICHINCHA','','ECUADOR','',444),('FRANCISCO ','TIIENRO','','','','','','','','','',445),('JESSICA','DE LA CRUZ','','','','','','','','','',446),('JAVIER ','QUISHPE','','','','','QUITO','PICHINCHA','','ECUADOR','',447),('DARIO','CUEVA','','','','','QUITO','PICHINCHA','','ECUADOR','',448),('ANDRES','MEZA','','','','','QUITO','PICHINCHA','','ECUADOR','',449),('FANNY','DELGADO','','','','','','','','','',450),('CARLOS ','CALBOPI?A','','','','','','','','','',451),('NICOLAS ','HERAS ','','','','','','','','','',452),('FERNENDO ','VASAVEZ','','','','','','','','','',453),('GUSTAVO ','TAMAYO ','','','','','','','','','',454),('KLEVER ','PAREDES ','','','','','','','','','',455),('DIVIANA ','RUEDA','','','','','','','','','',456),('MAURICIO ','CALAHORANO ','','','','','','','','','',457),('GUSTAVO','RUGUEL','','','','','','','','','',458),('PABLO','LAINES','','','','','','','','','',459),('ROMEL','RAMOS','','','','','','','','','',460),('SILVIA','DE ROJA','','','','','','','','','',461),('WASHINGTON','MORALES','','','','','','','','','',462),('HERLITIDA','IDALGO','','','','','','','','','',463),('EVA','AMAGUAYA','','','','','QUITO','PICHINCHA','','ECUADOR','',464),('AVA','AMAGUAYA','','','','','QUITO','PICHINCHA','','ECUADOR','',465),('AVA','AMAGUAYA','','','','','','','','','',466),('MANUEL','MANZABA','','','','','','','','','',467),('LUIS ','TIBAN','','','','','','','','','',468),('ALEXANDRA ','ACUNA','','','','','','','','','',469),('nelly','pacuchaqui','','','','','QUITO','PICHINCHA','','ECUADOR','',470),('FRANCISCO ','URQUISA','0999105840','','OLMADO Y JUAN MONTALVO','','MACHALA','EL ORO','0791756936001','ECUADOR','DISTRIBUYE CALZADO DEPORTIVO',471),('FERNANDO ','PADILLA','','','','','QUITO','PICHINCHA','','ECUADOR','',472),('SUSANA ','JARAMILLO','','','','','QUITO','PICHINCHA','','ECUADOR','',473),('MARLENNE','CAIZA','','','','','QUITO','PICHINCHA','','ECUADOR','',474),('CARLOS','ULLAN','','','','','QUITO','PICHINCHA','','ECUADOR','',475),('JENNY','REAL','','','','','QUITO','PICHINCHA','','ECUADOR','',476),('JOEL ','ALARCON','','','','','QUITO','PICHINCHA','','ECUADOR','',477),('ANGEL ','MALACATUS','','','','','QUITO','PICHINCHA','','ECUADOR','',478),('MARCO','GALARREGA','','','','','QUITO','PICHINCHA','','ECUADOR','',479),('ANGEL','LOPEZ','032844027','','HUACHI','JUAN CAJAS','AMBATO','TUNGURAHUA','','ECUADOR','SE CANCELA LA MERCADERIA CON CHEUES',480),('ZAIDA ','MALDONADO','','','','','QUITO','PICHINCHA','','ECUADOR','',481),('CONSINE','GANAN','','','','','QUITO','PICHINCHA','','ECUADOR','',482),('MARTHA ','CRIOLLO','','','','','QUITO','PICHINCHA','','ECUADOR','',483),('HILDA','SANTANA','','','','','QUITO','PICHINCHA','','ECUADOR','',484),('FERNANDO ','ENCALADA','','','','','QUITO','PICHINCHA','','ECUADOR','',485),('ANGEL','PINOS','','','','','QUITO','PICHINCHA','','ECUADOR','',486),('GREGORIA ','MOREIRA','','','','','QUITO','PICHINCHA','','ECUADOR','',487),('MARLENNE ','ALVAREZ','','','','','QUITO','PICHINCHA','','ECUADOR','',488),('ALICIA','SANCHEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',489),('JORGE ','HUACA','','','','','QUITO','PICHINCHA','','ECUADOR','COMPRA AL POR MAYOR POR PARES',490),('JAIME','NARVAEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',491),('JOSE','SANTIANA','','','','CABLEC','QUITO','PICHINCHA','','ECUADOR','VENTA AL POR MAYOR',492),('DAYSI ','CABRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',493),('DAYSI ','CABRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',494),('RAFAEL','COLLAGUASO','','','','','','','','','',495),('JANET','ALARCON','','','','','','','','','',496),('NATHALIA','GUEVARA','','','','','QUITO','PICHINCHA','','ECUADOR','',497),('LUIS','CASTRO','','','','','QUITO','PICHINCHA','','ECUADOR','',498),('CRISTINA ','GARZON','','','','','QUITO','PICHINCHA','','ECUADOR','',499),('PAULINA ','MORALES','0999204917','','','','QUITO','PICHINCHA','','ECUADOR','',500),('LUIS','VARELA','','','','','QUITO','PICHINCHA','','ECUADOR','',501),('ELSA ','DE CUEVA ','','','','','QUITO','PICHINCHA','','ECUADOR','',502),('ELSA ','DE CUEVA ','','','','','QUITO','PICHINCHA','','ECUADOR','',503),('MARIA ','MORA','','','','','QUITO','PICHINCHA','','ECUADOR','',504),('FERNANDA ','ARMIJOS ','','','','','QUITO','PICHINCHA','','ECUADOR','',505),('LOLA','SOMBA?A','','','','','QUITO','PICHINCHA','','ECUADOR','',506),('STALIN ','ZAMBRANO ','0992254785','','','','QUITO','PICHINCHA','','ECUADOR','',507),('STALIN ','ZAMBRANO ','0992254785','','','','QUITO','PICHINCHA','','ECUADOR','',508),('STALIN ','ZAMBRANO ','0992254785','','','','QUITO','PICHINCHA','','ECUADOR','',509),('BYRON ','ZAMBRANO ','','','','','QUITO','PICHINCHA','','ECUADOR','',510),('BYRON ','ZAMBRANO ','','','','','QUITO','PICHINCHA','','ECUADOR','',511),('PAUL ','AREVALO','','','','','QUITO','PICHINCHA','','ECUADOR','',512),('RODRIGO ','ANDRADE','','','','','QUITO','PICHINCHA','','ECUADOR','',513),('EDGAR ','ENRRIQUES ','','','','','QUITO','PICHINCHA','','ECUADOR','',514),('LAURA','GORDON','','','','','QUITO','PICHINCHA','','ECUADOR','',515),('GUILLERMO ','REAZCO','','','','','QUITO','PICHINCHA','','ECUADOR','',516),('MARIA','CUESTA','','','','','QUITO','PICHINCHA','','ECUADOR','',517),('LUIS ','MINDA','','','','','QUITO','PICHINCHA','','ECUADOR','',518),('CECILIA ','ORMA','','','','','QUITO','PICHINCHA','','ECUADOR','',519),('SANTIAGO ','PUGA','','','','','QUITO','PICHINCHA','','ECUADOR','',520),('JUAN CARLOS ','INAPANTA','','','','','QUITO','PICHINCHA','','ECUADOR','',521),('JOSE','MOSACHE','','','','','QUITO','PICHINCHA','','E','',522),('LILIANA ','ESPINOZA','','','','','QUITO','PICHINCHA','','ECUADOR','',523),('CAMILO','BALLEJO','','','','','QUITO','PICHINCHA','','ECUADOR','',524),('JORGE ','FLORES ','','','','','QUITO','PICHINCHA','','ECUADOR','',525),('GUILLERMO ','RAMO','','','','','QUITO','PICHINCHA','','ECUADOR','',526),('Vendedor 1','Vendedor AA','','x@gmail.com','','','Puyo','Pastaza','1212121212','ECUADOR','VENDEDOR DonGu',527),('CARMEN ','BONE','','','','','QUITO','PICHINCHA','','ECUADOR','',528),('MIRIAN','UYAGUALI ','','','','','QUITO','PICHINCHA','','ECUADOR','',529),('CINTIA','RONQUILLO','04234018','','ALBORADA QUINTA ETAPA','','GUAYAQUIL','GUYAS','0904160033','ECUADOR','SE COMPRA CON CHEQUES',530),('JORGE','CEPEDA','','','','','QUITO','PICHINCHA','','ECUADOR','',531),('PATRICIO','TORRES','','','','','QUITO','PICHINCHA','','ECUADOR','',532),('MARIA','JOSE','','','','','QUITO','PICHINCHA','','ECUADOR','',533),('CARLOS','BORJA','','','','','QUITO','PICHINCHA','','ECUADOR','',534),('JOSE ','CORNEJO','','','','','QUITO','PICHINCHA','','ECUADOR','',535),('ROSA','ACEVEDO','','','','','QUITO','PICHINCHA','','ECUADOR','',536),('ELENA ','VACA','','','','','QUITO','PICHINCHA','','ECUADOR','',537),('CARMEN ','COLLAGUAZO','','','','','QUITO','PICHINCHA','','ECUADOR','',538),('RAUL GUSTAVO','MARTINEZ GUERRERO','032872417','','GONZALEZ SUARES','Y 13 DE MAYO','CEVALLOS','TUNGURAHUA','1801752005001','ECUADOR','SE COMPRA CON CHEQUES',539),('RAUL GUSTAVO','MARTINEZ GUERRERO','032872417','','GONZALEZ SUARES','Y 13 DE MAYO','CEVALLOS','TUNGURAHUA','1801752005001','ECUADOR','SE COMPRA CON CHEQUES',540),('CARLOS','PUENTE','','','','','QUITO','PICHINCHA','','ECUADOR','',541),('SILVIA','TIBANLOMBO','','','','','QUITO','PICHINCHA','','ECUADOR','',542),('MONICA','VITERI','','','','','QUITO','PICHINCHA','','ECUADOR','',543),('FLOR','CAICEDO','','','','','','','','','',544),('MARISOL','PUERTA','','','','','','','','','',545),('HUGO ','ORTIZ','','','','','QUITO','PICHINCHA','','ECUADOR','',546),('CRISTIAN','BASANTES','','','','','','','','','',547),('JAVIER','YANES','','','','','','','','','',548),('LORENA','VEGA','','','','','QUITO','PICHINCHA','','ECUADOR','',549),('EDISON ','JEMENEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',550),('IVAN ','GORDILLO','','','','','QUITO','PICHINCHA','','ECUADOR','',551),('LILIANA','MAMARANDI','','','','','QUITO','PICHINCHA','','ECUADOR','',552),('ROSA','MONTENEGRO','','','','','QUITO','PICHINCHA','','ECUADOR','',553),('BEATRIZ ','ARMIJOS','','','','','QUITO','PICHINCHA','','ECUADOR','',554),('RODRIGO ','LAVERDE','','','','','QUITO','PICHINCHA','','ECUADOR','',555),('LUIS','CARDONA','','','','','QUITO','PICHINCHA','','ECUADOR','',556),('YAQUELINE','MOREIRA','','','','','QUITO','PICHINCHA','','ECUADOR','',557),('GLORIA','TRONCOS','','','','','QUITO','PICHINCHA','','ECUADOR','',558),('JENNY','PAREDES','','','','','QUITO','PICHINCHA','','ECUADOR','',559),('VICTORIA ','BONILLA','','','','','QUITO','PICHINCHA','','ECUADOR','',560),('EULALIA','ROMO','','','','','QUITO','PICHINCHA','','ECUADOR','',561),('LUCIA','SAMANIEGO','','','','','QUITO','PICHINCHA','','ECUADOR','',562),('EDUARDO ','MONTALVO','','','','','QUITO','PICHINCHA','','ECUADOR','',563),('GERARDO ','HEREDIA','','','','','QUITO','PICHINCHA','','ECUADOR','',564),('MARLENE ','RUIZ','','','','','QUITO','PICHINCHA','','ECUADOR','',565),('GLADYS ','GONZALES','','','','','QUITO','PICHINCHA','','ECUADOR','',566),('ESTUARDO ','CHANGO','','','','','QUITO','PICHINCHA','','ECUADOR','',567),('SOLEDAD ','ZU?IGA','','','','','QUITO','PICHINCHA','','ECUADOR','',568),('MARCELA ','MANCEDO','','','','','QUITO','PICHINCHA','','ECUADOR','',569),('ANA ','MARTINEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',570),('LAURA','AREVALO','','','','','QUITO','PICHINCHA','','ECUADOR','',571),('SANDRA ','TERAN','','','','','QUITO','PICHINCHA','','ECUADOR','',572),('MARIA','NASIMBA','','','','','QUITO','PICHINCHA','','ECUADOR','',573),('PATRICIO ','VILLAMARIN','','','','','QUITO','PICHINCHA','','ECUADOR','',574),('MARIBEL','SOSA','','','','','QUITO','PICHINCHA','','ECUADOR','',575),('JOSE ','HUQUILLAS','','','','','QUITO','PICHINCHA','','ECUADOR','',576),('HECTOR ','DELGADO','','','','','QUITO','PICHINCHA','','ECUADOR','',577),('MIRIAM ','SANCHEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',578),('VERONICA ','ROMO','','','','','QUITO','PICHINCHA','','ECUADOR','',579),('CARMEN','FERNANDEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',580),('FRANKLIN','GARCIA','','','','','QUITO','PICHINCHA','','ECUADOR','',581),('RAMIRO','CASTRO','','','','','QUITO','PICHINCHA','','ECUADOR','',582),('TAMARA','AYALA','','','','','QUITO','PICHINCHA','','ECUADOR','',583),('SAINT','FRANCION','','','','','QUITO','PICHINCHA','','ECUADOR','',584),('JORGE','MORALES','','','','Q','QUITO','PICHINCHA','','ECUADOR','',585),('RENATA','CARDENAS','','','','','QUITO','PICHINCHA','','ECUADOR','',586),('LIVIA','CARDENAS','','','','','QUITO','PICHINCHA','','ECUADOR','',587),('PAOLA ','ZAMBRANO','','','','','QUITO','PICHINCHA','','ECUADOR','',588),('VICTORIA ','MIELES','','','','','QUITO','PICHINCHA','','ECUADOR','',589),('WILLIAMS ','MEDINA','','','','','QUITO','PICHINCHA','','ECUADOR','',590),('OLGA','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',591),('ESTELA','MALES','','','','','QUITO','PICHINCHA','','ECUADOR','',592),('RUTH','GAVILANES','','','','','QUITO','PICHINCHA','','ECUADOR','',593),('JENNY','SALAZAR','','','','','QUITO','PICHINCHA','','ECUADOR','',594),('NARCISA','VALENCIA','','','','','QUITO','PICHINCHA','','ECUADOR','',595),('MARCELO ','TOBAR','','','','','QUITO','PICHINCHA','','ECUADOR','',596),('JUAN ','PADILLA','','','','','QUITO','PICHINCHA','','ECUADOR','',597),('JOSE ','JAUME','','','','','QUITO','PICHINCHA','','ECUADOR','',598),('WILSON','VILLOTA','','','','','QUITO','PICHINCHA','','ECUADOR','',599),('MARITZA ','FREIRE','','','','','QUITO','PICHINCHA','','ECUADOR','',600),('ARACELY ','ROMERO','','','','','QUITO','PICHINCHA','','ECUADOR','',601),('MONICA','RAMIREZ','','','','','QUITO','PICHINCHA','','ECUADOR','',602),('HENRRY','PE?AFIEL','','','','','QUITO','PICHINCHA','','ECUADOR','',603),('MAYRA ','MONCAYO','','','','','QUITO','PICHINCHA','','ECUADOR','',604),('FRANCISCO','HERRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',605),('WILDER','GUARAMA','','','','','QUITO','PICHINCHA','','ECUADOR','',606),('MANUEL ','SANCHEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',607),('CARINA','PAREDES','','','','','QUITO','PICHINCHA','','ECUADOR','',608),('DAVID','HERDOIZA','','','','','QUITO','PICHINCHA','','ECUADOR','',609),('RAMIRO ','FREIRE ','','','','','QUITO','PICHINCHA','','ECUADOR','',610),('JOSE ','CHALA','','','','','QUITO','PICHINCHA','','ECUADOR','',611),('JAIME','BAYAS','','','','','QUITO','PICHINCHA','','ECUADOR','',612),('VILMA','RAMON','','','','','QUITO','PICHINCHA','','ECUADOR','',613),('DIEGO ','MONTENEGRO','','','','','QUITO','PICHINCHA','','ECUADOR','',614),('EDGAR ','CARDENAS','','','','','QUITO','PICHINCHA','','ECUADOR','',615),('FANNY','LARREA','','','','','QUITO','PICHINCHA','','ECUADOR','',616),('MARCO','NOCCE','','','','','QUITO','PICHINCHA','','ECUADOR','',617),('PABLO','ROSALES','','','','','QUITO','PICHINCHA','','ECUADOR','',618),('ROSA','CALVO','','','','','QUITO','PICHINCHA','','ECUADOR','',619),('GUSTAVO','CEVALLOS','','','','','QUITO','PICHINCHA','','ECUADOR','',620),('DAYSI','LLUSCA','','','','','QUITO','PICHINCHA','','ECUADOR','',621),('JAVIER','VITERI','','','','','QUITO','PICHINCHA','','ECUADOR','',622),('PAULA','MADRU?ERO','','','','','QUITO','PICHINCHA','','ECUADOR','',623),('ANDREA ','MORA ','','','','','QUITO','PICHINCHA','','ECUADOR','',624),('JAIME','CARDENAS','','','','','QUITO','PICHINCHA','','ECUADOR','',625),('CESAREO','GAVILANEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',626),('DANIELA ','TOAPANTA','','','','','QUITO','PICHINCHA','','ECUADOR','',627),('PATRICIA','MANOSALVAS','','','','','QUITO','PICHINCHA','','ECUADOR','',628),('FANNY','BAUSTISTO','','','','','QUITO','PICHINCHA','','ECUADOR','',629),('ROSA','CAJAMARCA','','','','','QUITO','PICHINCHA','','ECUADOR','',630),('TERESA','HERRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',631),('VICENTE ','REO','','','','','QUITO','PICHINCHA','','ECUADOR','',632),('ROLANDO','GUAMAN','','','','','QUITO','PICHINCHA','','ECUADOR','',633),('MARCO','QUEVEDO','','','','','QUITO','PICHINCHA','','ECUADOR','',634),('DEYSI','GALLEGOS','','','','','QUITO','PICHINCHA','','ECUADOR','',635),('MARCELO','GRANIZO','','','','','QUITO','PICHINCHA','','ECUADOR','',636),('GEOVANNA','GUERRON','','','','','QUITO','PICHINCHA','','ECUADOR','',637),('ROSA','LEICA','','','','','QUITO','PICHINCHA','','ECUADOR','',638),('VIVIANA','ZURITA','','','','','QUITO','PICHINCHA','','ECUADOR','',639),('ELIZABETH','ZEAS','','','','','QUITO','PICHINCHA','','ECUADOR','',640),('PABLO','CHANGO','','','','','QUITO','PICHINCHA','','ECUADOR','',641),('MARIA','VEGA','','','','','QUITO','PICHINCHA','','ECUADOR','',642),('PIGUAVE','RODRIGUEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',643),('RODRIGO','TOPON','','','','','QUITO','PICHINCHA','','ECUADOR','',644),('PEDRO','YAUTIBUG','','','','','QUITO','PICHINCHA','','ECUADOR','',645),('FELIPE','MEJIA','','','','','QUITO','PICHINCHA','','ECUADOR','',646),('CONSUELO','GUANOLUISA','','','','','QUITO','PICHINCHA','','ECUADOR','',647),('SILVIA','BECERRA','','','','','QUITO','PICHINCHA','','ECUADOR','',648),('ALICIA','CUSHICAGUA','','','','','QUITO','PICHINCHA','','ECUADOR','',649),('JUAN ','GUAMANALCA','','','','','QUITO','PICHINCHA','','ECUADOR','',650),('FABIOLA','ARBOLEDA','','','','','QUITO','PICHINCHA','','ECUADOR','',651),('BERTHA','CARRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',652),('FERNANDO ','CARVAJAL','','','','','QUITO','PICHINCHA','','ECUADOR','',653),('MARISOL','RODRIGUEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',654),('JEFERSON','RAMOS','','','','','QUITO','PICHINCHA','','ECUADOR','',655),('EDISON','MASANCHE','','','','','QUITO','PICHINCHA','','ECUADOR','',656),('ESTEFANIA','ANDRADE','','','','','QUITO','PICHINCHA','','ECUADOR','',657),('CARLOS','CANO','','','','','QUITO','PICHINCHA','','ECUADOR','',658),('ALBERTO','CARRILLO','','','','','QUITO','PICHINCHA','','ECUADOR','',659),('NAVILA','PICO','','','','','QUITO','PICHINCHA','','ECUADOR','',660),('ANDREA ','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',661),('FABIOLA','VILLAREAL','','','','','QUITO','PICHINCHA','','ECUADOR','',662),('JOSE','BENAVIDES','','','','','QUITO','PICHINCHA','','ECUADOR','',663),('MERY','CALE?O','','','','','QUITO','PICHINCHA','','ECUADOR','',664),('JOSE ','TRONCOS','','','','','QUITO','PICHINCHA','','ECUADOR','',665),('MARCO ','CHANGO','','','','','QUITO','PICHINCHA','','ECUADOR','',666),('ROSA','DE LA CADENA','','','','','QUITO','PICHINCHA','','ECUADOR','',667),('MONICA','GUAMAN','','','','','QUITO','PICHINCHA','','ECUADOR','',668),('ARMIDA','AVEROS','','','','','QUITO','PICHINCHA','','ECUADOR','',669),('MAGOLA ','NAVARRETE','','','','','QUITO','PICHINCHA','','ECUADOR','',670),('JAIRO','CARCELEN','','','','','QUITO','PICHINCHA','','ECUADOR','',671),('RAFAEL','RAMIRO','','','','','QUITO','PICHINCHA','','ECUADOR','',672),('RAFAEL','RAMIRO','','','','','QUITO','PICHINCHA','','ECUADOR','',673),('FANNY','ANGULO','','','','','QUITO','PICHINCHA','','ECUADOR','',674),('EVELYN','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',675),('CORINA','PAQUI','','','','','QUITO','PICHINCHA','','ECUADOR','',676),('SILVIA','CRIOLLO','','','','','QUITO','PICHINCHA','','ECUADOR','',677),('RENE','JIMENEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',678),('MARTHA','PAEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',679),('TANIA','SALAS','','','','','QUITO','PICHINCHA','','ECUADOR','',680),('MERCEDES','LOPEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',681),('VIDAL','SALAVARRIA','','','','','QUITO','PICHINCHA','','ECUADOR','',682),('VICTORIA','CUASQUER','','','','','QUITO','PICHINCHA','','ECUADOR','',683),('VERONICA','TUCANES','','','','','QUITO','PICHINCHA','','ECUADOR','',684),('ALFREDO','MORALES','','','','','QUITO','PICHINCHA','','ECUADOR','',685),('WILLIAMS','CEDE?O','','','','','QUITO','PICHINCHA','','ECUADOR','',686),('FAUSTO','LLORI','','','','','QUITO','PICHINCHA','','ECUADOR','',687),('GEOVANY','OSORIO','','','','','QUITO','PICHINCHA','','ECUADOR','',688),('CARMITA ','BENAVIDES','','','','','QUITO','PICHINCHA','','ECUADOR','',689),('ROBERTO','MORENO','','','','','QUITO','PICHINCHA','','ECUADOR','',690),('LORENA','CEVALLOS','','','','','QUITO','PICHINCHA','','ECUADOR','',691),('KATHERINE','VANEGAS','','','','','QUITO','PICHINCHA','','ECUADOR','',692),('PLUTARCO','AGUILAR','','','','','QUITO','PICHINCHA','','ECUADOR','',693),('PATRICIA ','VILLALVA','','','','','','','','','',694),('STEFANY','CAIZA','09995356910','','','','','','','','',695),('MARIELA','CHILA','','','','','QUITO','PICHINCHA','','ECUADOR','',696),('PATRICIA','ZAPATA','','','','','QUITO','PICHINCHA','','ECUADOR','',697),('PATRICIA','VALAREZO','','','','','QUITO','PICHINCHA','','ECUADOR','',698),('ELVIA','VIVANCO','','','','','QUITO','PICHINCHA','','ECUADOR','',699),('ALEXANDRA ','VILLEGAS','','','','','QUITO','PICHINCHA','','ECUADOR','',700),('INES','PINTO','','','','','QUITO','PICHINCHA','','ECUADOR','',701),('GRACE','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',702),('LUIS ','MOSCOSO','','','','','QUITO','PICHINCHA','','ECUADOR','',703),('ESPERANZA','CUSME','','','','','QUITO','PICHINCHA','','ECUADOR','',704),('KLEVER','CHAUCA','','','','','QUITO','PICHINCHA','','ECUADOR','',705),('MONICA','SANDOVAL','','','','','QUITO','PICHINCHA','','ECUADOR','',706),('FABRICIO','MONTENEGRO','','','','','QUITO','PICHINCHA','','ECUADOR','',707),('PABLO','PILAQUINGA','','','','','QUITO','PICHINCHA','','ECUADOR','',708),('ANGELA','ARTEAGA','','','','','QUITO','PICHINCHA','','ECUADOR','',709),('PATRICIO','HERRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',710),('JESSICA ','VELEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',711),('CRISTHIAN','ACONDA','','','','','QUITO','PICHINCHA','','ECUADOR','',712),('CRISTHIAN','GUACALLANTE','','','','','QUITO','PICHINCHA','','ECUADOR','',713),('LORENA','JARAMILLO','','','','','QUITO','PICHINCHA','','ECUADOR','',714),('ADRIANA ','NU?EZ','','','','','','','','','',715),('FERNANDO','CHALPARIZAN','','','','','QUITO','PICHINCHA','','ECUADOR','',716),('DAYANNA ','BENITEZ','','','','','','','','','',717),('DAYANNA','BENITEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',718),('MARTHA','DIAZ','','','','','QUITO','PICHINCHA','','ECUADOR','',719),('GABRIELA','PONCE','','','','','QUITO','PICHINCHA','','ECUADOR','',720),('JESSICA','MOSQUERA','','','','','','','','','',721),('JULIA','JIMENEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',722),('FERNANDA','HIPO','','','','','QUITO','PICHINCHA','','ECUADOR','',723),('JULIO','RUALES','','','','','QUITO','PICHINCHA','','ECUADOR','',724),('MAYRA ','CADENA','','','','','QUITO','PICHINCHA','','ECUADOR','',725),('EDWIN ','CULLUPAXI','','','','','QUITO','PICHINCHA','','ECUADOR','',726),('MONICA','HARO','','','','','AMBATO','TUNGURAHUA','','ECUADOR','',727),('ADRIANA','VARGAS','','','','','QUITO','PICHINCHA','','ECUADOR','',728),('DIANA','UBIDIA','','','','','','','','','',729),('MONICA','SALAZAR','','','','','QUITO','PICHINCHA','','ECUADOR','',730),('SEGUNDO','GRANDA','','','','','QUITO','PICHINCHA','','ECUADOR','',731),('DANIELA','RIVAS','','','','','QUITO','PICHINCHA','','ECUADOR','',732),('SONIA','VIDAL','','','','','QUITO','PICHINCHA','','ECUADOR','',733),('CRISTIAN','PUEBLA','','','','','QUITO','PICHINCHA','','ECUADOR','',734),('PRECILA','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',735),('FRANCISCO ','TORRES','','','','','QUITO','PICHINCHA','','ECUADOR','',736),('GUIDO','RUEDAS','','','','','QUITO','PICHINCHA','','ECUADOR','',737),('CRISTOBAL','FRANCO','','','','','QUITO','PICHINCHA','','ECUADOR','',738),('DIANA','MORALES','','','','','QUITO','PICHINCHA','','ECUADOR','',739),('SOLEDAD','MORALES','','','','','QUITO','PICHINCHA','','ECUADOR','',740),('OSWALDO','QUIMBIULCO','','','','','QUITO','PICHINCHA','','ECUADOR','',741),('LUIS','GUANOLIZA','','','','','QUITO','PICHINCHA','','ECUADOR','',742),('MAYRA ','CADENA','','','','','QUITO','PICHINCHA','','ECUADOR','',743),('CARLOS','ESPINOZA','','','','','QUITO','PICHINCHA','','ECUADOR','',744),('MARIA SOL','PUERTA','','','','','QUITO','PICHINCHA','','ECUADOR','',745),('MAYRA','BARROS','','','','','QUITO','PICHINCHA','','ECUADOR','',746),('VICTOR','SANCHEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',747),('LUIS','CABASCANGO','','','','','QUITO','PICHINCHA','','ECUADOR','',748),('JONATHAN','DOMINGUEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',749),('MARIA','GUALAPURO','','','','','QUITO','PICHINCHA','','ECUADOR','',750),('ROSA','SANCHEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',751),('SRA','NANCY','','','','','','','','','',752),('VALERIA','MATEUS','','','','','QUITO','PICHINCHA','','ECUADOR','',753),('FANNY','PAUTA','','','','','QUITO','PICHINCHA','','ECUADOR','',754),('CARLOS','MONTEVERDE','','','','','QUITO','PICHINCHA','','ECUADOR','',755),('GLORIA','YUGCHA','','','','','AMBATO','TUNGURAHUA','','ECUADOR','',756),('FERNANDO ','QUEZADA','2421035','','CALDERON','','QUITO','PICHINCHA','1714507751001','ECUADOR','',757),('MARCIA ','CHOEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',758),('CAROLINA ','QUE?OZAN','','','','','QUITO','PICHINCHA','','ECUADOR','',759),('ROSARIO','JIMENEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',760),('TANIA','CHICAIZA','','','','','QUITO','PICHINCHA','','ECUADOR','',761),('LUIS','HARO','','','','','QUITO','PICHINCHA','','ECUADOR','',762),('JAIME','CHAVEZ','','','','','','','','','',763),('stela ','rivadeneira','','','','','QUITO','PICHINCHA','','','',764),('MARCELA','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',765),('PATRICIA','TIGSE','','','','','QUITO','PICHINCHA','','ECUADOR','',766),('RAQUEL','PALACIOS','','','','','QUITO','PICHINCHA','','ECUADOR','',767),('JOSE','TRONCOS','','','','','QUITO','PICHINCHA','','ECUADOR','',768),('EDISON','PANCHIS','','','','','QUITO','PICHINCHA','','ECUADOR','',769),('MANUEL','CARLOSAMA','','','','','QUITO','PICHINCHA','','ECUADOR','',770),('ROCIO','SUAREZ','','','','','QUITO','PICHINCHA','','ECUADOR','',771),('PABLO','SIMBA?EZ','','','','','QUITO','PICHINCHA','','ECUADOR','',772),('LUIS','GUANO','','','','','QUITO','PICHINCHA','','ECUADOR','',773),('RENATA','ORTIZ','','','','','QUITO','PICHINCHA','','ECUADOR','',774),('JOSE','MONTERO','','','','','QUITO','PICHINCHA','','ECUADOR','',775),('OLGA','QUEMAG','','','','','QUITO','PICHINCHA','','ECUADOR','',776),('IVAN','TOLEDO','','','','','QUITO','PICHINCHA','','ECUADOR','',777),('MAURICIO ','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',778),('SHIRLEY','NIETO','','','','','QUITO','PICHINCHA','','ECUADOR','',779),('BYRAN','OGONADA','','','','','QUITO','PICHINCHA','','ECUADOR','',780),('MELANIEE','CA?AR','','','','','QUITO','PICHINCHA','','ECUADOR','',781),('WILSON','AMAGUA?A','','','','','QUITO','PICHINCHA','','ECUADOR','',782),('JUAN','FERNANDO','','','','','QUITO','PICHINCHA','','ECUADOR','',783),('MANUEL','CHICAIZA','','','','','QUITO','PICHINCHA','','ECUADOR','',784),('FANNY','MISE','','','','','QUITO','PICHINCHA','','ECUADOR','',785),('ROSA','CORONEL','','','','','QUITO','PICHINCHA','','ECUADOR','',786),('SUSANA ','RODRIGUEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',787),('BEATRIZ ','SALA','','','','','QUITO','PICHINCHA','','ECUADOR','',788),('LUIS','COLLAGUAZO','','','','','QUITO','PICHINCHA','','ECUADOR','',789),('FERNANDO','BRAVO','','','','','QUITO','PICHINCHA','','ECUADOR','',790),('LUCIA','GARCIA','','','','','QUITO','PICHINCHA','','ECUADOR','',791),('VICENTE ','JUMBO','','','','','QUITO','PICHINCHA','','ECUADOR','',792),('DIEGO','MONTALVO','','','','','QUITO','PICHINCHA','','ECUADOR','',793),('MARIA','CEBALLOS','','','','','QUITO','PICHINCHA','','ECUADOR','',794),('FRANCISCO','GUACOLLAN','','','','','QUITO','PICHINCHA','','ECUADOR','',795),('MARIA','PANTOJA','','','','','QUITO','PICHINCHA','','ECUADOR','',796),('MONICA','QUISPE','','','','','QUITO','PICHINCHA','','ECUADOR','',797),('JENNY','MERA','','','','','QUITO','PICHINCHA','','ECUADOR','',798),('ANDRES','FAZ','','','','','QUITO','PICHINCHA','','ECUADOR','',799),('SANTIAGO','ROMAN','','','','','QUITO','PICHINCHA','','ECUADOR','',800),('FAUSTO','BALDEON','','','','','QUITO','PICHINCHA','1708003437001','ECUADOR','',801),('TANIA','MEJIA','','','','','QUITO','PICHINCHA','','ECUADOR','',802),('MIREYA','PUSDA','','','','','QUITO','PICHINCHA','','ECUADOR','',803),('WILSON','VALLADARES','','','','','QUITO','PICHINCHA','','ECUADOR','',804),('DESCUENTO','PERDIDO','','','','','','','','','',805),('ADRIANA','GUALSAQUI','','','','','QUITO','PICHINCHA','','ECUADOR','',806),('MARIELA ','LUCERO','','','','','QUITO','PICHINCHA','','ECUADOR','',807),('JOSE','COSTA','','','','','QUITO','PICHINCHA','','ECUADOR','',808),('NATALIA','GONZALES','','','','','QUITO','PICHINCHA','','ECUADOR','',809),('PATRICIO','MOLINA','','','','','QUITO','PICHINCHA','','ECUADOR','',810),('AMPARO','ROSADO','','','','','QUITO','PICHINCHA','','ECUADOR','',811),('MAYRA','REISANCHO','','','','','QUITO','PICHINCHA','','ECUADOR','',812),('VERONICA','JURADO','','','','','QUITO','PICHINCHA','','ECUADOR','',813),('ALEXANDRA','INLAGO','','','','','QUITO','PICHINCHA','','ECUADOR','',814),('MARISOL','GAONA','','','','','QUITO','PICHINCHA','','ECUADOR','',815),('VERONICA','CASTILLO','','','','','QUITO','PICHINCHA','','ECUADOR','',816),('PATRICIA','CASERES','','','','','QUITO','PICHINCHA','','ECUADOR','',817),('LUIS','ZARATE','','','','','QUITO','PICHINCHA','','ECUADOR','',818),('MARIA','TORRES','','','','','QUITO','PICHINCHA','','ECUADOR','',819),('DIEGO','CARVAJAL','','','','','QUITO','PICHINCHA','','ECUADOR','',820),('LINA','ANDRADE','','','','','QUITO','PICHINCHA','','ECUADOR','',821),('CAROLINA','HERRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',822),('MARGARITA','ESPINOZA','','','','','QUITO','P','','ECUADOR','',823),('VICENTE','NIETO','','','','','QUITO','PICHINCHA','','ECUADOR','',824),('MARCELO','MARDO?ES','','','','','QUITO','PICHINCHA','','ECUADOR','',825),('ALFREDO','SANABRIA','','','','','QUITO','PICHINCHA','','ECUADOR','',826),('ANA','ARMIJOS','','','','','QUITO','PICHINCHA','','ECUADOR','',827),('MARTHA','CARANGUI','','','','','QUITO','PICHINCHA','','ECUADOR','',828),('MARLENE','PROA?O','','','','','QUITO','PICHINCHA','','ECUADOR','',829),('DANIEL ','OBANDO','','','','','QUITO','PICHINCHA','','ECUADOR','',830),('JANETH','VERDESOTO','','','','','QUITO','PICHINCHA','','ECUADOR','',831),('YOLANDA','ASTUDILLO','','','','','QUITO','PICHINCHA','','ECUADOR','',832),('EDGAR','GUBIO','','','','','QUITO','PICHINCHA','','ECUADOR','',833),('VICENTE','LEON','','','','','QUITO','PICHINCHA','','ECUADOR','',834),('OLGA','RUEDA','','','','','QUITO','PICHINCHA','','ECUADOR','',835),('PATRICIA','CARRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',836),('TERESA','CHANCUSI','','','','','QUITO','PICHINCHA','','ECUADOR','',837),('MARITZA','SANCHEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',838),('FRANCISCO','MORA','','','','','QUITO','PICHINCHA','','ECUADOR','',839),('HECTOR','GONZALEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',840),('YULI','ALONSO','','','','','QUITO','PICHINCHA','','ECUADOR','',841),('ANA','ESPERANZA','','','','','QUITO','PICHINCHA','','ECUADOR','',842),('MILLER','PINARGOTE','','','','','QUITO','PICHINCHA','','ECUADOR','',843),('JORGE','O?A','','','','','QUITO','PICHINCHA','','ECUADOR','',844),('ALEXANDRA','CAIZA','','','','','QUITO','PICHINCHA','','ECUADOR','',845),('CECILIA ','REYES','','','','','QUITO','PICHINCHA','','ECUADOR','',846),('SILVIA','SALTOS','','','','','QUITO','PICHINCHA','','ECUADOR','',847),('LUXI','MACIAS','','','','','QUITO','PICHINCHA','','ECUADOR','',848),('JORGE','HUACA','','','','','QUITO','PICHINCHA','','ECUADOR','',849),('MARGOTH','CU?AS','','','','','QUITO','PICHINCHA','','ECUADOR','',850),('LINDA','JOSEF','','','','','QUITO','PICHINCHA','','ECUADOR','',851),('JEFERSON','QUIROZ','','','','','QUITO','PICHINCHA','','ECUADOR','',852),('PIEDAD','MONTALVO','','','','','QUITO','PICHINCHA','','ECUADOR','',853),('CARLOS','VALENZUELA','','','','','QUITO','PICHINCHA','','ECUADOR','',854),('SONIA','RIVERA','','','','','QUITO','PICHINCHA','','ECUADOR','',855),('GOLDEN','PUBLICITY','','','','','QUITO','PICHINCHA','','ECUADOR','',856),('ISABEL','GRANJA','','','','','QUITO','PICHINCHA','','ECUADOR','',857),('NORMA','MORALES','','','','','QUITO','PICHINCHA','','ECUADOR','',858),('SRA','FLAKA','','','','','QUITO','PICHINCHA','','ECUADOR','',859),('RAMIRO','SALVADOR','','','','','QUITO','PICHINCHA','','ECUADOR','',860),('WASHINGTON','PUCACHAQUI','','','','','QUITO','PICHINCHA','','ECUADOR','',861),('EDGAR','CEVALLOS','','','','','QUITO','PICHINCHA','','ECUADOR','',862),('IVAN','LOMBEIDA','','','','','QUITO','PICHINCHA','','ECUADOR','',863),('INES','RAMOS','','','','','QUITO','PICHINCHA','','ECUADOR','',864),('EDWAR','ROMERO','','','','','QUITO','PICHINCHA','','ECUADOR','',865),('OSWALDO','INAPANTA','','','','','QUITO','PICHINCHA','','ECUADOR','',866),('MARGARITA','VASQUEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',867),('GONZALO','FIERRO','','','','','QUITO','PICHINCHA','','ECUADOR','',868),('MILTON','MORALES','','','','','QUITO','PICHINCHA','','ECUADOR','',869),('JOSE','PILA','','','','','QUITO','PICHINCHA','','ECUADOR','',870),('CRISTIAN','BUSTAMANTE','','','','','QUITO','PICHINCHA','','ECUADOR','',871),('ANA','ALMEIDA','','','','','QUITO','PICHINCHA','','ECUADOR','',872),('FAUSTO','GUACHAMIN','','','','','QUITO','PICHINCHA','','ECUADOR','',873),('ANA','CAIZA','','','','','QUITO','PICHINCHA','','ECUADOR','',874),('GALO','MOYA','','','','','QUITO','PICHINCHA','','ECUADOR','',875),('CARLOS','CEPEDA','','','','','QUITO','PICHINCHA','','ECUADOR','',876),('MARCO','SANDOVAL','','','','','QUITO','PICHINCHA','','ECUADOR','',877),('LUIS','BENALCAZAR','','','','','QUITO','PICHINCHA','','ECUADOR','',878),('EDWIN','ORTEGA','','','','','QUITO','PICHINCHA','','ECUADOR','',879),('CARLOS','CARRION','','','','','QUITO','PICHINCHA','','ECUADOR','',880),('DEIVIS','ALAVA','','','','','QUITO','PICHINCHA','','ECUADOR','',881),('SILVIA','CUYO','','','','CHILLOGALLO','QUITO','PICHINCHA','','ECUADOR','',882),('CATALINA','ESPINOZA','','','','','QUITO','PICHINCHA','','ECUADOR','',883),('MARGARITA','GUERRERO','','','','','QUITO','PICHINCHA','','ECUADOR','',884),('ALBERTO','CASTA?EDA','','','','','','','','','',885),('CESAR','BURGOS','0983652384','','','','CAYAMBE','PICHINCHA','1002313812','ECUADOR','',886),('JUAN ','CASTA?EDA','','','','','','','','','',887),('FERNANDO','GOMES','0993783326','','','','IBARRA','IMBABURA','','ECUADOR','',888),('TATIANA','AMAGUA','','','','','QUITO','PICHINCHA','','ECUADOR','',889),('DIANA','ROSALES','','','','','QUITO','PICHINCHA','','ECUADOR','',890),('JOSE','ALMEIDA','','','','','QUITO','PICHINCHA','','ECUADOR','',891),('CARMEN','CALUGULLIN','','','','','QUITO','PICHINCHA','','ECUADOR','',892),('MARIA','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',893),('CARLOS','OMAR','','','','','QUITO','PICHINCHA','','ECUADOR','',894),('ELSA','SARMIENTO','','','','','QUITO','PICHINCHA','','ECUADOR','',895),('WALTER','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',896),('TANIA','AMAGUA','','','','','QUITO','PICHINCHA','','ECUADOR','',897),('EDISON','MANOSALVAS','','','','','QUITO','PICHINCHA','','ECUADOR','',898),('JAVIER','FUELPAZ','','','','','QUITO','PICHINCHA','','ECUADOR','',899),('JOSE','RODRIGUEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',900),('MARIA','GOMEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',901),('WILSON','TOAQUIZA','','','','','QUITO','PICHINCHA','','ECUADOR','',902),('GRACIELA','TORO','','','','','QUITO','PICHINCHA','','ECUADOR','',903),('MARCELO','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',904),('ELVIA','ROJAS','','','','','QUITO','PICHINCHA','','ECUADOR','',905),('KARINA','NOTE','','','','','QUITO','PICHINCHA','','ECUADOR','',906),('EDWIN','PERALTA','','','','','QUITO','PICHINCHA','','ECUADOR','',907),('ESTEBAN','YEPEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',908),('SONIA','ALBARRACIN','','','','','QUITO','PICHINCHA','','ECUADOR','',909),('JOSE','USHI?A','','','','','QUITO','PICHINCHA','','ECUADOR','',910),('MIRYAN ','JADA','','','','','QUITO','PICHINCHA','','ECUADOR','',911),('JORGE','PARDO','','','','','QUITO','PICHINCHA','','ECUADOR','',912),('IVAN','GUEVARA','','','','','QUITO','PICHINCHA','','ECUADOR','',913),('ANDRES ','AMAGUA','','','','','QUITO','PICHINCHA','','ECUADOR','',914),('LUCIA','ROSERO','','','','','QUITO','PICHINCHA','','ECUADOR','',915),('RONALD','YEPEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',916),('WILSON','PALACIOS','','','','','QUITO','PICHINCHA','','ECUADOR','',917),('MILTON','HINOJOSA','','','','','QUITO','PICHINCHA','','ECUADOR','',918),('FLOR','CAICEDO','','','','','QUITO','PICHINCHA','','ECUADOR','',919),('EDUARDO','GORDON','','','','','QUITO','PICHINCHA','','ECUADOR','',920),('JAIME ','BENAVIDES','','','','','QUITO','PICHINCHA','','ECUADOR','',921),('NANCY','GORDILLO','','','','Q','QUITO','PICHINCHA','','ECUADOR','',922),('CARLOS','TAMAYO','','','','','QUITO','PICHINCHA','','ECUADOR','',923),('SRA','MARIA','','','','','QUITO','PICHINCHA','','ECUADOR','',924),('DEISE','TURQUEAS','','','','','QUITO','PICHINCHA','','ECUADOR','',925),('MAYRA','ALMEIDA','','','','','QUITO','PICHINCHA','','ECUADOR','',926),('LUIS','PROA?O','','','','','QUITO','PICHINCHA','','ECUADOR','',927),('JESSICA','CRUZ','','','','','QUITO','PICHINCHA','','ECUADOR','',928),('CARMEN','SANDOVAL','','','','','QUITO','PICHINCHA','','ECUADOR','',929),('PAOLA','BUSTOS','','','','','QUITO','PICHINCHA','','ECUADOR','',930),('XIMENA','ANDRADE','','','','','QUITO','PICHINCHA','','ECUADOR','',931),('SRA','PERLA','','','','','QUITO','PICHINCHA','','ECUADOR','',932),('ANGEL','JURADO','','','','','QUITO','PICHINCHA','','ECUADOR','',933),('CECILIA','POZO','','','','','QUITO','PICHINCHA','','ECUADOR','',934),('MAYRA','SHUGELI','','','','','QUITO','PICHINCHA','','ECUADOR','',935),('MARIA','SANCHEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',936),('MARLON','NORO?A','','','','','QUITO','PICHINCHA','','ECUADOR','',937),('CARLOS','ULLOA','','','','','QUITO','PICHINCHA','','ECUADOR','',938),('PEDRO','CANDO','','','','','QUITO','PICHINCHA','','ECUADOR','',939),('LUPE','VISCARRA','','','','','QUITO','PICHINCHA','','ECUADOR','',940),('IRENE','BENAVIDES','','','','','QUITO','PICHINCHA','','ECUADOR','',941),('SANTIAGO ','GUSMAN','','','','','QUITO','PICHINCHA','','ECUADOR','',942),('KATERINE','TOAPANTA','','','','','QUITO','PICHINCHA','','ECUADOR','',943),('MARIA','CHIGUANO','','','','','QUITO','PICHINCHA','','ECUADOR','',944),('ROBERT','SANTOS','','','','','QUITO','PICHINCHA','','ECUADOR','',945),('JULIO','YAPO','','','','','QUITO','PICHINCHA','','ECUADOR','',946),('PATRICIO','TAPIA','','','','','QUITO','PICHINCHA','','ECUADOR','',947),('OSWALDO','LARA','','','','','QUITO','PICHINCHA','','ECUADOR','',948),('PAUL','SOLIS','','','','','QUITO','PICHINCHA','','ECUADOR','',949),('CARLOS','ALMEIDA','','','','','QUITO','PICHINCHA','','ECUADOR','',950),('LUISA','CANELO','','','','','QUITO','PICHINCHA','','ECUADOR','',951),('EDISON','HERNANDEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',952),('MARCO','MOROCHO','','','','','QUITO','PICHINCHA','','ECUADOR','',953),('EMMA','ARGUELLO','','','','','QUITO','PICHINCHA','','ECUADOR','',954),('MARIA','BANDA','','','','','QUITO','PICHINCHA','','ECUADOR','',955),('JAIME','NU?EZ','','','','','QUITO','PICHINCHA','','ECUADOR','',956),('XAVIER','MORENO','','','','','QUITO','PICHINCHA','','ECUADOR','',957),('GUADALUPE','QUISPE','','','','','QUITO','PICHINCHA','','ECUADOR','',958),('DIANA','VALDIVIESO','','','','','QUITO','PICHINCHA','','ECUADOR','',959),('LUIS','VILLAMARIN','','','','','QUITO','PICHINCHA','','ECUADOR','',960),('PIEDAD','ARMAS','','','','','QUITO','PICHINCHA','','ECUADOR','',961),('ANA','CARDENAS','','','','','QUITO','PICHINCHA','','ECUADOR','',962),('MIGUEL','HIPO','','','','','QUITO','PICHINCHA','','ECUADOR','',963),('SILVIA','MALDONADO','','','','','QUITO','PICHINCHA','','ECUADOR','',964),('SOFIA','RUIZ','','','','','QUITO','PICHINCHA','','ECUADOR','',965),('JOSE','CEVALLOS','','','','','QUITO','PICHINCHA','','ECUADOR','',966),('CECILIA','CEVALLOS','','','','','QUITO','PICHINCHA','','ECUADOR','',967),('GALO','CARVAJAL','','','','','QUITO','PICHINCHA','','ECUADOR','',968),('JENNY','GARCIA','','','','','QUITO','PICHINCHA','','ECUADOR','',969),('JESSICA','VILLAMAR','','','','','QUITO','PICHINCHA','','ECUADOR','',970),('MIGUEL','SALAZAR','','','','','CAYAMBE','PICHINCHA','1001496700001','ECUADOR','',971),('ANDRES','GARZON','','','','','QUITO','PICHINCHA','','ECUADOR','',972),('ANDRES','GARZON','','','','','QUITO','PICHINCHA','','ECUADOR','',973),('ANDRES','GARZON','','','','','QUITO','PICHINCHA','','ECUADOR','',974),('OSWALDO','CUASCOTA','','','','','QUITO','PICHINCHA','','ECUADOR','',975),('JOSE ','ERAZO','','','','','QUITO','PICHINCHA','','ECUADOR','',976),('EDISON','MORA ','','','','','QUITO','PICHINCHA','','ECUADOR','',977),('EDISON','MORA ','','','','','QUITO','PICHINCHA','','ECUADOR','',978),('ALBA','BELTRAN','','','','','QUITO','PICHINCHA','','ECUADOR','',979),('MONICA','RUIZ','','','','','QUITO','PICHINCHA','','ECUADOR','',980),('LUIS ','RAMOS','','','','','QUITO','PICHINCHA','','ECUADOR','',981),('LUIS ','RAMOS','','','','','QUITO','PICHINCHA','','ECUADOR','',982),('LUIS','MONTENEGRO','','','','','QUITO','PICHINCHA','','ECUADOR','',983),('SUSANA','SALCEDO','','','','','QUITO','PICHINCHA','','ECUADOR','',984),('LORENA','GARZON','','','','','QUITO','PICHINCHA','','ECUADOR','',985),('LICENIA','MENA','','','','','QUITO','PICHINCHA','','ECUADOR','',986),('MAYRA','SALAZAR','','','','','QUITO','PICHINCHA','','ECUADOR','',987),('BETTY','VILLANUEVA','','','','','QUITO','PICHINCHA','','ECUADOR','',988),('MISHELL','ZURITA','','','','','QUITO','PICHINCHA','','ECUADOR','',989),('TANIA','CEVALLOS','','','','','QUITO','PICHINCHA','','ECUADOR','',990),('ALICIA','SANGUCHO','','','','','QUITO','PICHINCHA','','ECUADOR','',991),('JAIME ','RAZA','','','','','QUITO','PICHINCHA','','ECUADOR','',992),('GABRIEL','BUSTOS','','','','','QUITO','PICHINCHA','','ECUADOR','',993),('DARWIN','AGUILAR','','','','','QUITO','PICHINCHA','','ECUADOR','',994),('MARIA','VALAREZO','','','','','QUITO','PICHINCHA','','ECUADOR','',995),('LUXI','MACIAS','','','','','QUITO','PICHINCHA','','ECUADOR','',996),('MARIA ','GUASGUA','','','','','QUITO','PICHINCHA','','ECUADOR','',997),('ALFONSO','MOREIRA','','','','','QUITO','PICHINCHA','','ECUADOR','',998),('ERIKA','MORENO','','','','','QUITO','PICHINCHA','','ECUADOR','',999),('MELIDA','PALACIOS','','','','','QUITO','PICHINCHA','','ECUADOR','',1000),('FABIAN','VEGA','','','','','QUITO','PICHINCHA','','ECUADOR','',1001),('JUAN','YUGSI','','','','','QUITO','PICHINCHA','','ECUADOR','',1002),('MILTON','LOPEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1003),('CARLOS ','ORTEGA','','','','','QUITO','PICHINCHA','','ECUADOR','',1004),('XAVIER','HERRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',1005),('ANIBAL','MOSQUERA','','','','','QUITO','PICHINCHA','','ECUADOR','',1006),('RONY','VILLALBA','','','','','QUITO','PICHINCHA','','ECUADOR','',1007),('FRANCISCO','DELGADO','','','','','QUITO','PICHINCHA','','ECUADOR','',1008),('MARCELO','ESTEVEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1009),('WASHINGTON','MORALES','','','','','QUITO','PICHINCHA','','ECUADOR','',1010),('SRA','ESTETICA','','','','','QUITO','PICHINCHA','','ECUADOR','',1011),('ALAN','JACOME','','','','','QUITO','PICHINCHA','','ECUADOR','',1012),('MARIA','CHIRIBOGA','','','','','QUITO','PICHINCHA','','ECUADOR','',1013),('DANNY','RUIZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1014),('NELLY','MENDOZA','','','','','QUITO','PICHINCHA','','ECUADOR','',1015),('ALFREDO','RAMOS','','','','','QUITO','PICHINCHA','','','',1016),('SONIA ','TELLO','','','','','QUITO','PICHINCHA','','ECUADOR','',1017),('SONIA ','TELLO','','','','','QUITO','PICHINCHA','','ECUADOR','',1018),('VICTOR','CAIZALITIN','','','','','QUITO','PICHINCHA','','ECUADOR','',1019),('LUIS','ARAUJO','','','','','QUITO','PICHINCHA','','ECUADOR','',1020),('MARLENE','LARA','','','','','QUITO','PICHINCHA','','ECUADOR','',1021),('RAMIRO','QUINTEROS','','','','','QUITO','PICHINCHA','','ECUADOR','',1022),('SRA','UNIFORME','','','','','QUITO','PICHINCHA','','ECUADOR','',1023),('ESTUARDO','CORREAS','','','','','QUITO','PICHINCHA','','ECUADOR','',1024),('CECILIA ','CUYASHAMIN','','','','','QUITO','PICHINCHA','','ECUADOR','',1025),('GRACE','VALAREZO','','','','','QUITO','PICHINCHA','','ECUADOR','',1026),('EDITA','DOMINGUEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1027),('CARLOS','MANTUANO','','','','','QUITO','PICHINCHA','','ECUADOR','',1028),('VERONICA','ANTE','','','','','QUITO','PICHINCHA','','ECUADOR','',1029),('LENIN','ARCOS','','','','','QUITO','PICHINCHA','','ECUADOR','',1030),('FERNANDO','FAJARDO','','','','','QUITO','PICHINCHA','','ECUADOR','',1031),('NELLY','GARCIA','','','','','QUITO','PICHINCHA','','ECUADOR','',1032),('TANIA','GALLEGOS','','','','','QUITO','PICHINCHA','','ECUADOR','',1033),('BYRON ','CORONADO','','','','','QUITO','PICHINCHA','','ECUADOR','',1034),('LUIS','LANDIVAR','','','','','QUITO','PICHINCHA','','ECUADOR','',1035),('FAUSTO ','MU?OZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1036),('YOLANDA','MU?OZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1037),('DINO ','GREY','','','','','QUITO','PICHINCHA','','ECUADOR','',1038),('ADRIANA','GOMEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1039),('JENNY','GARCEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1040),('ROSA','GUILLEN','','','','','QUITO','PICHINCHA','','ECUADOR','',1041),('ARLINE','ALAVA','','','','','QUITO','PICHINCHA','','ECUADOR','',1042),('MILTON','HINOJOSA','','','','','QUITO','PICHINCHA','','ECUADOR','',1043),('CARMEN','HERRERA','','','','','QUITO','PICHINCHA','','ECUADOR','',1044),('GALO','CARVAJAL','','','','','QUITO','PICHINCHA','','ECUADOR','',1045),('CARLOS','CAZA','','','','','QUITO','PICHINCHA','','ECUADOR','',1046),('ADRIANA','MORALES','','','','','','','','','',1047),('WILLIAMS','TINAJERO','','','','','QUITO','PICHINCHA','','ECUADOR','',1048),('EDUARDO','AYALA','','','','','QUITO','PICHINCHA','','ECUADOR','',1049),('VERONICA','FIGUEROA','','','','','QUITO','PICHINCHA','','ECUADOR','',1050),('NANCY','CASTRO','','','','','QUITO','PICHINCHA','','ECUADOR','',1051),('LORENA ','COMPA?ERA','','','','','','','','','',1052),('WILSON','NEJER','','','','','QUITO','PICHINCHA','','ECUADOR','',1053),('PAOLA','PAZMI?O','','','','','QUITO','PICHINCHA','','ECUADOR','',1054),('MARIANELA','ORDO?EZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1055),('JENIFER','MACIAS','','','','','QUITO','PICHINCHA','','ECUADOR','',1056),('LUISA','SEGOVIA','','','','','QUITO','PICHINCHA','','ECUADOR','',1057),('JOSE','PALLO','','','','','QUITO','PICHINCHA','','ECUADOR','',1058),('VINICIO','GUERRERO','','','','','QUITO','PICHINCHA','','ECUADOR','',1059),('CLEMENTE','CAMACHO','','','','','QUITO','PICHINCHA','','ECUADOR','',1060),('WILSON','FLORES','','','','','QUITO','PICHINCHA','','ECUADOR','',1061),('MONICA','ESPA?A','','','','','QUITO','PICHINCHA','','ECUADOR','',1062),('JOSE','PE?A','','','','','QUITO','PICHINCHA','','ECUADOR','',1063),('SANTIAGO','LOPEZ','','','','','QUITO','P','','ECUADOR','',1064),('PIEDAD','AYALA','','','','','QUITO','PICHINCHA','','ECUADOR','',1065),('ANGELA','BERMEO','','','','','QUITO','PICHINCHA','','ECUADOR','',1066),('ALFONSO','GUAMANGATE','','','','CABLEC','QUITO','PICHINCHA','','ECUADOR','',1067),('JUAN','ANGULO','','','','','QUITO','PICHINCHA','','ECUADOR','',1068),('CESAR','AGUILAR','','','','','QUITO','PICHINCHA','','ECUADOR','',1069),('MANUEL','REYES','','','','','QUITO','PICHINCHA','','ECUADOR','',1070),('MARIA','MALDONADO','','','','','QUITO','PICHINCHA','','ECUADOR','',1071),('GUILLERMO ','SAEN','','','','','QUITO','PICHINCHA','','ECUADOR','',1072),('PATRICIO','QUITO','','','','','QUITO','PICHINCHA','','ECUADOR','',1073),('BRAYAN','SANTIAGO','','','','','QUITO','PICHINCHA','','ECUADOR','',1074),('NANCY','MONTA?O','','','','','QUITO','PICHINCHA','','ECUADOR','',1075),('LOREN','RUBIO','','','','','QUITO','PICHINCHA','','ECUADOR','',1076),('LOREN','RUBIO','','','','','QUITO','PICHINCHA','','ECUADOR','',1077),('GABRIELA','LOPEZ','','','','','QUITO','PICHINCHA','','ECUADOR','',1078),('DIEGO','CHAMORRO','','','','','QUITO','PICHINCHA','','ECUADOR','',1079),('MATILDE','MOREIRA','','','','','QUITO','PICHINCHA','','ECUADOR','',1080),('LUIS','BASURTO','','','','','QUITO','PICHINCHA','','ECUADOR','',1081),('LEONEL','MONTERO','','','','','QUITO','PICHINCHA','','ECUADOR','',1082),('FELIPE','ZAMBRANO','','','','','QUITO','PICHINCHA','','ECUADOR','',1083),('LORENA','GALARZA','','','','','QUITO','PICHINCHA','','ECUADOR','',1084),('jaime','santana','','','','','','','160039239','','',1086),('Jaime','Santana','12345','dexterx17@hotmail.com','','','Ambato','','1600392359','','',1087),('James','Bond','007','agente@007.com','','','','','007','','',1088),('mario','torres','','wert@iuy.con','','','','','1212121212','','',1089),('ALEX','MOREMO','022673444','','QUIMIAG OE2-106 Y GONZOL','QUIMIAG OE2-106 Y GONZOL','QUITO','PICHINCHA','1790163776001','ECUADOR','BINKY',1090),('BUESTAN','BUESTAN','','','','','','PICHINCHA','1790554295001','','',1091),('JUAN CARLOS','CABRERA','','','','','','','','','',1092),('SEBASTIAN','GUTIERREZ','','','','','','','1803594033','','',1093),('PATRICIA ','GUTIERREZ','0995455655','','LA MERCED','','PUYO','PASTAZA','1803594041','ECUADOR','',1094),('AZALEIA','BR','','','','','','','','','',1095),('BIBI ESTYLOSA','BR','','','','','','','','','',1096),('CONVERSE','CVS','','','','','','','','','',1097),('Mario','Torres','0983008850','mariofertc@mixmail.com',NULL,NULL,NULL,NULL,NULL,'0',NULL,1098),('Mario','Torres','0983008850','mariofertc@gmail.com','','','','','','0','',1099),('Pelado','Mas','59985555','pelado@pelado.com',NULL,NULL,NULL,NULL,NULL,'0',NULL,1100);
+/*!40000 ALTER TABLE `phppos_people` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_permissions`
+--
+
+DROP TABLE IF EXISTS `phppos_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_permissions` (
+  `module_id` varchar(255) NOT NULL,
+  `person_id` int(10) NOT NULL,
+  PRIMARY KEY (`module_id`,`person_id`),
+  KEY `person_id` (`person_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_permissions`
+--
+
+LOCK TABLES `phppos_permissions` WRITE;
+/*!40000 ALTER TABLE `phppos_permissions` DISABLE KEYS */;
+INSERT INTO `phppos_permissions` VALUES ('abonos',180),('abonos',183),('abonos',294),('abonos',298),('abonos',307),('abonos',527),('abonos',1088),('almacenes',180),('almacenes',183),('almacenes',294),('almacenes',298),('almacenes',307),('almacenes',1088),('blog',180),('boxes',180),('boxes',183),('boxes',294),('boxes',298),('boxes',307),('boxes',527),('boxes',1088),('config',180),('config',183),('config',294),('config',298),('config',307),('config',1088),('customers',180),('customers',183),('customers',294),('customers',298),('customers',307),('customers',527),('customers',1088),('ecommerce',180),('employees',180),('employees',183),('employees',294),('employees',298),('employees',307),('employees',1088),('items',180),('items',183),('items',294),('items',298),('items',307),('items',527),('items',1088),('lanzamientos',180),('payments',180),('payments',183),('payments',294),('payments',298),('payments',307),('payments',1088),('porpagar',180),('porpagar',183),('porpagar',294),('porpagar',298),('porpagar',307),('porpagar',1088),('receivings',180),('receivings',183),('receivings',294),('receivings',298),('receivings',307),('receivings',1088),('reports',180),('reports',183),('reports',294),('reports',298),('reports',307),('reports',1088),('sales',180),('sales',183),('sales',294),('sales',298),('sales',307),('sales',527),('sales',1088),('suppliers',180),('suppliers',183),('suppliers',294),('suppliers',298),('suppliers',307),('suppliers',1088),('web_market',180);
+/*!40000 ALTER TABLE `phppos_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_porpagar`
+--
+
+DROP TABLE IF EXISTS `phppos_porpagar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_porpagar` (
+  `porpagar_id` int(10) NOT NULL AUTO_INCREMENT,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `amount` double(15,2) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `comment` varchar(200) DEFAULT NULL,
+  `payment_id` int(10) NOT NULL,
+  `receiving_id` int(10) NOT NULL,
+  PRIMARY KEY (`porpagar_id`),
+  KEY `fk_recv_in_abono_recv` (`receiving_id`),
+  KEY `fk_payment_in_abono_recv` (`payment_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_porpagar`
+--
+
+LOCK TABLES `phppos_porpagar` WRITE;
+/*!40000 ALTER TABLE `phppos_porpagar` DISABLE KEYS */;
+INSERT INTO `phppos_porpagar` VALUES (1,'2017-07-04 05:00:00',2.00,'Efectivo','',21,1),(2,'2017-07-04 05:00:00',1.55,'Efectivo','',21,1);
+/*!40000 ALTER TABLE `phppos_porpagar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_porpagar_temp`
+--
+
+DROP TABLE IF EXISTS `phppos_porpagar_temp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_porpagar_temp` (
+  `receiving_id` int(10),
+  `payment_id` int(10),
+  `compra_id` varchar(16) CHARACTER SET utf8 DEFAULT NULL,
+  `receiving_date` date DEFAULT NULL,
+  `items_purchased` decimal(32,0) DEFAULT NULL,
+  `employee_name` varchar(511) DEFAULT NULL,
+  `supplier_name` varchar(511) DEFAULT NULL,
+  `total` double(19,2) DEFAULT NULL,
+  `payment_type` varchar(400) DEFAULT NULL,
+  `comment` text NOT NULL,
+  `debe` int(1) NOT NULL DEFAULT '0',
+  `person_id` int(10) DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_porpagar_temp`
+--
+
+LOCK TABLES `phppos_porpagar_temp` WRITE;
+/*!40000 ALTER TABLE `phppos_porpagar_temp` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_porpagar_temp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_product_reviews`
+--
+
+DROP TABLE IF EXISTS `phppos_product_reviews`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_product_reviews` (
+  `review_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(250) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `detalle` text,
+  `rating` int(11) DEFAULT NULL,
+  `item` int(11) DEFAULT NULL,
+  PRIMARY KEY (`review_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_product_reviews`
+--
+
+LOCK TABLES `phppos_product_reviews` WRITE;
+/*!40000 ALTER TABLE `phppos_product_reviews` DISABLE KEYS */;
+INSERT INTO `phppos_product_reviews` VALUES (1,'Mario','mariofertc@gmail.com','2017-04-22 04:33:33','Excelente zapatilla.',5,35);
+/*!40000 ALTER TABLE `phppos_product_reviews` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_receivings`
+--
+
+DROP TABLE IF EXISTS `phppos_receivings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_receivings` (
+  `receiving_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `supplier_id` int(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `receiving_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(400) DEFAULT NULL,
+  PRIMARY KEY (`receiving_id`),
+  KEY `supplier_id` (`supplier_id`),
+  KEY `employee_id` (`employee_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_receivings`
+--
+
+LOCK TABLES `phppos_receivings` WRITE;
+/*!40000 ALTER TABLE `phppos_receivings` DISABLE KEYS */;
+INSERT INTO `phppos_receivings` VALUES ('2017-07-04 12:21:08',1097,180,'Excelente',1,'Cuentas por pagar: $25.00<br>');
+/*!40000 ALTER TABLE `phppos_receivings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_receivings_abonos_temp`
+--
+
+DROP TABLE IF EXISTS `phppos_receivings_abonos_temp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_receivings_abonos_temp` (
+  `receiving_id` int(10),
+  `payment_id` int(10),
+  `compra_id` varchar(16) CHARACTER SET utf8 DEFAULT NULL,
+  `receiving_date` date DEFAULT NULL,
+  `items_purchased` decimal(32,0) DEFAULT NULL,
+  `employee_name` varchar(511) DEFAULT NULL,
+  `supplier_name` varchar(511) DEFAULT NULL,
+  `total` double(19,2) DEFAULT NULL,
+  `payment_type` varchar(400) DEFAULT NULL,
+  `comment` text NOT NULL,
+  `debe` int(1) NOT NULL DEFAULT '0',
+  `person_id` int(10) DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_receivings_abonos_temp`
+--
+
+LOCK TABLES `phppos_receivings_abonos_temp` WRITE;
+/*!40000 ALTER TABLE `phppos_receivings_abonos_temp` DISABLE KEYS */;
+INSERT INTO `phppos_receivings_abonos_temp` VALUES (1,21,'RECV-1','2017-07-04',1,'Jose Luis Acosta Suarez','CONVERSE CVS',25.00,'Cuentas por pagar: $25.00<br>','Excelente',0,1097);
+/*!40000 ALTER TABLE `phppos_receivings_abonos_temp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_receivings_items`
+--
+
+DROP TABLE IF EXISTS `phppos_receivings_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_receivings_items` (
+  `receiving_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `description` varchar(250) DEFAULT NULL,
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `line` int(3) NOT NULL,
+  `quantity_purchased` int(10) NOT NULL DEFAULT '0',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `discount_percent` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`receiving_id`,`item_id`,`line`),
+  KEY `item_id` (`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_receivings_items`
+--
+
+LOCK TABLES `phppos_receivings_items` WRITE;
+/*!40000 ALTER TABLE `phppos_receivings_items` DISABLE KEYS */;
+INSERT INTO `phppos_receivings_items` VALUES (1,36,'','',1,1,25.00,25.00,0);
+/*!40000 ALTER TABLE `phppos_receivings_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_receivings_items_temp`
+--
+
+DROP TABLE IF EXISTS `phppos_receivings_items_temp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_receivings_items_temp` (
+  `receiving_date` date DEFAULT NULL,
+  `receiving_date_time` time DEFAULT NULL,
+  `receiving_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `payment_type` varchar(400) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `supplier_id` int(10) DEFAULT NULL,
+  `quantity_purchased` int(10) NOT NULL DEFAULT '0',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `discount_percent` int(11) NOT NULL DEFAULT '0',
+  `subtotal` double(23,6) DEFAULT NULL,
+  `line` int(3) NOT NULL,
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  `total` double(19,2) DEFAULT NULL,
+  `profit` double(23,6) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_receivings_items_temp`
+--
+
+LOCK TABLES `phppos_receivings_items_temp` WRITE;
+/*!40000 ALTER TABLE `phppos_receivings_items_temp` DISABLE KEYS */;
+INSERT INTO `phppos_receivings_items_temp` VALUES ('2017-07-04','07:21:08',1,'Excelente','Cuentas por pagar: $25.00<br>',180,36,1097,1,25.00,25.00,0,25.000000,1,'','',25.00,0.000000);
+/*!40000 ALTER TABLE `phppos_receivings_items_temp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_receivings_payments`
+--
+
+DROP TABLE IF EXISTS `phppos_receivings_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_receivings_payments` (
+  `receiving_id` int(10) NOT NULL,
+  `payment_id` int(10) NOT NULL,
+  `payment_amount` double(15,2) NOT NULL,
+  PRIMARY KEY (`receiving_id`,`payment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_receivings_payments`
+--
+
+LOCK TABLES `phppos_receivings_payments` WRITE;
+/*!40000 ALTER TABLE `phppos_receivings_payments` DISABLE KEYS */;
+INSERT INTO `phppos_receivings_payments` VALUES (1,21,25.00);
+/*!40000 ALTER TABLE `phppos_receivings_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales`
+--
+
+DROP TABLE IF EXISTS `phppos_sales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales` (
+  `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `customer_id` int(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `sale_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(400) DEFAULT NULL,
+  `almacen_id` int(10) NOT NULL,
+  PRIMARY KEY (`sale_id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `employee_id` (`employee_id`),
+  KEY `fk_almacen_en_sale` (`almacen_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales`
+--
+
+LOCK TABLES `phppos_sales` WRITE;
+/*!40000 ALTER TABLE `phppos_sales` DISABLE KEYS */;
+INSERT INTO `phppos_sales` VALUES ('2016-11-16 17:05:49',1089,180,'',1,'Efectivo: $28.50<br>',23),('2017-01-11 23:47:43',1093,298,'',2,'Cuentas por pagar: $94.62<br>',23),('2017-01-14 22:52:57',NULL,298,'',3,'Efectivo: $310.00<br>',23),('2017-01-14 23:18:44',1093,298,'',4,'Efectivo: $25.08<br>',23),('2017-01-15 15:37:18',NULL,180,'',5,'Acumulativo: $90.06<br>',23),('2017-07-05 13:16:39',NULL,180,'',6,'Efectivo: $39.90<br>',31),('2017-07-17 01:36:55',1094,180,'',7,'Cuentas por pagar: $39.90<br>',31),('2017-08-10 01:51:14',1100,180,'',8,'Cuentas por pagar: $10.53<br>',31),('2017-09-27 04:52:18',1094,180,'',9,'Efectivo: $12.00<br>',31),('2017-09-29 23:20:55',NULL,180,'',10,'Efectivo: $24.91<br>',31),('2018-03-11 18:32:50',NULL,180,'',11,'Cuentas por Cobrar: $39.90<br>',31),('2019-08-30 02:05:33',1093,180,'',12,'Efectivo: $80.01<br>',31),('2019-08-30 02:24:05',1100,1088,'',13,'Efectivo: $70.00<br>',31),('2019-10-08 14:48:29',NULL,180,'',14,'Acumulativo: $39.90<br>',31),('2019-10-08 14:49:59',NULL,180,'',15,'Cuentas por Cobrar: $53.87<br>',23),('2019-10-08 16:59:44',1093,180,'',16,'Cuentas por Cobrar: $53.87<br>',23),('2019-10-08 17:17:42',1098,180,'',17,'Cheque: $16.20<br>',23);
+/*!40000 ALTER TABLE `phppos_sales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_abonos_temp`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_abonos_temp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_abonos_temp` (
+  `payment_id` int(10),
+  `sale_id` int(10) NOT NULL DEFAULT '0',
+  `venta_id` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `sale_date` date DEFAULT NULL,
+  `items_purchased` double(19,2) DEFAULT NULL,
+  `employee_name` varchar(511) NOT NULL DEFAULT '',
+  `customer_name` varchar(511) DEFAULT NULL,
+  `total` double(19,2) DEFAULT NULL,
+  `payment_type` varchar(400) DEFAULT NULL,
+  `comment` text NOT NULL,
+  `debe` int(1) NOT NULL DEFAULT '0',
+  `person_id` int(10) DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_abonos_temp`
+--
+
+LOCK TABLES `phppos_sales_abonos_temp` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_abonos_temp` DISABLE KEYS */;
+INSERT INTO `phppos_sales_abonos_temp` VALUES (21,2,'POS-2','2017-01-11',2.00,'Don Gu','SEBASTIAN GUTIERREZ',94.62,'Cuentas por pagar: $94.62<br>','',0,1093),(23,5,'POS-5','2017-01-15',2.00,'Jose Luis Acosta Suarez',NULL,90.06,'Acumulativo: $90.06<br>','',0,NULL),(21,7,'POS-7','2017-07-16',1.00,'Jose Luis Acosta Suarez','PATRICIA  GUTIERREZ',39.90,'Cuentas por pagar: $39.90<br>','',0,1094),(21,8,'POS-8','2017-08-09',1.00,'Jose Luis Acosta Suarez','Pelado Mas',10.53,'Cuentas por pagar: $10.53<br>','',0,1100),(4,11,'POS-11','2018-03-11',1.00,'Jose Luis Acosta Suarez',NULL,39.90,'Cuentas por Cobrar: $39.90<br>','',0,NULL),(23,14,'POS-14','2019-10-08',1.00,'Jose Luis Acosta Suarez',NULL,39.90,'Acumulativo: $39.90<br>','',0,NULL),(4,15,'POS-15','2019-10-08',1.00,'Jose Luis Acosta Suarez',NULL,53.87,'Cuentas por Cobrar: $53.87<br>','',0,NULL),(4,16,'POS-16','2019-10-08',1.00,'Jose Luis Acosta Suarez','SEBASTIAN GUTIERREZ',53.87,'Cuentas por Cobrar: $53.87<br>','',0,1093),(3,17,'POS-17','2019-10-08',1.00,'Jose Luis Acosta Suarez','Mario Torres',16.20,'Cheque: $16.20<br>','',0,1098);
+/*!40000 ALTER TABLE `phppos_sales_abonos_temp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_items`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_items` (
+  `sale_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `description` varchar(250) DEFAULT NULL,
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `quantity_purchased` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `discount_percent` double(15,3) NOT NULL DEFAULT '0.000',
+  PRIMARY KEY (`sale_id`,`item_id`,`line`),
+  KEY `item_id` (`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_items`
+--
+
+LOCK TABLES `phppos_sales_items` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_items` DISABLE KEYS */;
+INSERT INTO `phppos_sales_items` VALUES (1,2,'','',1,1.00,16.00,25.00,0.000),(2,30,'','',1,1.00,20.18,53.00,0.000),(2,31,'','',2,1.00,13.95,30.00,0.000),(3,32,'MAGNOLIA','0',1,1.00,50.00,88.00,0.000),(3,33,'MAGNOLIA','',2,1.00,50.00,88.00,0.000),(3,34,'MAGNOLIA','0',3,1.00,50.00,88.00,0.000),(4,24,'','0',1,1.00,16.00,22.00,0.000),(5,4,'','',1,1.00,16.75,26.00,0.000),(5,25,'','',2,1.00,20.18,53.00,0.000),(6,36,'','',1,1.00,25.00,35.00,0.000),(7,36,'','',1,1.00,25.00,35.00,0.000),(8,39,'','',1,1.00,10.00,10.53,0.000),(9,39,'','',1,1.00,10.00,10.53,0.000),(10,41,'',NULL,1,1.00,34.00,23.00,5.000),(11,36,'','',1,1.00,25.00,35.00,0.000),(12,35,'',NULL,1,2.00,25.00,35.09,0.000),(13,36,'',NULL,2,2.00,25.00,35.00,0.000),(14,37,'Zapatillas originales','',1,1.00,25.00,35.00,0.000),(15,36,'','',1,1.00,25.00,47.25,0.000),(16,38,'','',1,1.00,25.00,47.25,0.000),(17,40,'','',1,1.00,10.00,16.20,0.000);
+/*!40000 ALTER TABLE `phppos_sales_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_items_taxes`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_items_taxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_items_taxes` (
+  `sale_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `percent` double(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`item_id`,`line`,`name`,`percent`),
+  KEY `item_id` (`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_items_taxes`
+--
+
+LOCK TABLES `phppos_sales_items_taxes` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_items_taxes` DISABLE KEYS */;
+INSERT INTO `phppos_sales_items_taxes` VALUES (1,2,1,'IVA',14.00),(2,30,1,'IVA',14.00),(2,31,2,'IVA',14.00),(3,32,1,'IVA',14.00),(3,33,2,'IVA',14.00),(3,34,3,'IVA',14.00),(4,24,1,'IVA',14.00),(5,4,1,'IVA',14.00),(5,25,2,'IVA',14.00),(6,36,1,'IVA',14.00),(7,36,1,'IVA',14.00),(9,39,1,'IVA',14.00),(10,41,1,'IVA',14.00),(11,36,1,'IVA',14.00),(12,35,1,'IVA',14.00),(14,37,1,'IVA',14.00),(15,36,1,'IVA',14.00),(16,38,1,'IVA',14.00);
+/*!40000 ALTER TABLE `phppos_sales_items_taxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_items_temp`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_items_temp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_items_temp` (
+  `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sale_date` date DEFAULT NULL,
+  `sale_date_time` time DEFAULT NULL,
+  `sale_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `payment_type` varchar(400) DEFAULT NULL,
+  `customer_id` int(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `supplier_id` int(11) DEFAULT NULL,
+  `quantity_purchased` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `item_tax_percent` double(19,2) DEFAULT NULL,
+  `discount_percent` double(15,3) NOT NULL DEFAULT '0.000',
+  `subtotal` double(24,7) DEFAULT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  `total` double(19,2) DEFAULT NULL,
+  `tax` double(19,2) DEFAULT NULL,
+  `profit` double(24,7) DEFAULT NULL,
+  `almacen` varchar(255) DEFAULT NULL,
+  `almacen_id` int(10) DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_items_temp`
+--
+
+LOCK TABLES `phppos_sales_items_temp` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_items_temp` DISABLE KEYS */;
+INSERT INTO `phppos_sales_items_temp` VALUES ('2016-11-16 17:05:49','2016-11-16','12:05:49',1,'','Efectivo: $28.50<br>',1089,180,2,1090,1.00,16.00,25.00,14.00,0.000,25.0000000,1,'','',28.50,3.50,9.0000000,'Principal',23),('2017-01-11 23:47:43','2017-01-11','18:47:43',2,'','Cuentas por pagar: $94.62<br>',1093,298,30,1092,1.00,20.18,53.00,14.00,0.000,53.0000000,1,'','',60.42,7.42,32.8200000,'Principal',23),('2017-01-11 23:47:43','2017-01-11','18:47:43',2,'','Cuentas por pagar: $94.62<br>',1093,298,31,1090,1.00,13.95,30.00,14.00,0.000,30.0000000,2,'','',34.20,4.20,16.0500000,'Principal',23),('2017-01-14 22:52:57','2017-01-14','17:52:57',3,'','Efectivo: $310.00<br>',NULL,298,32,1092,1.00,50.00,88.00,14.00,0.000,88.0000000,1,'0','MAGNOLIA',100.32,12.32,38.0000000,'Principal',23),('2017-01-14 22:52:57','2017-01-14','17:52:57',3,'','Efectivo: $310.00<br>',NULL,298,33,1092,1.00,50.00,88.00,14.00,0.000,88.0000000,2,'','MAGNOLIA',100.32,12.32,38.0000000,'Principal',23),('2017-01-14 22:52:57','2017-01-14','17:52:57',3,'','Efectivo: $310.00<br>',NULL,298,34,1092,1.00,50.00,88.00,14.00,0.000,88.0000000,3,'0','MAGNOLIA',100.32,12.32,38.0000000,'Principal',23),('2017-01-14 23:18:44','2017-01-14','18:18:44',4,'','Efectivo: $25.08<br>',1093,298,24,1090,1.00,16.00,22.00,14.00,0.000,22.0000000,1,'0','',25.08,3.08,6.0000000,'Principal',23),('2017-01-15 15:37:18','2017-01-15','10:37:18',5,'','Acumulativo: $90.06<br>',NULL,180,4,1090,1.00,16.75,26.00,14.00,0.000,26.0000000,1,'','',29.64,3.64,9.2500000,'Principal',23),('2017-01-15 15:37:18','2017-01-15','10:37:18',5,'','Acumulativo: $90.06<br>',NULL,180,25,1092,1.00,20.18,53.00,14.00,0.000,53.0000000,2,'','',60.42,7.42,32.8200000,'Principal',23),('2017-07-05 13:16:39','2017-07-05','08:16:39',6,'','Efectivo: $39.90<br>',NULL,180,36,1095,1.00,25.00,35.00,14.00,0.000,35.0000000,1,'','',39.90,4.90,10.0000000,'Bodega',31),('2017-07-17 01:36:55','2017-07-16','20:36:55',7,'','Cuentas por pagar: $39.90<br>',1094,180,36,1095,1.00,25.00,35.00,14.00,0.000,35.0000000,1,'','',39.90,4.90,10.0000000,'Bodega',31),('2017-08-10 01:51:14','2017-08-09','20:51:14',8,'','Cuentas por pagar: $10.53<br>',1100,180,39,1095,1.00,10.00,10.53,0.00,0.000,10.5300000,1,'','',10.53,0.00,0.5300000,'Bodega',31),('2017-09-27 04:52:18','2017-09-26','23:52:18',9,'','Efectivo: $12.00<br>',1094,180,39,1095,1.00,10.00,10.53,14.00,0.000,10.5300000,1,'','',12.00,1.47,0.5300000,'Bodega',31),('2017-09-29 23:20:55','2017-09-29','18:20:55',10,'','Efectivo: $24.91<br>',NULL,180,41,NULL,1.00,34.00,23.00,14.00,5.000,21.8500000,1,NULL,'',24.91,3.06,-12.1500000,'Bodega',31),('2018-03-11 18:32:50','2018-03-11','13:32:50',11,'','Cuentas por Cobrar: $39.90<br>',NULL,180,36,1095,1.00,25.00,35.00,14.00,0.000,35.0000000,1,'','',39.90,4.90,10.0000000,'Bodega',31),('2019-08-30 02:05:33','2019-08-29','21:05:33',12,'','Efectivo: $80.01<br>',1093,180,35,1095,2.00,25.00,35.09,14.00,0.000,70.1800000,1,NULL,'',80.01,9.83,20.1800000,'Bodega',31),('2019-08-30 02:24:05','2019-08-29','21:24:05',13,'','Efectivo: $70.00<br>',1100,1088,36,1095,2.00,25.00,35.00,0.00,0.000,70.0000000,2,NULL,'',70.00,0.00,20.0000000,'Bodega',31),('2019-10-08 14:48:29','2019-10-08','09:48:29',14,'','Acumulativo: $39.90<br>',NULL,180,37,1095,1.00,25.00,35.00,14.00,0.000,35.0000000,1,'','Zapatillas originales',39.90,4.90,10.0000000,'Bodega',31),('2019-10-08 14:49:59','2019-10-08','09:49:59',15,'','Cuentas por Cobrar: $53.87<br>',NULL,180,36,1095,1.00,25.00,47.25,14.00,0.000,47.2500000,1,'','',53.87,6.62,22.2500000,'Principal',23),('2019-10-08 16:59:44','2019-10-08','11:59:44',16,'','Cuentas por Cobrar: $53.87<br>',1093,180,38,1095,1.00,25.00,47.25,14.00,0.000,47.2500000,1,'','',53.87,6.62,22.2500000,'Principal',23),('2019-10-08 17:17:42','2019-10-08','12:17:42',17,'','Cheque: $16.20<br>',1098,180,40,1095,1.00,10.00,16.20,0.00,0.000,16.2000000,1,'','',16.20,0.00,6.2000000,'Principal',23);
+/*!40000 ALTER TABLE `phppos_sales_items_temp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_payments`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_payments` (
+  `sale_id` int(10) NOT NULL,
+  `payment_id` int(10) NOT NULL,
+  `payment_amount` double(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`payment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_payments`
+--
+
+LOCK TABLES `phppos_sales_payments` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_payments` DISABLE KEYS */;
+INSERT INTO `phppos_sales_payments` VALUES (1,2,28.50),(2,21,94.62),(3,2,310.00),(4,2,25.08),(5,23,90.06),(6,2,39.90),(7,21,39.90),(8,21,10.53),(9,2,12.00),(10,2,24.91),(11,4,39.90),(12,2,80.01),(13,2,70.00),(14,23,39.90),(15,4,53.87),(16,4,53.87),(17,3,16.20);
+/*!40000 ALTER TABLE `phppos_sales_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_suspended`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_suspended`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_suspended` (
+  `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `customer_id` int(10) DEFAULT NULL,
+  `employee_id` int(10) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `sale_id` int(10) NOT NULL AUTO_INCREMENT,
+  `payment_type` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`sale_id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `employee_id` (`employee_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_suspended`
+--
+
+LOCK TABLES `phppos_sales_suspended` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_suspended` DISABLE KEYS */;
+INSERT INTO `phppos_sales_suspended` VALUES ('2017-08-02 05:55:49',1094,180,'',2,'Cuentas por pagar: $12.00<br />');
+/*!40000 ALTER TABLE `phppos_sales_suspended` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_suspended_items`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_suspended_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_suspended_items` (
+  `sale_id` int(10) NOT NULL DEFAULT '0',
+  `item_id` int(10) NOT NULL DEFAULT '0',
+  `description` varchar(30) DEFAULT NULL,
+  `serialnumber` varchar(30) DEFAULT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `quantity_purchased` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_cost_price` decimal(15,2) NOT NULL,
+  `item_unit_price` double(15,2) NOT NULL,
+  `discount_percent` double(15,3) NOT NULL DEFAULT '0.000',
+  PRIMARY KEY (`sale_id`,`item_id`,`line`),
+  KEY `item_id` (`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_suspended_items`
+--
+
+LOCK TABLES `phppos_sales_suspended_items` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_suspended_items` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_sales_suspended_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_suspended_items_taxes`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_suspended_items_taxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_suspended_items_taxes` (
+  `sale_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `line` int(3) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `percent` double(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`item_id`,`line`,`name`,`percent`),
+  KEY `item_id` (`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_suspended_items_taxes`
+--
+
+LOCK TABLES `phppos_sales_suspended_items_taxes` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_suspended_items_taxes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phppos_sales_suspended_items_taxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sales_suspended_payments`
+--
+
+DROP TABLE IF EXISTS `phppos_sales_suspended_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sales_suspended_payments` (
+  `sale_id` int(10) NOT NULL,
+  `payment_id` int(10) NOT NULL,
+  `payment_amount` decimal(15,2) NOT NULL,
+  PRIMARY KEY (`sale_id`,`payment_id`),
+  KEY `phppos_sales_suspended_payments_ibfk_2` (`payment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sales_suspended_payments`
+--
+
+LOCK TABLES `phppos_sales_suspended_payments` WRITE;
+/*!40000 ALTER TABLE `phppos_sales_suspended_payments` DISABLE KEYS */;
+INSERT INTO `phppos_sales_suspended_payments` VALUES (2,21,12.00);
+/*!40000 ALTER TABLE `phppos_sales_suspended_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_sessions`
+--
+
+DROP TABLE IF EXISTS `phppos_sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_sessions` (
+  `id` varchar(128) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
+  `data` blob NOT NULL,
+  KEY `ci_sessions_timestamp` (`timestamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_sessions`
+--
+
+LOCK TABLES `phppos_sessions` WRITE;
+/*!40000 ALTER TABLE `phppos_sessions` DISABLE KEYS */;
+INSERT INTO `phppos_sessions` VALUES ('f358dabcb794029b974c7f0888edcc974e0e789f','127.0.0.1',1542599593,'__ci_last_regenerate|i:1542595589;'),('qts5jo71ttcs60ousotrp2lgg8l3ejin','::1',1522377222,'__ci_last_regenerate|i:1522377221;'),('3jlm7jv9kgjjsp5i368tsiuhph9h79i8','::1',1520829568,'__ci_last_regenerate|i:1520828981;person_id|s:3:\"180\";'),('ujjm0mfdeab30ctp6lndlioht1ungcc7','::1',1520821674,'__ci_last_regenerate|i:1520821674;person_id|s:3:\"180\";'),('em97783p1e5hfjb136b6u36bc490jj30','::1',1520828981,'__ci_last_regenerate|i:1520828981;person_id|s:3:\"180\";');
+/*!40000 ALTER TABLE `phppos_sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_stock_almacenes`
+--
+
+DROP TABLE IF EXISTS `phppos_stock_almacenes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_stock_almacenes` (
+  `almacen_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `cantidad` double DEFAULT NULL,
+  `fecha_actualiza` datetime DEFAULT NULL,
+  PRIMARY KEY (`almacen_id`,`item_id`),
+  KEY `fk_item_stock` (`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_stock_almacenes`
+--
+
+LOCK TABLES `phppos_stock_almacenes` WRITE;
+/*!40000 ALTER TABLE `phppos_stock_almacenes` DISABLE KEYS */;
+INSERT INTO `phppos_stock_almacenes` VALUES (23,35,2,NULL),(23,36,2,NULL),(23,37,1,NULL),(23,38,0,NULL),(31,36,0,NULL),(31,35,0,NULL),(31,37,0,NULL),(31,38,4,NULL),(31,39,8,NULL),(23,39,1,NULL),(23,40,1,NULL),(23,41,0,NULL),(23,42,0,NULL),(31,41,-1,NULL);
+/*!40000 ALTER TABLE `phppos_stock_almacenes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_suppliers`
+--
+
+DROP TABLE IF EXISTS `phppos_suppliers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_suppliers` (
+  `person_id` int(10) NOT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `account_number` varchar(255) DEFAULT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `fecha_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `account_number` (`account_number`),
+  KEY `person_id` (`person_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_suppliers`
+--
+
+LOCK TABLES `phppos_suppliers` WRITE;
+/*!40000 ALTER TABLE `phppos_suppliers` DISABLE KEYS */;
+INSERT INTO `phppos_suppliers` VALUES (1090,'INDUCALZA',NULL,0,'2017-09-27 04:33:21'),(1091,'BUESTAN',NULL,0,'2017-09-27 04:33:21'),(1092,'DINGROUP',NULL,0,'2017-09-27 04:33:21'),(1095,'SHOES&SHOES',NULL,0,'2017-09-27 04:33:21'),(1096,'IMBRACAL',NULL,0,'2017-09-27 04:33:21'),(1097,'LUZCASPORT',NULL,0,'2017-09-27 04:33:21');
+/*!40000 ALTER TABLE `phppos_suppliers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_webusers`
+--
+
+DROP TABLE IF EXISTS `phppos_webusers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_webusers` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  `apellido` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `customer_id` int(11) DEFAULT NULL,
+  `telefono` varchar(256) DEFAULT NULL,
+  `misma_direccion` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_webusers`
+--
+
+LOCK TABLES `phppos_webusers` WRITE;
+/*!40000 ALTER TABLE `phppos_webusers` DISABLE KEYS */;
+INSERT INTO `phppos_webusers` VALUES (1,'test','test','test@test.com','552d1156a9b3071181ed713ad028be73','2015-03-24 20:44:55',NULL,NULL,1),(2,'Mario','Torres','mariofertc@mixmail.com','552d1156a9b3071181ed713ad028be73','2015-04-07 17:14:28',NULL,NULL,1),(3,'tester','tester','testing@test.com','552d1156a9b3071181ed713ad028be73','2015-04-08 00:36:14',NULL,NULL,1),(4,NULL,NULL,NULL,'552d1156a9b3071181ed713ad028be73','2017-04-28 02:12:02',NULL,NULL,0),(5,NULL,NULL,NULL,NULL,'2017-05-03 12:29:30',NULL,NULL,0),(6,NULL,NULL,NULL,NULL,'2017-05-18 12:17:44',NULL,NULL,0);
+/*!40000 ALTER TABLE `phppos_webusers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phppos_wishlist`
+--
+
+DROP TABLE IF EXISTS `phppos_wishlist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phppos_wishlist` (
+  `wlist_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `item_id` int(11) DEFAULT NULL,
+  `fecha_agregado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`wlist_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phppos_wishlist`
+--
+
+LOCK TABLES `phppos_wishlist` WRITE;
+/*!40000 ALTER TABLE `phppos_wishlist` DISABLE KEYS */;
+INSERT INTO `phppos_wishlist` VALUES (2,3,2,'2015-04-08 23:15:08'),(3,NULL,37,'2017-04-22 04:09:28'),(4,NULL,35,'2017-04-22 04:44:49'),(5,NULL,39,'2017-04-22 04:45:01');
+/*!40000 ALTER TABLE `phppos_wishlist` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-10-27 10:41:52
