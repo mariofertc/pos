@@ -244,7 +244,8 @@ class Boxes extends Secure_area
 		$box_data = array(
 		'open_comment'=>$this->input->post('open_comment'),
 		'open_value'=>$this->input->post('open_value'),
-		'employee_id'=>$employee_id
+		'employee_id'=>$employee_id,
+		'open_time' => date('Y-m-d H:i:s')
 		);
 		//$cur_box_info = $this->Box->get_info($box_id);
 		if($this->Box->save($box_data,$box_id))
