@@ -43,6 +43,14 @@
 			</div>
 			{% set total = total + info_abono.abono_amount %}
 		{% endfor %}
+		{% set cambios = total - summary_sales.total %}
+			{% if cambios != 0 %}
+				<div class="row">
+					<div class="col-md-offset-3 col-md-3"><strong>Cambios</strong></div>
+					<div class="col-md-2 text-right">{{total - summary_sales.total}}</div>
+				</div>
+				{% set total = total - cambios %}
+			{% endif %}
 
 		<div class="row">
 			<div class="col-md-offset-3 col-md-3"><strong>Inicio de Caja</strong></div>

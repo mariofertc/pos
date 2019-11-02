@@ -149,6 +149,13 @@ class Boxes extends Secure_area
         $data['info_abonos'] = $model->getSummaryAbonosDataByEmployee(array('start_date' => $fecha_inicio, 'end_date' => $fecha_fin, 'employee_id'=> $box->employee_id));
         $data['info'] = $model->getSummaryDataByEmployee(array('start_date' => $fecha_inicio, 'end_date' => $fecha_fin, 'employee_id'=> $box->employee_id));
         $data['open_value'] = $box->open_value;
+
+        //Calculate amount change.
+		$this->load->model('reports/Summary_sales');
+        $data['summary_sales'] = $this->Summary_sales->getSummaryDataByTimeAndEmployee(array('start_date' => $fecha_inicio, 'end_date' => $fecha_fin, 'employee_id'=> $box->employee_id));
+
+        //print_r($summary_sales['total']);
+        //print_r($data['info']);
         /*$graph_data = array();
         foreach ($report_data as $row) {
             $graph_data[$row['payment_type']] = (double)$row['payment_amount'];
