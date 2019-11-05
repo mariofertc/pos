@@ -30,16 +30,20 @@
 		{% if loop.last %}
 
 		{% for info_abono in info_abonos %}
+			<div class="row">
 			{% if loop.first %}
 				<div class ="col-md-3">
 				<strong>{{"Abonos"|upper}}</strong>
 				</div>
+				<div class ="col-md-3">
+			{% else %}
+				<div class ="col-md-offset-3 col-md-3">
 			{% endif %}
-			<div class ="col-md-3">
-			{{info_abono.payment_type}}
-			</div>
-			<div class ="col-md-2 text-right">
-			{{info_abono.abono_amount}}
+				{{info_abono.payment_type}}
+				</div>
+				<div class ="col-md-2 text-right">
+				{{info_abono.abono_amount}}
+				</div>
 			</div>
 			{% set total = total + info_abono.abono_amount %}
 		{% endfor %}
