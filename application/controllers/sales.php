@@ -249,12 +249,82 @@ class Sales extends Secure_area {
         $this->twig->display("sales/receipt_dongu");
     }
 
+    function get_sri(){
+        $this->load->helper('file');
+        //Pruebas online
+        //https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantes?wsdl
+        //https://celcer.sri.gob.ec/comprobantes-electronicosws/AutorizacionComprobantes?wsdl
+        //Producción online
+        //https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantes?wsdl
+        //https://cel.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantes?wsdl
+        //OFFLINE - pruebas
+        //https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl 
+        //https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl
+        //Ambiente de Producción:
+        //https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl 
+        //https://cel.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl
+        $c = new nusoap_client('https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl',true);
+        // https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl
+        // $client = $c->call('validarComprobante');
+        // $args = array('file_name' => 'myfile.zip');
+        //$file_path = 'C:\programas_manual\proyectos\pos\fact1_firmada_2.xml';
+         $file_path = 'C:\programas_manual\proyectos\pos\0801202001180278423900110010010000000011234567810.xml';
+        $xml_file = read_file($file_path);
+        //$xml_file = @file_get_contents('C:\programas_manual\proyectos\pos\fact1_firmada.xml');
+        //print_r($xml_file);
+        //die();
+        /*$parse = $c->parseString($xml_file, 'xml');
+        print_r($parse);*/
+        //$xml_file = unpack("N*",$xml_file); 
+
+        /*$handle = fopen($file_path, "rb");
+        $xml_file = fread($handle, filesize($file_path));
+        fclose($handle);*/
+        // print_r($xml_file);
+        // die();
+        
+        //$xml_file =  unpack('C*', $xml_file);
+        //print_r($xml_file);
+        $args = array("xml_file" => $xml_file);
+        //$args = array("claveAcceso" => "22");
+        //$client = $c->call('validarComprobante', $xml_file);
+        $client = $c->call('validarComprobante', $args);
+        // print_r("se fue");
+        // $client = $c->validarComprobante($args);
+        //$client = $c->call('comprobante');
+        
+        print_r($client);
+    }
+
     function generate_electronic_document($sale_id) {
         $this->load->helper('MY_xml');
         $sale_info = $this->Sale->get_info($sale_id)->row_array();
+        //2019-01-02 11:20:10
+        //ddmmaaaa
+        //Make authorization code
+        $date =  date('dmY', strtotime($sale_info['sale_time']));
+        //Factura 01
+        $tipo_comprobante = "01";
+        $ruc = $this->config->item('identity');
+        //1 - Pruebas, 2 - Producción
+        $tipo_ambiente = "1";
+        //Longitud 6. Establecimiento 001, punto de emisión 001
+        $establecimiento = "001";
+        $punto_emision = "001";
+        //Secuencial, longitud 9. Ej: 000000001
+        $numero_secuencial = str_pad($sale_id, 9, "0", STR_PAD_LEFT);
+        //Generate my own code. For me 19886686 RM
+        $codigo_numerico = "19886686";
+        //Always
+        $tipo_emision = "1";
+        $authoriztion_code = $date . $tipo_comprobante . $ruc . $tipo_ambiente . $establecimiento . $punto_emision . $numero_secuencial . $codigo_numerico . $tipo_emision;
+        //11 module validation
+        $digito_verificador = module11($authoriztion_code);
+        //Authorization code. 
+        //0201201901180278423900110010010000059601988668619
+        $authoriztion_code .= $digito_verificador;
         $this->sale_lib->copy_entire_sale($sale_id);
         $data['cart'] = $this->sale_lib->get_cart();
-
         $data['payments'] = $this->sale_lib->get_payments();
         $data['subtotal'] = $this->sale_lib->get_subtotal();
         $data['taxes'] = $this->sale_lib->get_taxes();
@@ -268,18 +338,34 @@ class Sales extends Secure_area {
         $data['amount_tendered'] = to_currency($this->sale_lib->get_payments_total() * -1);
         $data['employee'] = $emp_info->first_name . ' ' . $emp_info->last_name;
 
+        /*RUC 04
+        CEDULA 05
+        PASAPORTE 06
+        VENTA A CONSUMIDOR 07 
+        IDENTIFICACION DELEXTERIOR 08*/
+        //Consumidor final
+        $tipo_id_comprador = '07';
         if ($customer_id != -1) {
             $cust_info = $this->Customer->get_info($customer_id);
+            //print_r($cust_info);
             $data['customer'] = $cust_info->first_name . ' ' . $cust_info->last_name;
+            if(strlen($cust_info->zip) == 10){
+                //Cédula
+                $tipo_id_comprador = '05';
+            }else if(strlen($cust_info->zip) == 13 && $cust_info->zip != '9999999999999'){
+                //RUC
+                $tipo_id_comprador = '04';
+            }
         }else{
             $data['customer'] = "Consumidor Final";
             $cust_info = new stdClass();
-            $cust_info->zip="1212121212";
+            //Consumidor final
+            $cust_info->zip="9999999999999";
         }
         $data['sale_id'] = 'POS ' . $sale_id;
         $data['print_after_sale'] = $this->Appconfig->get('print_after_sale');
         $data['company'] = $this->config->item('company');
-        $data['identity'] = $this->config->item('identity');
+        $data['identity'] = $ruc;
         $data['address'] = $this->config->item('address');
         $data['phone'] = $this->config->item('phone');
         $data['return_policy'] = $this->config->item('return_policy');
@@ -293,21 +379,23 @@ class Sales extends Secure_area {
         xml_add_attribute($factura, 'id', 'comprobante');
         xml_add_attribute($factura, 'version', '2.0.0');
         $info_tributaria = xml_add_child($factura, 'infoTributaria');
-        xml_add_child($info_tributaria, 'ambiente', '1');
-        xml_add_child($info_tributaria, 'tipoEmision', '1');
+        xml_add_child($info_tributaria, 'ambiente', $tipo_ambiente);
+        xml_add_child($info_tributaria, 'tipoEmision', $tipo_emision);
         xml_add_child($info_tributaria, 'razonSocial', $data['company']);
         xml_add_child($info_tributaria, 'ruc', $data['identity']);
-        xml_add_child($info_tributaria, 'claveAcceso', '2010ABSALON');
-        xml_add_child($info_tributaria, 'codDoc', '01');
-        xml_add_child($info_tributaria, 'estab', '01');
-        xml_add_child($info_tributaria, 'ptoEmi', '01');
-        xml_add_child($info_tributaria, 'secuencial', $sale_id);
+        xml_add_child($info_tributaria, 'claveAcceso', $authoriztion_code);
+        xml_add_child($info_tributaria, 'codDoc', $tipo_comprobante);
+        xml_add_child($info_tributaria, 'estab', $establecimiento);
+        xml_add_child($info_tributaria, 'ptoEmi', $punto_emision);
+        xml_add_child($info_tributaria, 'secuencial', $numero_secuencial);
         xml_add_child($info_tributaria, 'dirMatriz', $data['address']);
         $info_tributaria = xml_add_child($factura, 'infoFactura');
-        xml_add_child($info_tributaria, 'fechaEmision', '1');
-        xml_add_child($info_tributaria, 'tipoIdentificacionComprador', '1');
+        xml_add_child($info_tributaria, 'fechaEmision', date('d/m/Y', strtotime($sale_info['sale_time'])));
+
+        xml_add_child($info_tributaria, 'tipoIdentificacionComprador', $tipo_id_comprador);
         xml_add_child($info_tributaria, 'razonSocialComprador', $data['customer']);
         xml_add_child($info_tributaria, 'identificacionComprador', $cust_info->zip);
+        xml_add_child($info_tributaria, 'direccionComprador', $cust_info->address_1);
         xml_add_child($info_tributaria, 'totalSinImpuestos', $data['subtotal']);
         xml_add_child($info_tributaria, 'totalDescuento', $discount);
         $total_con_impuestos = xml_add_child($info_tributaria, 'totalConImpuestos');
@@ -329,7 +417,8 @@ class Sales extends Secure_area {
             xml_add_child($detalle, 'descripcion', $cart['name']);
             xml_add_child($detalle, 'cantidad', $cart['quantity']);
             xml_add_child($detalle, 'precioUnitario', $cart['price']);
-            xml_add_child($detalle, 'descuento', $cart['price']*$cart['quantity']*$cart['discount']/100);
+            $discount = $cart['price']*$cart['quantity']*$cart['discount']/100;
+            xml_add_child($detalle, 'descuento', $discount>0?$discount:'0');
             xml_add_child($detalle, 'precioTotalSinImpuesto', ($cart['price']*$cart['quantity']-$cart['price']*$cart['quantity']*$cart['discount']/100));
             $cll_taxes = $this->sale_lib->get_taxes_item($cart);
             foreach($cll_taxes as $tax){   
@@ -345,11 +434,15 @@ class Sales extends Secure_area {
             }
             
         }
-        $cert_store = file_get_contents('D:\firmaElectrónica\MarioTorresTest.pfx');
+        // $cert_store = file_get_contents('D:\firmaElectrónica\MarioTorresTest.pfx');
+        $cert_store = file_get_contents('C:\Users\marioT\Google Drive\Proyectos\pos\guayavoz\firma\cd\alex_patricio_lascano_nunez.p12');
         // $status = openssl_pkcs12_read($cert_store, $cert_info, '12345678');
-        $status = openssl_pkcs12_read($cert_store, $cert_info, '');
+        $status = openssl_pkcs12_read($cert_store, $cert_info, 'Karisia01');
+        //var_dump($status);
+        //var_dump($cert_info);
         if (!$status) {
-            throw new RuntimeException(__('Invalid pasword'));
+            throw new RuntimeException('Invalid pasword');
+            // throw new RuntimeException(__('Invalid pasword'));
         }
 
         $public_key = $cert_info['cert'];

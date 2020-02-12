@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('twig','database','session','form_validation','session','user_agent');
+$autoload['libraries'] = array('twig','database','session','form_validation','session','user_agent', 'Nusoap_library');
 
 /*
 | -------------------------------------------------------------------

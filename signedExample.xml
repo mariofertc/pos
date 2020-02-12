@@ -2,51 +2,52 @@
 <factura id="comprobante" version="2.0.0">
   <infoTributaria>
     <ambiente>1</ambiente>
-    <timpo_emision>1</timpo_emision>
-    <razonSocial>Don Gu</razonSocial>
-    <ruc/>
-    <claveAcceso>2010ABSALON</claveAcceso>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>Guayavoz</razonSocial>
+    <ruc>1802784239001</ruc>
+    <claveAcceso>0201201901180278423900110010010000059601988668619</claveAcceso>
     <codDoc>01</codDoc>
-    <estab>01</estab>
-    <ptoEmi>01</ptoEmi>
-    <secuencial>1</secuencial>
+    <estab>001</estab>
+    <ptoEmi>001</ptoEmi>
+    <secuencial>000005960</secuencial>
     <dirMatriz>27 de Febrero y Atahualpha</dirMatriz>
   </infoTributaria>
   <infoFactura>
-    <fechaEmision>1</fechaEmision>
-    <tipoIdentificacionComprador>1</tipoIdentificacionComprador>
-    <razonSocialComprador>Consumidor Final</razonSocialComprador>
-    <identificacionComprador>1212121212</identificacionComprador>
-    <totalSinImpuestos>600.00</totalSinImpuestos>
+    <fechaEmision>02/01/2019</fechaEmision>
+    <tipoIdentificacionComprador>07</tipoIdentificacionComprador>
+    <razonSocialComprador>CONSUMIDOR FINAL</razonSocialComprador>
+    <identificacionComprador>9999999999999</identificacionComprador>
+    <direccionComprador>PUYO</direccionComprador>
+    <totalSinImpuestos>37.41</totalSinImpuestos>
     <totalDescuento>0.00</totalDescuento>
     <totalConImpuestos>
       <totalImpuesto>
         <codigo>2</codigo>
         <codigoPorcentaje>2</codigoPorcentaje>
-        <baseImponible>600</baseImponible>
-        <valor>72.00</valor>
+        <baseImponible>37.41</baseImponible>
+        <valor>4.49</valor>
       </totalImpuesto>
     </totalConImpuestos>
     <propina>0.00</propina>
-    <importeTotal>672.00</importeTotal>
+    <importeTotal>41.90</importeTotal>
     <moneda>DOLAR</moneda>
   </infoFactura>
   <detalles>
     <detalle>
-      <codigoPrincipal>1</codigoPrincipal>
-      <codigoAuxiliar>1234555</codigoAuxiliar>
-      <descripcion>Sistema POS</descripcion>
+      <codigoPrincipal>5190</codigoPrincipal>
+      <codigoAuxiliar>X8462BEIG36</codigoAuxiliar>
+      <descripcion>X8462 BEIGE</descripcion>
       <cantidad>1.00</cantidad>
-      <precioUnitario>600.00</precioUnitario>
-      <descuento/>
-      <precioTotalSinImpuesto>600</precioTotalSinImpuesto>
+      <precioUnitario>37.41</precioUnitario>
+      <descuento>0</descuento>
+      <precioTotalSinImpuesto>37.41</precioTotalSinImpuesto>
       <impuestos>
         <impuesto>
           <codigo>2</codigo>
           <codigoPorcentaje>2</codigoPorcentaje>
           <tarifa>12</tarifa>
-          <baseImponible>600.00</baseImponible>
-          <valor>72.00</valor>
+          <baseImponible>37.41</baseImponible>
+          <valor>4.49</valor>
         </impuesto>
       </impuestos>
     </detalle>
@@ -60,9 +61,9 @@
           <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha512"/>
-        <DigestValue>tTQZylgNJuqvnp3teqYOTitReILiKcJYTKRrIV3sA7UZxQT2kS8IeSV5dVWkNA3UgUCFWMyqcggE56SF2E2M1Q==</DigestValue>
+        <DigestValue>ovssxsQcpYOsPz2xx7F5J9biAGBTPeLMyumK18gsO816GJdRyK6phW03A0EpCjx/3BW6moBRD2wjHs1SM4V0ZA==</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue>KQaSc/qWGNb2lxZDOkjPUcqJC8CJw9JZJycFuSGFmde1XSJIm25+6O8yTwtbn67VikvSIaDspDckkW5Yoxi3XnMKKXlo+289d1Kqat9yf5inXIifXv7dHl+R3/kEgeUqt8sjnOISaRoGVmN2HhaKb06sb8prGC/Yof9nYJChMaIWQ54Pvt2e8AtwHEIC+JYqToCdV4nAytttplRVh5ztI1h3hzLcFoohzVJj//5ss04c+n7ZM7QlT8YWPkBxoUn6smdLPRuZ0CqbwCFMb2gVYAKxn6lytvu0iyrRjF3hRVw1hI/URo9PWv7hEgQewO5IHy+f3l4t9QhBmk+UULS6VQ==</SignatureValue>
+    <SignatureValue>IL2e168RsiTlsAk7zaJyhX0tSf7W8a01MYE15dPLNti7+vIxt6bCxJeyEn96VFnACBvYc8zrnUxhlP5/dDgKNFGk44qrZqIBlMzQqOvTzIYxHz1Y7IkyxWN03y6GThPN2ziWvOP4OSVsa/BtYkWIwPbEf0rhN89dSd+zK2UNaUHd82LjSrcq6WlroPc+FlWwinPwMGrL2/tp9KadTGir3N8GlypUtY8iHBLPgrbzcgi2vgXqIK/DygMktzPuN2QF6uFTK9CySGFIxkQDlkXXN3n1s1O6eXmpRpacZxAr70ji5sxmhDKDsb3IpELcjUL594ybdDLX9lvhD6kCvyYBgA==</SignatureValue>
   </Signature>
 </factura>
