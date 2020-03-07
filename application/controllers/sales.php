@@ -249,7 +249,7 @@ class Sales extends Secure_area {
         $this->twig->display("sales/receipt_dongu");
     }
 
-    function get_sri(){
+    function get_sri($clave_acceso = null){
         $this->load->helper('file');
         //Pruebas online
         //https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantes?wsdl
@@ -265,37 +265,47 @@ class Sales extends Secure_area {
         //https://cel.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl
         $c = new nusoap_client('https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl',true);
         // https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl
-        // $client = $c->call('validarComprobante');
-        // $args = array('file_name' => 'myfile.zip');
-        //$file_path = 'C:\programas_manual\proyectos\pos\fact1_firmada_2.xml';
-         $file_path = 'C:\programas_manual\proyectos\pos\0801202001180278423900110010010000000011234567810.xml';
+        $file_path = "C:/programas_manual/proyectos/pos/files/sri/signed/". ($clave_acceso==null?"2602202001180278423900110010010000116691988668616":$clave_acceso) . ".xml";
+        print_r($file_path);
         $xml_file = read_file($file_path);
-        //$xml_file = @file_get_contents('C:\programas_manual\proyectos\pos\fact1_firmada.xml');
-        //print_r($xml_file);
-        //die();
-        /*$parse = $c->parseString($xml_file, 'xml');
-        print_r($parse);*/
-        //$xml_file = unpack("N*",$xml_file); 
-
-        /*$handle = fopen($file_path, "rb");
-        $xml_file = fread($handle, filesize($file_path));
-        fclose($handle);*/
-        // print_r($xml_file);
-        // die();
-        
-        //$xml_file =  unpack('C*', $xml_file);
-        //print_r($xml_file);
-        $args = array("xml_file" => $xml_file);
-        //$args = array("claveAcceso" => "22");
-        //$client = $c->call('validarComprobante', $xml_file);
+        $args = array('xml' => base64_encode($xml_file));
         $client = $c->call('validarComprobante', $args);
-        // print_r("se fue");
-        // $client = $c->validarComprobante($args);
-        //$client = $c->call('comprobante');
+        print_r($client);
+    }
+
+    function get_sri_respuesta_comprobante($clave_acceso=null){
+        $this->load->helper('file');
+        $c = new nusoap_client('https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl',true);
+        // https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl
+        $file_path = 'C:/programas_manual/proyectos/pos/files/sri/signed/2602202001180278423900110010010000116691988668616.xml';
+        $xml_file = read_file($file_path);
+        $args = array('claveAccesoConsultada' => $clave_acceso,
+                        'numeroComprobantes' => "1",
+                        'autorizaciones' => "1");
+        $client = $c->call('respuestaComprobante', $args);
+        var_dump($client);
+    }
+
+    function get_sri_respuesta($auth_code = null){
+        $c = new nusoap_client('https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl',true);
+        $auth_code = $auth_code == null?"2602202001180278423900110010010000116691988668616":$auth_code;
+        
+        $args = array("claveAccesoComprobante" => $auth_code);
+        $client = $c->call('autorizacionComprobante', $args);
+        var_dump($client);
+        // $client = $c->call('autorizacionComprobante', $auth_code);
+         /*print_r("se fue");
+         $client = $c->autorizacionComprobante($args);*/
+        //$client = $c->call('RespuestaComprobante');
         
         print_r($client);
     }
 
+    /**
+     * Generate XML file in the SRI format. The invoice shouldn't be less than 43201 minutes (30 days).
+     * @param  [int] $sale_id [Identification of sale]
+     * @return [xml]          [Invoice in SRI Ecuador format]
+     */
     function generate_electronic_document($sale_id) {
         $this->load->helper('MY_xml');
         $sale_info = $this->Sale->get_info($sale_id)->row_array();
@@ -338,11 +348,7 @@ class Sales extends Secure_area {
         $data['amount_tendered'] = to_currency($this->sale_lib->get_payments_total() * -1);
         $data['employee'] = $emp_info->first_name . ' ' . $emp_info->last_name;
 
-        /*RUC 04
-        CEDULA 05
-        PASAPORTE 06
-        VENTA A CONSUMIDOR 07 
-        IDENTIFICACION DELEXTERIOR 08*/
+        /*RUC 04, CEDULA 05, PASAPORTE 06, VENTA A CONSUMIDOR 07, IDENTIFICACION DEL EXTERIOR 08*/
         //Consumidor final
         $tipo_id_comprador = '07';
         if ($customer_id != -1) {
@@ -434,6 +440,15 @@ class Sales extends Secure_area {
             }
             
         }
+        $info_adicionales = xml_add_child($factura, 'infoAdicional');
+        $info_adicional = xml_add_child($info_adicionales, 'campoAdicional',  $cust_info->address_1);
+        $info_adicional->setAttribute('nombre', "Dirección");
+        // $info_adicional->setAttribute('nombre', "Dirección");
+        if($cust_info->email){
+            $info_adicional = xml_add_child($info_adicionales, 'campoAdicional',  $cust_info->email);
+            $info_adicional->setAttribute('nombre', "Email");
+        }
+
         // $cert_store = file_get_contents('D:\firmaElectrónica\MarioTorresTest.pfx');
         $cert_store = file_get_contents('C:\Users\marioT\Google Drive\Proyectos\pos\guayavoz\firma\cd\alex_patricio_lascano_nunez.p12');
         // $status = openssl_pkcs12_read($cert_store, $cert_info, '12345678');
@@ -459,8 +474,10 @@ class Sales extends Secure_area {
         // This method does not save the public key within the XML file.
         // This file cannot be verified unless
         // the verifying code has the key with which it was signed.
-
-        file_put_contents('fact1.xml', $dom->saveXML());
+        $dom->formatOutput = true;
+        file_put_contents('files/sri/'.$authoriztion_code.'.xml', $dom->saveXML());
+        xml_print($dom);
+        return;
 
         // Read the xml file content
         $filename = 'fact1.xml';
