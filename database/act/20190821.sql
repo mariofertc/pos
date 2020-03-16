@@ -9,3 +9,6 @@ alter table phppos_abonos add column employee_id int(10);
 
  alter table phppos_boxes modify column comment text null;
  alter table phppos_boxes modify column close_time timestamp null;
+
+ --Facturación Electrónica
+ alter table phppos_almacenes add column codigo_facturacion int(3);

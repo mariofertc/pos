@@ -46,7 +46,8 @@ protected $controller_name = "";
             'nombre' => $this->input->post('nombre'),
             'short_name' => $this->input->post('short_name'),
             'direccion' => $this->input->post('direccion'),
-            'utilidad' => $this->input->post('utilidad')
+            'utilidad' => $this->input->post('utilidad'),
+            'codigo_facturacion' => $this->input->post('codigo_facturacion')!==""?$this->input->post('codigo_facturacion'):null
         );
 
         if ($this->Almacen->save($almacen_data, $almacen_id)) {
@@ -58,6 +59,8 @@ protected $controller_name = "";
 
     function view($almacen_id = -1) {
         $data['almacen_info'] = $this->Almacen->get_info($almacen_id);
+        //Get secuencial by store.
+        
         $this->twig->set($data);
         $this->twig->display("almacenes/form");
         //$this->load->view("almacenes/form", $data);

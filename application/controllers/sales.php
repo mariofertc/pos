@@ -320,6 +320,7 @@ class Sales extends Secure_area {
         $tipo_ambiente = "1";
         //Longitud 6. Establecimiento 001, punto de emisión 001
         $establecimiento = "001";
+        //TODO: By user. By the moment it'll be a store with one emision point.
         $punto_emision = "001";
         //Secuencial, longitud 9. Ej: 000000001
         $numero_secuencial = str_pad($sale_id, 9, "0", STR_PAD_LEFT);
@@ -443,11 +444,15 @@ class Sales extends Secure_area {
         $info_adicionales = xml_add_child($factura, 'infoAdicional');
         $info_adicional = xml_add_child($info_adicionales, 'campoAdicional',  $cust_info->address_1);
         $info_adicional->setAttribute('nombre', "Dirección");
-        // $info_adicional->setAttribute('nombre', "Dirección");
+        // $info_adicional->setAttribute('nombre', "Direccion");
         if($cust_info->email){
             $info_adicional = xml_add_child($info_adicionales, 'campoAdicional',  $cust_info->email);
             $info_adicional->setAttribute('nombre', "Email");
         }
+         $dom->formatOutput = true;
+        file_put_contents('files/sri/'.$authoriztion_code.'.xml', $dom->saveXML());
+        xml_print($dom);
+        return;
 
         // $cert_store = file_get_contents('D:\firmaElectrónica\MarioTorresTest.pfx');
         $cert_store = file_get_contents('C:\Users\marioT\Google Drive\Proyectos\pos\guayavoz\firma\cd\alex_patricio_lascano_nunez.p12');

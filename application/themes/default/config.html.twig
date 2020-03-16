@@ -188,6 +188,11 @@
 									{{ form_label(line('config_printe_after_sale')~':', 'print_after_sale',{'class':'wide'}) }}
 									{{ form_checkbox({'name':'print_after_sale','id':'print_after_sale','value':'print_after_sale','checked':config('print_after_sale'),'class':"checkbox-inline"}) }}
 								</div>
+								{% set field = 'facturacion_electronica' %}
+								<div class="form-group">
+									{{ form_label(line('config_'~field)~':', field,{'class':'wide'}) }}
+									{{ form_checkbox({'name':field,'id':field,'value':field,'checked':config(field),'class':"checkbox-inline"}) }}
+								</div>
 							</div>
 							{{ form_submit({'name':'submit','id':'submit','value':line('common_submit'),'class':'btn btn-success'}) }}
 						</div>

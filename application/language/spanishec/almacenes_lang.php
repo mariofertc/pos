@@ -28,3 +28,7 @@ $lang['almacenes_destino'] = 'Almacén Dest';
 $lang['almacenes_utilidad'] = 'Utilidad(%)';
 $lang['almacenes_utilidad_range'] = 'Utilidad(%) debe tener un valor entre 0 y 100 %';
 $lang['almacenes_utilidad_number'] = 'Utilidad(%) debe ser un número';
+$lang['almacenes_codigo_facturacion'] = 'Código Facturación';
+$lang['almacenes_codigo_facturacion_placeholder'] = 'Ingrese el código para facturación. Ej: 001';
+$lang['almacenes_codigo_facturacion_range'] = 'Debe tener un valor entre 0 y 1000';
+$lang['almacenes_codigo_facturacion_number'] = 'Debe ser un número';

@@ -22,6 +22,13 @@
     <div class="form-group">
         {{form_label(line('almacenes_utilidad')~':', 'utilidad') }}
         {{form_input({'name':'utilidad','id':'utilidad','value':almacen_info.utilidad,'class':'form-control'}) }}
+    </div> 
+
+    {% set field = "codigo_facturacion" %}
+    <div class="form-group">
+        {{form_label(line('almacenes_'~ field)~':', field) }}
+        {# {{form_input({'name':field,'id':field,'value':_context['almacen_info'].codigo_facturacion,'class':'form-control', 'placeholder': line('almacenes_'~field~'_placeholder')}) }} #}
+        {{form_input({'name':field,'id':field,'value':attribute(almacen_info, field),'class':'form-control', 'placeholder': line('almacenes_'~field~'_placeholder')}) }}
     </div>
     {{ form_submit({'name':'submit','id':'submit','value':line('common_submit'),'class':'btn btn-success'}) }}
 </fieldset>
@@ -54,6 +61,10 @@
                 utilidad: {
                     range: [0, 100],
                     number: true
+                },
+                codigo_facturacion:{
+                    range: [1,999],
+                    number: true
                 }
             },
             messages: {
@@ -65,6 +76,10 @@
                 utilidad: {
                     range: "{{line('almacenes_utilidad_range') }}",
                     number: "{{line('almacenes_utilidad_number') }}"
+                },
+                codigo_facturacion: {
+                    range: "{{line('almacenes_codigo_facturacion_range') }}",
+                    number: "{{line('almacenes_codigo_facturacion_number') }}"
                 }
             }
         });
