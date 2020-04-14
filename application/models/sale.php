@@ -56,6 +56,17 @@ class Sale extends CI_Model
 		'comment'=>$comment,
 		'almacen_id'=>$data['almacen_id']
 		);
+
+		//Add facturation fields
+		if($this->config->item('facturacion_electronica'))
+		{
+			$sales_data['establecimiento'] = (int)$data['establecimiento'];
+			$sales_data['punto_emision'] = 1;
+			$next_id = $this->get_last_invoice_number($sales_data['establecimiento'], $sales_data['punto_emision']);
+			
+			$sales_data['numero_secuencial'] = $next_id!==null?$next_id->numero_secuencial+1:1;
+		}
+		// die();
 		
 
 		//Run these queries as a transaction, we want to make sure we do all or nothing
@@ -146,6 +157,15 @@ class Sale extends CI_Model
 		}
 		
 		return $sale_id;
+	}
+
+	function get_last_invoice_number($establecimiento, $punto_emision){
+		$this->db->from('sales');
+		$this->db->where('establecimiento',$establecimiento);
+		$this->db->where('punto_emision',$punto_emision);
+		$this->db->select_max('numero_secuencial');
+		$query = $this->db->get();
+		return $query->row();
 	}
 	
 	function delete($sale_id)

@@ -12,3 +12,4 @@ alter table phppos_abonos add column employee_id int(10);
 
  --Facturación Electrónica
  alter table phppos_almacenes add column codigo_facturacion int(3);
+ alter table phppos_sales add column establecimiento int(3), add column punto_emision int(3), add column numero_secuencial int(9);

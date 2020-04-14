@@ -153,10 +153,18 @@ class Sales extends Secure_area {
         $data['total'] = $this->sale_lib->get_total();
         $data['discount'] = $this->sale_lib->get_total_discount();
 
-        $selected_almacen = $this->Almacen->get_first();
+        $selected_almacen = null;
+
+        //Get store if is selected, other case get first
+        if($this->sale_lib->get_almacen()!= -1){
+            // $selected_almacen = $this->Almacen->get_all(1,0,array('almacen_id'=>$this->sale_lib->get_almacen()));
+            $selected_almacen = $this->Almacen->get_info($this->sale_lib->get_almacen);
+        }else{
+            $selected_almacen = $this->Almacen->get_first();
+        }
         //Almacen
-        $data['almacen_id'] = $this->sale_lib->get_almacen() != -1 ? $this->sale_lib->get_almacen() : $selected_almacen->almacen_id;
-        // var_dump($data['almacen_id']);
+        $data['almacen_id'] = $selected_almacen->almacen_id;
+        $data['establecimiento'] = $selected_almacen->codigo_facturacion;
         // ECHO $data['almacen_id'];DIE;
 
         $data['receipt_title'] = $this->lang->line('sales_receipt');
@@ -319,11 +327,14 @@ class Sales extends Secure_area {
         //1 - Pruebas, 2 - Producción
         $tipo_ambiente = "1";
         //Longitud 6. Establecimiento 001, punto de emisión 001
-        $establecimiento = "001";
+        // $establecimiento = "001";
+        $establecimiento = $sale_info['establecimiento'];
         //TODO: By user. By the moment it'll be a store with one emision point.
-        $punto_emision = "001";
+        // $punto_emision = "001";
+        $punto_emision = $sale_info['punto_emision'];
         //Secuencial, longitud 9. Ej: 000000001
-        $numero_secuencial = str_pad($sale_id, 9, "0", STR_PAD_LEFT);
+        // $numero_secuencial = str_pad($sale_id, 9, "0", STR_PAD_LEFT);
+        $numero_secuencial = str_pad($sale_info['numero_secuencial'], 9, "0", STR_PAD_LEFT);
         //Generate my own code. For me 19886686 RM
         $codigo_numerico = "19886686";
         //Always
