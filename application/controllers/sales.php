@@ -321,17 +321,17 @@ class Sales extends Secure_area {
         //ddmmaaaa
         //Make authorization code
         $date =  date('dmY', strtotime($sale_info['sale_time']));
-        //Factura 01
+        //Factura 01, LIQUIDACIÓN DE COMPRA DE BIENES Y PRESTACIÓN DE SERVICIOS 03, NOTA DE CRÉDITO 04, NOTA DE DÉBITO 05, GUÍA DE REMISIÓN 06, COMPROBANTE DE RETENCIÓN 07
         $tipo_comprobante = "01";
         $ruc = $this->config->item('identity');
         //1 - Pruebas, 2 - Producción
-        $tipo_ambiente = "1";
-        //Longitud 6. Establecimiento 001, punto de emisión 001
+        $tipo_ambiente =  $this->config->item('fe_ambiente');
+        //Longitud 6. Establecimiento 001, por almacen, punto de emisión 001
         // $establecimiento = "001";
-        $establecimiento = $sale_info['establecimiento'];
-        //TODO: By user. By the moment it'll be a store with one emision point.
+        $establecimiento =  str_pad($sale_info['establecimiento'], 3, "0", STR_PAD_LEFT);
+        //TODO: By user. By the moment it'll be a store with one emision point. 001 by each store.
         // $punto_emision = "001";
-        $punto_emision = $sale_info['punto_emision'];
+        $punto_emision = str_pad($sale_info['punto_emision'], 3, "0", STR_PAD_LEFT);
         //Secuencial, longitud 9. Ej: 000000001
         // $numero_secuencial = str_pad($sale_id, 9, "0", STR_PAD_LEFT);
         $numero_secuencial = str_pad($sale_info['numero_secuencial'], 9, "0", STR_PAD_LEFT);
@@ -461,7 +461,8 @@ class Sales extends Secure_area {
             $info_adicional->setAttribute('nombre', "Email");
         }
          $dom->formatOutput = true;
-        file_put_contents('files/sri/'.$authoriztion_code.'.xml', $dom->saveXML());
+        // file_put_contents(BASEPATH."files/sri/".$authoriztion_code.'.xml', $dom->saveXML());
+        file_put_contents(FCPATH."files/sri/".$authoriztion_code.'.xml', $dom->saveXML());
         xml_print($dom);
         return;
 

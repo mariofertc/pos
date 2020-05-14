@@ -33,6 +33,7 @@
 					</li>
 				</ul>
 				<div class="tab-content" id="myTabContent">
+					{# <div class="tab-pane active" id="basic" role="tabpanel" aria-labelledby="basic-tab"> #}
 					<div class="tab-pane active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
 						<div class="col-lg-6">
 							<div class="form-group">	
@@ -191,17 +192,23 @@
 								{{ form_label(line('config_printe_after_sale')~':', 'print_after_sale',{'class':'wide'}) }}
 								{{ form_checkbox({'name':'print_after_sale','id':'print_after_sale','value':'print_after_sale','checked':config('print_after_sale'),'class':"checkbox-inline"}) }}
 							</div>
+						</div>
+						{{ form_submit({'name':'submit','id':'submit','value':line('common_submit'),'class':'btn btn-success'}) }}
+					</div>
+					<div class="tab-pane" id="electronic" role="tabpanel" aria-labelledby="electronic-tab">
+						{{form_open('config/save/',{'id':'config_form', "role":"form"})}}
+							<ul id="error_message_box"></ul>
 							{% set field = 'facturacion_electronica' %}
 							<div class="form-group">
 								{{ form_label(line('config_'~field)~':', field,{'class':'wide'}) }}
 								{{ form_checkbox({'name':field,'id':field,'value':field,'checked':config(field),'class':"checkbox-inline"}) }}
 							</div>
-						</div>
+							<div class="form-group">
+								{{ form_label(line('config_fe_ambiente')~':', 'ambiente',{'class':'wide required'}) }}
+								{{ form_dropdown('ambiente', {'1' : 'Pruebas', '2' : 'Producción'}, config('fe_ambiente'),"class='form-control'") }}
+							</div>
 						{{ form_submit({'name':'submit','id':'submit','value':line('common_submit'),'class':'btn btn-success'}) }}
-					</div>
-					<div class="tab-pane fade" id="electronic" role="tabpanel" aria-labelledby="electronic-tab">
-									Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher
-									synth. Cosby sweater eu banh mi, qui irure terr.
+
 					</div>
 
 					<div class="tab-pane fade" id="credits" role="tabpanel" aria-labelledby="credits-tab">

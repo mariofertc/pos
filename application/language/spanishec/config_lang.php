@@ -23,3 +23,4 @@ $lang['config_timezone'] = 'Huso Horario';
 $lang['config_identity'] = "RUC";
 $lang['config_identity_place_holder'] = "Ingrese el RUC de la Empresa";
 $lang['config_facturacion_electronica'] = "Habilitar facturación electrónica";
+$lang['config_fe_ambiente'] = "Ambiente";

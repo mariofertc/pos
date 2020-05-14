@@ -31,7 +31,8 @@ class Config extends Secure_area {
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone'),
             'print_after_sale' => $this->input->post('print_after_sale'),
-            'facturacion_electronica' => $this->input->post('facturacion_electronica')
+            'facturacion_electronica' => $this->input->post('facturacion_electronica'),
+            'fe_ambiente' => $this->input->post('ambiente')
         );
 
         if ($this->Appconfig->batch_save($batch_save_data)) {
