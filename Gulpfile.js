@@ -1,13 +1,15 @@
 var gulp = require('gulp'),
 	browserSync = require('browser-sync'),
-	browserify = require('gulp-browserify'),
+    //browserify = require('gulp-browserify'),
+    browserify = require('browserify'),
 	uglify = require('gulp-uglify'),
 	gulpif = require('gulp-if'),
 	connect = require('gulp-connect-php'),
 	replace = require('gulp-replace'),
 	reload = browserSync.reload,
 	mainBower = require('main-bower-files'),
-	filter = require('gulp-filter');
+    filter = require('gulp-filter'),
+    source = require('vinyl-source-stream');
 var concat = require('gulp-concat');
 
 var env=process.env.NODE_ENV || 'development';
@@ -20,7 +22,7 @@ var config = {
     bowerJson: './assets/bower.json'
 }
 
-var url_actual = '/pos/web/Carts';
+var url_actual = '/pos/web/market';
 
 gulp.task('js', () =>
   gulp.src(['assets/web/js/**/*.js','!assets/web/js/dev/main.js'])
@@ -97,7 +99,7 @@ gulp.task('js_market', () =>
         'assets/bower_components/bootstrap-star-rating/js/star-rating.min.js',
         'assets/web/js_min/jquery.scrollUp.min.js',
         'assets/web/js_min/price-range.js',
-        'assets/web/js_min/jquery.prettyPhoto.js',
+        //'assets/web/js_min/jquery.prettyPhoto.js',
         'assets/web/js_min/main.js',
         ])
         .pipe(concat('market.js'))
@@ -220,14 +222,22 @@ gulp.task('css_upload_images', () =>
         .pipe(reload({stream:true}))
 );
 
+gulp.task('browserify', function() {
+    return browserify('assets/web/js/dev/main.js')
+        .bundle()
+        //Pass desired output filename to vinyl-source-stream
+        .pipe(source('main.js'))
+        // Start piping stream to tasks!
+        .pipe(gulp.dest('assets/web/js_min/'));
+});
 
-gulp.task('browsy', () =>
+/*gulp.task('browsy', () =>
   gulp.src(['assets/web/js/dev/main.js'])
     	.pipe(browserify({ debug : env === 'development' }))
 		.pipe(gulpif(env === "production",uglify()))
-		.pipe(gulp.dest('assets/web/js_min/'))
+		.pipe(gulp.dest('assets/web/js_min/dev'))
 		.pipe(reload({stream:true}))
-);
+);*/
 
 gulp.task('css', () =>
   gulp.src(['assets/web/css/**/*.css'])
@@ -266,11 +276,11 @@ gulp.task('views', () =>
 
 gulp.task('watch', () => {
   	gulp.watch(['assets/web/js/**/*.js','!assets/web/js/dev/main.js'],['js']);
-	gulp.watch(['assets/web/js/dev/**/*.js'],['browsy']);
+	gulp.watch(['assets/web/js/dev/**/*.js'],['browserify','js_market']);
 	gulp.watch(['assets/web/css/**/*.css','!assets/web/css_min/**/*.css'],['css']);
 	gulp.watch('**/*.php',['php']);
 	gulp.watch('**/*.twig',['views'])
 	}
 );
-gulp.task('default', gulp.series('js','browsy','css','connect-sync','watch'));
+gulp.task('default', gulp.series('js','browserify', 'js_market','css','connect-sync','watch'));
 gulp.task('back', gulp.series('js_back','css_back'));

@@ -1,5 +1,5 @@
 var utils = require('./utils');
-	frms=require('./formularios');
+ frms=require('./formularios');
 module.exports={
 	add_filter_to_marked : function (filtro){
 		$btn  = $(filtro);
@@ -30,7 +30,7 @@ module.exports={
 		filters.ultimo = ult.index('.product-image-wrapper');
 		filters.nombre = $('#search_input').val();
 		//console.log(filters.nombre);
-		console.log(filters.toSource());
+		//console.log(filters.toSource());
 		return filters;
 	},
 	load_destacados : function(){

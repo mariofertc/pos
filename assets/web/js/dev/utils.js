@@ -7,7 +7,9 @@ module.exports={
 	getBasePath : function(){
 		var port = window.location.port;
 		var pathArray = window.location.pathname.split('/');
-		var applicacion = (window.location.host === "127.0.0.1" || window.location.host === "localhost" || window.location.host.indexOf('192.168.') !== -1) ? pathArray[1] : '';
+		console.log(window.location.host)
+		var applicacion = (window.location.host === "127.0.0.1" || window.location.host === "localhost" || window.location.host.indexOf('192.168.') !== -1 
+		|| window.location.host === "ambatosystem.com") ? pathArray[1] : '';
 		if(port==="3000"){
 			applicacion = applicacion+'pos/';
 		}

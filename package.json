@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "browser-sync": "^2.26.7",
+    "browserify": "^16.5.1",
     "gulp": "^4.0.2",
     "gulp-browserify": "~0.5.1",
     "gulp-concat": "^2.6.1",
@@ -9,9 +10,11 @@
     "gulp-if": "^3.0.0",
     "gulp-replace": "^0.6.1",
     "gulp-uglify": "^3.0.2",
-    "main-bower-files": "^2.13.3"
+    "main-bower-files": "^2.13.3",
+    "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
+    "browserify": "^16.5.1",
     "natives": "^1.1.6"
   }
 }

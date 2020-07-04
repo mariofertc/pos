@@ -13325,23 +13325,591 @@ var Custombox=function(a,b,c){"use strict";var d={create:document.createElement,
 	$.fn.slider.Constructor = Slider;
 
 }( window.jQuery );
-/* ------------------------------------------------------------------------
-	Class: prettyPhoto
-	Use: Lightbox clone for jQuery
-	Author: Stephane Caron (http://www.no-margin-for-errors.com)
-	Version: 3.1.5
-------------------------------------------------------------------------- */
-(function(e){function t(){var e=location.href;hashtag=e.indexOf("#prettyPhoto")!==-1?decodeURI(e.substring(e.indexOf("#prettyPhoto")+1,e.length)):false;return hashtag}function n(){if(typeof theRel=="undefined")return;location.hash=theRel+"/"+rel_index+"/"}function r(){if(location.href.indexOf("#prettyPhoto")!==-1)location.hash="prettyPhoto"}function i(e,t){e=e.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");var n="[\\?&]"+e+"=([^&#]*)";var r=new RegExp(n);var i=r.exec(t);return i==null?"":i[1]}e.prettyPhoto={version:"3.1.5"};e.fn.prettyPhoto=function(s){function g(){e(".pp_loaderIcon").hide();projectedTop=scroll_pos["scrollTop"]+(d/2-a["containerHeight"]/2);if(projectedTop<0)projectedTop=0;$ppt.fadeTo(settings.animation_speed,1);$pp_pic_holder.find(".pp_content").animate({height:a["contentHeight"],width:a["contentWidth"]},settings.animation_speed);$pp_pic_holder.animate({top:projectedTop,left:v/2-a["containerWidth"]/2<0?0:v/2-a["containerWidth"]/2,width:a["containerWidth"]},settings.animation_speed,function(){$pp_pic_holder.find(".pp_hoverContainer,#fullResImage").height(a["height"]).width(a["width"]);$pp_pic_holder.find(".pp_fade").fadeIn(settings.animation_speed);if(isSet&&S(pp_images[set_position])=="image"){$pp_pic_holder.find(".pp_hoverContainer").show()}else{$pp_pic_holder.find(".pp_hoverContainer").hide()}if(settings.allow_expand){if(a["resized"]){e("a.pp_expand,a.pp_contract").show()}else{e("a.pp_expand").hide()}}if(settings.autoplay_slideshow&&!m&&!f)e.prettyPhoto.startSlideshow();settings.changepicturecallback();f=true});C();s.ajaxcallback()}function y(t){$pp_pic_holder.find("#pp_full_res object,#pp_full_res embed").css("visibility","hidden");$pp_pic_holder.find(".pp_fade").fadeOut(settings.animation_speed,function(){e(".pp_loaderIcon").show();t()})}function b(t){t>1?e(".pp_nav").show():e(".pp_nav").hide()}function w(e,t){resized=false;E(e,t);imageWidth=e,imageHeight=t;if((p>v||h>d)&&doresize&&settings.allow_resize&&!u){resized=true,fitting=false;while(!fitting){if(p>v){imageWidth=v-200;imageHeight=t/e*imageWidth}else if(h>d){imageHeight=d-200;imageWidth=e/t*imageHeight}else{fitting=true}h=imageHeight,p=imageWidth}if(p>v||h>d){w(p,h)}E(imageWidth,imageHeight)}return{width:Math.floor(imageWidth),height:Math.floor(imageHeight),containerHeight:Math.floor(h),containerWidth:Math.floor(p)+settings.horizontal_padding*2,contentHeight:Math.floor(l),contentWidth:Math.floor(c),resized:resized}}function E(t,n){t=parseFloat(t);n=parseFloat(n);$pp_details=$pp_pic_holder.find(".pp_details");$pp_details.width(t);detailsHeight=parseFloat($pp_details.css("marginTop"))+parseFloat($pp_details.css("marginBottom"));$pp_details=$pp_details.clone().addClass(settings.theme).width(t).appendTo(e("body")).css({position:"absolute",top:-1e4});detailsHeight+=$pp_details.height();detailsHeight=detailsHeight<=34?36:detailsHeight;$pp_details.remove();$pp_title=$pp_pic_holder.find(".ppt");$pp_title.width(t);titleHeight=parseFloat($pp_title.css("marginTop"))+parseFloat($pp_title.css("marginBottom"));$pp_title=$pp_title.clone().appendTo(e("body")).css({position:"absolute",top:-1e4});titleHeight+=$pp_title.height();$pp_title.remove();l=n+detailsHeight;c=t;h=l+titleHeight+$pp_pic_holder.find(".pp_top").height()+$pp_pic_holder.find(".pp_bottom").height();p=t}function S(e){if(e.match(/youtube\.com\/watch/i)||e.match(/youtu\.be/i)){return"youtube"}else if(e.match(/vimeo\.com/i)){return"vimeo"}else if(e.match(/\b.mov\b/i)){return"quicktime"}else if(e.match(/\b.swf\b/i)){return"flash"}else if(e.match(/\biframe=true\b/i)){return"iframe"}else if(e.match(/\bajax=true\b/i)){return"ajax"}else if(e.match(/\bcustom=true\b/i)){return"custom"}else if(e.substr(0,1)=="#"){return"inline"}else{return"image"}}function x(){if(doresize&&typeof $pp_pic_holder!="undefined"){scroll_pos=T();contentHeight=$pp_pic_holder.height(),contentwidth=$pp_pic_holder.width();projectedTop=d/2+scroll_pos["scrollTop"]-contentHeight/2;if(projectedTop<0)projectedTop=0;if(contentHeight>d)return;$pp_pic_holder.css({top:projectedTop,left:v/2+scroll_pos["scrollLeft"]-contentwidth/2})}}function T(){if(self.pageYOffset){return{scrollTop:self.pageYOffset,scrollLeft:self.pageXOffset}}else if(document.documentElement&&document.documentElement.scrollTop){return{scrollTop:document.documentElement.scrollTop,scrollLeft:document.documentElement.scrollLeft}}else if(document.body){return{scrollTop:document.body.scrollTop,scrollLeft:document.body.scrollLeft}}}function N(){d=e(window).height(),v=e(window).width();if(typeof $pp_overlay!="undefined")$pp_overlay.height(e(document).height()).width(v)}function C(){if(isSet&&settings.overlay_gallery&&S(pp_images[set_position])=="image"){itemWidth=52+5;navWidth=settings.theme=="facebook"||settings.theme=="pp_default"?50:30;itemsPerPage=Math.floor((a["containerWidth"]-100-navWidth)/itemWidth);itemsPerPage=itemsPerPage<pp_images.length?itemsPerPage:pp_images.length;totalPage=Math.ceil(pp_images.length/itemsPerPage)-1;if(totalPage==0){navWidth=0;$pp_gallery.find(".pp_arrow_next,.pp_arrow_previous").hide()}else{$pp_gallery.find(".pp_arrow_next,.pp_arrow_previous").show()}galleryWidth=itemsPerPage*itemWidth;fullGalleryWidth=pp_images.length*itemWidth;$pp_gallery.css("margin-left",-(galleryWidth/2+navWidth/2)).find("div:first").width(galleryWidth+5).find("ul").width(fullGalleryWidth).find("li.selected").removeClass("selected");goToPage=Math.floor(set_position/itemsPerPage)<totalPage?Math.floor(set_position/itemsPerPage):totalPage;e.prettyPhoto.changeGalleryPage(goToPage);$pp_gallery_li.filter(":eq("+set_position+")").addClass("selected")}else{$pp_pic_holder.find(".pp_content").unbind("mouseenter mouseleave")}}function k(t){if(settings.social_tools)facebook_like_link=settings.social_tools.replace("{location_href}",encodeURIComponent(location.href));settings.markup=settings.markup.replace("{pp_social}","");e("body").append(settings.markup);$pp_pic_holder=e(".pp_pic_holder"),$ppt=e(".ppt"),$pp_overlay=e("div.pp_overlay");if(isSet&&settings.overlay_gallery){currentGalleryPage=0;toInject="";for(var n=0;n<pp_images.length;n++){if(!pp_images[n].match(/\b(jpg|jpeg|png|gif)\b/gi)){classname="default";img_src=""}else{classname="";img_src=pp_images[n]}toInject+="<li class='"+classname+"'><a href='#'><img src='"+img_src+"' width='50' alt='' /></a></li>"}toInject=settings.gallery_markup.replace(/{gallery}/g,toInject);$pp_pic_holder.find("#pp_full_res").after(toInject);$pp_gallery=e(".pp_pic_holder .pp_gallery"),$pp_gallery_li=$pp_gallery.find("li");$pp_gallery.find(".pp_arrow_next").click(function(){e.prettyPhoto.changeGalleryPage("next");e.prettyPhoto.stopSlideshow();return false});$pp_gallery.find(".pp_arrow_previous").click(function(){e.prettyPhoto.changeGalleryPage("previous");e.prettyPhoto.stopSlideshow();return false});$pp_pic_holder.find(".pp_content").hover(function(){$pp_pic_holder.find(".pp_gallery:not(.disabled)").fadeIn()},function(){$pp_pic_holder.find(".pp_gallery:not(.disabled)").fadeOut()});itemWidth=52+5;$pp_gallery_li.each(function(t){e(this).find("a").click(function(){e.prettyPhoto.changePage(t);e.prettyPhoto.stopSlideshow();return false})})}if(settings.slideshow){$pp_pic_holder.find(".pp_nav").prepend('<a href="#" class="pp_play">Play</a>');$pp_pic_holder.find(".pp_nav .pp_play").click(function(){e.prettyPhoto.startSlideshow();return false})}$pp_pic_holder.attr("class","pp_pic_holder "+settings.theme);$pp_overlay.css({opacity:0,height:e(document).height(),width:e(window).width()}).bind("click",function(){if(!settings.modal)e.prettyPhoto.close()});e("a.pp_close").bind("click",function(){e.prettyPhoto.close();return false});if(settings.allow_expand){e("a.pp_expand").bind("click",function(t){if(e(this).hasClass("pp_expand")){e(this).removeClass("pp_expand").addClass("pp_contract");doresize=false}else{e(this).removeClass("pp_contract").addClass("pp_expand");doresize=true}y(function(){e.prettyPhoto.open()});return false})}$pp_pic_holder.find(".pp_previous, .pp_nav .pp_arrow_previous").bind("click",function(){e.prettyPhoto.changePage("previous");e.prettyPhoto.stopSlideshow();return false});$pp_pic_holder.find(".pp_next, .pp_nav .pp_arrow_next").bind("click",function(){e.prettyPhoto.changePage("next");e.prettyPhoto.stopSlideshow();return false});x()}s=jQuery.extend({hook:"rel",animation_speed:"fast",ajaxcallback:function(){},slideshow:5e3,autoplay_slideshow:false,opacity:.8,show_title:true,allow_resize:true,allow_expand:true,default_width:500,default_height:344,counter_separator_label:"/",theme:"pp_default",horizontal_padding:20,hideflash:false,wmode:"opaque",autoplay:true,modal:false,deeplinking:true,overlay_gallery:true,overlay_gallery_max:30,keyboard_shortcuts:true,changepicturecallback:function(){},callback:function(){},ie6_fallback:true,markup:'<div class="pp_pic_holder"> 						<div class="ppt"> </div> 						<div class="pp_top"> 							<div class="pp_left"></div> 							<div class="pp_middle"></div> 							<div class="pp_right"></div> 						</div> 						<div class="pp_content_container"> 							<div class="pp_left"> 							<div class="pp_right"> 								<div class="pp_content"> 									<div class="pp_loaderIcon"></div> 									<div class="pp_fade"> 										<a href="#" class="pp_expand" title="Expand the image">Expand</a> 										<div class="pp_hoverContainer"> 											<a class="pp_next" href="#">next</a> 											<a class="pp_previous" href="#">previous</a> 										</div> 										<div id="pp_full_res"></div> 										<div class="pp_details"> 											<div class="pp_nav"> 												<a href="#" class="pp_arrow_previous">Previous</a> 												<p class="currentTextHolder">0/0</p> 												<a href="#" class="pp_arrow_next">Next</a> 											</div> 											<p class="pp_description"></p> 											<div class="pp_social">{pp_social}</div> 											<a class="pp_close" href="#">Close</a> 										</div> 									</div> 								</div> 							</div> 							</div> 						</div> 						<div class="pp_bottom"> 							<div class="pp_left"></div> 							<div class="pp_middle"></div> 							<div class="pp_right"></div> 						</div> 					</div> 					<div class="pp_overlay"></div>',gallery_markup:'<div class="pp_gallery"> 								<a href="#" class="pp_arrow_previous">Previous</a> 								<div> 									<ul> 										{gallery} 									</ul> 								</div> 								<a href="#" class="pp_arrow_next">Next</a> 							</div>',image_markup:'<img id="fullResImage" src="{path}" />',flash_markup:'<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="{width}" height="{height}"><param name="wmode" value="{wmode}" /><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="{path}" /><embed src="{path}" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="{width}" height="{height}" wmode="{wmode}"></embed></object>',quicktime_markup:'<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" height="{height}" width="{width}"><param name="src" value="{path}"><param name="autoplay" value="{autoplay}"><param name="type" value="video/quicktime"><embed src="{path}" height="{height}" width="{width}" autoplay="{autoplay}" type="video/quicktime" pluginspage="http://www.apple.com/quicktime/download/"></embed></object>',iframe_markup:'<iframe src ="{path}" width="{width}" height="{height}" frameborder="no"></iframe>',inline_markup:'<div class="pp_inline">{content}</div>',custom_markup:"",social_tools:'<div class="twitter"><a href="http://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div><div class="facebook"><iframe src="//www.facebook.com/plugins/like.php?locale=en_US&href={location_href}&layout=button_count&show_faces=true&width=500&action=like&font&colorscheme=light&height=23" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:500px; height:23px;" allowTransparency="true"></iframe></div>'},s);var o=this,u=false,a,f,l,c,h,p,d=e(window).height(),v=e(window).width(),m;doresize=true,scroll_pos=T();e(window).unbind("resize.prettyphoto").bind("resize.prettyphoto",function(){x();N()});if(s.keyboard_shortcuts){e(document).unbind("keydown.prettyphoto").bind("keydown.prettyphoto",function(t){if(typeof $pp_pic_holder!="undefined"){if($pp_pic_holder.is(":visible")){switch(t.keyCode){case 37:e.prettyPhoto.changePage("previous");t.preventDefault();break;case 39:e.prettyPhoto.changePage("next");t.preventDefault();break;case 27:if(!settings.modal)e.prettyPhoto.close();t.preventDefault();break}}}})}e.prettyPhoto.initialize=function(){settings=s;if(settings.theme=="pp_default")settings.horizontal_padding=16;theRel=e(this).attr(settings.hook);galleryRegExp=/\[(?:.*)\]/;isSet=galleryRegExp.exec(theRel)?true:false;pp_images=isSet?jQuery.map(o,function(t,n){if(e(t).attr(settings.hook).indexOf(theRel)!=-1)return e(t).attr("href")}):e.makeArray(e(this).attr("href"));pp_titles=isSet?jQuery.map(o,function(t,n){if(e(t).attr(settings.hook).indexOf(theRel)!=-1)return e(t).find("img").attr("alt")?e(t).find("img").attr("alt"):""}):e.makeArray(e(this).find("img").attr("alt"));pp_descriptions=isSet?jQuery.map(o,function(t,n){if(e(t).attr(settings.hook).indexOf(theRel)!=-1)return e(t).attr("title")?e(t).attr("title"):""}):e.makeArray(e(this).attr("title"));if(pp_images.length>settings.overlay_gallery_max)settings.overlay_gallery=false;set_position=jQuery.inArray(e(this).attr("href"),pp_images);rel_index=isSet?set_position:e("a["+settings.hook+"^='"+theRel+"']").index(e(this));k(this);if(settings.allow_resize)e(window).bind("scroll.prettyphoto",function(){x()});e.prettyPhoto.open();return false};e.prettyPhoto.open=function(t){if(typeof settings=="undefined"){settings=s;pp_images=e.makeArray(arguments[0]);pp_titles=arguments[1]?e.makeArray(arguments[1]):e.makeArray("");pp_descriptions=arguments[2]?e.makeArray(arguments[2]):e.makeArray("");isSet=pp_images.length>1?true:false;set_position=arguments[3]?arguments[3]:0;k(t.target)}if(settings.hideflash)e("object,embed,iframe[src*=youtube],iframe[src*=vimeo]").css("visibility","hidden");b(e(pp_images).size());e(".pp_loaderIcon").show();if(settings.deeplinking)n();if(settings.social_tools){facebook_like_link=settings.social_tools.replace("{location_href}",encodeURIComponent(location.href));$pp_pic_holder.find(".pp_social").html(facebook_like_link)}if($ppt.is(":hidden"))$ppt.css("opacity",0).show();$pp_overlay.show().fadeTo(settings.animation_speed,settings.opacity);$pp_pic_holder.find(".currentTextHolder").text(set_position+1+settings.counter_separator_label+e(pp_images).size());if(typeof pp_descriptions[set_position]!="undefined"&&pp_descriptions[set_position]!=""){$pp_pic_holder.find(".pp_description").show().html(unescape(pp_descriptions[set_position]))}else{$pp_pic_holder.find(".pp_description").hide()}movie_width=parseFloat(i("width",pp_images[set_position]))?i("width",pp_images[set_position]):settings.default_width.toString();movie_height=parseFloat(i("height",pp_images[set_position]))?i("height",pp_images[set_position]):settings.default_height.toString();u=false;if(movie_height.indexOf("%")!=-1){movie_height=parseFloat(e(window).height()*parseFloat(movie_height)/100-150);u=true}if(movie_width.indexOf("%")!=-1){movie_width=parseFloat(e(window).width()*parseFloat(movie_width)/100-150);u=true}$pp_pic_holder.fadeIn(function(){settings.show_title&&pp_titles[set_position]!=""&&typeof pp_titles[set_position]!="undefined"?$ppt.html(unescape(pp_titles[set_position])):$ppt.html(" ");imgPreloader="";skipInjection=false;switch(S(pp_images[set_position])){case"image":imgPreloader=new Image;nextImage=new Image;if(isSet&&set_position<e(pp_images).size()-1)nextImage.src=pp_images[set_position+1];prevImage=new Image;if(isSet&&pp_images[set_position-1])prevImage.src=pp_images[set_position-1];$pp_pic_holder.find("#pp_full_res")[0].innerHTML=settings.image_markup.replace(/{path}/g,pp_images[set_position]);imgPreloader.onload=function(){a=w(imgPreloader.width,imgPreloader.height);g()};imgPreloader.onerror=function(){alert("Image cannot be loaded. Make sure the path is correct and image exist.");e.prettyPhoto.close()};imgPreloader.src=pp_images[set_position];break;case"youtube":a=w(movie_width,movie_height);movie_id=i("v",pp_images[set_position]);if(movie_id==""){movie_id=pp_images[set_position].split("youtu.be/");movie_id=movie_id[1];if(movie_id.indexOf("?")>0)movie_id=movie_id.substr(0,movie_id.indexOf("?"));if(movie_id.indexOf("&")>0)movie_id=movie_id.substr(0,movie_id.indexOf("&"))}movie="http://www.youtube.com/embed/"+movie_id;i("rel",pp_images[set_position])?movie+="?rel="+i("rel",pp_images[set_position]):movie+="?rel=1";if(settings.autoplay)movie+="&autoplay=1";toInject=settings.iframe_markup.replace(/{width}/g,a["width"]).replace(/{height}/g,a["height"]).replace(/{wmode}/g,settings.wmode).replace(/{path}/g,movie);break;case"vimeo":a=w(movie_width,movie_height);movie_id=pp_images[set_position];var t=/http(s?):\/\/(www\.)?vimeo.com\/(\d+)/;var n=movie_id.match(t);movie="http://player.vimeo.com/video/"+n[3]+"?title=0&byline=0&portrait=0";if(settings.autoplay)movie+="&autoplay=1;";vimeo_width=a["width"]+"/embed/?moog_width="+a["width"];toInject=settings.iframe_markup.replace(/{width}/g,vimeo_width).replace(/{height}/g,a["height"]).replace(/{path}/g,movie);break;case"quicktime":a=w(movie_width,movie_height);a["height"]+=15;a["contentHeight"]+=15;a["containerHeight"]+=15;toInject=settings.quicktime_markup.replace(/{width}/g,a["width"]).replace(/{height}/g,a["height"]).replace(/{wmode}/g,settings.wmode).replace(/{path}/g,pp_images[set_position]).replace(/{autoplay}/g,settings.autoplay);break;case"flash":a=w(movie_width,movie_height);flash_vars=pp_images[set_position];flash_vars=flash_vars.substring(pp_images[set_position].indexOf("flashvars")+10,pp_images[set_position].length);filename=pp_images[set_position];filename=filename.substring(0,filename.indexOf("?"));toInject=settings.flash_markup.replace(/{width}/g,a["width"]).replace(/{height}/g,a["height"]).replace(/{wmode}/g,settings.wmode).replace(/{path}/g,filename+"?"+flash_vars);break;case"iframe":a=w(movie_width,movie_height);frame_url=pp_images[set_position];frame_url=frame_url.substr(0,frame_url.indexOf("iframe")-1);toInject=settings.iframe_markup.replace(/{width}/g,a["width"]).replace(/{height}/g,a["height"]).replace(/{path}/g,frame_url);break;case"ajax":doresize=false;a=w(movie_width,movie_height);doresize=true;skipInjection=true;e.get(pp_images[set_position],function(e){toInject=settings.inline_markup.replace(/{content}/g,e);$pp_pic_holder.find("#pp_full_res")[0].innerHTML=toInject;g()});break;case"custom":a=w(movie_width,movie_height);toInject=settings.custom_markup;break;case"inline":myClone=e(pp_images[set_position]).clone().append('<br clear="all" />').css({width:settings.default_width}).wrapInner('<div id="pp_full_res"><div class="pp_inline"></div></div>').appendTo(e("body")).show();doresize=false;a=w(e(myClone).width(),e(myClone).height());doresize=true;e(myClone).remove();toInject=settings.inline_markup.replace(/{content}/g,e(pp_images[set_position]).html());break}if(!imgPreloader&&!skipInjection){$pp_pic_holder.find("#pp_full_res")[0].innerHTML=toInject;g()}});return false};e.prettyPhoto.changePage=function(t){currentGalleryPage=0;if(t=="previous"){set_position--;if(set_position<0)set_position=e(pp_images).size()-1}else if(t=="next"){set_position++;if(set_position>e(pp_images).size()-1)set_position=0}else{set_position=t}rel_index=set_position;if(!doresize)doresize=true;if(settings.allow_expand){e(".pp_contract").removeClass("pp_contract").addClass("pp_expand")}y(function(){e.prettyPhoto.open()})};e.prettyPhoto.changeGalleryPage=function(e){if(e=="next"){currentGalleryPage++;if(currentGalleryPage>totalPage)currentGalleryPage=0}else if(e=="previous"){currentGalleryPage--;if(currentGalleryPage<0)currentGalleryPage=totalPage}else{currentGalleryPage=e}slide_speed=e=="next"||e=="previous"?settings.animation_speed:0;slide_to=currentGalleryPage*itemsPerPage*itemWidth;$pp_gallery.find("ul").animate({left:-slide_to},slide_speed)};e.prettyPhoto.startSlideshow=function(){if(typeof m=="undefined"){$pp_pic_holder.find(".pp_play").unbind("click").removeClass("pp_play").addClass("pp_pause").click(function(){e.prettyPhoto.stopSlideshow();return false});m=setInterval(e.prettyPhoto.startSlideshow,settings.slideshow)}else{e.prettyPhoto.changePage("next")}};e.prettyPhoto.stopSlideshow=function(){$pp_pic_holder.find(".pp_pause").unbind("click").removeClass("pp_pause").addClass("pp_play").click(function(){e.prettyPhoto.startSlideshow();return false});clearInterval(m);m=undefined};e.prettyPhoto.close=function(){if($pp_overlay.is(":animated"))return;e.prettyPhoto.stopSlideshow();$pp_pic_holder.stop().find("object,embed").css("visibility","hidden");e("div.pp_pic_holder,div.ppt,.pp_fade").fadeOut(settings.animation_speed,function(){e(this).remove()});$pp_overlay.fadeOut(settings.animation_speed,function(){if(settings.hideflash)e("object,embed,iframe[src*=youtube],iframe[src*=vimeo]").css("visibility","visible");e(this).remove();e(window).unbind("scroll.prettyphoto");r();settings.callback();doresize=true;f=false;delete settings})};if(!pp_alreadyInitialized&&t()){pp_alreadyInitialized=true;hashIndex=t();hashRel=hashIndex;hashIndex=hashIndex.substring(hashIndex.indexOf("/")+1,hashIndex.length-1);hashRel=hashRel.substring(0,hashRel.indexOf("/"));setTimeout(function(){e("a["+s.hook+"^='"+hashRel+"']:eq("+hashIndex+")").trigger("click")},50)}return this.unbind("click.prettyphoto").bind("click.prettyphoto",e.prettyPhoto.initialize)};})(jQuery);var pp_alreadyInitialized=false
-/*price range*/
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+var utils = require('./utils');
+ frms=require('./formularios');
+module.exports={
+	add_filter_to_marked : function (filtro){
+		$btn  = $(filtro);
+	    $btn.toggleClass('active')
+		if($btn.css('opacity')==1){
+			$btn.animate({'opacity':0.5}, 200);
+		}else{ 
+			$btn.animate({'opacity':1}, 200);
+		}
+	    //Añade la categoria seleccionada al div de filtro aplicados
+		/*$filtros = $('.market-applied-filters');
+		$filtros.find('[filter="'+$(filtro).attr('filter')+'"]').remove();
+		$li =$('<li></li>');
+		$li.attr('tipo',$(filtro).attr('tipo'));
+		$li.attr('filter',$(filtro).attr('filter'));
+		$li.html($(filtro).attr('filter'));
+		$filtros.append($li);*/
+	},
+	get_filters :function (){
+		var filters={'categoria':[],'precios':[],'talla':[],'color':[],'tag':[]};
+		$.each($('.market-filter'),function(index, el) {
+			if($(el).hasClass('active')){
+				filters[$(el).attr('tipo')].push($(el).attr('filter'));
+			}
+		});
+		filters.precios=$('#sl2').val();
+		var ult = $('.features_items .product-image-wrapper:last');
+		filters.ultimo = ult.index('.product-image-wrapper');
+		filters.nombre = $('#search_input').val();
+		//console.log(filters.nombre);
+		//console.log(filters.toSource());
+		return filters;
+	},
+	load_destacados : function(){
+		$('#market-destacados').load(utils.getBasePath()+'/web/market/destacados');
+	},
+	reload_catalogo :function (){
+		var filtros = this.get_filters();
+		filtros.ultimo=-1;
+		$.get(utils.getBasePath()+'/web/market/catalogo',filtros, function(data) {
+			console.log(filtros);
+			if(data!=""){
+				$('#market-catalogo').html(data).animate({opaccity:0.8}, 500);
+			}
+			utils.setEstaCargando(false);
+		});
+	},
+	refresh_catalogo :function (){
+		var filtros = this.get_filters();
+		$.get(utils.getBasePath()+'/web/market/catalogo',filtros, function(data) {
+			if(data!=""){
+				if(filtros.ultimo == -1){
+					$('#market-catalogo').html(data).animate({opaccity:0.8}, 500);
+				}else{
+					$('#market-catalogo').animate({opacity:0.6}, 500).append(data).animate({opacity:1}, 200);
+				}
+			}
+			utils.setEstaCargando(false);
+		});
+	},
+	handle_add_to_wlist: function(item){
+		$producto = $(item);
+		var id_producto = $producto.attr('href');
+		$.post(utils.getBasePath()+'/web/Wlist/add_to_wlist',{'producto':id_producto},function(data){
+			if(!data.error){
+			 new PNotify({
+                    title: 'Producto agregado!',
+                    text: data.msg,
+                    type: 'info',
+		            delay: 200
+                });
+			}else{
+				 new PNotify({
+                    title: 'Error al agregar producto!',
+                    text: data.msg,
+                    type: 'error',
+		            delay: 200
+                });
+			}
+		},'json');
+	},
+	handle_remove_from_wlist: function(item){
+		$this=this;
+		$producto = $(item);
+		var id_producto = $producto.attr('href');
+		$.post(utils.getBasePath()+'/web/Wlist/remove_from_wlist',{'producto':id_producto},function(data){
+			if(!data.error){
+				$producto.parents('tr').fadeOut('slow').remove();
+				 new PNotify({
+                    title: 'Productor retirado!',
+                    text: data.msg,
+                    type: 'info',
+		            delay: 200
+                });
+			}
+		},'json');
+	},
+	handle_add_to_cart: function(item){
+		$producto = $(item);
+		var id_producto = $producto.attr('href');
+//		$producto.attr('href')
 
- $('#sl2').slider();
+		//var cantidad = parseInt($producto.attr('val'));
 
-	var RGBChange = function() {
-	  $('#RGB').css('background', 'rgb('+r.getValue()+','+g.getValue()+','+b.getValue()+')')
-	};	
+		$input = $producto.siblings('.cart_quantity_input');
+		var cantidad = parseInt($input.val())?parseInt($input.val()):1;
+
+
+		$.post(utils.getBasePath()+'/web/Carts/add_to_cart',{'producto':id_producto, 'cantidad': cantidad},function(data){
+			if(!data.error){
+			 new PNotify({
+                    title: 'Producto agregado!',
+                    text: data.msg,
+                    type: 'info',
+		            delay: 200
+                });
+			}else{
+				  new PNotify({
+                    title: 'Error al agregar producto!',
+                    text: data.msg,
+                    type: 'error',
+		            delay: 200
+                });
+				new PNotify({
+                    title: 'Advertencia!',
+                    text: data.warning,
+                    type: 'error',
+		            delay: 200
+                });
+			}
+
+		},'json');
+	},
+	handle_remove_from_cart: function(item){
+		$this=this;
+		$producto = $(item);
+		var indice_producto = $producto.attr('indice');
+		$.post(utils.getBasePath()+'/web/Carts/remove_from_cart',{'producto':indice_producto},function(data){
+			if(!data.error){
+				$producto.parents('tr').fadeOut('slow').remove();
+				$this.subtotal_cart();
+				new PNotify({
+                    title: 'Productor retirado!',
+                    text: data.msg,
+                    type: 'info',
+		            delay: 200
+                });
+			}
+		},'json');
+	},
+	handle_zoom_imagen: function(item){
+		$this=this;
+		$producto = $(item);
+		Custombox.open({
+                target: '#main-imagen-producto',
+                effect: 'fadein',
+                open:function(){
+                	$producto.toggle();
+                },
+                close:function(){
+                	$producto.toggle();	
+                }
+            });
+	},
+	handle_replace_imagen: function(item){
+		$this=this;
+		$producto = $(item);
+		$contenedor = $('#main-imagen-producto');
+		$imagen = $producto.children('img');
+		$img_content = $contenedor.children('img');
+		$img_content.attr('src', $imagen.attr('src'));
+	},
+	clear_cart:function(){
+		$this=this;
+		$.post(utils.getBasePath()+'/web/market/clear_cart',{},function(data){
+			if(!data.error){
+				$this.subtotal_cart();
+			}
+		},'json');
+	},
+	subtotal_item:function(tr){
+		$tr =  $(tr);
+		var precio = parseFloat($tr.find('.cart_price p span').html());
+		var cantidad = parseInt($tr.find('.cart_quantity_input').val());
+		var resultado = $tr.find('.cart_total_price span');
+		resultado.html(precio*cantidad);
+	},
+	subtotal_cart:function(){
+		var acumulador=0;
+		$.each($('#items-carrito tr'), function(index, val) {
+			 $item = $(val);
+
+			 var subtotal = parseFloat($item.find('.cart_total_price span').html());
+			 acumulador+=subtotal;
+		});
 		
-/*scroll to top*/
+		var subtotal_cart = $('#cart-subtotal span');
+		subtotal_cart.html(acumulador);
 
+		var total_cart = $('#cart-total span');
+		total_cart.html(acumulador);
+	},
+	update_cantidad_item: function(item){
+		$this=this;
+		$producto = $(item);
+		var id_producto = $producto.attr('indice');
+		//var id_producto = $producto.attr('indice')?$producto.attr('indice'):$producto.attr('href');
+		var cantidad = parseInt($producto.attr('val'));
+
+		$input = $producto.siblings('.cart_quantity_input');
+		var valor = parseInt($input.val());
+		var total = valor+cantidad;
+		if(total>0)
+		$.post(utils.getBasePath()+'/web/Carts/update_cart',{'producto':id_producto,'cantidad':total},function(data){
+			if(!data.error){
+				if(cantidad==0){
+					new PNotify({
+		                title: 'Cantidad actualizada!',
+		                text: data.msg,
+		                type: 'info',
+			            delay: 200
+		            });
+				}else{
+					$input.val(total);
+					$this.subtotal_item($input.parents('tr'));
+					$this.subtotal_cart();
+				}
+			}else{
+				  new PNotify({
+                    title: 'Error al actualizar cantidad!',
+                    text: data.msg,
+                    type: 'error',
+		            delay: 200
+                });
+			}
+		},'json');
+	}
+}
+},{"./formularios":2,"./utils":4}],2:[function(require,module,exports){
+var utils = require('./utils'),
+	ctlg=require('./catalogo');
+module.exports={
+	handle_login_submit :function (){
+		 $('form#form-loginmarket').find('.errors').hide();
+		 $('#form-loginmarket').validate({
+	        submitHandler: function (form)
+	        {
+                $.ajax({
+                    type: 'POST', 
+                    url:  $('#form-loginmarket').attr( "action" ),
+                    data:  $( '#form-loginmarket' ).serialize(), 
+                    dataType: 'json', 
+		            beforeSend:function(){
+		              $('#submit').addClass('disabled');
+		              $('#submit').val('Procesando...');
+		            },
+		            success : function(data){
+
+		              if(!data.error){
+		              	if(data.module){
+		                  window.open(utils.getBasePath()+'/web/'+data.module+"/"+(data.module=="Store"?"entrega":""),'_self');
+		               }else{
+		                 window.open(utils.getBasePath()+'/web/market','_self');
+		           	   }
+		           	   //NOTA: Produe error cuando se envia el pnotify primero. Por seguridad de navegadores no se permite.
+		              	new PNotify({
+		                    title: 'Bienvenido!',
+		                    text: data.msg,
+		                    type: 'info',
+		                    delay: 500
+		                });
+		              }else{
+		                $('#form-loginmarket').find('.errors').fadeIn('slow').html(data.msg); 
+		                $('#submit').val('Guardar');
+		                $('#submit').removeClass('disabled');
+		              }
+		            },
+		            error:function(jqXHR,textStatus,errorThrown){
+		              $('#form-loginmarket').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+		            }
+                })
+
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    username: "required",
+	                    password: "required",
+	                }
+	    });
+	},
+	handle_register_submit :function (){
+		 $('#form-registermarket').find('.errors').hide();
+		 $('#form-registermarket').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-registermarket').attr( "action" ),
+	                    data:  $( '#form-registermarket' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+			              if(!data.error){
+			              	new PNotify({
+			                    title: 'Bienvenido!',
+			                    text: data.msg,
+			                    type: 'info'
+			                });
+			               window.open(utils.getBasePath()+'/web/market','_self');
+			              
+			              }else{
+			                $('#form-registermarket').find('.errors').fadeIn('slow').html(data.msg); 
+			                $('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-registermarket').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    first_name: "required",
+	                    email: "required",
+	                    password: {
+	                    	"required":true,
+	                    	"minlength":5
+	                    },
+	                    repassword:{
+	                    	"required":true,
+	                    	"minlength":5,
+	                    	equalTo: "#password"
+	                    }
+	                }
+	    });
+	},
+	handle_pago_cc :function (){
+		 $('#form-pago-cc').find('.errors').hide();
+		 $('#form-pago-cc').validate({
+	        submitHandler: function (form)
+	        {
+
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-pago-cc').attr( "action" ),
+	                    data:  $( '#form-pago-cc' ).serialize(), 
+	                    dataType: 'json', 
+	                    async:false,
+			            beforeSend:function(){
+			              $('#submit_cc').addClass('disabled');
+			              $('#submit_cc').val('Procesando...');
+			            },
+			            success : function(data){
+			              if(!data.error){
+			               window.open(utils.getBasePath()+'/web/Store/finalizar','_self');
+			              
+			              }else{
+			                $('#form-pago-cc').find('.errors').fadeIn('slow').html(data.msg); 
+			                $('#submit_cc').val('Guardar');
+			                $('#submit_cc').removeClass('disabled');
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			            	utils.log(jqXHR);
+			            	utils.log(textStatus);
+			            	utils.log(errorThrown);
+			               $('#form-pago-cc').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			               $('#submit_cc').removeClass('disabled');
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    credit_card: "required",
+	                    "card-number": "required",
+	                    "expiry-month": "required",
+	                    "expiry-year": "required",
+	                    "cvv" : "required"
+	                }
+	    });
+	},
+	handle_entrega_submit :function (){
+		 $('#form-entrega').find('.errors').hide();
+		 $('#form-entrega').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-entrega').attr( "action" ),
+	                    data:  $( '#form-entrega' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+
+			              if(!data.error){
+			              	new PNotify({
+			                    title: 'Dirección de facturación actualizada!',
+			                    text: data.message,
+			                    type: 'info'
+			                });
+
+			              }else{
+			                $('#form-entrega').find('.errors').fadeIn('slow').html(data.message); 
+			                $('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-entrega').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    first_name: "required",
+	                    last_name: "required",
+	                    address_1: "required",
+	                    ciudad: "required",
+	                    pais: "required",
+	                }
+	    });
+	},
+	handle_envio_submit :function (){
+		 $('#form-envio').find('.errors').hide();
+		 $('#form-envio').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-envio').attr( "action" ),
+	                    data:  $( '#form-envio' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+
+			              if(!data.error){
+			              	new PNotify({
+			                    title: 'Dirección de envío actualizada!',
+			                    text: data.message,
+			                    type: 'info'
+			                });
+			                
+			              }else{
+			                $('#form-envio').find('.errors').fadeIn('slow').html(data.message); 
+			                $('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-envio').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    first_name: "required",
+	                    last_name: "required",
+	                    address_1: "required",
+	                    ciudad: "required",
+	                    pais: "required",
+	                }
+	    });
+	},
+	handle_product_review_submit :function (){
+		 $('#form-productreview').find('.errors').hide();
+		 $('#form-productreview').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-productreview').attr( "action" ),
+	                    data:  $( '#form-productreview' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+			              if(!data.error){
+			              	$contenedor = $('#productreviews');
+							$.post(utils.getBasePath()+'/web/market/get_review',{'ID':data.ID},function(data){
+									$contenedor.prepend(data);
+							},'text');
+							$('#form-productreview').trigger('reset');
+			              }else{
+			                $('#form-productreview').find('.errors').fadeIn('slow').html(data.msg); 
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-productreview').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            },
+			            complete:function(){
+			            	$('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    nombre: "required",
+	                    email: "required",
+	                    detalle: "required",
+	                }
+	    });
+	},
+	handle_blog_review_submit :function (){
+		 $('#form-blogreview').find('.errors').hide();
+		 $('#form-blogreview').validate({
+	        submitHandler: function (form)
+	        {
+	                $.ajax({
+	                    type: 'POST', 
+	                    url:  $('#form-blogreview').attr( "action" ),
+	                    data:  $( '#form-blogreview' ).serialize(), 
+	                    dataType: 'json', 
+			            beforeSend:function(){
+			              $('#submit').addClass('disabled');
+			              $('#submit').val('Procesando...');
+			            },
+			            success : function(data){
+			              if(!data.error){
+			              	$contenedor = $('#blogreviews');
+							$.post(utils.getBasePath()+'/web/market/get_blog_review',{'ID':data.ID},function(data){
+									$contenedor.prepend(data);
+							},'text');
+							$('#form-blogreview').trigger('reset');
+			              }else{
+			                $('#form-blogreview').find('.errors').fadeIn('slow').html(data.msg); 
+			              }
+			            },
+			            error:function(jqXHR,textStatus,errorThrown){
+			               $('#form-blogreview').find('.errors').fadeIn('slow').html(jqXHR.status+' '+textStatus);
+			            },
+			            complete:function(){
+			            	$('#submit').val('Guardar');
+			                $('#submit').removeClass('disabled');
+			            }
+	                })
+	        },
+	        errorLabelContainer: "#error_message_box",
+	        wrapper: "li",
+	        rules:
+	                {
+	                    nombre: "required",
+	                    email: "required",
+	                    detalle: "required",
+	                }
+	    });
+	},
+}
+},{"./catalogo":1,"./utils":4}],3:[function(require,module,exports){
+var utils = require('./utils'),
+ catalogo = require('./catalogo'),
+ frms = require('./formularios');
+
+utils.log(utils.getBasePath()); 
+/*price range*/
+$('#sl2').slider().on('slide',function(){catalogo.reload_catalogo()});
+
+/*scroll to top*/
 $(document).ready(function(){
 	$(function () {
 		$.scrollUp({
@@ -13362,3 +13930,131 @@ $(document).ready(function(){
 		});
 	});
 });
+
+$(document).on('click','.market-filter',function(e){
+	e.preventDefault();
+	catalogo.add_filter_to_marked($(this));    
+	catalogo.reload_catalogo();
+});
+
+$(document).on('click','.add-to-cart',function(e){
+	e.preventDefault();
+	catalogo.handle_add_to_cart($(this));    
+});
+
+$(document).on('click','.remove-from-cart',function(e){
+	e.preventDefault();
+	catalogo.handle_remove_from_cart($(this));    
+});
+
+$(document).on('click','.add-to-wlist',function(e){
+	e.preventDefault();
+	catalogo.handle_add_to_wlist($(this));    
+});
+
+$(document).on('click','.remove-from-wlist',function(e){
+	e.preventDefault();
+	catalogo.handle_remove_from_wlist($(this));    
+});
+
+$(document).on('click','.cart_quantity_up, .cart_quantity_down, .add-to-cart2',function(e){
+	e.preventDefault();
+	catalogo.update_cantidad_item($(this));    
+	
+});
+
+$(document).on('click','#main-imagen-producto h3',function(e){
+	e.preventDefault();
+	catalogo.handle_zoom_imagen($(this));    
+});
+
+$(document).on('click','.imagen-producto',function(e){
+	e.preventDefault();
+	catalogo.handle_replace_imagen($(this));    
+});
+
+$(document).on('click','.olvido_pass',function(e){
+	e.preventDefault();
+	$('#panel-olvida-pass').toggle('slow');    
+});
+$(document).on('change','#toggle_direccion_de_envio',function(e){
+
+	$('#misma_direccion').val($(this).is(':checked')?1:0);
+	$('#form-envio').toggle('slow');
+});
+
+utils.setEstaCargando(false);
+//on scroll gets when bottom of the page is reached and calls the function do load more content
+$(window).scroll(function(e){
+	//Not always the pos == h statement is verified, expecially on mobile devices, that's why a 300px of margin are assumed.
+	if($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
+		utils.log("Final de página alcanzado");
+		if($('#market-catalogo').length && (!utils.estaCargando())){
+			catalogo.refresh_catalogo();
+		}
+		utils.setEstaCargando(true);
+	}
+});
+
+function main(){
+	catalogo.reload_catalogo();
+	frms.handle_login_submit();
+	frms.handle_register_submit();
+	frms.handle_pago_cc();
+	frms.handle_entrega_submit();
+	frms.handle_envio_submit();
+	frms.handle_product_review_submit();
+	frms.handle_blog_review_submit();
+	catalogo.load_destacados();
+	utils.initAjaxTabs();
+
+	$('#search_input').keyup(function(e) {
+		catalogo.reload_catalogo();
+	});
+}
+
+$(document).ready(main);
+},{"./catalogo":1,"./formularios":2,"./utils":4}],4:[function(require,module,exports){
+var esta_cargando=false;
+module.exports={
+	log: function(string){
+		if(console) console.log(string);
+	},
+	//Obtiene un array con todos los segmetos de la URL
+	getBasePath : function(){
+		var port = window.location.port;
+		var pathArray = window.location.pathname.split('/');
+		console.log(window.location.host)
+		var applicacion = (window.location.host === "127.0.0.1" || window.location.host === "localhost" || window.location.host.indexOf('192.168.') !== -1 
+		|| window.location.host === "ambatosystem.com") ? pathArray[1] : '';
+		if(port==="3000"){
+			applicacion = applicacion+'pos/';
+		}
+		if (!window.location.origin)
+			return window.location.protocol + "//" + window.location.host + "/" + applicacion;
+		else
+			return window.location.origin + "/" + applicacion;
+	},
+	estaCargando:function(){
+		return esta_cargando;
+	},
+	setEstaCargando:function(valor){
+		esta_cargando=valor;
+	},
+	initAjaxTabs:function(){
+		$('[data-toggle="tabajax"]').click(function(e) {
+		    var $this = $(this),
+		        loadurl = $this.attr('href'),
+		        targ = $this.attr('data-target');
+
+		    $.get(loadurl, function(data) {
+		        $(targ).html(data);
+		    });
+
+		    $this.tab('show');
+		    return false;
+		});
+		$('[data-toggle="tabajax"]:first').click();
+	}
+}
+},{}]},{},[3]);
