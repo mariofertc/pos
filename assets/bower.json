@@ -32,7 +32,7 @@
     "pnotify": "^3.2.1",
     "custombox": "~2.2.5",
     "bootstrap-star-rating": "~3.5.1",
-    "jquery-file-upload": "~9.9.3",
+    "jquery-file-upload": "^10.30.1",
     "mjolnic-bootstrap-colorpicker": "~2.1.1",
     "tag-it": "*",
     "jquery-form": "~3.46.0",

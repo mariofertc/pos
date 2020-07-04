@@ -87,6 +87,45 @@ gulp.task('js_back', () =>
 		.pipe(reload({stream:true}))
 );
 
+gulp.task('js_market', () =>
+  gulp.src(['assets/bower_components/jquery/dist/jquery.js',
+        'assets/bower_components/jquery-validation/dist/jquery.validate.js',
+        'assets/bower_components/bootstrap/dist/js/bootstrap.js',
+        'assets/bower_components/pnotify/dist/pnotify.js',
+        'assets/bower_components/custombox/dist/legacy.min.js',
+        'assets/bower_components/custombox/dist/custombox.min.js',
+        'assets/bower_components/bootstrap-star-rating/js/star-rating.min.js',
+        'assets/web/js_min/jquery.scrollUp.min.js',
+        'assets/web/js_min/price-range.js',
+        'assets/web/js_min/jquery.prettyPhoto.js',
+        'assets/web/js_min/main.js',
+        ])
+        .pipe(concat('market.js'))
+        .pipe(gulpif(env === "production",uglify()))
+        .pipe(gulp.dest('assets'))
+        .pipe(reload({stream:true}))
+);
+
+
+gulp.task('js_upload_images', () =>
+  gulp.src(['assets/bower_components/blueimp-tmpl/js/tmpl.min.js',
+        'assets/bower_components/blueimp-load-image/js/load-image.all.min.js',
+        'assets/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js',
+        'assets/bower_components/jquery-file-upload/js/jquery.iframe-transport.js',
+        'assets/bower_components/jquery-file-upload/js/jquery.fileupload.js',
+        'assets/bower_components/jquery-file-upload/js/jquery.fileupload-process.js',
+        'assets/bower_components/jquery-file-upload/js/jquery.fileupload-image.js',
+        'assets/bower_components/jquery-file-upload/js/jquery.fileupload-audio.js',
+        'assets/bower_components/jquery-file-upload/js/jquery.fileupload-video.js',
+        'assets/bower_components/jquery-file-upload/js/jquery.fileupload-validate.js',
+        'assets/bower_components/jquery-file-upload/js/jquery.fileupload-ui.js',        
+        ])
+        .pipe(concat('upload_images.js'))
+        .pipe(gulpif(env === "production",uglify()))
+        .pipe(gulp.dest('assets'))
+        .pipe(reload({stream:true}))
+);
+
 gulp.task('css-bower', function () {
     return gulp.src(mainBower({
         paths: {
@@ -146,6 +185,39 @@ gulp.task('css_back', () =>
 		.pipe(gulpif(env === "production",uglify()))
 		.pipe(gulp.dest('assets'))
 		.pipe(reload({stream:true}))
+);
+
+//Eshopper CSS
+gulp.task('css_market', () =>
+  gulp.src(['assets/bower_components/bootstrap/dist/css/bootstrap.css',
+        'assets/bower_components/font-awesome/css/font-awesome.css',
+        'assets/bower_components/pnotify/dist/pnotify.css',
+        'assets/bower_components/pnotify/dist/pnotify.brighttheme.css',
+        'assets/bower_components/bootstrap-star-rating/css/star-rating.min.css',
+        'assets/bower_components/custombox/dist/custombox.min.css',
+        'assets/web/css/prettyPhoto.css',
+        'assets/web/css/price-range.css',
+        'assets/web/css/animate.css',
+        'assets/web/css/main.css',
+        'assets/web/css/responsive.css',])
+        .pipe(concat('market.css'))
+        //.pipe(replace('../fonts/','../fonts/'))
+        //.pipe(replace('sourceMappingURL=bootstrap.css.map','xxxoxooo'))
+        .pipe(gulpif(env === "production",uglify()))
+        .pipe(gulp.dest('assets'))
+        .pipe(reload({stream:true}))
+);
+
+gulp.task('css_upload_images', () =>
+  gulp.src(['assets/bower_components/blueimp-gallery/css/blueimp-gallery.min.css',
+        'assets/bower_components/jquery-file-upload/css/jquery.fileupload.css',
+        'assets/bower_components/jquery-file-upload/css/jquery.fileupload-ui.css',])
+        .pipe(concat('upload_images.css'))
+        //.pipe(replace('../fonts/','../fonts/'))
+        //.pipe(replace('sourceMappingURL=bootstrap.css.map','xxxoxooo'))
+        .pipe(gulpif(env === "production",uglify()))
+        .pipe(gulp.dest('assets'))
+        .pipe(reload({stream:true}))
 );
 
 

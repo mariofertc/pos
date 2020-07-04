@@ -29703,7 +29703,6 @@ $MENU_TOGGLE.on('click', function() {
 	TEMP_CURRENT_URL = CURRENT_URL
 	if($SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').length == 0){
 		TEMP_CURRENT_URL = CURRENT_URL.substring(0,CURRENT_URL.lastIndexOf("/"));
-		//$SIDEBAR_MENU.find('a[href="' + CURRENT_URL.substring(0,CURRENT_URL.lastIndexOf("/")) + '"]').parent('li').addClass('current-page');
 	}
 	// check active menu
 		$SIDEBAR_MENU.find('a[href="' + TEMP_CURRENT_URL + '"]').parent('li').addClass('current-page');
