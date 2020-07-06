@@ -6,9 +6,9 @@ module.exports={
 		$btn  = $(filtro);
 	    $btn.toggleClass('active')
 		if($btn.css('opacity')==1){
-			$btn.animate({'opacity':0.5}, 200);
+			$btn.animate({'opacity':0.5}, 2000);
 		}else{ 
-			$btn.animate({'opacity':1}, 200);
+			$btn.animate({'opacity':1}, 2000);
 		}
 	    //Añade la categoria seleccionada al div de filtro aplicados
 		/*$filtros = $('.market-applied-filters');
@@ -70,14 +70,14 @@ module.exports={
                     title: 'Producto agregado!',
                     text: data.msg,
                     type: 'info',
-		            delay: 200
+		            delay: 2000
                 });
 			}else{
 				 new PNotify({
                     title: 'Error al agregar producto!',
                     text: data.msg,
                     type: 'error',
-		            delay: 200
+		            delay: 2000
                 });
 			}
 		},'json');
@@ -93,7 +93,7 @@ module.exports={
                     title: 'Productor retirado!',
                     text: data.msg,
                     type: 'info',
-		            delay: 200
+		            delay: 2000
                 });
 			}
 		},'json');
@@ -115,20 +115,14 @@ module.exports={
                     title: 'Producto agregado!',
                     text: data.msg,
                     type: 'info',
-		            delay: 200
+		            delay: 2000
                 });
 			}else{
 				  new PNotify({
-                    title: 'Error al agregar producto!',
-                    text: data.msg,
-                    type: 'error',
-		            delay: 200
-                });
-				new PNotify({
-                    title: 'Advertencia!',
-                    text: data.warning,
-                    type: 'error',
-		            delay: 200
+                    title: 'Advertencia',
+                    text: data.msg + "\n" + data.warning,
+                    type: 'warning',
+		            delay: 2000
                 });
 			}
 
@@ -146,7 +140,7 @@ module.exports={
                     title: 'Productor retirado!',
                     text: data.msg,
                     type: 'info',
-		            delay: 200
+		            delay: 2000
                 });
 			}
 		},'json');
@@ -221,7 +215,7 @@ module.exports={
 		                title: 'Cantidad actualizada!',
 		                text: data.msg,
 		                type: 'info',
-			            delay: 200
+			            delay: 2000
 		            });
 				}else{
 					$input.val(total);
@@ -233,7 +227,7 @@ module.exports={
                     title: 'Error al actualizar cantidad!',
                     text: data.msg,
                     type: 'error',
-		            delay: 200
+		            delay: 2000
                 });
 			}
 		},'json');

@@ -22,10 +22,10 @@ class Market extends CI_Controller {
         $this->load->library('PaypalRest');
 
         $this->data['controller_name'] = $this->controller_name;
-        $this->data['categorias']=$this->Item->get_count_column("category",10,0,"total")->result();
-        $this->data['tallas']=$this->Item->get_count_column("size",10,0,"size")->result();
-        $this->data['colores']=$this->Item->get_count_column("color_value",10,0,"color_value")->result();
-        $this->data['tags']=$this->Item->get_tags();
+        $this->data['categorias']=$this->Item->get_count_column("category",10,0,"total", ['on_web'=>true])->result();
+        $this->data['tallas']=$this->Item->get_count_column("size",10,0,"size", ['on_web'=>true])->result();
+        $this->data['colores']=$this->Item->get_count_column("color_value",10,0,"color_value", ['on_web'=>true])->result();
+        $this->data['tags']=$this->Item->get_tags(['on_web'=>true]);
         $this->data['precios']=$this->Item->get_limites_precios();
         $userdata = $this->session->userdata('customer_id');
         if(isset($userdata)){
@@ -35,19 +35,17 @@ class Market extends CI_Controller {
     }
 
     function index() {
-        $this->data['title'] = 'Marketsillo';
+        $this->data['title'] = 'market_tienda';
         $this->data['lanzamientos']=$this->lanzamiento->get_ultimos();
         $this->twig->set($this->data);
         $this->twig->display('inicio');
     }
 
     function tienda() {
-        $this->data['title'] = 'Market - Tienda ';
+        $this->data['title'] = 'market_tienda';
         $this->twig->set($this->data);
         $this->twig->display('tienda');
     }
-
-   
 
     /**
      * Procesa la compra final con el token del payment(transaccion) y el payerID(comprador) 
@@ -126,9 +124,10 @@ class Market extends CI_Controller {
      */
     function register(){
         $this->form_validation->set_rules('first_name', $this->lang->line('common_first_name'), 'required');
-        $this->form_validation->set_rules('email', $this->lang->line('common_email'), 'required|valid_email|xss_clean|callback_email_check');
+        // $this->form_validation->set_rules('email', $this->lang->line('common_email'), 'required|valid_email|xss_clean|callback_email_check');
+        $this->form_validation->set_rules('email', $this->lang->line('common_email'), 'required|valid_email|callback_email_check');
         $this->form_validation->set_rules('password', $this->lang->line('market_password'), 'required|matches[repassword]');
-        $this->form_validation->set_rules('repassword', $this->lang->line('market_confirm_password'), 'required') ;      
+        $this->form_validation->set_rules('repassword', $this->lang->line('market_confirm_password'), 'required');
 
         if($this->form_validation->run()==TRUE){
             $person_data=array(
@@ -136,7 +135,8 @@ class Market extends CI_Controller {
                 'last_name'=>$this->input->post('last_name'),
                 'email'=>$this->input->post('email'),
                 'phone_number'=>$this->input->post('telefono'),
-                'country'=>$this->input->post('pais'),
+                // 'country'=>$this->input->post('pais'),
+                'country'=>"Ecuador"
                 );
 
             $customer_data = array(
@@ -145,7 +145,8 @@ class Market extends CI_Controller {
                 'password'=>md5($this->input->post('password')),
                 'username'=>$this->input->post('email')
             );
-            $res= $this->Customer->save($person_data,$customer_data,-1);
+            $customer_id = false;
+            $res= $this->Customer->save($person_data,$customer_data,$customer_id);
                 if($res){
                     $msg = $this->lang->line('market_new_user_registered');
                     //Envio mail con datos de registro
@@ -328,14 +329,15 @@ class Market extends CI_Controller {
         if(!empty($colores)){
             $filtros['color_value']= $colores;
         }
-         //Procesar filtro Tags
+        //Procesar filtro Tags
         $tags = $this->input->get('tag');
         if(!empty($tags)){
             foreach ($tags as $key => $value) {
                 $where['tags like ']='%'.$value.'%';
             }
         }
-        //var_dump($where);
+        //Always state on_web true to public.
+        $filtros['on_web']= true;
         $ultimo=$this->input->get('ultimo');
         $ultimo=(int)$ultimo+1;
         $this->data['productos'] = $this->Item->get_all(9,$ultimo,$where,null,$filtros);

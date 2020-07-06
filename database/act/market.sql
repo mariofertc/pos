@@ -102,3 +102,5 @@ ALTER TABLE phppos_people MODIFY comments VARCHAR(50);
 alter table phppos_people modify comments text null;
 
 alter table phppos_items add column on_web int(1);
+
+insert into phppos_modules values('module_market','module_market_desc',19,'web_market');

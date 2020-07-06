@@ -528,10 +528,12 @@ class Item extends CI_Model {
      * @param  string  $columna_orden Ordena por esta columna
      * @return array                 [description]
      */
-    function get_count_column($columna="category",$num=10,$offset=0,$columna_orden="total") {
+    function get_count_column($columna="category",$num=10,$offset=0,$columna_orden="total", $where = null) {
         $this->db->select($columna.' as filtro, count(*) as total');
         $this->db->from('items');
         $this->db->where('deleted', 0);
+        if($where !== null)
+            $this->db->where($where);
         $this->db->limit($num,$offset);
         $this->db->group_by($columna);
         $this->db->order_by($columna_orden, "desc");
@@ -543,10 +545,13 @@ class Item extends CI_Model {
      * [get_tags description]
      * @return [type] [description]
      */
-    function get_tags(){
+    function get_tags($where = null){
         $this->db->select('tags');
         $this->db->from('items');
         $this->db->where('deleted',0);
+        if($where !== null)
+            $this->db->where($where);
+        
         $this->db->group_by('tags');
         $this->db->order_by('tags',"desc");
 

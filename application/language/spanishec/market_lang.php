@@ -5,7 +5,7 @@ $lang['market_marcas']='Marcas';
 $lang['market_marca']='Marca';
 $lang['market_rango_precios']='Rango de precios';
 $lang['market_articulos_destacados']='Articulos Destacados';
-$lang['market_items_recomendados']='Items recomendados';
+$lang['market_items_recomendados']='Articulos recomendados';
 $lang['market_deportivos']='Deportivos';
 $lang['market_hombres']='Hombres';
 $lang['market_mujeres']='Mujeres';
@@ -203,4 +203,4 @@ $lang['market_mi_perfil'] = 'Mi perfil';
 $lang['market_informacion_basica'] = 'Información básica';
 $lang['market_editar'] = 'Editar';
 $lang['market_mis_compras'] = 'Compras realizadas';
-?>
+$lang['market_catalogo'] = 'Catálogo';

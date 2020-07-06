@@ -234,7 +234,7 @@
               </a>
             {% endfor %}
             {% for module in allowed_modules.result if module.module_id == 'web_market' %}
-              <a data-toggle="tooltip" data-placement="top" title="{{line(module.desc_lang_key)}}" href="{{site_url(module.module_id)}}">
+              <a target="_blank" data-toggle="tooltip" data-placement="top" title="{{line(module.desc_lang_key)}}" href="{{site_url(module.module_id)}}">
                 <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
               </a>
             {% endfor %}
@@ -244,9 +244,6 @@
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>#}
-              <a data-toggle="tooltip" data-placement="top" title="Ir a la Tienda Online" href="http://ambatosystem.com/pos/index.php/web_market">
-                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-              </a>
               <a data-toggle="tooltip" data-placement="top" title='{{line("common_logout")}}' href="home/logout">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
