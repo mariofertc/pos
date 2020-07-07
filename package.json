@@ -1,20 +1,25 @@
 {
+  "name": "pos",
+  "version": "0.0.1",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mariofertc/pos.git"
+  },
   "devDependencies": {
     "browser-sync": "^2.26.7",
     "browserify": "^16.5.1",
     "gulp": "^4.0.2",
-    "gulp-browserify": "~0.5.1",
     "gulp-concat": "^2.6.1",
-    "gulp-connect-php": "0.0.5",
+    "gulp-connect-php": "^1.0.3",
     "gulp-filter": "^6.0.0",
     "gulp-if": "^3.0.0",
-    "gulp-replace": "^0.6.1",
+    "gulp-replace": "^1.0.0",
     "gulp-uglify": "^3.0.2",
     "main-bower-files": "^2.13.3",
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "browserify": "^16.5.1",
     "natives": "^1.1.6"
   }
 }

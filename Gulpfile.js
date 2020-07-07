@@ -284,3 +284,6 @@ gulp.task('watch', () => {
 );
 gulp.task('default', gulp.series('js','browserify', 'js_market','css','connect-sync','watch'));
 gulp.task('back', gulp.series('js_back','css_back'));
+gulp.task('get_bower', gulp.series('js-bower','css-bower'));
+gulp.task('all', gulp.series('js', 'js_back', 'css_back', 'browserify', 'css', 
+    'css_upload_images', 'js_upload_images','css_market', 'js_market'));

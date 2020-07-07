@@ -9,6 +9,8 @@ application/config/database.php
 .htaccess
 node_modules/
 assets/bower_components/*
+assets/js/min/
+assets/css/min/
 credenciales_paypal
 files
 

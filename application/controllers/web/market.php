@@ -19,7 +19,7 @@ class Market extends CI_Controller {
         $this->load->model('cart');
         $this->load->model('product_review');
         $this->load->model('blog_review');
-        $this->load->library('PaypalRest');
+        //$this->load->library('PaypalRest');
 
         $this->data['controller_name'] = $this->controller_name;
         $this->data['categorias']=$this->Item->get_count_column("category",10,0,"total", ['on_web'=>true])->result();

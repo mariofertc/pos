@@ -29700,17 +29700,15 @@ $MENU_TOGGLE.on('click', function() {
 
 	setContentHeight();
 });
-	TEMP_CURRENT_URL = CURRENT_URL
-	if($SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').length == 0){
-		TEMP_CURRENT_URL = CURRENT_URL.substring(0,CURRENT_URL.lastIndexOf("/"));
-	}
+
 	// check active menu
-		$SIDEBAR_MENU.find('a[href="' + TEMP_CURRENT_URL + '"]').parent('li').addClass('current-page');
-		$SIDEBAR_MENU.find('a').filter(function () {
-			return this.href == TEMP_CURRENT_URL;
-		}).parent('li').addClass('current-page').parents('ul').slideDown(function() {
-			setContentHeight();
-		}).parent().addClass('active');
+	$SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
+
+	$SIDEBAR_MENU.find('a').filter(function () {
+		return this.href == CURRENT_URL;
+	}).parent('li').addClass('current-page').parents('ul').slideDown(function() {
+		setContentHeight();
+	}).parent().addClass('active');
 
 	// recompute content when resizing
 	$(window).smartresize(function(){  
@@ -31427,27 +31425,27 @@ if (typeof NProgress != 'undefined') {
 			if( typeof (PNotify) === 'undefined'){ return; }
 			console.log('init_PNotify');
 			
-			new PNotify({
-			  title: "PNotify",
-			  type: "info",
-			  text: "Welcome. Try hovering over me. You can click things behind me, because I'm non-blocking.",
-			  nonblock: {
-				  nonblock: true
-			  },
-			  addclass: 'dark',
-			  styling: 'bootstrap3',
-			  hide: false,
-			  before_close: function(PNotify) {
-				PNotify.update({
-				  title: PNotify.options.title + " - Enjoy your Stay",
-				  before_close: null
-				});
+			// new PNotify({
+			//   title: "PNotify",
+			//   type: "info",
+			//   text: "Welcome. Try hovering over me. You can click things behind me, because I'm non-blocking.",
+			//   nonblock: {
+			// 	  nonblock: true
+			//   },
+			//   addclass: 'dark',
+			//   styling: 'bootstrap3',
+			//   hide: false,
+			//   before_close: function(PNotify) {
+			// 	PNotify.update({
+			// 	  title: PNotify.options.title + " - Enjoy your Stay",
+			// 	  before_close: null
+			// 	});
 
-				PNotify.queueRemove();
+			// 	PNotify.queueRemove();
 
-				return false;
-			  }
-			});
+			// 	return false;
+			//   }
+			// });
 
 		}; 
 	   
@@ -34641,7 +34639,7 @@ if (typeof NProgress != 'undefined') {
 		init_DataTables();
 		init_chart_doughnut();
 		init_gauge();
-		//init_PNotify();
+		init_PNotify();
 		init_starrr();
 		init_calendar();
 		init_compose();
