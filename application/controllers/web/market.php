@@ -345,7 +345,8 @@ class Market extends CI_Controller {
         if(count($this->data['productos'])>0){
             $this->twig->display('elementos/catalogo');
         }else{
-            $this->twig->display('elementos/catalogo');
+            //$this->twig->display('elementos/catalogo');
+            return json_encode(['data'=>'empty']);
         }
     }
 

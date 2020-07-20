@@ -135,10 +135,9 @@
         </script>
     {%endraw%}
    
-    <script type='text/javascript'>
-        
-        //alert(typeof $.widget'blueimp.fileupload')
-        if (typeof $.blueimp === 'object') {
+<script type='text/javascript'>
+//BUG: Tiene error la librería jquery_upload_file. Reemplazar la línea 2230 con thumbnailBlob = thumbnail; 
+if (typeof $.blueimp === 'object') {
     inicializa_form_images();
     console.log("Carga cache frmImages");
  } else {

@@ -33,9 +33,9 @@
 					</div>
 				</div>
 			{% endfor %}
-			<div class="panel-footer">
+			{# <div class="panel-footer">
 				<ul class="market-applied-filters"></ul>
-			</div>
+			</div> #}
 		</div><!--/category-products-->
 		
 		<h2>{{line('market_tags')}}</h2>
@@ -67,17 +67,17 @@
 
 		<h2>{{line('market_tallas')}}</h2>
 		<div class="panel-group category-products" id="accordian">
-			{% for talla in tallas %}
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a href="#" class="market-filter" filter="{{talla.filtro}}" tipo="talla">
-								{{talla.filtro}}
-							</a>
-						</h4>
-					</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						{% for talla in tallas %}
+						<a href="#" class="market-filter" filter="{{talla.filtro}}" tipo="talla">
+						#{{talla.filtro}}
+						</a>
+						{% endfor %}
+					</h4>
 				</div>
-			{% endfor %}
+			</div>
 		</div>
 
 		<h2>{{line('market_colores')}}</h2>
@@ -87,7 +87,9 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a href="#" class="market-filter" filter="{{color.filtro}}" tipo="color">
-								{{color.filtro}}
+								{# {{color.filtro}} #}
+								{{color.filtro}} 
+								<span class="badge pull-right" style="background-color:{{color.filtro}};">{{color.total}}</span> 
 							</a>
 						</h4>
 					</div>

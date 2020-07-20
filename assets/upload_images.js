@@ -2227,7 +2227,8 @@
           thumbnailBlob;
         if (data.exif && options.thumbnail) {
           thumbnail = data.exif.get('Thumbnail');
-          thumbnailBlob = thumbnail && thumbnail.get('Blob');
+          //thumbnailBlob = thumbnail && thumbnail.get('Blob');
+          thumbnailBlob = thumbnail;
           if (thumbnailBlob) {
             options.orientation = data.exif.get('Orientation');
             loadImage(thumbnailBlob, resolve, options);
