@@ -174,19 +174,20 @@ gulp.task('css-bower', function () {
 });
 
 gulp.task('css_back', () =>
-  gulp.src(['assets/bower_components/bootstrap/dist/css/bootstrap.css',
-		'assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css',
-		'assets/bower_components/pnotify/dist/pnotify.css',
-		'assets/bower_components/pnotify/dist/pnotify.brighttheme.css',
-		'css/bootstrap.css',
-		'assets/bower_components/gentelella/build/css/custom.css',
-		'assets/bower_components/font-awesome/css/font-awesome.css'])
-    	.pipe(concat('back.css'))
-		//.pipe(replace('../fonts/','../fonts/'))
-		.pipe(replace('sourceMappingURL=bootstrap.css.map','xxxoxooo'))
-		.pipe(gulpif(env === "production",uglify()))
-		.pipe(gulp.dest('assets'))
-		.pipe(reload({stream:true}))
+     gulp.src([
+        'assets/bower_components/bootstrap/dist/css/bootstrap.css',
+        'assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css',
+        'assets/bower_components/pnotify/dist/pnotify.css',
+        'assets/bower_components/pnotify/dist/pnotify.brighttheme.css',
+        'css/bootstrap.css',
+        'assets/bower_components/gentelella/build/css/custom.css',
+        'assets/bower_components/font-awesome/css/font-awesome.css'])
+        .pipe(concat('back.css'))
+        //.pipe(replace('../fonts/','../fonts/'))
+        .pipe(replace('sourceMappingURL=bootstrap.css.map','xxxoxooo'))
+        .pipe(gulpif(env === "production",uglify()))
+        .pipe(gulp.dest('assets'))
+        .pipe(reload({stream:true}))
 );
 
 //Eshopper CSS

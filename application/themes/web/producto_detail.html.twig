@@ -16,7 +16,7 @@
 				
 				<div class="col-sm-9 padding-right">
 
-						<div class="product-details"><!--product-details-->
+					<div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
 							<div class="view-product" id="main-imagen-producto"
 							>
@@ -28,32 +28,26 @@
 								<h3 class="btn">ZOOM</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
-								
-								  <!-- Wrapper for slides -->
-								    <div class="carousel-inner">
-								    	{% for imagen in producto.imagenes %}
-								    		{% if loop.index0%3 == 0 %}
-								    			<div class="item {% if loop.index0 == 0 %} active {% endif %}">
-								    		{% endif %}
-												<a href="#" class="imagen-producto">
-													<img src="{{imagen.url}}" alt="{{producto.name}}" />
-												</a>
-								    		{% if loop.index0%3 == 2 or loop.last %}
-								    			</div>
-								    		{% endif %}
-										{% endfor %}
-									</div>
-
-								  <!-- Controls -->
-								  <a class="left item-control" href="#similar-product" data-slide="prev">
-									<i class="fa fa-angle-left"></i>
-								  </a>
-								  <a class="right item-control" href="#similar-product" data-slide="next">
-									<i class="fa fa-angle-right"></i>
-								  </a>
+								<!-- Wrapper for slides -->
+								<div class="carousel-inner" role="listbox">
+									{% for imagen in producto.imagenes %}
+										<div class="item {% if loop.index0 == 0 %} active {% endif %}">
+											<a href="#" class="imagen-producto">
+												<img class="d-block w-100" src="{{imagen.url}}" alt="{{producto.name}}" />
+											</a>
+										</div>
+									{% endfor %}
+								</div>
+								<!-- Controls -->
+								<a class="left item-control" href="#similar-product" data-slide="prev">
+								<i class="fa fa-angle-left"></i>
+								</a>
+								<a class="right item-control" href="#similar-product" data-slide="next">
+								<i class="fa fa-angle-right"></i>
+								</a>
 							</div>
-
 						</div>
+
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
 								<img src="{{site_url()}}/images/product-details/new.jpg" class="newarrival" alt="" />
