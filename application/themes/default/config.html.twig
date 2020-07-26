@@ -48,6 +48,13 @@
 								{{ form_label(line('config_address')~':', 'address',{'class':'wide required'}) }}
 								{{ form_textarea({'name':'address','id':'address','rows':4,'cols':17,'value':config('address'),'class':"form-control"}) }}
 							</div>
+							
+							{% set field = 'precision' %}
+							<div class="form-group">
+								{{ form_label(line('config_'~field)~':', field,{'class':'wide required'}) }}
+								{{ form_dropdown(field, {"2"  : 'Dos decimales', "4"  : 'Cuatro decimales'}, config(field),"class='form-control'") }}
+							</div>
+
 							<div class="form-group">
 								{{ form_label(line('config_phone')~':', 'phone',{'class':'wide required'}) }}
 								{{ form_input({'name':'phone','id':'phone','value':config('phone'),'class':"form-control"}) }}

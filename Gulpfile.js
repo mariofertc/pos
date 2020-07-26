@@ -81,7 +81,8 @@ gulp.task('js_back', () =>
 		'js/common.js',
 		'assets/bower_components/pnotify/dist/pnotify.js',
 		'assets/bower_components/jquery-ui/jquery-ui.js',
-		'assets/bower_components/gentelella/build/js/custom.js'
+		'assets/bower_components/gentelella/build/js/custom.js',
+		'assets/js/min/jquery-migrate.js',
 		])
     	.pipe(concat('back.js'))
 		.pipe(gulpif(env === "production",uglify()))
@@ -285,6 +286,8 @@ gulp.task('watch', () => {
 );
 gulp.task('default', gulp.series('js','browserify', 'js_market','css','connect-sync','watch'));
 gulp.task('back', gulp.series('js_back','css_back'));
+// First
 gulp.task('get_bower', gulp.series('js-bower','css-bower'));
+// Second
 gulp.task('all', gulp.series('js', 'js_back', 'css_back', 'browserify', 'css', 
     'css_upload_images', 'js_upload_images','css_market', 'js_market'));

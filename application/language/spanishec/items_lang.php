@@ -102,3 +102,4 @@ $lang['items_import_errors'] = 'Most items imported. But some were not, here is 
 $lang['items_sku'] = 'SKU';
 $lang['items_on_web'] = 'Publicado';
 $lang['items_item_number_repit'] = 'Código de Item ya registrado';
+$lang['items_unit'] = 'Unidad';

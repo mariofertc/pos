@@ -93,106 +93,109 @@
 		'size':'8',
 		'id':'cost_price',
 		'value':item_info.cost_price,
-                'class':'form-control'}
+                'class':'form-control formatted-number'}
 	)}}
             </div>
 
             <div class="form-group">
                 {{ form_label(line('items_unit_price')~':', 'unit_price',{'class':'required wide'})}}
                 {{ form_input({
-		'name':'unit_price',
-		'size':'8',
-		'id':'unit_price',
-		'value':item_info.unit_price,
-                'class':'form-control'}
-	)}}
+                'name':'unit_price',
+                'size':'8',
+                'id':'unit_price',
+                'value':item_info.unit_price,
+                'class':'form-control formatted-number'
+                }
+	            )}}
             </div>
 
             <div class="form-inline">
                 {{ form_label(line('items_tax_1')~':', 'tax_percent_1',{'class':'small_wide'})}}
                 {{ form_input({
-		'name':'tax_names[]',
-		'id':'tax_name_1',
-		'size':'6',
+                    'name':'tax_names[]',
+                    'id':'tax_name_1',
+                    'size':'6',
                     'value': item_tax_info[0]['name'] is not empty ? item_tax_info[0]['name'] : default_tax_1_name,
-                'class':'form-control' })
+                    'class':'form-control' })
                 }}
                 {{ form_input({
-		'name':'tax_percents[]',
-		'id':'tax_percent_name_1',
-		'size':'3',
-		'value': item_tax_info[0]['percent'] is not empty ? item_tax_info[0]['percent'] : default_tax_1_rate,
-                'class':'form-control'}
-	)}}
+                    'name':'tax_percents[]',
+                    'id':'tax_percent_name_1',
+                    'size':'3',
+                    'value': item_tax_info[0]['percent'] is not empty ? item_tax_info[0]['percent'] : default_tax_1_rate,
+                    'class':'form-control'}
+	            )}}
                 %
             </div>
 
             <div class="form-inline form-group">
                 {{ form_label(line('items_tax_2')~':', 'tax_percent_2',{'class':'small_wide'})}}
                 {{ form_input({
-		'name':'tax_names[]',
-		'id':'tax_name_2',
-		'size':'6',
-		'value': item_tax_info[1]['name'] is not empty ? item_tax_info[1]['name'] : default_tax_2_name,
-                'class':'form-control'}
-	)}}
+                    'name':'tax_names[]',
+                    'id':'tax_name_2',
+                    'size':'6',
+                    'value': item_tax_info[1]['name'] is not empty ? item_tax_info[1]['name'] : default_tax_2_name,
+                    'class':'form-control'}
+	            )}}
                 {{ form_input({
-		'name':'tax_percents[]',
-		'id':'tax_percent_name_2',
-		'size':'3',
-		'value': item_tax_info[1]['percent'] is not empty ? item_tax_info[1]['percent'] : default_tax_2_rate,
-                'class':'form-control'}
-	)}}
+                    'name':'tax_percents[]',
+                    'id':'tax_percent_name_2',
+                    'size':'3',
+                    'value': item_tax_info[1]['percent'] is not empty ? item_tax_info[1]['percent'] : default_tax_2_rate,
+                    'class':'form-control'}
+	            )}}
                 %
             </div>
-{% set field = 'final_price'%}
+            {% set field = 'final_price'%}
             <div class="form-group">
                 {{ form_label(line('items_'~field)~':', field,{'class':'required wide'})}}
-                {{ form_input({'name':field,'size':'8','id':field,'value':0,'class':'form-control'}
-    )}}
+                {{ form_input({'name':field,'size':'8','id':field,'value':0,'class':'form-control'})}}
             </div>
-
-
             <div class="form-group">
                 {{ form_label(line('items_quantity')~':', 'quantity',{'class':'required wide'})}}
                 {{ form_input({
-		'name':'quantity',
-		'id':'quantity',
-		'value':item_info.quantity,
-                'class':'form-control'}
-	)}}
+                    'name':'quantity',
+                    'id':'quantity',
+                    'value':item_info.quantity,
+                    'class':'form-control'}
+                )}}
+            </div>
+            <div class="form-group">
+                {{ form_label(line('items_unit')~':', 'unit',{'class':'wide'})}}
+                {{ form_input({
+                    'name':'unit',
+                    'id':'unit',
+                    'value':item_info.unit?item_info.unit:"U",
+                    'class':'form-control'}
+                )}}
             </div>
 
             <div class="form-group">
                 {{ form_label(line('items_size')~':', 'size',{'class':'required wide'})}}
                 {{ form_input({
-		'name':'size',
-		'id':'size',
-		'value':item_info.size,
-                'class':'form-control'}
-	)}}
+                    'name':'size',
+                    'id':'size',
+                    'value':item_info.size,
+                   'class':'form-control'}
+	            )}}
             </div>
-
-
             <div class="form-inline">
                 {{ form_label(line('items_color')~':', 'color',{'class':'small_wide'})}}
                 {{ form_input({
-		'name':'color',
-		'id':'color',
-		'size':'6',
-		'value': item_info.color}
-	)}}
-                <div class="input-group color_pick">{{ form_input({
-		'name':'color_value',
-		'id':'color_value',
-		'value': item_info.color_value}
-	)}}<span class="input-group-addon"><i></i></span></div>
+                    'name':'color',
+                    'id':'color',
+                    'size':'6',
+                    'value': item_info.color}
+                )}}
+                <div class="input-group color_pick">
+                {{ form_input({
+                    'name':'color_value',
+                    'id':'color_value',
+                    'value': item_info.color_value}
+                )}}
+                <span class="input-group-addon"><i></i></span></div>
                 HEX
             </div>
-
-
-
-
 
             <div class="form-group">
                 {{ form_label(line('items_reorder_level')~':', 'reorder_level',{'class':'required wide'})}}
@@ -289,324 +292,353 @@ console.log("Primera Carga");
 });
 }
     
-    $(document).ready(function () {
+var precision = parseInt("{{config('precision')}}")
+$(document).ready(function () {
+    calculate_final_price();
+    $('#unit_price').on('change',function(){
+        /*interest = get_interest();
+        precio = parseFloat($(this).val());
+        $('#final_price').val((precio * interest + precio).toFixed(2));*/
+        calculate_final_price();
+    })
+    $('#final_price').on('change',function(){
+        interest = get_interest() + 1;
+        precio = parseFloat($(this).val());
+        $('#unit_price').val((precio / interest).toFixed(precision));
+    })
+    $('#tax_percent_name_1').on('change',function(){
+        /*interest = get_interest();
+        precio = parseFloat($('#unit_price').val());
+        $('#final_price').val((precio * interest + precio).toFixed(2));*/
+        calculate_final_price();
+    })
+    $('#tax_percent_name_2').on('change',function(){
+        /*interest = get_interest();
+        precio = parseFloat($('#unit_price').val());
+        $('#final_price').val((precio * interest + precio).toFixed(2));*/
+        calculate_final_price();
+    })
+    function calculate_final_price(){
+        interest = get_interest();
+        precio = parseFloat($('#unit_price').val());
+        $('#final_price').val(isNaN(precio) ? 0 : (precio * interest + precio).toFixed(precision));
+    }
+    function get_interest(){
+        return (parseFloat($('#tax_percent_name_1').val()) + ($('#tax_percent_name_2').val() != '' ? parseFloat($('#tax_percent_name_2').val()) : 0))/100;
+    }
+    $("#tabs").tabs();
 
-        $('#unit_price').on('change',function(){
-            /*interest = get_interest();
-            precio = parseFloat($(this).val());
-            $('#final_price').val((precio * interest + precio).toFixed(2));*/
-            calculate_final_price();
-        })
-        $('#final_price').on('change',function(){
-            interest = get_interest() + 1;
-            precio = parseFloat($(this).val());
-            $('#unit_price').val((precio / interest).toFixed(2));
-        })
-        $('#tax_percent_name_1').on('change',function(){
-            /*interest = get_interest();
-            precio = parseFloat($('#unit_price').val());
-            $('#final_price').val((precio * interest + precio).toFixed(2));*/
-            calculate_final_price();
-        })
-        $('#tax_percent_name_2').on('change',function(){
-            /*interest = get_interest();
-            precio = parseFloat($('#unit_price').val());
-            $('#final_price').val((precio * interest + precio).toFixed(2));*/
-            calculate_final_price();
-        })
-        function calculate_final_price(){
-            interest = get_interest();
-            precio = parseFloat($('#unit_price').val());
-            $('#final_price').val((precio * interest + precio).toFixed(2));
-        }
-        function get_interest(){
-            return (parseFloat($('#tax_percent_name_1').val()) + ($('#tax_percent_name_2').val() != '' ? parseFloat($('#tax_percent_name_2').val()) : 0))/100;
-        }
-        $("#tabs").tabs();
-
-        $(function () {
-            var wrapper = $('.form-group');
-            $('#btn_talla_add').on('click', function () {
-                var row = $(this).parent().parent().clone();
-                //Set Hidden and all inputs to "".
-                $(row).find('input').val("");
-                $(row).find('#btn_talla_add').attr('id', 'btn_talla_remove').find('span').addClass('glyphicon-erase');
-                $(this).parent().parent().parent().append(row);
-            });
-            $(wrapper).on('click', '#btn_talla_remove', function (e) {
-    {#                e.preventDefault();#}
-                    $(this).parent().parent('div').remove();
-                });
-
-                $('#btn_color_add').on('click', function () {
-                    var row = $(this).parent().parent().clone();
-                    $(row).find('input').val("");
-                    $(row).find('#btn_color_add').attr('id', 'btn_color_remove').find('span').addClass('glyphicon-erase');
-                    $(this).parent().parent().parent().append(row);
-                });
-                $(wrapper).on('click', '#btn_color_remove', function (e) {
-                    $(this).parent().parent('div').remove();
-                });
-            });
-
-            //Almacen Cantidad
-            $("#almacen_id").change(function () {
-                $.post("{{ site_url('items/cantidades_almacen')}}", {item_id: "{{ item_info.item_id }}", almacen_id: $(this).val()},
-                function (data) {
-                    $("#quantity").val(data.cantidad);
-                }, 'json');
-
-            });
-
-            $.post("{{ site_url('items/cantidades_almacen')}}", {item_id: "{{item_info.item_id}}", almacen_id: "{{ selected_almacen}}"},
-            function (data) {
-                $("#quantity").val(data.cantidad);
-            }, 'json');
-            $("#sku").autocomplete({source: function (request, response) {
-                    $.ajax({
-                        url: "{{site_url('items/suggest')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: request.term, by: 'sku'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                },
-                select: function (event, ui) {
-                    var label = ui.item.label;
-                    $.ajax({
-                        url: "{{site_url('items/fill_form')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: label, by: 'sku'
-                        },
-                        success: function (data) {
-                            alert('Llenado por SKU')
-
-                            //$('#tags').tagit("3","FF");
-                            $("#name").val(data.name)
-                            $("#brand").val(data.brand)
-                            $("#category").val(data.category)
-                            $("[name=supplier_id]").val(data.supplier_id)
-                            $("#cost_price").val(data.cost_price)
-                            $("#unit_price").val(data.unit_price)
-                            $("#reorder_level").val(data.reorder_level)
-                            $("#description").val(data.description)
-                            $("#allow_alt_description").val(data.allow_alt_description)
-                            $("#is_serialized").val(data.is_serialized)
-                            
-                            $('#tags').tagit("destroy");
-                            $("#tags").val(data.tags);
-                            $('#tags').tagit()
-                            calculate_final_price();
-                             //$('#tags').tagit("fill", {label: 'tag', value: 12})
-                        }
-                    });
-}
-                });
-            $("#category").autocomplete({source: function (request, response) {
-                    $.ajax({
-                        url: "{{site_url('items/suggest')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: request.term, by: 'category'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                }});
-            $("#location").autocomplete({source: function (request, response) {
-                    $.ajax({
-                        url: "{{site_url('items/suggest')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: request.term, by: 'location'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                }});
-            $("#brand").autocomplete({source: function (request, response) {
-                    $.ajax({
-                        url: "{{site_url('items/suggest')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: request.term, by: 'brand'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                }});
-            $("#name").autocomplete({source: function (request, response) {
-                    $.ajax({
-                        url: "{{site_url('items/suggest')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: request.term, by: 'name'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                }});
-            $('#item_form').validate({
-                submitHandler: function (form) {
-                    /*
-                     make sure the hidden field #item_number gets set
-                     to the visible scan_item_number value
-                     */
-                    //$('#item_number').val($('#scan_item_number').val());
-                    //alert($('#item_number').val($('#scan_item_number').val()));
-                    $.ajax({
-                        type: $(form).attr('method'),
-                        url: $(form).attr('action'),
-                        data: $(form).serialize(),
-                        success: function (response) {
-                            tb_remove();
-                            post_item_form_submit(response);
-                        },
-                        dataType: 'json'
-                    });
-
-                },
-                //errorLabelContainer: "#error_message_box",
-                wrapper: "li",
-                rules: {
-                    name: "required",
-                    category: "required",
-                    cost_price: {
-                        required: true,
-                        number: true
-                    },
-                    unit_price: {
-                        required: true,
-                        number: true
-                    },
-                    tax_percents: {
-                        number: true
-                    },
-                    quantity: {
-                        required: true,
-                        number: true
-                    },
-                    size: {
-                        maxlength: 10
-                    },
-                    reorder_level: {
-                        required: true,
-                        number: true
-                    },
-                    item_number:{
-                        required:false,
-                        remote: {
-                            url: "{{site_url('items/exists_item_number')}}",
-                            type: "post",
-                            data: {
-                                item_number: function() {
-                                return $( "#item_number" ).val();
-                                },
-                                item_id : "{{item_info.item_id}}"
-                            }
-                        }
-                    }
-                },
-                messages:
-                        {
-                            name: "{{ line('items_name_required')}}",
-                            category: "{{line('items_category_required')}}",
-                            cost_price: {
-                                required: "{{ line('items_cost_price_required')}}",
-                                number: "{{ line('items_cost_price_number')}}"
-                            },
-                            unit_price: {
-                                required: "{{ line('items_unit_price_required')}}",
-                                number: "{{ line('items_unit_price_number')}}"
-                            },
-                            tax_percents: {
-                                number: "{{ line('items_tax_percent_number')}}"
-                            },
-                            quantity: {
-                                required: "{{ line('items_quantity_required')}}",
-                                number: "{{ line('items_quantity_number')}}"
-                            },
-                            size: {
-                                maxlength: "{{ line('items_size_length')}}"
-                            },
-                            reorder_level: {
-                                required: "{{ line('items_reorder_level_required')}}",
-                                number: "{{ line('items_reorder_level_number')}}"
-                            },
-                            item_number:{
-                                remote:"{{line('items_item_number_repit')}}"
-                            }
-
-                        }
-            });
-            $('#item_clasifica_form').validate({
-                submitHandler: function (form) {
-                    $.ajax({
-                        type: $(form).attr('method'),
-                        url: $(form).attr('action'),
-                        data: $(form).serialize(),
-                        success: function (response) {
-                            //tb_remove();
-                            //post_item_form_submit(response);
-                            new PNotify({
-                                title: 'Mensaje',
-                                text: response.message,
-                                type: response.success == true ? 'success' : 'error'
-                            });
-                        },
-                        dataType: 'json'
-                    });
-
-                },
-                errorLabelContainer: "#error_message_box",
-                wrapper: "li",
-                rules: {
-                    "talla_nombre[]": "required",
-                    "talla_cantidad[]": {"required": true, number: true},
-                    "color_cantidad[]": {number: true}
-                },
-                messages: {
-                    "talla_nombre[]": "Talla Requerida",
-                    "talla_cantidad[]": "Cantidad Requerida"
-                }
-            });
+    $(function () {
+        var wrapper = $('.form-group');
+        $('#btn_talla_add').on('click', function () {
+            var row = $(this).parent().parent().clone();
+            //Set Hidden and all inputs to "".
+            $(row).find('input').val("");
+            $(row).find('#btn_talla_add').attr('id', 'btn_talla_remove').find('span').addClass('glyphicon-erase');
+            $(this).parent().parent().parent().append(row);
         });
-        
-        function add_tags(){
-        $('#tags').tagit({
-            autocomplete: {
-                source: function (request, response) {
-                    $.ajax({
-                        url: "{{site_url('items/suggest_tags')}}",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            q: request.term, by: 'tags'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
+        $(wrapper).on('click', '#btn_talla_remove', function (e) {
+            {# e.preventDefault();#}
+            $(this).parent().parent('div').remove();
+        });
+
+        $('#btn_color_add').on('click', function () {
+            var row = $(this).parent().parent().clone();
+            $(row).find('input').val("");
+            $(row).find('#btn_color_add').attr('id', 'btn_color_remove').find('span').addClass('glyphicon-erase');
+            $(this).parent().parent().parent().append(row);
+        });
+        $(wrapper).on('click', '#btn_color_remove', function (e) {
+            $(this).parent().parent('div').remove();
+        });
+    });
+
+    //Almacen Cantidad
+    $("#almacen_id").change(function () {
+        $.post("{{ site_url('items/cantidades_almacen')}}", {item_id: "{{ item_info.item_id }}", almacen_id: $(this).val()},
+        function (data) {
+            $("#quantity").val(data.cantidad);
+        }, 'json');
+
+    });
+
+    $.post("{{ site_url('items/cantidades_almacen')}}", {item_id: "{{item_info.item_id}}", almacen_id: "{{ selected_almacen}}"},
+    function (data) {
+        $("#quantity").val(data.cantidad);
+    }, 'json');
+    $("#sku").autocomplete({source: function (request, response) {
+            $.ajax({
+                url: "{{site_url('items/suggest')}}",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    q: request.term, by: 'sku'
+                },
+                success: function (data) {
+                    response(data);
                 }
+            });
+        },
+        select: function (event, ui) {
+            var label = ui.item.label;
+            $.ajax({
+                url: "{{site_url('items/fill_form')}}",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    q: label, by: 'sku'
+                },
+                success: function (data) {
+                    alert('Llenado por SKU')
+
+                    //$('#tags').tagit("3","FF");
+                    $("#name").val(data.name)
+                    $("#brand").val(data.brand)
+                    $("#category").val(data.category)
+                    $("[name=supplier_id]").val(data.supplier_id)
+                    $("#cost_price").val(data.cost_price)
+                    $("#unit_price").val(data.unit_price)
+                    $("#reorder_level").val(data.reorder_level)
+                    $("#description").val(data.description)
+                    $("#allow_alt_description").val(data.allow_alt_description)
+                    $("#is_serialized").val(data.is_serialized)
+                    
+                    $('#tags').tagit("destroy");
+                    $("#tags").val(data.tags);
+                    $('#tags').tagit()
+                    calculate_final_price();
+                        //$('#tags').tagit("fill", {label: 'tag', value: 12})
+                }
+            });
+        }
+    });
+    $("#category").autocomplete({source: function (request, response) {
+        $.ajax({
+            url: "{{site_url('items/suggest')}}",
+            dataType: "json",
+            type: "POST",
+            data: {
+                q: request.term, by: 'category'
+            },
+            success: function (data) {
+                response(data);
             }
         });
+    }});
+    $("#location").autocomplete({source: function (request, response) {
+        $.ajax({
+            url: "{{site_url('items/suggest')}}",
+            dataType: "json",
+            type: "POST",
+            data: {
+                q: request.term, by: 'location'
+            },
+            success: function (data) {
+                response(data);
+            }
+        });
+    }});
+    $("#brand").autocomplete({source: function (request, response) {
+        $.ajax({
+            url: "{{site_url('items/suggest')}}",
+            dataType: "json",
+            type: "POST",
+            data: {
+                q: request.term, by: 'brand'
+            },
+            success: function (data) {
+                response(data);
+            }
+        });
+    }});
+    $("#name").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "{{site_url('items/suggest')}}",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    q: request.term, by: 'name'
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        }}
+    );
+    $("#unit").autocomplete({source: function (request, response) {
+        $.ajax({
+            url: "{{site_url('items/suggest')}}",
+            dataType: "json",
+            type: "POST",
+            data: {
+                q: request.term, by: 'unit'
+            },
+            success: function (data) {
+                response(data);
+            }
+        });
+    }});
+    $('#item_form').validate({
+        submitHandler: function (form) {
+            /*
+                make sure the hidden field #item_number gets set
+                to the visible scan_item_number value
+                */
+            //$('#item_number').val($('#scan_item_number').val());
+            //alert($('#item_number').val($('#scan_item_number').val()));
+            $.ajax({
+                type: $(form).attr('method'),
+                url: $(form).attr('action'),
+                data: $(form).serialize(),
+                success: function (response) {
+                    tb_remove();
+                    post_item_form_submit(response);
+                },
+                dataType: 'json'
+            });
+
+        },
+        //errorLabelContainer: "#error_message_box",
+        wrapper: "li",
+        rules: {
+            name: "required",
+            category: "required",
+            cost_price: {
+                required: true,
+                number: true
+            },
+            unit_price: {
+                required: true,
+                number: true
+            },
+            tax_percents: {
+                number: true
+            },
+            quantity: {
+                required: true,
+                number: true
+            },
+            size: {
+                maxlength: 10
+            },
+            reorder_level: {
+                required: true,
+                number: true
+            },
+            item_number:{
+                required:false,
+                remote: {
+                    url: "{{site_url('items/exists_item_number')}}",
+                    type: "post",
+                    data: {
+                        item_number: function() {
+                        return $( "#item_number" ).val();
+                        },
+                        item_id : "{{item_info.item_id}}"
+                    }
+                }
+            }
+        },
+        messages:
+                {
+                    name: "{{ line('items_name_required')}}",
+                    category: "{{line('items_category_required')}}",
+                    cost_price: {
+                        required: "{{ line('items_cost_price_required')}}",
+                        number: "{{ line('items_cost_price_number')}}"
+                    },
+                    unit_price: {
+                        required: "{{ line('items_unit_price_required')}}",
+                        number: "{{ line('items_unit_price_number')}}"
+                    },
+                    tax_percents: {
+                        number: "{{ line('items_tax_percent_number')}}"
+                    },
+                    quantity: {
+                        required: "{{ line('items_quantity_required')}}",
+                        number: "{{ line('items_quantity_number')}}"
+                    },
+                    size: {
+                        maxlength: "{{ line('items_size_length')}}"
+                    },
+                    reorder_level: {
+                        required: "{{ line('items_reorder_level_required')}}",
+                        number: "{{ line('items_reorder_level_number')}}"
+                    },
+                    item_number:{
+                        remote:"{{line('items_item_number_repit')}}"
+                    }
+
+                }
+    });
+        $('#item_clasifica_form').validate({
+            submitHandler: function (form) {
+                $.ajax({
+                    type: $(form).attr('method'),
+                    url: $(form).attr('action'),
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        //tb_remove();
+                        //post_item_form_submit(response);
+                        new PNotify({
+                            title: 'Mensaje',
+                            text: response.message,
+                            type: response.success == true ? 'success' : 'error'
+                        });
+                    },
+                    dataType: 'json'
+                });
+
+            },
+            errorLabelContainer: "#error_message_box",
+            wrapper: "li",
+            rules: {
+                "talla_nombre[]": "required",
+                "talla_cantidad[]": {"required": true, number: true},
+                "color_cantidad[]": {number: true}
+            },
+            messages: {
+                "talla_nombre[]": "Talla Requerida",
+                "talla_cantidad[]": "Cantidad Requerida"
+            }
+        });
+        $(".formatted-number").each(function() {
+            $(this).val(format_precision($(this).val()));
+        });
+       
+    });//Fin JqueryLoad
+ $(document).on('focusout', '.formatted-number', function(e){
+    $(this).val(format_precision($(this).val()));
+   
+});
+function format_precision(field){
+    var value = parseFloat(field);
+    if(isNaN(value)) return field;
+    return value.toFixed(precision);
+}
+function add_tags(){
+    $('#tags').tagit({
+        autocomplete: {
+            source: function (request, response) {
+                $.ajax({
+                    url: "{{site_url('items/suggest_tags')}}",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        q: request.term, by: 'tags'
+                    },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            }
         }
-        function inicializa_form(){
-            $('.color_pick').colorpicker();
-            add_tags();
-        }
+    });
+}
+function inicializa_form(){
+    $('.color_pick').colorpicker();
+    add_tags();
+}
+    
 </script>

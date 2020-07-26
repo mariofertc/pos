@@ -490,6 +490,7 @@ class Items extends Secure_area implements iData_controller {
             'allow_alt_description' => $this->input->post('allow_alt_description'),
             'is_serialized' => $this->input->post('is_serialized'),
             'on_web' => $this->input->post('on_web'),
+            'unit' => $this->input->post('unit'),
             'size' => $this->input->post('size'),
             'color' => $this->input->post('color'),
             'color_value' => $this->input->post('color_value'),

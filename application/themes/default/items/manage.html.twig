@@ -96,7 +96,19 @@
                 "ajax": '{{site_url("items")}}/mis_datos',
                 "columnDefs": [
                     {'sortable': false, 'targets': sort},
-                    {"searchable": false, 'targets': sort}
+                    {"searchable": false, 'targets': sort},
+                    {
+                        "aTargets": [ 6,7 ],
+                        "mRender": function (data, type, full) {
+                            //return data.toString().match(/\d+(\.\d{1,2})?/g)[0];
+                            // var regex = "/\d+(\.\d{1,"+"{{config('precision')}}"+"})?/g"
+                            var stringToGoIntoTheRegex = "{{config('precision')}}"
+                            stringToGoIntoTheRegex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                            //var regex = new RegExp("/\\d+(\\.\\d{1,"+ stringToGoIntoTheRegex+"2})?/g" , "g");
+                            var regex = new RegExp("\\d+(\\.\\d{1,"+"{{config('precision')}}"+"})?" , "g");
+                            return data.toString().match(regex)[0];
+                        }
+                    }
                 ],
                 "order": [[2, "asc"]],
                 "fnDrawCallback": function () {

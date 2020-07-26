@@ -71,14 +71,14 @@
                                             <table id="registerTable" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th style="width:11%;">{{ line('common_delete')}}</th>
-                                                        <th style="width:30%;">{{ line('sales_item_number')}}</th>
-                                                        <th style="width:30%;">{{ line('sales_item_name')}}</th>
-                                                        <th style="width:11%;">{{ line('sales_price')}}</th>
-                                                        <th style="width:11%;">{{ line('sales_quantity')}}</th>
-                                                        <th style="width:11%;">{{ line('sales_discount')}}</th>
-                                                        <th style="width:15%;">{{ line('sales_total')}}</th>
-                                                        <th style="width:11%;">{{ line('sales_edit')}}</th>
+                                                        {# <th style="width:11%;">{{ line('common_delete')}}</th> #}
+                                                        <th style="width:15%;">{{ line('sales_item_number')}}</th>
+                                                        <th style="width:25%;">{{ line('sales_item_name')}}</th>
+                                                        <th style="width:10%;">{{ line('sales_price')}}</th>
+                                                        <th style="width:10%;">{{ line('sales_quantity')}}</th>
+                                                        <th style="width:10%;">{{ line('sales_discount')}}</th>
+                                                        <th style="width:10%;">{{ line('sales_total')}}</th>
+                                                        <th style="width:12%;">{{ line('common_acciones')}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="cart_contents">
@@ -87,8 +87,7 @@
                                                             {#line('sales_no_items_in_cart'#}
                                                             {{ form_open("sales/edit_item/"~item_id) }}
                                                             <tr>
-                                                                <td>{{ anchor("sales/delete_item/"~ item_id,'['~line('common_delete')~']')}}</td>
-
+                                                                {# <td>{{ anchor("sales/delete_item/"~ item_id,'['~line('common_delete')~']')}}</td> #}
                                                                 <td style="align:center;">{{ item['item_number']}}<br>
                                                                 <td style="align:center;">{{item['name']}}<br /> [{{ item['quantity']}} {{line('sales_stock')}}]</td>
                                                                     {% if items_module_allowed %}
@@ -106,7 +105,11 @@
                                                                     {% endif %}
                                                                 </td>
                                                                 <td>{{ form_input({'name':'discount','value':item['discount'],'size':'3',class:"form-control input-sm"})}}</td>        
-                                                                <td>{{ to_currency(item['price']*item['quantity']-item['price']*item['quantity']*item['discount']/100)}}</td> <td>{{ form_submit("edit_item", line('sales_edit_item'),'class="btn btn-info btn-sm"')}}</td>
+                                                                <td>{{ to_currency(item['price']*item['quantity']-item['price']*item['quantity']*item['discount']/100)}}</td> 
+                                                                <td>
+                                                                <button type="submit" name="edit_item" title="{{line('common_update')}}" class="btn btn-success btn-sm"><i class='fa fa-refresh'></i></button>
+                                                                <a href="{{site_url('sales/delete_item')}}/{{item_id}}" title="{{line('common_delete')}}" class="btn btn-danger btn-sm"><i class='fa fa-eraser'></i></a>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td style="color:#2F4F4F";>{{ line('sales_description_abbrv')~':' }}</td>

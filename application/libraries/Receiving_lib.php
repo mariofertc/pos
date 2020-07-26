@@ -119,7 +119,7 @@ class Receiving_lib
 			'is_serialized'=>$this->CI->Item->get_info($item_id)->is_serialized,
 			'quantity'=>$quantity,
             'discount'=>$discount,
-			'price'=>$price!=null ? $price: $this->CI->Item->get_info($item_id)->cost_price
+			'price'=>$price!=null ? $price: round($this->CI->Item->get_info($item_id)->cost_price,config('precision'))
 			)
 		);
 

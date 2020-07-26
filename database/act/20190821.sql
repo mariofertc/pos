@@ -13,3 +13,30 @@ alter table phppos_abonos add column employee_id int(10);
  --Facturación Electrónica
  alter table phppos_almacenes add column codigo_facturacion int(3);
  alter table phppos_sales add column establecimiento int(3), add column punto_emision int(3), add column numero_secuencial int(9);
+
+--20200728
+--Unit Items
+alter table phppos_items add column unit varchar(25);
+--Precision
+alter table phppos_items modify cost_price double(15,4);
+alter table phppos_items modify unit_price double(15,4);
+
+alter table phppos_sales_items modify item_cost_price double(15,4);
+alter table phppos_sales_items modify item_unit_price double(15,4);
+alter table phppos_sales_items modify discount_percent double(15,4);
+alter table phppos_sales_abonos_temp modify total double(15,4);
+alter table phppos_sales_items_taxes modify percent double(15,4);
+alter table  phppos_sales_payments modify payment_amount double(15,4);
+alter table phppos_sales_suspended_items modify item_cost_price double(15,4), modify item_unit_price double(15,4), modify discount_percent double(15,4);
+alter table phppos_sales_suspended_items_taxes modify percent double(15,4);
+alter table phppos_sales_suspended_payments modify payment_amount double(15,4);
+alter table phppos_abonos modify abono_amount double(15,4);
+
+drop table phppos_sales_items_temp;
+
+alter table phppos_receivings_items modify item_cost_price double(15,4);
+alter table phppos_receivings_items modify item_unit_price double(15,4);
+alter table phppos_receivings_items modify discount_percent double(15,4);
+
+alter table phppos_receivings_abonos_temp modify total double(15,4);
+alter table  phppos_receivings_payments modify payment_amount double(15,4);
