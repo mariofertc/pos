@@ -1229,7 +1229,7 @@ function get_lanzamientos_manage_table()
 	
 	$table='<table class="stripe row-border order-column dataTable no-footer DTFC_Cloned" id="sortable_table">';
 	$headers = array('<input type="checkbox" id="select_all" />', 
-	$CI->lang->line('market_titulo'),
+	$CI->lang->line('articulos_titulo'),
 	$CI->lang->line('market_detalle'),
 	$CI->lang->line('market_fecha'),
 	$CI->lang->line('market_producto'),

@@ -28,6 +28,19 @@ class Lanzamiento extends CI_Model {
         if ($order == null)
             $order = "fecha";
         $this->db->from('lanzamientos');
+        $this->db->join('items', 'items.item_id = lanzamientos.item_id', 'left');
+        if ($where != "")
+            $this->db->where($where);
+        $this->db->where('lanzamientos.deleted', 0);
+        $this->db->order_by($order);
+        $this->db->limit($num, $offset);
+        return $this->db->get()->result_array();
+    }
+
+    function get_all_old($num = 10, $offset = 0, $where= "", $order = null) {
+        if ($order == null)
+            $order = "fecha";
+        $this->db->from('lanzamientos');
         if ($where != "")
             $this->db->where($where);
         $this->db->where('deleted', 0);

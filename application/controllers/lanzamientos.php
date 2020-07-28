@@ -26,7 +26,7 @@ class Lanzamientos extends Secure_area {
 
     function mis_datos() {
 
-        $aColumns = array('lanzamiento_id', 'titulo', 'detalle', 'fecha','producto','activo');
+        $aColumns = array('lanzamiento_id', 'titulo', 'detalle', 'fecha','name','activo');
 
         //Eventos Tabla
         $cllAccion = array(
