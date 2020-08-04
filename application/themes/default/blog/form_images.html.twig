@@ -155,7 +155,7 @@ function inicializa_form_images(){
         $('#fileupload').fileupload({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
-            url: '{{site_url('items/do_upload')~"/"~articulo_info.articulo_id}}'
+            url: '{{site_url('blog/do_upload')~"/"~articulo_info.articulo_id}}'
         });
 
         // Enable iframe cross-domain access via redirect option:

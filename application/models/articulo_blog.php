@@ -47,7 +47,11 @@ class Articulo_blog extends CI_Model {
         $this->db->limit($num);
         $resultado = $this->db->get()->result_array();
         foreach ($resultado as $key => $articulo) {
-            $resultado[$key]['imagenes']=$this->file_model->get_all_by_item($articulo['articulo_id'])->result();
+            $resultado[$key]['imagenes']=$this->file_model->get_all(
+                array(
+                    'item_id'=>$articulo['articulo_id'],
+                    'controller'=> 'blog'
+                ))->result();
         }
         return $resultado;
     }

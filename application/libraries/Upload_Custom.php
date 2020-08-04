@@ -5,14 +5,17 @@ require_once ("Upload_Handler.php");
 class Upload_Custom extends Upload_Handler {
 
     protected $item_id = "";
+    protected $controller = "items";
 
     function __construct($params) {
         $this->item_id = $params['item_id'];
+        $this->controller = array_key_exists('controller',$params)?$params['controller']:$this->controller;
         parent::__construct();
     }
 
     protected function initialize() {
         $this->options['item_id'] = $this->item_id;
+        $this->options['controller'] = $this->controller;
         parent::initialize();
     }
 
@@ -28,7 +31,16 @@ class Upload_Custom extends Upload_Handler {
         if (empty($file->error)) {
             $CI = & get_instance();
             $CI->load->model('file_model');
-            $data = array('name' => $file->name, 'size' => $file->size, 'type' => $file->type, 'title' => $file->title, 'description' => $file->description, 'url' => $file->url, 'item_id' => $CI->input->post('item_id'));
+            $data = array(
+                'name' => $file->name, 
+                'size' => $file->size, 
+                'type' => $file->type, 
+                'title' => $file->title, 
+                'description' => $file->description, 
+                'url' => $file->url, 
+                'item_id' => $CI->input->post('item_id'),
+                'controller' => $this->controller
+            );
             $file->id = $CI->file_model->insert($data);
         }
         return $file;
@@ -46,6 +58,7 @@ class Upload_Custom extends Upload_Handler {
                 $file->type = $file_db->type;
                 $file->title = $file_db->title;
                 $file->description = $file_db->description;
+                $file->controller = $this->controller;
             }
         }
     }
@@ -55,7 +68,10 @@ class Upload_Custom extends Upload_Handler {
         if (!$file_name) {
             $CI = & get_instance();
             $CI->load->model('file_model');
-            $result = $CI->file_model->get_all_by_item($this->options['item_id']);
+            $result = $CI->file_model->get_all(array(
+                'item_id'=>$this->options['item_id'],
+                'controller'=>$this->options['controller']
+                ));
             $this->options['files_db'] = array();
             foreach ($result->result() as $file_db) {
                 $file = $this->get_file_object($file_db->name);

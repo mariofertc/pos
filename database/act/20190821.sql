@@ -40,3 +40,6 @@ alter table phppos_receivings_items modify discount_percent double(15,4);
 
 alter table phppos_receivings_abonos_temp modify total double(15,4);
 alter table  phppos_receivings_payments modify payment_amount double(15,4);
+
+--Images for blog, items and lanzaientos
+alter table phppos_files add column controller varchar(25) default 'items';

@@ -35,4 +35,11 @@ class File_Model extends CI_Model {
             );*/
     }
 
+    function get_all($where = null) {
+        if($where !== null)
+            $this->db->where($where);
+        $result = $this->db->get('files');
+        return $result;
+    }
+
 }
