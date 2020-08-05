@@ -155,7 +155,9 @@ function inicializa_form_images(){
         $('#fileupload').fileupload({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
-            url: '{{site_url('items/do_upload')~"/"~lanzamiento_info.lanzamiento_id}}'
+            url: '{{site_url('lanzamientos/do_upload')~"/"~lanzamiento_info.lanzamiento_id}}',
+            //disableImagePreview : true
+            disableExif : true
         });
 
         // Enable iframe cross-domain access via redirect option:
@@ -165,8 +167,8 @@ function inicializa_form_images(){
                 window.location.href.replace(
                         /\/[^\/]*$/,
                         '/cors/result.html?%s'
-                        )
-                );
+                )
+        );
         if (window.location.hostname === 'localhostXXX') {
             // Demo settings:
             $('#fileupload').fileupload('option', {

@@ -83,6 +83,10 @@ class Lanzamientos extends Secure_area {
         }
     }
 
+    function do_upload($item_id=null){
+        $this->load->library("upload_Custom", array('item_id' => $item_id,'controller'=>'lanzamientos'));
+    }
+
     /**
      * Ancho formulario
      * @return integer ancho
