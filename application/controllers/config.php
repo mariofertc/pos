@@ -17,6 +17,7 @@ class Config extends Secure_area {
     function save() {
         $batch_save_data = array(
             'company' => $this->input->post('company'),
+            'razon_social' => $this->input->post('razon_social'),
             'identity' => $this->input->post('identity'),
             'address' => $this->input->post('address'),
             'phone' => $this->input->post('phone'),

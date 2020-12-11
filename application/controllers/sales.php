@@ -317,6 +317,7 @@ class Sales extends Secure_area {
     function generate_electronic_document($sale_id) {
         $this->load->helper('MY_xml');
         $sale_info = $this->Sale->get_info($sale_id)->row_array();
+        $almacen = $this->Almacen->get_info($sale_info['almacen_id']);
         //2019-01-02 11:20:10
         //ddmmaaaa
         //Make authorization code
@@ -392,7 +393,7 @@ class Sales extends Secure_area {
         $importe_total = $this->sale_lib->get_total_taxes();
 
         $this->sale_lib->clear_all();
-        $dom = xml_dom();
+        $dom = xml_dom(LIBXML_NOEMPTYTAG);
         $factura = xml_add_child($dom, 'factura');
         xml_add_attribute($factura, 'id', 'comprobante');
         xml_add_attribute($factura, 'version', '2.0.0');
@@ -410,6 +411,8 @@ class Sales extends Secure_area {
         $info_tributaria = xml_add_child($factura, 'infoFactura');
         xml_add_child($info_tributaria, 'fechaEmision', date('d/m/Y', strtotime($sale_info['sale_time'])));
 
+        xml_add_child($info_tributaria, 'dirEstablecimiento', $almacen->direccion);
+        xml_add_child($info_tributaria, 'obligadoContabilidad', 'NO');
         xml_add_child($info_tributaria, 'tipoIdentificacionComprador', $tipo_id_comprador);
         xml_add_child($info_tributaria, 'razonSocialComprador', $data['customer']);
         xml_add_child($info_tributaria, 'identificacionComprador', $cust_info->zip);
@@ -421,6 +424,7 @@ class Sales extends Secure_area {
         xml_add_child($total_impuesto, 'codigo', '2');
         xml_add_child($total_impuesto, 'codigoPorcentaje', '2');
         xml_add_child($total_impuesto, 'baseImponible', $base_imponible);
+        xml_add_child($total_impuesto, 'tarifa', 12);
         xml_add_child($total_impuesto, 'valor', $importe_total);
         xml_add_child($info_tributaria, 'propina', '0.00');
         xml_add_child($info_tributaria, 'importeTotal', $data['total']);
@@ -434,7 +438,7 @@ class Sales extends Secure_area {
                 xml_add_child($detalle, 'codigoAuxiliar', $cart['item_number']);
             xml_add_child($detalle, 'descripcion', $cart['name']);
             xml_add_child($detalle, 'cantidad', $cart['quantity']);
-            xml_add_child($detalle, 'precioUnitario', $cart['price']);
+            xml_add_child($detalle, 'precioUnitario', round($cart['price'],2));
             $discount = $cart['price']*$cart['quantity']*$cart['discount']/100;
             xml_add_child($detalle, 'descuento', $discount>0?$discount:'0');
             xml_add_child($detalle, 'precioTotalSinImpuesto', ($cart['price']*$cart['quantity']-$cart['price']*$cart['quantity']*$cart['discount']/100));
@@ -461,7 +465,7 @@ class Sales extends Secure_area {
             $info_adicional->setAttribute('nombre', "Email");
         }
          $dom->formatOutput = true;
-        // file_put_contents(BASEPATH."files/sri/".$authoriztion_code.'.xml', $dom->saveXML());
+        //file_put_contents(BASEPATH."files/sri/".$authoriztion_code.'.xml', $dom->saveXML());
         file_put_contents(FCPATH."files/sri/".$authoriztion_code.'.xml', $dom->saveXML());
         xml_print($dom);
         return;

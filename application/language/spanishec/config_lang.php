@@ -1,6 +1,7 @@
 <?php
 $lang['config_info']='Información Relevante';
 $lang['config_company']='Nombre Compañía';
+$lang['config_razon_social']='Razón Social';
 $lang['config_address']='Dirección Compañía';
 $lang['config_phone']='Teléfono Compañía';
 $lang['config_website']='Sitio Web';
