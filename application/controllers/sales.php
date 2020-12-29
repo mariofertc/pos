@@ -204,13 +204,21 @@ class Sales extends Secure_area {
         }
 
         //SAVE sale to database
-        $data['sale_id'] = 'Vent ' . $this->Sale->save($data['cart'], $customer_id, $employee_id, $comment, $data['payments'], false, $data);
-        if ($data['sale_id'] == 'Vent -1') {
+        // $data['sale_id'] = 'Vent ' . $this->Sale->save($data['cart'], $customer_id, $employee_id, $comment, $data['payments'], false, $data);
+        $data['sale_id'] = $this->Sale->save($data['cart'], $customer_id, $employee_id, $comment, $data['payments'], false, $data);
+        // if ($data['sale_id'] == 'Vent -1') {
+        if ($data['sale_id'] == -1) {
             $data['error_message'] = $this->lang->line('sales_transaction_failed');
         }
         
         $this->twig->set($data);
         $this->sale_lib->clear_all();
+
+        //Generate XML
+        
+        if($this->config->item('facturacion_electronica') == "1")
+            $this->generate_electronic_document($data['sale_id']);
+
         //$this->load->view("receivings/receipt", $data);
         //TODO: Must be on configuration
         $this->twig->display("sales/receipt_dongu");
@@ -467,7 +475,8 @@ class Sales extends Secure_area {
          $dom->formatOutput = true;
         //file_put_contents(BASEPATH."files/sri/".$authoriztion_code.'.xml', $dom->saveXML());
         file_put_contents(FCPATH."files/sri/".$authoriztion_code.'.xml', $dom->saveXML());
-        xml_print($dom);
+        $this->Sale->update(array('xml_name'=>$authoriztion_code), $sale_id);
+        //xml_print($dom);
         return;
 
         // $cert_store = file_get_contents('D:\firmaElectrónica\MarioTorresTest.pfx');

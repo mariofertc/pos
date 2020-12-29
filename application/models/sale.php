@@ -237,7 +237,8 @@ class Sale extends CI_Model
 		".$this->db->dbprefix('sales_items').".line as line, serialnumber, ".$this->db->dbprefix('sales_items').".description as description,
 		ROUND((item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100)*(1+(SUM(percent)/100))," . config('precision').") as total,
 		ROUND((item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100)*(SUM(percent)/100)," . config('precision').") as tax,
-		(item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) - (item_cost_price*quantity_purchased) as profit, nombre as almacen, phppos_almacenes.almacen_id as almacen_id
+		(item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) - (item_cost_price*quantity_purchased) as profit, nombre as almacen, phppos_almacenes.almacen_id as almacen_id,
+		esign_state
 		FROM ".$this->db->dbprefix('sales_items')."
 		INNER JOIN ".$this->db->dbprefix('sales')."
 		ON  ".$this->db->dbprefix('sales_items').'.sale_id='.$this->db->dbprefix('sales').'.sale_id'."
@@ -261,4 +262,35 @@ class Sale extends CI_Model
 		//Update null subtotals to be equal to the total as these don't have tax
 		$this->db->query('UPDATE '.$this->db->dbprefix('sales_items_temp'). ' SET total=subtotal WHERE total IS NULL');
 	}
+
+	/**
+	 * Get all sales made. Since ESign implementation.
+	 */
+	public function get_all($num = 0, $offset = 0, $where, $order = null)
+	{
+		$this->db->select('sale_id, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, 
+		CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(subtotal) as subtotal, 
+		sum(total) as total, sum(tax) as tax, sum(profit) as profit, payment_type, comment, sale_date_time,
+		esign_state', 
+		false);
+		$this->db->from('sales_items_temp');
+		$this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
+		$this->db->join('people as customer', 'sales_items_temp.customer_id = customer.person_id', 'left');
+		if ($where != "")
+            $this->db->where($where);
+		$this->db->group_by('sale_id');
+		$this->db->order_by('sale_id', 'desc');
+		/*if($order != "")
+			$this->db->order_by($order);*/
+        $this->db->limit($num, $offset);
+
+		return $this->db->get()->result_array();
+	}
+	/*function get_total($where = '') {
+        $this->db->from('sales_items_temp');
+        if ($where != "")
+            $this->db->where($where);
+		$this->db->group_by('sale_id');
+        return $this->db->count_all_results();
+    }*/
 }

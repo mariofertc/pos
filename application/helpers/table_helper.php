@@ -1370,3 +1370,42 @@ function get_stock_manage_table($headers)
 	$table.='</tbody></table>';
 	return $table;
 }
+
+//***************************************************************//
+//******************  SIGN *******************************//
+//***************************************************************//
+
+/*
+Gets the html table to manage sign.
+*/
+function get_sign_manage_table()
+{
+	$CI =& get_instance();
+	$table='<table cellpadding="0" cellspacing="0" border="0" class="display" id="sortable_table">
+		<thead>
+			<tr>
+				<th width="5%"><input type="checkbox" id="select_all" /></th>
+				<th width="25%">'.$CI->lang->line('reports_sale_id').'</th>
+				<th width="25%">'.$CI->lang->line('reports_date').'</th>
+				<th width="15%">'.$CI->lang->line('reports_time').'</th>
+				<th width="12%">'.$CI->lang->line('reports_items_purchased').'</th>
+				<th width="15%">'.$CI->lang->line('reports_sold_by').'</th>
+				<th width="15%">'.$CI->lang->line('reports_sold_to').'</th>
+				<th width="15%">'.$CI->lang->line('reports_subtotal').'</th>
+				<th width="15%">'.$CI->lang->line('reports_total').'</th>
+				<th width="15%">'.$CI->lang->line('reports_tax').'</th>
+				<th width="15%">'.$CI->lang->line('reports_payment_type').'</th>
+				<th width="15%">'.$CI->lang->line('reports_state').'</th>
+				<th width="25%">Acciones</th> 
+			</tr>
+		</thead>
+		<tbody>
+	<!--Esto se llena con  ajax cloro -->	
+		</tbody>
+		<tfoot>
+			
+		</tfoot>
+	</table>';   
+        
+	return $table;
+}

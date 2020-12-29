@@ -43,3 +43,13 @@ alter table  phppos_receivings_payments modify payment_amount double(15,4);
 
 --Images for blog, items and lanzaientos
 alter table phppos_files add column controller varchar(25) default 'items';
+--20201220
+--Esign
+insert into phppos_modules values('module_esign','module_esign_desc',20,'esign');
+insert into phppos_permissions values('esign',180);
+
+alter table phppos_sales add column xml_name varchar(50);
+alter table phppos_sales add column signed varchar(1) default null;
+alter table phppos_sales add column send_sri date;
+alter table phppos_sales add column send_email date;
+alter table phppos_sales add column state varchar(10);

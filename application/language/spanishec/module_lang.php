@@ -51,3 +51,6 @@ $lang['module_lanzamientos_desc']='Ver y gestionar los lanzamientos de productos
 
 $lang['module_blog']='Blog market';
 $lang['module_blog_desc']='Ver y gestionar los articulos del blog';
+
+$lang['module_esign']='Facturación';
+$lang['module_blog_desc']='Ver y gestionar las facturas emitidas';

@@ -27,4 +27,3 @@ abstract class Report extends CI_Model
 	//Returns key=>value pairing of summary data for the report
 	public abstract function getSummaryData(array $inputs);
 }
-?>
